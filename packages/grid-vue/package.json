@@ -1,0 +1,28 @@
+{
+  "name": "@tipolox/litgrid-vue",
+  "version": "1.0.0",
+  "description": "Vue 3 wrapper for LitGrid",
+  "main": "dist/packages/grid-vue/src/index.js",
+  "module": "dist/packages/grid-vue/src/index.js",
+  "types": "dist/packages/grid-vue/src/index.d.ts",
+  "sideEffects": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@tipolox/litgrid-web": "workspace:*"
+  },
+  "devDependencies": {
+    "vue": "^3.5.0"
+  },
+  "keywords": [
+    "vue",
+    "data-grid",
+    "web-components"
+  ],
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0"
+}

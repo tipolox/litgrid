@@ -1,0 +1,26 @@
+{
+  "name": "@tipolox/litgrid-blazor",
+  "version": "1.0.0",
+  "description": "Blazor wrapper for LitGrid",
+  "main": "dist/packages/grid-blazor/src/index.js",
+  "module": "dist/packages/grid-blazor/src/index.js",
+  "types": "dist/packages/grid-blazor/src/index.d.ts",
+  "sideEffects": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "blazor",
+    "data-grid",
+    "web-components"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@tipolox/litgrid-web": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  }
+}

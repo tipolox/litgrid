@@ -1,0 +1,38 @@
+import type { GridConfig, ResolvedGridConfig } from '../model/GridConfig'
+import type {
+  GridSelection,
+  GridFilter,
+  GridPaginationState,
+  GridSortState,
+  SelectionIntent,
+  SortDirection
+} from '../model/GridState'
+
+export type GridEngine = {
+  setConfig: (config: GridConfig) => void
+  getConfig: () => ResolvedGridConfig
+  setData: (data: unknown[]) => void
+  getRows: () => unknown[]
+  setQuickSearch: (query: string) => void
+  clearQuickSearch: () => void
+  getQuickSearch: () => string
+  setFilter: (filter: GridFilter) => void
+  clearFilter: (columnKey?: string) => void
+  getFilters: () => GridFilter[]
+  setPage: (pageIndex: number) => void
+  setPageSize: (pageSize: number) => void
+  getPagination: () => GridPaginationState
+  getTotalRowCount: () => number
+  sortBy: (columnKey: string, direction: SortDirection) => void
+  clearSort: () => void
+  getSort: () => GridSortState
+  getRowCount: () => number
+  getVisibleRows: (startIndex: number, endIndex: number) => unknown[]
+  selectRow: (rowIndex: number, intent?: SelectionIntent) => void
+  selectAllRows: () => void
+  selectCell: (rowIndex: number, columnKey: string) => void
+  clearSelection: () => void
+  getSelection: () => GridSelection
+  isRowSelected: (rowIndex: number) => boolean
+  isCellSelected: (rowIndex: number, columnKey: string) => boolean
+}

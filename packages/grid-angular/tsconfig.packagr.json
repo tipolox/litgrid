@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "paths": {
+      "@tipolox/litgrid-core": ["dist/out-tsc/grid-angular/grid-core/src"],
+      "@tipolox/litgrid-renderer": ["dist/out-tsc/grid-angular/grid-renderer/src"],
+      "@tipolox/litgrid-web": ["dist/out-tsc/grid-angular/grid-web/src"],
+      "lit": ["packages/grid-angular/node_modules/lit"],
+      "lit/*": ["packages/grid-angular/node_modules/lit/*"]
+    },
+    "rootDir": "src"
+  }
+}

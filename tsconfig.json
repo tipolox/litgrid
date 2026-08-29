@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "paths": {
+      "@tipoloX/grid-react": [
+        "packages/grid-react/src/DataGrid.tsx"
+      ],
+      "@tipolox/litgrid-angular": [
+        "packages/grid-angular/src"
+      ],
+            "@tipolox/litgrid-vue": ["packages/grid-vue/src"],
+      "@tipolox/litgrid-blazor": ["packages/grid-blazor/src"],
+      "@tipolox/litgrid-core": [
+        "packages/grid-core/src"
+      ],
+            "@tipolox/litgrid-react": ["packages/grid-react/src"],
+      "@tipolox/litgrid-renderer": [
+        "packages/grid-renderer/src"
+      ],
+      "@tipolox/litgrid-web": [
+        "packages/grid-web/src"
+      ],
+      "@tipolox/litgrid-web/*": [
+        "packages/grid-web/*"
+      ],
+      "@yourco/grid-core": [
+        "packages/grid-core/src"
+      ],
+      "@yourco/grid-renderer": [
+        "packages/grid-renderer/src"
+      ],
+      "@yourco/grid-web/*": [
+        "packages/grid-web/*"
+      ]
+    },
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "strict": true,
+    "target": "ESNext"
+  },
+  "exclude": [
+    "vitest.config.ts"
+  ]
+}

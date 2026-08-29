@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "experimentalDecorators": true,
+    "inlineSources": true,
+    "lib": ["ES2022", "DOM"],
+    "moduleResolution": "Bundler",
+    "outDir": "../../dist/out-tsc/grid-angular",
+    "rootDir": "..",
+    "sourceMap": true,
+    "target": "ES2022",
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "strictInjectionParameters": true,
+    "strictTemplates": true
+  },
+  "exclude": ["**/*.test.ts"]
+}
