@@ -6,8 +6,8 @@ namespace Tipolox.LitGrid.Blazor;
 
 public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
 {
-    private const string GridUnavailableMessage = "LitGrid is not available before the Blazor component is mounted.";
-    private const string InteropPath = "./_content/Tipolox.LitGrid.Blazor/dist/index.js";
+        private const string GridUnavailableMessage = "LitGrid is not available before the Blazor component is mounted.";
+    private const string InteropPath = "./_content/Tipolox.LitGrid.Blazor/litgrid-blazor.js";
 
     private ElementReference elementRef;
     private DotNetObjectReference<DataGrid<TItem>>? dotNetRef;

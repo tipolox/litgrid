@@ -144,9 +144,9 @@ describe('Blazor Grid Interop', () => {
     element.dispatchEvent(new CustomEvent('column-reorder', { detail: reorderDetail }))
     element.dispatchEvent(new CustomEvent('column-visibility-change', { detail: visibilityDetail }))
 
-    expect(invokeMethodAsync).toHaveBeenCalledWith('OnColumnStateChange', stateDetail)
-    expect(invokeMethodAsync).toHaveBeenCalledWith('OnColumnReorder', reorderDetail)
-    expect(invokeMethodAsync).toHaveBeenCalledWith('OnColumnVisibilityChange', visibilityDetail)
+        expect(invokeMethodAsync).toHaveBeenCalledWith('HandleColumnStateChange', stateDetail)
+    expect(invokeMethodAsync).toHaveBeenCalledWith('HandleColumnReorder', reorderDetail)
+    expect(invokeMethodAsync).toHaveBeenCalledWith('HandleColumnVisibilityChange', visibilityDetail)
 
     disposeGrid(element)
 

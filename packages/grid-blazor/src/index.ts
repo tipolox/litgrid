@@ -62,19 +62,19 @@ export function initGrid(
   const grid = requireGrid(element)
   syncGridInputs(grid, inputs)
 
-  const onStateChange = (event: Event) => {
+    const onStateChange = (event: Event) => {
     const detail = (event as CustomEvent<ColumnStateChangeDetail>).detail
-    dotNetHelper.invokeMethodAsync('OnColumnStateChange', detail)
+    dotNetHelper.invokeMethodAsync('HandleColumnStateChange', detail)
   }
 
   const onReorder = (event: Event) => {
     const detail = (event as CustomEvent<ColumnReorderDetail>).detail
-    dotNetHelper.invokeMethodAsync('OnColumnReorder', detail)
+    dotNetHelper.invokeMethodAsync('HandleColumnReorder', detail)
   }
 
   const onVisibilityChange = (event: Event) => {
     const detail = (event as CustomEvent<ColumnVisibilityChangeDetail>).detail
-    dotNetHelper.invokeMethodAsync('OnColumnVisibilityChange', detail)
+    dotNetHelper.invokeMethodAsync('HandleColumnVisibilityChange', detail)
   }
 
   grid.addEventListener('column-state-change', onStateChange)
