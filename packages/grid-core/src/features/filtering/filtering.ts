@@ -1,4 +1,4 @@
-import type { GridFilter } from '../../model/GridState'
+import type { GridFilter } from '../../model/GridState.js'
 
 function getRowFilterValue(row: unknown, columnKey: string) {
   if (row && typeof row === 'object' && !Array.isArray(row) && columnKey in row) {

@@ -1,5 +1,5 @@
 import type { GridSelection } from '@tipolox/litgrid-core'
-import type { GridColumn } from '../types'
+import type { GridColumn } from '../types.js'
 
 type SerializeSelectedCellsOptions = {
   selection: GridSelection

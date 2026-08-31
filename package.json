@@ -1,16 +1,25 @@
 {
   "name": "tipoloX",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
+  "description": "LitGrid Community Edition monorepo.",
   "scripts": {
     "dev": "pnpm --filter playground dev",
     "build": "pnpm -r build",
     "test": "vitest run",
     "benchmark": "vitest bench --run"
   },
-  "keywords": [],
+  "keywords": ["data-grid", "lit", "react", "angular", "vue"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ympaul/litgrid.git"
+  },
+  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "bugs": {
+    "url": "https://github.com/ympaul/litgrid/issues"
+  },
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
     "jsdom": "^30.0.1",

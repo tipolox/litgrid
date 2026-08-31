@@ -1,15 +1,39 @@
 {
   "name": "@tipolox/litgrid-renderer",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
-  "types": "src/index.ts",
+  "description": "Virtualization and scroll-mapping utilities for LitGrid.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
   "scripts": {
+    "prebuild": "node -e \"const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')\"",
+    "build": "tsc -p tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["data-grid", "grid", "virtualization", "scrolling"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ympaul/litgrid.git",
+    "directory": "packages/grid-renderer"
+  },
+  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "bugs": {
+    "url": "https://github.com/ympaul/litgrid/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "pnpm@10.33.0"
 }

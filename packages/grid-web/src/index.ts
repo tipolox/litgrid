@@ -1,4 +1,4 @@
-export * from './components/DataGrid'
+export * from './components/DataGrid.js'
 export type {
   BestFitColumnWidth,
   ColumnReorderDetail,
@@ -13,4 +13,4 @@ export type {
   GridTheme,
   GridColumnState,
   GridConfig
-} from './types'
+} from './types.js'

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { GridSelection } from '@tipolox/litgrid-core'
-import { serializeSelectedRows } from './serializeSelectedRows'
+import { serializeSelectedRows } from './serializeSelectedRows.js'
 
 const columns = [{ key: 'name' }, { key: 'age' }]
 const rows = [

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { calculateDisplayLayout, mapDisplayScrollOffset } from './scrollMapping'
+import { calculateDisplayLayout, mapDisplayScrollOffset } from './scrollMapping.js'
 
 describe('scroll mapping', () => {
   it('maps scaled display scrolling and pins a downward bottom scroll to the virtual bottom', () => {

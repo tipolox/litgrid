@@ -1,6 +1,6 @@
-export { createGridEngine } from './core/createGridEngine'
-export type { GridEngine } from './core/GridEngine'
-export type { GridConfig, GridPaginationConfig, ResolvedGridConfig, SelectionMode } from './model/GridConfig'
+export { createGridEngine } from './core/createGridEngine.js'
+export type { GridEngine } from './core/GridEngine.js'
+export type { GridConfig, GridPaginationConfig, ResolvedGridConfig, SelectionMode } from './model/GridConfig.js'
 export type {
   FilterOperator,
   GridFilter,
@@ -8,4 +8,4 @@ export type {
   GridSelection,
   SelectionIntent,
   SortDirection
-} from './model/GridState'
+} from './model/GridState.js'

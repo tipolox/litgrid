@@ -4,14 +4,14 @@
   "description": "Angular wrapper for LitGrid",
   "sideEffects": true,
   "scripts": {
-    "build": "ngc -p tsconfig.lib.json && ng-packagr -p ng-package.json -c tsconfig.packagr.json"
+    "build": "ngc -p tsconfig.lib.json && ng-packagr -p ng-package.json -c tsconfig.packagr.json && node -e \"const fs=require('node:fs'); const p='../../dist/grid-angular/package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); const webPkg=JSON.parse(fs.readFileSync('../grid-web/package.json','utf8')); if(pkg.dependencies && pkg.dependencies['@tipolox/litgrid-web'] && pkg.dependencies['@tipolox/litgrid-web'].startsWith('workspace:')) { pkg.dependencies['@tipolox/litgrid-web'] = '^' + webPkg.version; } fs.writeFileSync(p, JSON.stringify(pkg, null, 2) + '\\n'); fs.copyFileSync('../../LICENSE','../../dist/grid-angular/LICENSE');\""
   },
   "peerDependencies": {
     "@angular/common": ">=17.0.0",
     "@angular/core": ">=17.0.0"
   },
   "dependencies": {
-    "@tipolox/litgrid-web": "workspace:*",
+    "@tipolox/litgrid-web": "workspace:^",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -26,6 +26,18 @@
     "data-grid",
     "web-components"
   ],
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ympaul/litgrid.git",
+    "directory": "packages/grid-angular"
+  },
+  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "bugs": {
+    "url": "https://github.com/ympaul/litgrid/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "pnpm@10.33.0"
 }

@@ -1,5 +1,5 @@
 import { bench, describe } from 'vitest'
-import { createGridEngine } from './createGridEngine'
+import { createGridEngine } from './createGridEngine.js'
 
 type BenchmarkRow = {
   id: number

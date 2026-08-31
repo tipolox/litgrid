@@ -1,15 +1,15 @@
-import type { GridConfig } from '../model/GridConfig'
-import { normalizeConfig } from '../model/GridConfig'
-import type { GridFilter, GridState, SelectionIntent, SortDirection } from '../model/GridState'
+import type { GridConfig } from '../model/GridConfig.js'
+import { normalizeConfig } from '../model/GridConfig.js'
+import type { GridFilter, GridState, SelectionIntent, SortDirection } from '../model/GridState.js'
 import {
   createEmptySelection,
   getCellKey,
   getNextCellSelection,
   getNextRowSelection
-} from '../features/selection/selection'
-import { applyDataTransforms } from '../features/transforms/applyDataTransforms'
-import { clampPageIndex, createPaginationState, paginateData } from '../features/pagination/pagination'
-import type { GridEngine } from './GridEngine'
+} from '../features/selection/selection.js'
+import { applyDataTransforms } from '../features/transforms/applyDataTransforms.js'
+import { clampPageIndex, createPaginationState, paginateData } from '../features/pagination/pagination.js'
+import type { GridEngine } from './GridEngine.js'
 
 export function createGridEngine(config: GridConfig = {}): GridEngine {
   const initialConfig = normalizeConfig(config)

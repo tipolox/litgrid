@@ -1,4 +1,4 @@
-import type { ResolvedGridConfig, SelectionMode } from './GridConfig'
+import type { ResolvedGridConfig, SelectionMode } from './GridConfig.js'
 
 export type SelectionIntent = 'replace' | 'toggle' | 'range'
 

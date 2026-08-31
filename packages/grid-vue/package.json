@@ -2,18 +2,29 @@
   "name": "@tipolox/litgrid-vue",
   "version": "1.0.0",
   "description": "Vue 3 wrapper for LitGrid",
-  "main": "dist/packages/grid-vue/src/index.js",
-  "module": "dist/packages/grid-vue/src/index.js",
-  "types": "dist/packages/grid-vue/src/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
   "sideEffects": true,
   "scripts": {
+    "prebuild": "node -e \"const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')\"",
     "build": "tsc -p tsconfig.json"
   },
   "peerDependencies": {
     "vue": "^3.5.0"
   },
   "dependencies": {
-    "@tipolox/litgrid-web": "workspace:*"
+    "@tipolox/litgrid-web": "workspace:^"
   },
   "devDependencies": {
     "vue": "^3.5.0"
@@ -23,6 +34,18 @@
     "data-grid",
     "web-components"
   ],
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ympaul/litgrid.git",
+    "directory": "packages/grid-vue"
+  },
+  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "bugs": {
+    "url": "https://github.com/ympaul/litgrid/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "pnpm@10.33.0"
 }

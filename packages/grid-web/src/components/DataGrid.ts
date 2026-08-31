@@ -15,21 +15,21 @@ import {
   createVirtualizer,
   mapDisplayScrollOffset
 } from '@tipolox/litgrid-renderer'
-import type { GridColumn, GridTheme } from '../types'
-import { darkThemeStyles } from '../theme/darkTheme'
-import { lightThemeStyles } from '../theme/lightTheme'
-import { MIN_COLUMN_WIDTH, MIN_ROW_HEIGHT } from '../sizing/constants'
-import { normalizeColumnWidth, resolveColumnWidth } from '../sizing/columnSizing'
-import { normalizeRowHeight } from '../sizing/rowSizing'
-import { serializeSelectedCells } from '../clipboard/serializeSelectedCells'
-import { serializeSelectedRows } from '../clipboard/serializeSelectedRows'
+import type { GridColumn, GridTheme } from '../types.js'
+import { darkThemeStyles } from '../theme/darkTheme.js'
+import { lightThemeStyles } from '../theme/lightTheme.js'
+import { MIN_COLUMN_WIDTH, MIN_ROW_HEIGHT } from '../sizing/constants.js'
+import { normalizeColumnWidth, resolveColumnWidth } from '../sizing/columnSizing.js'
+import { normalizeRowHeight } from '../sizing/rowSizing.js'
+import { serializeSelectedCells } from '../clipboard/serializeSelectedCells.js'
+import { serializeSelectedRows } from '../clipboard/serializeSelectedRows.js'
 import {
   createColumnState,
   parseColumnState,
   resolveColumnState,
   type ColumnStateChangeDetail,
   type GridColumnState
-} from '../columnState/columnState'
+} from '../columnState/columnState.js'
 
 
 

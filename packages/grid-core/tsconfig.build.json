@@ -3,7 +3,6 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "lib": ["ES2022", "DOM"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "outDir": "dist",
@@ -13,5 +12,5 @@
     "target": "ES2022"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts"]
+  "exclude": ["src/**/*.bench.ts", "src/**/*.test.ts"]
 }

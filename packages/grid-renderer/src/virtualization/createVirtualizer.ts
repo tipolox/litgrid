@@ -1,5 +1,5 @@
-import { clamp } from '../utils/math'
-import type { FixedVirtualizer, VirtualizerOptions, VirtualizerState } from './types'
+import { clamp } from '../utils/math.js'
+import type { FixedVirtualizer, VirtualizerOptions, VirtualizerState } from './types.js'
 
 export function createVirtualizer({
   rowHeight,

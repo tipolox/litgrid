@@ -1,6 +1,6 @@
-import type { SelectionMode } from '../../model/GridConfig'
-import type { GridSelection, SelectionIntent } from '../../model/GridState'
-import { getRowRange } from '../../utils/range'
+import type { SelectionMode } from '../../model/GridConfig.js'
+import type { GridSelection, SelectionIntent } from '../../model/GridState.js'
+import { getRowRange } from '../../utils/range.js'
 
 export function createEmptySelection(mode: SelectionMode): GridSelection {
   return {

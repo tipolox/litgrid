@@ -1,4 +1,4 @@
-import type { GridConfig, ResolvedGridConfig } from '../model/GridConfig'
+import type { GridConfig, ResolvedGridConfig } from '../model/GridConfig.js'
 import type {
   GridSelection,
   GridFilter,
@@ -6,7 +6,7 @@ import type {
   GridSortState,
   SelectionIntent,
   SortDirection
-} from '../model/GridState'
+} from '../model/GridState.js'
 
 export type GridEngine = {
   setConfig: (config: GridConfig) => void

@@ -1,9 +1,9 @@
-import { clamp, sumSizes } from '../utils/math'
+import { clamp, sumSizes } from '../utils/math.js'
 import type {
   VariableVirtualizer,
   VariableVirtualizerOptions,
   VariableVirtualizerState
-} from './types'
+} from './types.js'
 
 export function createVariableVirtualizer({
   sizes,

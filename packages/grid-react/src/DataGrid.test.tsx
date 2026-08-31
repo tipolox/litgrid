@@ -14,8 +14,8 @@ import type {
   GridSelection,
   GridTheme
 } from '@tipolox/litgrid-web'
-import { DataGrid, type DataGridRef } from './DataGrid'
-import { syncGridInputs } from './gridBindings'
+import { DataGrid, type DataGridRef } from './DataGrid.js'
+import { syncGridInputs } from './gridBindings.js'
 
 // @ts-expect-error React testing environment flag
 globalThis.IS_REACT_ACT_ENVIRONMENT = true

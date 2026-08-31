@@ -1,5 +1,5 @@
-import type { GridColumn } from '../types'
-import { normalizeColumnWidth } from '../sizing/columnSizing'
+import type { GridColumn } from '../types.js'
+import { normalizeColumnWidth } from '../sizing/columnSizing.js'
 
 export type GridColumnStateColumn = {
   key: string

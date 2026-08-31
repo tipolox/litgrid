@@ -1,6 +1,6 @@
-export { createVirtualizer } from './virtualization/createVirtualizer'
-export { createVariableVirtualizer } from './virtualization/createVariableVirtualizer'
-export { calculateDisplayLayout, mapDisplayScrollOffset } from './viewport/scrollMapping'
+export { createVirtualizer } from './virtualization/createVirtualizer.js'
+export { createVariableVirtualizer } from './virtualization/createVariableVirtualizer.js'
+export { calculateDisplayLayout, mapDisplayScrollOffset } from './viewport/scrollMapping.js'
 export type {
   FixedVirtualizer,
   FixedVirtualRange,
@@ -11,10 +11,10 @@ export type {
   VirtualRange,
   VirtualizerOptions,
   VirtualizerState
-} from './virtualization/types'
+} from './virtualization/types.js'
 export type {
   DisplayLayout,
   DisplayLayoutOptions,
   ScrollMappingOptions,
   ScrollMappingResult
-} from './viewport/scrollMapping'
+} from './viewport/scrollMapping.js'

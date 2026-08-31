@@ -1,1 +1,1 @@
-export * from './components/DataGrid'
+export * from './components/DataGrid.js'

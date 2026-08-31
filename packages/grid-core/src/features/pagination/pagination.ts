@@ -1,4 +1,4 @@
-import type { GridPaginationState } from '../../model/GridState'
+import type { GridPaginationState } from '../../model/GridState.js'
 
 export function getPageCount(totalRows: number, pageSize: number) {
   return totalRows === 0 ? 0 : Math.ceil(totalRows / pageSize)

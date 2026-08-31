@@ -1,5 +1,5 @@
 import { bench, describe } from 'vitest'
-import { calculateDisplayLayout, mapDisplayScrollOffset } from './scrollMapping'
+import { calculateDisplayLayout, mapDisplayScrollOffset } from './scrollMapping.js'
 
 const TOTAL_SIZE = 36_000_000
 const DISPLAY_SIZE = 16_000_000

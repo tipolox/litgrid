@@ -15,9 +15,18 @@
     "data-grid",
     "web-components"
   ],
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ympaul/litgrid.git",
+    "directory": "packages/grid-blazor"
+  },
+  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "bugs": {
+    "url": "https://github.com/ympaul/litgrid/issues"
+  },
   "dependencies": {
-    "@tipolox/litgrid-web": "workspace:*"
+    "@tipolox/litgrid-web": "workspace:^"
   },
   "devDependencies": {
     "typescript": "^6.0.3",

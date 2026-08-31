@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { parseColumnState, resolveColumnState } from '../columnState/columnState'
-import { normalizeColumnWidth, resolveColumnWidth } from './columnSizing'
-import { normalizeRowHeight } from './rowSizing'
+import { parseColumnState, resolveColumnState } from '../columnState/columnState.js'
+import { normalizeColumnWidth, resolveColumnWidth } from './columnSizing.js'
+import { normalizeRowHeight } from './rowSizing.js'
 
 describe('Web sizing and column-state units', () => {
   it('normalizes minimum dimensions and resolves configured column widths', () => {

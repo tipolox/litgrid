@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { createVariableVirtualizer } from './createVariableVirtualizer'
-import { createVirtualizer } from './createVirtualizer'
-import { mapDisplayScrollOffset } from '../viewport/scrollMapping'
+import { createVariableVirtualizer } from './createVariableVirtualizer.js'
+import { createVirtualizer } from './createVirtualizer.js'
+import { mapDisplayScrollOffset } from '../viewport/scrollMapping.js'
 
 describe('virtualizers', () => {
   it('calculates a fixed-row range with overscan', () => {

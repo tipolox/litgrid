@@ -5,7 +5,7 @@ import type {
   GridSelection,
   SelectionIntent
 } from '@tipolox/litgrid-core'
-import type { ColumnStateChangeDetail, GridColumnState } from './columnState/columnState'
+import type { ColumnStateChangeDetail, GridColumnState } from './columnState/columnState.js'
 
 export type { ColumnStateChangeDetail, GridColumnState }
 

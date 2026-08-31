@@ -70,7 +70,7 @@ importers:
         specifier: '>=17.0.0'
         version: 22.1.3(@angular/core@22.1.3(@angular/compiler@22.1.3)(rxjs@7.8.2))(rxjs@7.8.2)
       '@tipolox/litgrid-web':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../grid-web
       tslib:
         specifier: ^2.8.1
@@ -95,7 +95,7 @@ importers:
   packages/grid-blazor:
     dependencies:
       '@tipolox/litgrid-web':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../grid-web
     devDependencies:
       typescript:
@@ -110,8 +110,15 @@ importers:
   packages/grid-react:
     dependencies:
       '@tipolox/litgrid-web':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../grid-web
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
       react:
         specifier: ^19.2.5
         version: 19.2.5
@@ -124,7 +131,7 @@ importers:
   packages/grid-vue:
     dependencies:
       '@tipolox/litgrid-web':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../grid-web
     devDependencies:
       vue:
@@ -134,10 +141,10 @@ importers:
   packages/grid-web:
     dependencies:
       '@tipolox/litgrid-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../grid-core
       '@tipolox/litgrid-renderer':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../grid-renderer
       lit:
         specifier: ^3.3.2

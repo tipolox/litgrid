@@ -8,8 +8,8 @@ import type {
   DataGridElement,
   GridColumn
 } from '@tipolox/litgrid-web'
-import { DataGrid, type DataGridInstance } from './DataGrid'
-import { syncGridInputs } from './gridBindings'
+import { DataGrid, type DataGridInstance } from './DataGrid.js'
+import { syncGridInputs } from './gridBindings.js'
 
 const mountedApps: Array<{ app: App; host: HTMLDivElement }> = []
 

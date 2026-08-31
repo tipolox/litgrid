@@ -20,7 +20,7 @@ import {
   useImperativeHandle,
   useRef
 } from 'react'
-import { syncGridInputs } from './gridBindings'
+import { syncGridInputs } from './gridBindings.js'
 
 export type DataGridProps = {
   data: unknown[]

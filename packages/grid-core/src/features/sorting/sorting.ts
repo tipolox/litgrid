@@ -1,4 +1,4 @@
-import type { GridSortState } from '../../model/GridState'
+import type { GridSortState } from '../../model/GridState.js'
 
 function getRowSortValue(row: unknown, columnKey: string) {
   if (row && typeof row === 'object' && !Array.isArray(row) && columnKey in row) {

@@ -1,7 +1,7 @@
-import type { GridFilter, GridSortState } from '../../model/GridState'
-import { applyFilterData } from '../filtering/filtering'
-import { applyQuickSearch } from '../quick-search/quickSearch'
-import { applySortData } from '../sorting/sorting'
+import type { GridFilter, GridSortState } from '../../model/GridState.js'
+import { applyFilterData } from '../filtering/filtering.js'
+import { applyQuickSearch } from '../quick-search/quickSearch.js'
+import { applySortData } from '../sorting/sorting.js'
 
 export function applyDataTransforms(
   data: unknown[],

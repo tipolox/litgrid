@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from 'vitest'
-import { DataGrid } from './DataGrid'
-import { darkThemeStyles } from '../theme/darkTheme'
-import { lightThemeStyles } from '../theme/lightTheme'
+import { DataGrid } from './DataGrid.js'
+import { darkThemeStyles } from '../theme/darkTheme.js'
+import { lightThemeStyles } from '../theme/lightTheme.js'
 
 afterEach(() => {
   document.body.replaceChildren()

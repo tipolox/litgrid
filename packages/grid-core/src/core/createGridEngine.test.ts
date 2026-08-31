@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createGridEngine } from './createGridEngine'
+import { createGridEngine } from './createGridEngine.js'
 
 describe('createGridEngine', () => {
   it('applies sorting through the derived data pipeline', () => {

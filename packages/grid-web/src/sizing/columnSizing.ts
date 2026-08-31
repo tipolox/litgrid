@@ -1,5 +1,5 @@
-import type { GridColumn } from '../types'
-import { DEFAULT_COLUMN_WIDTH, MIN_COLUMN_WIDTH } from './constants'
+import type { GridColumn } from '../types.js'
+import { DEFAULT_COLUMN_WIDTH, MIN_COLUMN_WIDTH } from './constants.js'
 
 export function normalizeColumnWidth(width: number) {
   return Math.max(MIN_COLUMN_WIDTH, width)

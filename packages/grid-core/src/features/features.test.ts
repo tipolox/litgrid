@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { applyFilterData } from './filtering/filtering'
-import { paginateData, createPaginationState, getPageCount } from './pagination/pagination'
-import { applyQuickSearch } from './quick-search/quickSearch'
-import { createEmptySelection, getNextCellSelection, getNextRowSelection } from './selection/selection'
-import { applySortData } from './sorting/sorting'
+import { applyFilterData } from './filtering/filtering.js'
+import { paginateData, createPaginationState, getPageCount } from './pagination/pagination.js'
+import { applyQuickSearch } from './quick-search/quickSearch.js'
+import { createEmptySelection, getNextCellSelection, getNextRowSelection } from './selection/selection.js'
+import { applySortData } from './sorting/sorting.js'
 
 describe('Core feature units', () => {
   it('applies every column filter as an AND condition without mutating data', () => {

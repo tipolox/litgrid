@@ -1,6 +1,6 @@
 import { bench, describe } from 'vitest'
-import { createVariableVirtualizer } from './createVariableVirtualizer'
-import { createVirtualizer } from './createVirtualizer'
+import { createVariableVirtualizer } from './createVariableVirtualizer.js'
+import { createVirtualizer } from './createVirtualizer.js'
 
 const ROW_COUNT = 1_000_000
 const VARIABLE_ROW_COUNT = 100_000

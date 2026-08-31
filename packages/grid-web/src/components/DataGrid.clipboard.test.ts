@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { DataGrid } from './DataGrid'
+import { DataGrid } from './DataGrid.js'
 
 afterEach(() => {
   document.body.replaceChildren()

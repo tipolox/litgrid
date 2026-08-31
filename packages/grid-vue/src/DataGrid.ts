@@ -23,7 +23,7 @@ import type {
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
-import { syncGridInputs } from './gridBindings'
+import { syncGridInputs } from './gridBindings.js'
 
 export type DataGridProps = {
   data: unknown[]

@@ -1,5 +1,5 @@
-export { DataGrid } from './DataGrid'
-export type { DataGridInstance, DataGridProps, DataGridRef } from './DataGrid'
+export { DataGrid } from './DataGrid.js'
+export type { DataGridInstance, DataGridProps, DataGridRef } from './DataGrid.js'
 export type {
   BestFitColumnWidth,
   ColumnReorderDetail,
