@@ -1,6 +1,6 @@
 # LitGrid
 
-LitGrid is a virtualized DataGrid for Web Components, React, Angular, and Vue. It provides
+LitGrid is a virtualized DataGrid for Web Components, React, Angular, Vue, and Blazor. It provides
 client-side sorting, filtering, pagination, selection, keyboard navigation,
 column sizing, ordering, visibility, and state persistence for production web
 applications.
@@ -35,11 +35,17 @@ pnpm add @tipolox/litgrid-angular
 pnpm add @tipolox/litgrid-vue
 ```
 
+```bash
+dotnet add package Tipolox.LitGrid.Blazor
+```
+
 The React package includes the Web Component dependency. Install only
 `@tipolox/litgrid-react` for a React application.
 
 The Angular and Vue wrappers include the Web Component dependency. Install
 only the wrapper package for those applications.
+
+The Blazor NuGet package bundles static assets and requires no Node.js setup.
 
 ### Use the Web Component
 
@@ -107,6 +113,7 @@ This guide covers the first working grid. Continue with the dedicated
 [React Guide](docs/react-guide.md), [React Performance Guide](docs/react-performance-guide.md),
 [Angular Guide](docs/angular-guide.md), [Angular Examples](docs/angular-examples.md),
 [Vue Guide](docs/vue-guide.md), [Vue Examples](docs/vue-examples.md),
+[Blazor Guide](docs/blazor-guide.md), [Blazor Examples](docs/blazor-examples.md),
 [Web Component Guide](docs/vanilla-js-guide.md),
 [Web Component Examples](docs/web-component-examples.md), the copyable
 [Examples guide](docs/examples.md), the [Performance Benchmarks guide](docs/performance-benchmarks.md),
@@ -192,7 +199,21 @@ export function UsersGrid() {
 }
 ```
 
-`DataGrid` accepts `data`, `columns`, `config`, `height`, `rowHeight`, `overscan`, `columnOverscan`, and `bestFitSampleSize`. It does not currently expose an imperative React ref API.
+`DataGrid` accepts `data`, `columns`, `config`, `height`, `rowHeight`, `overscan`, `columnOverscan`, and `bestFitSampleSize`. It also exposes an imperative React ref API via `DataGridRef`.
+
+## Blazor
+
+```razor
+@using Tipolox.LitGrid.Blazor
+
+<DataGrid TItem="User"
+          Data="@users"
+          Columns="@columns"
+          Config="@gridConfig"
+          Height="400" />
+```
+
+`DataGrid<TItem>` accepts `Data`, `Columns`, `Config`, `Theme`, `Height`, `RowHeight`, `Overscan`, `ColumnOverscan`, `BestFitSampleSize`, `QuickSearchDebounceThreshold`, `QuickSearchDebounceMs`, `ColumnStateStorageKey`, and event callbacks. Imperative methods are accessible via `@ref`.
 
 ## Custom Cell Renderers
 

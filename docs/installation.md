@@ -12,6 +12,7 @@ Choose the package that matches your application.
   `@tipolox/litgrid-react` package.
 - Angular applications need Angular 17 or later.
 - Vue applications need Vue 3.5 or later.
+- Blazor applications need .NET 8.0 or later.
 
 ## Package registry
 
@@ -107,6 +108,22 @@ Import the component in a Vue single-file component:
 import { DataGrid } from '@tipolox/litgrid-vue'
 ```
 
+### Blazor
+
+Install the Blazor NuGet package into your .NET 8+ project:
+
+```bash
+dotnet add package Tipolox.LitGrid.Blazor
+```
+
+The `Tipolox.LitGrid.Blazor` NuGet package is fully self-contained. It embeds its required JavaScript assets (`litgrid-blazor.js`) as static web assets (`_content/Tipolox.LitGrid.Blazor/litgrid-blazor.js`). Blazor consumers do **not** need Node.js, npm, or pnpm installed separately.
+
+Add the component namespace to `_Imports.razor` or directly in your Razor component:
+
+```razor
+@using Tipolox.LitGrid.Blazor
+```
+
 ## Local workspace development
 
 Clone the repository, install its workspace dependencies, then start the
@@ -136,7 +153,8 @@ Use `@tipolox/litgrid-vue` for a Vue integration.
 ## Next step
 
 After installation, follow the [Getting Started guide](../README.md#getting-started)
-for the first `yc-grid`, React `DataGrid`, or Angular `DataGridComponent`
-or Vue `DataGrid` instance. The [Web Component Guide](vanilla-js-guide.md),
-[Angular Guide](angular-guide.md), and [Vue Guide](vue-guide.md) cover those
+for the first `yc-grid`, React `DataGrid`, Angular `DataGridComponent`,
+Vue `DataGrid`, or Blazor `DataGrid<TItem>` instance. The [Web Component Guide](vanilla-js-guide.md),
+[React Guide](react-guide.md), [Angular Guide](angular-guide.md),
+[Vue Guide](vue-guide.md), and [Blazor Guide](blazor-guide.md) cover those
 integrations in detail.

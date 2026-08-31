@@ -183,7 +183,7 @@ Before optimizing further, verify that the application:
 - Profiles React application work separately from LitGrid Core and renderer
   benchmarks.
 
-The current React wrapper intentionally does not expose an imperative React ref
-API. Use the built-in grid UI for available interactions, and keep
+The React wrapper exposes a typed imperative ref API via `DataGridRef`. You
+can also use the built-in grid UI for available interactions, and keep
 application-level coordination in typed props and callbacks documented in the
 [React Guide](react-guide.md).

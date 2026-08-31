@@ -10,6 +10,7 @@ This reference describes LitGrid's current public packages and APIs. For install
 | `@tipolox/litgrid-react` | Exports the React `DataGrid` component. | Building with React. |
 | `@tipolox/litgrid-angular` | Exports the standalone Angular `DataGridComponent`. | Building with Angular 17 or later. |
 | `@tipolox/litgrid-vue` | Exports the Vue 3 `DataGrid` component. | Building with Vue 3.5 or later. |
+| `Tipolox.LitGrid.Blazor` (`@tipolox/litgrid-blazor`) | Exports the Razor `DataGrid<TItem>` component. | Building with Blazor (.NET 8+). |
 | `@tipolox/litgrid-core` | Exports the framework-agnostic grid engine and its types. | Integrating the data engine outside the supplied UI layers. |
 | `@tipolox/litgrid-renderer` | Exports pure row/column virtualization and scroll-mapping helpers. | Building a custom renderer. |
 
@@ -236,6 +237,57 @@ clipboard copying. Calls before mount throw an error. The wrapper observes
 data, columns, and configuration by reference; replace those values rather
 than relying on deep mutation. See the [Vue Guide](vue-guide.md) and [Vue
 Examples](vue-examples.md) for setup and copyable patterns.
+
+## Blazor: `DataGrid<TItem>`
+
+```razor
+@using Tipolox.LitGrid.Blazor
+
+<DataGrid TItem="User" Data="@users" Columns="@columns" Height="400" />
+```
+
+`DataGrid<TItem>` is a strongly-typed Blazor wrapper component. It is distributed via the NuGet package `Tipolox.LitGrid.Blazor` and embeds static assets requiring no Node.js setup on the client.
+
+### Parameters
+
+| Parameter | Type | Default | Corresponding Web Component property |
+| --- | --- | --- | --- |
+| `Data` | `IEnumerable<TItem>` | `[]` | `data` |
+| `Columns` | `IReadOnlyList<GridColumn>` | `[]` | `columns` |
+| `Config` | `GridConfig` | `new()` | `config` |
+| `Theme` | `GridTheme` | `GridTheme.Light` | `theme` |
+| `AriaLabel` | `string` | `"Data grid"` | `ariaLabel` |
+| `AriaDescription` | `string` | `""` | `ariaDescription` |
+| `ScreenReaderAnnouncements` | `bool` | `true` | `screenReaderAnnouncements` |
+| `Height` | `double` | `320` | `viewportHeight` |
+| `RowHeight` | `double` | `36` | `virtualRowHeight` |
+| `Overscan` | `int` | `4` | `overscanCount` |
+| `ColumnOverscan` | `int` | `2` | `columnOverscanCount` |
+| `BestFitSampleSize` | `int` | `10` | `bestFitSampleSize` |
+| `QuickSearchDebounceThreshold` | `int` | `10000` | `quickSearchDebounceThreshold` |
+| `QuickSearchDebounceMs` | `int` | `150` | `quickSearchDebounceMs` |
+| `ColumnStateStorageKey` | `string?` | `null` | `columnStateStorageKey` |
+
+### Callbacks & Events
+
+- `OnColumnStateChange`: `EventCallback<ColumnStateChangeDetail>` (`Reason`, `State`)
+- `OnColumnReorder`: `EventCallback<ColumnReorderDetail>` (`ColumnKey`, `PreviousIndex`, `CurrentIndex`, `ColumnOrder`)
+- `OnColumnVisibilityChange`: `EventCallback<ColumnVisibilityChangeDetail>` (`ColumnKey`, `Visible`, `VisibleColumnKeys`)
+
+### Imperative API
+
+Capture `@ref="gridRef"` on `DataGrid<TItem>` to invoke asynchronous methods (`ValueTask` / `Task`):
+
+- **Sizing**: `GetRowHeightAsync`, `SetRowHeightAsync`, `ResetRowHeightAsync`, `ResetAllRowHeightsAsync`, `GetColumnWidthAsync`, `SetColumnWidthAsync`, `ResetColumnWidthAsync`, `ResetAllColumnWidthsAsync`
+- **Auto-sizing**: `BestFitColumnAsync`, `BestFitAllColumnsAsync`
+- **Column Order & Visibility**: `MoveColumnAsync`, `GetColumnOrderAsync`, `SetColumnOrderAsync`, `ResetColumnOrderAsync`, `SetColumnVisibleAsync`, `IsColumnVisibleAsync`, `GetVisibleColumnKeysAsync`, `ResetColumnVisibilityAsync`
+- **Column State**: `GetColumnStateAsync`, `SetColumnStateAsync`, `ResetColumnStateAsync`
+- **Search & Filters**: `SetQuickSearchAsync`, `ClearQuickSearchAsync`, `GetQuickSearchAsync`, `SetFilterAsync`, `ClearFilterAsync`, `GetFiltersAsync`
+- **Pagination**: `SetPageAsync`, `SetPageSizeAsync`, `GetPaginationAsync`, `GetTotalRowCountAsync`
+- **Selection**: `SelectRowAsync`, `SelectAllRowsAsync`, `ClearSelectionAsync`, `GetSelectionAsync`, `IsRowSelectedAsync`, `IsCellSelectedAsync`
+- **Clipboard**: `CopySelectedCellsAsync`, `CopySelectedRowsAsync`
+
+Calls before initial render throw an `InvalidOperationException`. See [Blazor Guide](blazor-guide.md) and [Blazor Examples](blazor-examples.md) for patterns.
 
 ## Core engine
 
