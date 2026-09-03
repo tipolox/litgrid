@@ -25,12 +25,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ympaul/litgrid.git",
+    "url": "git+https://github.com/tipolox/litgrid.git",
     "directory": "packages/grid-core"
   },
-  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "homepage": "https://github.com/tipolox/litgrid#readme",
   "bugs": {
-    "url": "https://github.com/ympaul/litgrid/issues"
+    "url": "https://github.com/tipolox/litgrid/issues"
   },
   "publishConfig": {
     "access": "public"

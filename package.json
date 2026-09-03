@@ -14,11 +14,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ympaul/litgrid.git"
+    "url": "git+https://github.com/tipolox/litgrid.git"
   },
-  "homepage": "https://github.com/ympaul/litgrid#readme",
+  "homepage": "https://github.com/tipolox/litgrid#readme",
   "bugs": {
-    "url": "https://github.com/ympaul/litgrid/issues"
+    "url": "https://github.com/tipolox/litgrid/issues"
   },
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
