@@ -74,11 +74,11 @@ jobs:
       - name: Build a clean Blazor consumer
         run: |
           consumer_dir="$(mktemp -d)/litgrid-consumer"
-          dotnet new blazor --no-https --interactivity None --output "$consumer_dir"
+          dotnet new blazor --framework net8.0 --no-https --interactivity None --output "$consumer_dir"
           dotnet new nugetconfig --output "$consumer_dir"
-          dotnet nuget add source "$GITHUB_WORKSPACE/release-artifacts/nuget" --name LitGridLocal --configfile "$consumer_dir/NuGet.Config"
+          dotnet nuget add source "$GITHUB_WORKSPACE/release-artifacts/nuget" --name LitGridLocal --configfile "$consumer_dir/nuget.config"
           dotnet add "$consumer_dir/litgrid-consumer.csproj" package Tipolox.LitGrid.Blazor --version "${{ steps.release_version.outputs.version }}" --source "$GITHUB_WORKSPACE/release-artifacts/nuget"
-          dotnet restore "$consumer_dir/litgrid-consumer.csproj" --configfile "$consumer_dir/NuGet.Config"
+          dotnet restore "$consumer_dir/litgrid-consumer.csproj" --configfile "$consumer_dir/nuget.config"
           dotnet build "$consumer_dir/litgrid-consumer.csproj" -c Release --no-restore
 
       - name: Generate SHA-256 checksums
