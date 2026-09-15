@@ -1,0 +1,95 @@
+name: Release Dry Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to validate, for example 1.0.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Validate synchronized version
+        id: release_version
+        env:
+          RELEASE_VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          version="${RELEASE_VERSION_INPUT#v}"
+          node scripts/validate-release-version.mjs "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run JavaScript quality gates
+        run: |
+          pnpm test
+          pnpm build
+
+      - name: Run Blazor quality gates
+        run: |
+          dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release
+          dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release
+
+      - name: Create release artifact directories
+        run: mkdir -p release-artifacts/npm release-artifacts/nuget
+
+      - name: Pack npm release candidates
+        run: |
+          pnpm --dir packages/grid-core pack --pack-destination ../../release-artifacts/npm
+          pnpm --dir packages/grid-renderer pack --pack-destination ../../release-artifacts/npm
+          pnpm --dir packages/grid-web pack --pack-destination ../../release-artifacts/npm
+          pnpm --dir packages/grid-react pack --pack-destination ../../release-artifacts/npm
+          pnpm --dir packages/grid-vue pack --pack-destination ../../release-artifacts/npm
+          pnpm --dir dist/grid-angular pack --pack-destination ../../release-artifacts/npm
+
+      - name: Pack Blazor release candidate
+        run: dotnet pack packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release --no-build --output release-artifacts/nuget
+
+      - name: Validate release artifacts
+        run: node scripts/validate-release-artifacts.mjs "${{ steps.release_version.outputs.version }}" release-artifacts
+
+      - name: Build a clean Blazor consumer
+        run: |
+          consumer_dir="$(mktemp -d)/litgrid-consumer"
+          dotnet new blazor --no-https --interactivity None --output "$consumer_dir"
+          dotnet new nugetconfig --output "$consumer_dir"
+          dotnet nuget add source "$GITHUB_WORKSPACE/release-artifacts/nuget" --name LitGridLocal --configfile "$consumer_dir/NuGet.config"
+          dotnet add "$consumer_dir/litgrid-consumer.csproj" package Tipolox.LitGrid.Blazor --version "${{ steps.release_version.outputs.version }}" --source "$GITHUB_WORKSPACE/release-artifacts/nuget"
+          dotnet restore "$consumer_dir/litgrid-consumer.csproj" --configfile "$consumer_dir/NuGet.config"
+          dotnet build "$consumer_dir/litgrid-consumer.csproj" -c Release --no-restore
+
+      - name: Generate SHA-256 checksums
+        working-directory: release-artifacts
+        run: sha256sum npm/*.tgz nuget/*.nupkg > SHA256SUMS.txt
+
+      - name: Upload validated release candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-${{ steps.release_version.outputs.version }}-release-candidate
+          path: |
+            release-artifacts/npm/*.tgz
+            release-artifacts/nuget/*.nupkg
+            release-artifacts/SHA256SUMS.txt
