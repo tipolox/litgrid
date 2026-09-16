@@ -88,24 +88,23 @@ dotnet build -c Release packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj
 
 ## Maintainer Release Process
 
-This section is for repository maintainers, not normal contributors. It describes manual release preparation before automated registry publication is added separately.
+This section is for repository maintainers, not normal contributors. The release workflow publishes future tagged releases through GitHub Actions Trusted Publishing; it does not use registry tokens or API-key secrets.
 
 1. Ensure `main` is clean and synchronized.
-2. Choose the synchronized semantic version (for the currently planned release, `1.0.0`).
-3. Update all synchronized package and NuGet versions:
+2. Prepare the synchronized semantic version:
 
    ```bash
    pnpm run release:version <VERSION>
    ```
 
-4. Update `CHANGELOG.md` for that version.
-5. Verify the synchronized versions:
+3. Update `CHANGELOG.md` with a non-empty `## <VERSION>` entry.
+4. Run release validation locally:
 
    ```bash
    node scripts/validate-release-version.mjs <VERSION>
    ```
 
-6. Run the quality checks:
+5. Run the quality checks:
 
    ```bash
    pnpm install --frozen-lockfile
@@ -115,17 +114,27 @@ This section is for repository maintainers, not normal contributors. It describe
    dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release
    ```
 
-7. Review the diff.
-8. Commit the release preparation using the project's human-readable commit style, for example `Release: prepare v1.1.0`.
-9. Push `main`.
-10. Create an annotated tag:
+6. Review the diff and commit the release preparation using the project's human-readable commit style:
+
+   ```text
+   Release: prepare vX.Y.Z
+   ```
+
+7. Push `main`.
+8. Create an annotated tag:
 
     ```bash
     git tag -a v<VERSION> -m "Release v<VERSION>"
     ```
 
-11. Push the tag only after release validation is complete.
+9. Push the tag. The `Release` workflow validates the tagged commit, checks its changelog entry, packages and validates the candidate artifacts, builds a clean Blazor consumer, and confirms that all target npm and NuGet versions are absent.
+10. The protected `release` environment waits for approval.
+11. A second maintainer approves the protected publish job.
+12. The protected job publishes the six npm packages and the Blazor NuGet package through OIDC Trusted Publishing.
+13. Only after every registry publication succeeds, the workflow creates the GitHub Release for the existing tag using that version's curated changelog notes.
 
-`scripts/set-version.mjs` modifies the synchronized versions for the npm packages and the Blazor NuGet project. `scripts/validate-release-version.mjs` is read-only verification that those versions match.
+Use `workflow_dispatch` with a version such as `1.1.0` for a non-publishing validation/dry run. It validates, tests, builds, packs, checks artifacts, builds the clean consumer, generates checksums, and uploads a release candidate, but it cannot publish packages, create a release, or create a tag.
 
-An automated release workflow does not exist yet. Tags do not currently publish npm or NuGet packages; registry publication automation will be added separately.
+Registry publication is not transactional. If a publish fails after one or more packages are published, the workflow fails without skipping duplicates, retrying the remaining packages, or creating a GitHub Release. Recover a partial release deliberately as a maintainer; do not use a normal rerun as automatic recovery.
+
+`scripts/set-version.mjs` modifies the synchronized versions for the npm packages and the Blazor NuGet project. `scripts/validate-release-version.mjs` verifies that those versions match. `scripts/extract-changelog.mjs` read-only extracts the exact changelog section used as GitHub Release notes.

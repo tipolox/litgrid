@@ -1,46 +1,76 @@
-name: Release Bootstrap
+name: Release
 
 on:
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
     inputs:
       version:
-        description: Version to validate, for example 1.0.0
+        description: Version to validate, for example 1.1.0
         required: true
         type: string
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.event_name == 'push' && github.ref_name || inputs.version }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
 
 jobs:
   validate-release:
+    runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.release_version.outputs.version }}
-    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve and validate release version
+        id: release_version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          TAG_VERSION: ${{ github.ref_name }}
+          RELEASE_VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          if [[ "$EVENT_NAME" == 'push' ]]; then
+            version="${TAG_VERSION#v}"
+          else
+            version="${RELEASE_VERSION_INPUT#v}"
+          fi
+          node scripts/validate-release-version.mjs "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Verify tagged commit is contained in main
+        if: github.event_name == 'push'
+        run: |
+          git fetch origin main --no-tags
+          tag_commit="$(git rev-list -n 1 "$GITHUB_REF")"
+          if ! git merge-base --is-ancestor "$tag_commit" origin/main; then
+            echo "Tagged commit $tag_commit is not reachable from origin/main." >&2
+            exit 1
+          fi
+
+      - name: Verify changelog entry
+        env:
+          RELEASE_VERSION: ${{ steps.release_version.outputs.version }}
+        run: node scripts/extract-changelog.mjs "$RELEASE_VERSION" > "$RUNNER_TEMP/release-notes.md"
 
       - uses: pnpm/action-setup@v4
         with:
           version: 10.33.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'
-
-      - name: Validate synchronized version
-        id: release_version
-        env:
-          RELEASE_VERSION_INPUT: ${{ inputs.version }}
-        run: |
-          version="${RELEASE_VERSION_INPUT#v}"
-          node scripts/validate-release-version.mjs "$version"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -71,15 +101,19 @@ jobs:
         run: dotnet pack packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release --no-build --output release-artifacts/nuget
 
       - name: Validate release artifacts
-        run: node scripts/validate-release-artifacts.mjs "${{ steps.release_version.outputs.version }}" release-artifacts
+        env:
+          RELEASE_VERSION: ${{ steps.release_version.outputs.version }}
+        run: node scripts/validate-release-artifacts.mjs "$RELEASE_VERSION" release-artifacts
 
       - name: Build a clean Blazor consumer
+        env:
+          RELEASE_VERSION: ${{ steps.release_version.outputs.version }}
         run: |
           consumer_dir="$(mktemp -d)/litgrid-consumer"
           dotnet new blazor --framework net8.0 --no-https --interactivity None --output "$consumer_dir"
           dotnet new nugetconfig --output "$consumer_dir"
           dotnet nuget add source "$GITHUB_WORKSPACE/release-artifacts/nuget" --name LitGridLocal --configfile "$consumer_dir/nuget.config"
-          dotnet add "$consumer_dir/litgrid-consumer.csproj" package Tipolox.LitGrid.Blazor --version "${{ steps.release_version.outputs.version }}" --source "$GITHUB_WORKSPACE/release-artifacts/nuget"
+          dotnet add "$consumer_dir/litgrid-consumer.csproj" package Tipolox.LitGrid.Blazor --version "$RELEASE_VERSION" --source "$GITHUB_WORKSPACE/release-artifacts/nuget"
           dotnet restore "$consumer_dir/litgrid-consumer.csproj" --configfile "$consumer_dir/nuget.config"
           dotnet build "$consumer_dir/litgrid-consumer.csproj" -c Release --no-restore
 
@@ -88,7 +122,7 @@ jobs:
         run: sha256sum npm/*.tgz nuget/*.nupkg > SHA256SUMS.txt
 
       - name: Upload validated release candidates
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: litgrid-${{ steps.release_version.outputs.version }}-release-candidate
           path: |
@@ -96,9 +130,67 @@ jobs:
             release-artifacts/nuget/*.nupkg
             release-artifacts/SHA256SUMS.txt
 
-  publish-nuget-bootstrap:
+  registry-preflight:
+    needs: validate-release
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify release versions are absent from registries
+        env:
+          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
+        run: |
+          check_npm_version() {
+            local package_name="$1"
+            local package_path="$2"
+            local status
+            status="$(curl --silent --show-error --output /tmp/registry-response.json --write-out '%{http_code}' --max-time 30 "https://registry.npmjs.org/${package_path}/${RELEASE_VERSION}")" || {
+              echo "npm registry request failed for ${package_name}@${RELEASE_VERSION}." >&2
+              exit 1
+            }
+            case "$status" in
+              404) ;;
+              200)
+                echo "npm version already exists: ${package_name}@${RELEASE_VERSION}." >&2
+                exit 1
+                ;;
+              *)
+                echo "Unexpected npm registry response for ${package_name}@${RELEASE_VERSION}: HTTP ${status}." >&2
+                exit 1
+                ;;
+            esac
+          }
+
+          check_npm_version '@tipolox/litgrid-core' '%40tipolox%2Flitgrid-core'
+          check_npm_version '@tipolox/litgrid-renderer' '%40tipolox%2Flitgrid-renderer'
+          check_npm_version '@tipolox/litgrid-web' '%40tipolox%2Flitgrid-web'
+          check_npm_version '@tipolox/litgrid-react' '%40tipolox%2Flitgrid-react'
+          check_npm_version '@tipolox/litgrid-vue' '%40tipolox%2Flitgrid-vue'
+          check_npm_version '@tipolox/litgrid-angular' '%40tipolox%2Flitgrid-angular'
+
+          package_name='tipolox.litgrid.blazor'
+          nuget_url="https://api.nuget.org/v3-flatcontainer/${package_name}/${RELEASE_VERSION}/${package_name}.${RELEASE_VERSION}.nupkg"
+          status="$(curl --silent --show-error --output /tmp/registry-response.json --write-out '%{http_code}' --max-time 30 "$nuget_url")" || {
+            echo "NuGet registry request failed for Tipolox.LitGrid.Blazor ${RELEASE_VERSION}." >&2
+            exit 1
+          }
+          case "$status" in
+            404) ;;
+            200)
+              echo "NuGet version already exists: Tipolox.LitGrid.Blazor ${RELEASE_VERSION}." >&2
+              exit 1
+              ;;
+            *)
+              echo "Unexpected NuGet registry response for Tipolox.LitGrid.Blazor ${RELEASE_VERSION}: HTTP ${status}." >&2
+              exit 1
+              ;;
+          esac
+
+  publish:
     needs:
       - validate-release
+      - registry-preflight
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     environment: release
     permissions:
@@ -106,20 +198,44 @@ jobs:
       id-token: write
 
     steps:
-      - name: Enforce v1.0.0 bootstrap safety gate
-        env:
-          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
-        run: |
-          if [[ "$RELEASE_VERSION" != "1.0.0" ]]; then
-            echo "NuGet bootstrap publishing is limited to version 1.0.0; received $RELEASE_VERSION." >&2
-            exit 1
-          fi
-
       - name: Download validated release candidate
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: litgrid-${{ needs.validate-release.outputs.version }}-release-candidate
           path: release-candidate
+
+      - name: Set up Node.js for npm trusted publishing
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.14.0
+
+      - name: Install required npm version
+        run: |
+          npm install --global npm@11.5.1
+          node --version
+          npm --version
+
+      - name: Publish validated npm packages sequentially
+        env:
+          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
+        run: |
+          publish_npm_package() {
+            local package_name="$1"
+            local expected_name="$2"
+            mapfile -t candidates < <(find release-candidate/npm -type f -name "$expected_name" -print)
+            if [[ "${#candidates[@]}" -ne 1 || "$(basename "${candidates[0]}")" != "$expected_name" ]]; then
+              echo "Expected exactly one validated tarball for ${package_name}: ${expected_name}." >&2
+              exit 1
+            fi
+            npm publish "${candidates[0]}" --access public
+          }
+
+          publish_npm_package '@tipolox/litgrid-core' "tipolox-litgrid-core-${RELEASE_VERSION}.tgz"
+          publish_npm_package '@tipolox/litgrid-renderer' "tipolox-litgrid-renderer-${RELEASE_VERSION}.tgz"
+          publish_npm_package '@tipolox/litgrid-web' "tipolox-litgrid-web-${RELEASE_VERSION}.tgz"
+          publish_npm_package '@tipolox/litgrid-react' "tipolox-litgrid-react-${RELEASE_VERSION}.tgz"
+          publish_npm_package '@tipolox/litgrid-vue' "tipolox-litgrid-vue-${RELEASE_VERSION}.tgz"
+          publish_npm_package '@tipolox/litgrid-angular' "tipolox-litgrid-angular-${RELEASE_VERSION}.tgz"
 
       - name: Select exact validated NuGet package
         id: nuget_package
@@ -127,23 +243,15 @@ jobs:
           RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
         run: |
           expected_name="Tipolox.LitGrid.Blazor.${RELEASE_VERSION}.nupkg"
-          mapfile -t packages < <(find release-candidate -type f -name 'Tipolox.LitGrid.Blazor.*.nupkg' -print)
-
-          if [[ "${#packages[@]}" -ne 1 ]]; then
-            echo "Expected exactly one NuGet package candidate; found ${#packages[@]}." >&2
+          mapfile -t packages < <(find release-candidate/nuget -type f -name "$expected_name" -print)
+          if [[ "${#packages[@]}" -ne 1 || "$(basename "${packages[0]}")" != "$expected_name" ]]; then
+            echo "Expected exactly one validated NuGet package: ${expected_name}." >&2
             exit 1
           fi
+          echo "path=${packages[0]}" >> "$GITHUB_OUTPUT"
 
-          package_path="${packages[0]}"
-          if [[ "$(basename "$package_path")" != "$expected_name" ]]; then
-            echo "Expected $expected_name; found $(basename "$package_path")." >&2
-            exit 1
-          fi
-
-          echo "path=$package_path" >> "$GITHUB_OUTPUT"
-      
       - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'
 
@@ -158,3 +266,46 @@ jobs:
           dotnet nuget push "${{ steps.nuget_package.outputs.path }}"
           --source https://api.nuget.org/v3/index.json
           --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+
+  create-github-release:
+    needs:
+      - validate-release
+      - publish
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Extract curated release notes
+        env:
+          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
+        run: node scripts/extract-changelog.mjs "$RELEASE_VERSION" > release-notes.md
+
+      - name: Download validated release attachments
+        uses: actions/download-artifact@v8
+        with:
+          name: litgrid-${{ needs.validate-release.outputs.version }}-release-candidate
+          path: release-candidate
+
+      - name: Create GitHub Release for the existing tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
+        run: |
+          release_args=(
+            "$GITHUB_REF_NAME"
+            --verify-tag
+            --title "LitGrid Community Edition v${RELEASE_VERSION}"
+            --notes-file release-notes.md
+            "release-candidate/nuget/Tipolox.LitGrid.Blazor.${RELEASE_VERSION}.nupkg"
+            release-candidate/SHA256SUMS.txt
+          )
+          if [[ "$RELEASE_VERSION" == *-* ]]; then
+            release_args+=(--prerelease)
+          fi
+          gh release create "${release_args[@]}"
