@@ -3818,7 +3818,14 @@ function setPageSize(element, pageSize) {
 	requireGrid(element).setPageSize(pageSize);
 }
 function getPagination(element) {
-	return requireGrid(element).getPagination();
+	const pagination = requireGrid(element).getPagination();
+	return {
+		enabled: pagination.enabled,
+		pageIndex: pagination.pageIndex,
+		pageSize: pagination.pageSize,
+		totalPages: pagination.pageCount,
+		totalRows: pagination.totalRows
+	};
 }
 function getTotalRowCount(element) {
 	return requireGrid(element).getTotalRowCount();
@@ -3833,7 +3840,26 @@ function clearSelection(element) {
 	requireGrid(element).clearSelection();
 }
 function getSelection(element) {
-	return requireGrid(element).getSelection();
+	const selection = requireGrid(element).getSelection();
+	const selectedRowIndices = [...selection.rowIndexes];
+	const selectedCells = [...selection.cells].map((cellKey) => {
+		const separatorIndex = cellKey.indexOf(":");
+		return {
+			rowIndex: Number(cellKey.slice(0, separatorIndex)),
+			columnKey: cellKey.slice(separatorIndex + 1)
+		};
+	});
+	const cell = selection.rowIndex !== null && selection.columnKey !== null ? {
+		rowIndex: selection.rowIndex,
+		columnKey: selection.columnKey
+	} : null;
+	return {
+		mode: selection.mode,
+		rowIndex: selection.rowIndex,
+		selectedRowIndices,
+		cell,
+		selectedCells
+	};
 }
 function isRowSelected(element, rowIndex) {
 	return requireGrid(element).isRowSelected(rowIndex);

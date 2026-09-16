@@ -189,12 +189,14 @@ describe('Blazor Grid Interop', () => {
     const getFiltersMock = vi.fn().mockReturnValue([])
     const setPageMock = vi.fn()
     const setPageSizeMock = vi.fn()
-    const getPaginationMock = vi.fn().mockReturnValue({ enabled: true, pageIndex: 0, pageSize: 20, totalPages: 5, totalRows: 100 })
+    const getPaginationMock = vi.fn().mockReturnValue({ enabled: true, pageIndex: 0, pageSize: 20, pageCount: 5, totalRows: 100 })
     const getTotalRowCountMock = vi.fn().mockReturnValue(100)
     const selectRowMock = vi.fn()
     const selectAllRowsMock = vi.fn()
     const clearSelectionMock = vi.fn()
-    const getSelectionMock = vi.fn().mockReturnValue({ mode: 'row', rowIndex: 0, selectedRowIndices: [0] })
+    const getSelectionMock = vi.fn().mockReturnValue({
+      mode: 'row', rowIndex: 0, columnKey: null, anchorRowIndex: 0, rowIndexes: new Set([0]), cells: new Set()
+    })
     const isRowSelectedMock = vi.fn().mockReturnValue(true)
     const isCellSelectedMock = vi.fn().mockReturnValue(false)
 
@@ -300,7 +302,7 @@ describe('Blazor Grid Interop', () => {
     expect(setPageMock).toHaveBeenCalledWith(2)
     setPageSize(element, 50)
     expect(setPageSizeMock).toHaveBeenCalledWith(50)
-    expect(getPagination(element).pageSize).toBe(20)
+    expect(getPagination(element)).toEqual({ enabled: true, pageIndex: 0, pageSize: 20, totalPages: 5, totalRows: 100 })
     expect(getTotalRowCount(element)).toBe(100)
 
     selectRow(element, 1, 'toggle')
@@ -312,5 +314,44 @@ describe('Blazor Grid Interop', () => {
     expect(getSelection(element).mode).toBe('row')
     expect(isRowSelected(element, 0)).toBe(true)
     expect(isCellSelected(element, 0, 'col1')).toBe(false)
+  })
+
+  it('normalizes Web Component pagination and selection results for Blazor JSON interop', () => {
+    const element = document.createElement('yc-grid') as unknown as DataGridElement
+    const getRowHeightMock = vi.fn().mockReturnValue(36)
+    const getPaginationMock = vi.fn().mockReturnValue({ enabled: true, pageIndex: 1, pageSize: 25, pageCount: 4, totalRows: 91 })
+    const getSelectionMock = vi.fn()
+    Object.assign(element, { getRowHeight: getRowHeightMock, getPagination: getPaginationMock, getSelection: getSelectionMock })
+
+    expect(getPagination(element)).toEqual({ enabled: true, pageIndex: 1, pageSize: 25, totalPages: 4, totalRows: 91 })
+
+    const cases = [
+      {
+        source: { mode: 'none', rowIndex: null, columnKey: null, anchorRowIndex: null, rowIndexes: new Set<number>(), cells: new Set<string>() },
+        expected: { mode: 'none', rowIndex: null, selectedRowIndices: [], cell: null, selectedCells: [] }
+      },
+      {
+        source: { mode: 'row', rowIndex: 2, columnKey: null, anchorRowIndex: 2, rowIndexes: new Set([2]), cells: new Set<string>() },
+        expected: { mode: 'row', rowIndex: 2, selectedRowIndices: [2], cell: null, selectedCells: [] }
+      },
+      {
+        source: { mode: 'multi-row', rowIndex: 4, columnKey: null, anchorRowIndex: 1, rowIndexes: new Set([1, 4]), cells: new Set<string>() },
+        expected: { mode: 'multi-row', rowIndex: 4, selectedRowIndices: [1, 4], cell: null, selectedCells: [] }
+      },
+      {
+        source: { mode: 'cell', rowIndex: 3, columnKey: 'status', anchorRowIndex: null, rowIndexes: new Set<number>(), cells: new Set(['3:status']) },
+        expected: { mode: 'cell', rowIndex: 3, selectedRowIndices: [], cell: { rowIndex: 3, columnKey: 'status' }, selectedCells: [{ rowIndex: 3, columnKey: 'status' }] }
+      },
+      {
+        source: { mode: 'multi-cell', rowIndex: 2, columnKey: 'name', anchorRowIndex: null, rowIndexes: new Set<number>(), cells: new Set(['0:id', '2:name']) },
+        expected: { mode: 'multi-cell', rowIndex: 2, selectedRowIndices: [], cell: { rowIndex: 2, columnKey: 'name' }, selectedCells: [{ rowIndex: 0, columnKey: 'id' }, { rowIndex: 2, columnKey: 'name' }] }
+      }
+    ] as const
+
+    for (const { source, expected } of cases) {
+      getSelectionMock.mockReturnValue(source)
+      expect(getSelection(element)).toEqual(expected)
+      expect(JSON.parse(JSON.stringify(getSelection(element)))).toEqual(expected)
+    }
   })
 })

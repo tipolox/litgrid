@@ -9,12 +9,31 @@ import type {
   GridColumnState,
   GridConfig,
   GridFilter,
-  GridPaginationState,
-  GridSelection,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
 import { syncGridInputs, type BlazorGridInputs } from './gridBindings'
+
+export type BlazorGridPaginationState = {
+  enabled: boolean
+  pageIndex: number
+  pageSize: number
+  totalPages: number
+  totalRows: number
+}
+
+export type BlazorGridCellSelection = {
+  rowIndex: number
+  columnKey: string
+}
+
+export type BlazorGridSelection = {
+  mode: 'none' | 'row' | 'multi-row' | 'cell' | 'multi-cell'
+  rowIndex: number | null
+  selectedRowIndices: number[]
+  cell: BlazorGridCellSelection | null
+  selectedCells: BlazorGridCellSelection[]
+}
 
 export type {
   BestFitColumnWidth,
@@ -26,8 +45,6 @@ export type {
   GridColumnState,
   GridConfig,
   GridFilter,
-  GridPaginationState,
-  GridSelection,
   GridTheme,
   SelectionIntent,
   BlazorGridInputs
@@ -228,8 +245,15 @@ export function setPageSize(element: HTMLElement, pageSize: number): void {
   requireGrid(element).setPageSize(pageSize)
 }
 
-export function getPagination(element: HTMLElement): GridPaginationState {
-  return requireGrid(element).getPagination()
+export function getPagination(element: HTMLElement): BlazorGridPaginationState {
+  const pagination = requireGrid(element).getPagination()
+  return {
+    enabled: pagination.enabled,
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+    totalPages: pagination.pageCount,
+    totalRows: pagination.totalRows
+  }
 }
 
 export function getTotalRowCount(element: HTMLElement): number {
@@ -248,8 +272,27 @@ export function clearSelection(element: HTMLElement): void {
   requireGrid(element).clearSelection()
 }
 
-export function getSelection(element: HTMLElement): GridSelection {
-  return requireGrid(element).getSelection()
+export function getSelection(element: HTMLElement): BlazorGridSelection {
+  const selection = requireGrid(element).getSelection()
+  const selectedRowIndices = [...selection.rowIndexes]
+  const selectedCells = [...selection.cells].map(cellKey => {
+    const separatorIndex = cellKey.indexOf(':')
+    return {
+      rowIndex: Number(cellKey.slice(0, separatorIndex)),
+      columnKey: cellKey.slice(separatorIndex + 1)
+    }
+  })
+  const cell = selection.rowIndex !== null && selection.columnKey !== null
+    ? { rowIndex: selection.rowIndex, columnKey: selection.columnKey }
+    : null
+
+  return {
+    mode: selection.mode,
+    rowIndex: selection.rowIndex,
+    selectedRowIndices,
+    cell,
+    selectedCells
+  }
 }
 
 export function isRowSelected(element: HTMLElement, rowIndex: number): boolean {

@@ -126,4 +126,35 @@ public class SerializationAndModelsTests
         Assert.Single(stateDetail.State.Columns);
         Assert.Equal(200, stateDetail.State.Columns[0].Width);
     }
+
+    [Fact]
+    public void BlazorNormalizedPagination_DeserializesExpectedly()
+    {
+        var json = """{"enabled":true,"pageIndex":1,"pageSize":25,"totalPages":4,"totalRows":91}""";
+
+        var pagination = JsonSerializer.Deserialize<GridPaginationState>(json);
+
+        Assert.NotNull(pagination);
+        Assert.True(pagination.Enabled);
+        Assert.Equal(1, pagination.PageIndex);
+        Assert.Equal(25, pagination.PageSize);
+        Assert.Equal(4, pagination.TotalPages);
+        Assert.Equal(91, pagination.TotalRows);
+    }
+
+    [Theory]
+    [InlineData("""{"mode":"none","rowIndex":null,"selectedRowIndices":[],"cell":null,"selectedCells":[]}""", SelectionMode.None, 0, 0)]
+    [InlineData("""{"mode":"row","rowIndex":2,"selectedRowIndices":[2],"cell":null,"selectedCells":[]}""", SelectionMode.Row, 1, 0)]
+    [InlineData("""{"mode":"multi-row","rowIndex":4,"selectedRowIndices":[1,4],"cell":null,"selectedCells":[]}""", SelectionMode.MultiRow, 2, 0)]
+    [InlineData("""{"mode":"cell","rowIndex":3,"selectedRowIndices":[],"cell":{"rowIndex":3,"columnKey":"status"},"selectedCells":[{"rowIndex":3,"columnKey":"status"}]}""", SelectionMode.Cell, 0, 1)]
+    [InlineData("""{"mode":"multi-cell","rowIndex":2,"selectedRowIndices":[],"cell":{"rowIndex":2,"columnKey":"name"},"selectedCells":[{"rowIndex":0,"columnKey":"id"},{"rowIndex":2,"columnKey":"name"}]}""", SelectionMode.MultiCell, 0, 2)]
+    public void BlazorNormalizedSelection_DeserializesEveryMode(string json, SelectionMode mode, int rowCount, int cellCount)
+    {
+        var selection = JsonSerializer.Deserialize<GridSelection>(json);
+
+        Assert.NotNull(selection);
+        Assert.Equal(mode, selection.Mode);
+        Assert.Equal(rowCount, selection.SelectedRowIndices.Length);
+        Assert.Equal(cellCount, selection.SelectedCells.Length);
+    }
 }
