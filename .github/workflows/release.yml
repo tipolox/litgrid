@@ -1,4 +1,4 @@
-name: Release Dry Run
+name: Release Bootstrap
 
 on:
   workflow_dispatch:
@@ -13,6 +13,8 @@ permissions:
 
 jobs:
   validate-release:
+    outputs:
+      version: ${{ steps.release_version.outputs.version }}
     runs-on: ubuntu-latest
 
     steps:
@@ -93,3 +95,66 @@ jobs:
             release-artifacts/npm/*.tgz
             release-artifacts/nuget/*.nupkg
             release-artifacts/SHA256SUMS.txt
+
+  publish-nuget-bootstrap:
+    needs:
+      - validate-release
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Enforce v1.0.0 bootstrap safety gate
+        env:
+          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
+        run: |
+          if [[ "$RELEASE_VERSION" != "1.0.0" ]]; then
+            echo "NuGet bootstrap publishing is limited to version 1.0.0; received $RELEASE_VERSION." >&2
+            exit 1
+          fi
+
+      - name: Download validated release candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: litgrid-${{ needs.validate-release.outputs.version }}-release-candidate
+          path: release-candidate
+
+      - name: Select exact validated NuGet package
+        id: nuget_package
+        env:
+          RELEASE_VERSION: ${{ needs.validate-release.outputs.version }}
+        run: |
+          expected_name="Tipolox.LitGrid.Blazor.${RELEASE_VERSION}.nupkg"
+          mapfile -t packages < <(find release-candidate -type f -name 'Tipolox.LitGrid.Blazor.*.nupkg' -print)
+
+          if [[ "${#packages[@]}" -ne 1 ]]; then
+            echo "Expected exactly one NuGet package candidate; found ${#packages[@]}." >&2
+            exit 1
+          fi
+
+          package_path="${packages[0]}"
+          if [[ "$(basename "$package_path")" != "$expected_name" ]]; then
+            echo "Expected $expected_name; found $(basename "$package_path")." >&2
+            exit 1
+          fi
+
+          echo "path=$package_path" >> "$GITHUB_OUTPUT"
+      
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Authenticate to NuGet.org with trusted publishing
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: tipolox
+
+      - name: Publish validated NuGet package
+        run: >
+          dotnet nuget push "${{ steps.nuget_package.outputs.path }}"
+          --source https://api.nuget.org/v3/index.json
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
