@@ -2497,20 +2497,6 @@ export class DataGrid extends LitElement {
         viewportSize: viewportH
       })
 
-      // Debug: large-grid scroll mapping (kept behind a high threshold)
-      if (this.lastTotalSize > 6000000) {
-        // eslint-disable-next-line no-console
-        console.log('[yc-grid] scroll map', {
-          pendingScrollTop: this.pendingScrollTop,
-          lastTotalSize: this.lastTotalSize,
-          lastDisplayTotal: this.lastDisplayTotal,
-          measuredDisplay,
-          viewportH,
-          availableDisplay: scrollMapping.availableDisplaySize,
-          availableVirtual: scrollMapping.availableVirtualSize,
-          mappedScrollOffset: scrollMapping.scrollOffset
-        })
-      }
 
       rowVirtualizer.setScrollOffset(scrollMapping.scrollOffset)
       this.columnVirtualizer.setScrollOffset(this.pendingScrollLeft)
@@ -2572,34 +2558,11 @@ export class DataGrid extends LitElement {
       bottomPadding
     })
 
-    // If the mapped display offset differs substantially from the user's
-    // actual scrollTop, log for diagnostics (helps catch mapping/race issues).
-    if (this.lastDisplayTotal > 0) {
-      const diff = Math.abs(displayOffsetTop - this.pendingScrollTop)
-      if (diff > Math.max(100, this.rowHeight)) {
-        // eslint-disable-next-line no-console
-        console.log('[yc-grid] offset-mismatch', { displayOffsetTop, pendingScrollTop: this.pendingScrollTop, diff })
-      }
-    }
-
     // Keep scroll mapping in sync with the newly rendered spacer until a
     // browser measurement provides a lower, clamped height.
     this.lastTotalSize = totalSize
     if (totalSizeChanged || !this.lastDisplayTotal) {
       this.lastDisplayTotal = displayTotal
-    }
-    if (totalSize > 6000000) {
-      // eslint-disable-next-line no-console
-      console.log('[yc-grid] virtualizer state', {
-        count,
-        totalSize,
-        displayTotal,
-        displayScale,
-        offsetTop: range.offsetTop,
-        bottomPadding,
-        startIndex: range.startIndex,
-        endIndex: range.endIndex
-      })
     }
     // Ensure start/end indices are within valid bounds to avoid empty renders
     const safeStartIndex = Math.max(0, Math.min(range.startIndex, Math.max(0, count)))
@@ -2611,8 +2574,6 @@ export class DataGrid extends LitElement {
       const visibleCountFallback = Math.max(1, Math.ceil(this.height / Math.max(1, this.rowHeight)))
       const fallbackStart = Math.max(0, count - visibleCountFallback)
       const fallbackEnd = count
-      // eslint-disable-next-line no-console
-      console.log('[yc-grid] empty-render-fallback', { safeStartIndex, safeEndIndex, fallbackStart, fallbackEnd })
       rows = this.engine.getVisibleRows(fallbackStart, fallbackEnd)
     }
         const columns = this.getVisibleColumns()

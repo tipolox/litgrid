@@ -10,7 +10,7 @@ This reference describes LitGrid's current public packages and APIs. For install
 | `@tipolox/litgrid-react` | Exports the React `DataGrid` component. | Building with React. |
 | `@tipolox/litgrid-angular` | Exports the standalone Angular `DataGridComponent`. | Building with Angular 17 or later. |
 | `@tipolox/litgrid-vue` | Exports the Vue 3 `DataGrid` component. | Building with Vue 3.5 or later. |
-| `Tipolox.LitGrid.Blazor` (`@tipolox/litgrid-blazor`) | Exports the Razor `DataGrid<TItem>` component. | Building with Blazor (.NET 8+). |
+| `Tipolox.LitGrid.Blazor` (NuGet) | Exports the Razor `DataGrid<TItem>` component. | Building with Blazor (.NET 8+). |
 | `@tipolox/litgrid-core` | Exports the framework-agnostic grid engine and its types. | Integrating the data engine outside the supplied UI layers. |
 | `@tipolox/litgrid-renderer` | Exports pure row/column virtualization and scroll-mapping helpers. | Building a custom renderer. |
 

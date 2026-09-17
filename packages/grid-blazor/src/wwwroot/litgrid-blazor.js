@@ -1584,16 +1584,6 @@ var DataGrid = class DataGrid extends i$2 {
 					totalSize: this.lastTotalSize,
 					viewportSize: viewportH
 				});
-				if (this.lastTotalSize > 6e6) console.log("[yc-grid] scroll map", {
-					pendingScrollTop: this.pendingScrollTop,
-					lastTotalSize: this.lastTotalSize,
-					lastDisplayTotal: this.lastDisplayTotal,
-					measuredDisplay,
-					viewportH,
-					availableDisplay: scrollMapping.availableDisplaySize,
-					availableVirtual: scrollMapping.availableVirtualSize,
-					mappedScrollOffset: scrollMapping.scrollOffset
-				});
 				rowVirtualizer.setScrollOffset(scrollMapping.scrollOffset);
 				this.columnVirtualizer.setScrollOffset(this.pendingScrollLeft);
 				this.previousPendingScrollTop = this.pendingScrollTop;
@@ -3352,26 +3342,8 @@ var DataGrid = class DataGrid extends i$2 {
 			visibleSize: renderedSize,
 			bottomPadding
 		});
-		if (this.lastDisplayTotal > 0) {
-			const diff = Math.abs(displayOffsetTop - this.pendingScrollTop);
-			if (diff > Math.max(100, this.rowHeight)) console.log("[yc-grid] offset-mismatch", {
-				displayOffsetTop,
-				pendingScrollTop: this.pendingScrollTop,
-				diff
-			});
-		}
 		this.lastTotalSize = totalSize;
 		if (totalSizeChanged || !this.lastDisplayTotal) this.lastDisplayTotal = displayTotal;
-		if (totalSize > 6e6) console.log("[yc-grid] virtualizer state", {
-			count,
-			totalSize,
-			displayTotal,
-			displayScale,
-			offsetTop: range.offsetTop,
-			bottomPadding,
-			startIndex: range.startIndex,
-			endIndex: range.endIndex
-		});
 		const safeStartIndex = Math.max(0, Math.min(range.startIndex, Math.max(0, count)));
 		const safeEndIndex = Math.max(safeStartIndex, Math.min(range.endIndex, count));
 		let rows = this.engine.getVisibleRows(safeStartIndex, safeEndIndex);
@@ -3379,12 +3351,6 @@ var DataGrid = class DataGrid extends i$2 {
 			const visibleCountFallback = Math.max(1, Math.ceil(this.height / Math.max(1, this.rowHeight)));
 			const fallbackStart = Math.max(0, count - visibleCountFallback);
 			const fallbackEnd = count;
-			console.log("[yc-grid] empty-render-fallback", {
-				safeStartIndex,
-				safeEndIndex,
-				fallbackStart,
-				fallbackEnd
-			});
 			rows = this.engine.getVisibleRows(fallbackStart, fallbackEnd);
 		}
 		const columns = this.getVisibleColumns();

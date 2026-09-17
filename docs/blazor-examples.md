@@ -1,6 +1,6 @@
 # Blazor Examples
 
-Practical, copyable examples for `@tipolox/litgrid-blazor` / `Tipolox.LitGrid.Blazor`.
+Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
 ## 1. Basic Read-Only Grid
 
