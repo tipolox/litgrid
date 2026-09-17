@@ -2,6 +2,21 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.0.1
+
+### Fixed
+
+- Fixed Blazor pagination interop so `GetPaginationAsync()` correctly reports the total page count.
+- Fixed Blazor selection interop for row, multi-row, cell, and multi-cell selection by normalizing JavaScript selection state into JSON-safe payloads.
+- Corrected public Blazor documentation to reference the `Tipolox.LitGrid.Blazor` NuGet package.
+- Removed unintended grid rendering and virtualization debug logging.
+
+### Packaging
+
+- Added an embedded README and improved NuGet metadata for `Tipolox.LitGrid.Blazor`.
+- Extended release artifact validation to require the NuGet package README.
+- Removed stale generated JavaScript mirrors from `grid-web/src` so the TypeScript sources remain the single source of truth.
+
 ## 1.0.0
 
 ### Highlights

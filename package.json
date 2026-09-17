@@ -1,6 +1,6 @@
 {
   "name": "tipoloX",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "LitGrid Community Edition monorepo.",
   "scripts": {
