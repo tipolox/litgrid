@@ -9,6 +9,11 @@
     <Authors>TipoloX</Authors>
     <Description>Blazor wrapper for LitGrid</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/tipolox/litgrid</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tipolox/litgrid</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Blazor;DataGrid;Grid;Virtualization;Components</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +22,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

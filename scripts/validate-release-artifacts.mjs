@@ -217,6 +217,12 @@ function validateNuGetArtifact(version, artifactsDir, failures) {
   for (const tag of ['authors', 'description', 'license']) {
     if (!metadataValue(nuspec, tag)) failures.push(`NuGet: required ${tag} metadata is missing`);
   }
+  if (metadataValue(nuspec, 'readme') !== 'README.md') {
+    failures.push('NuGet: PackageReadmeFile must declare README.md');
+  }
+  if (!files.has('README.md')) {
+    failures.push('NuGet: README.md is missing from the package root');
+  }
   if (![...files.keys()].some((path) => path.endsWith('/litgrid-blazor.js'))) {
     failures.push('NuGet: bundled Blazor static web asset litgrid-blazor.js is missing');
   }
