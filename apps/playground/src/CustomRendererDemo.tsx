@@ -16,7 +16,12 @@ const data: Project[] = [
   { id: 'PRJ-118', name: 'Mobile refresh', owner: 'Ben', status: 'At risk', progress: 46, budget: 61500 },
   { id: 'PRJ-123', name: 'Data migration', owner: 'Chin', status: 'Blocked', progress: 31, budget: 127000 },
   { id: 'PRJ-131', name: 'Usage analytics', owner: 'Daria', status: 'On track', progress: 91, budget: 38400 },
-  { id: 'PRJ-144', name: 'Partner API', owner: 'Eli', status: 'At risk', progress: 63, budget: 75900 }
+  { id: 'PRJ-144', name: 'Partner API', owner: 'Eli', status: 'At risk', progress: 63, budget: 75900 },
+  { id: 'PRJ-114', name: 'Customer relations', owner: 'James', status: 'On track', progress: 68, budget: 8200 },
+  { id: 'PRJ-128', name: 'Character development', owner: 'Jessie', status: 'At risk', progress: 66, budget: 71500 },
+  { id: 'PRJ-133', name: 'Data Analysis', owner: 'Gab', status: 'Blocked', progress: 21, budget: 12000 },
+  { id: 'PRJ-141', name: 'Web analytics', owner: 'Andrew', status: 'On track', progress: 71, budget: 33400 },
+  { id: 'PRJ-154', name: 'Custom API', owner: 'Paul', status: 'At risk', progress: 93, budget: 275900 }
 ]
 
 const statusColors = {

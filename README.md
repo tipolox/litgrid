@@ -1,51 +1,64 @@
 # LitGrid
 
-LitGrid is a virtualized DataGrid for Web Components, React, Angular, Vue, and Blazor. It provides
-client-side sorting, filtering, pagination, selection, keyboard navigation,
-column sizing, ordering, visibility, and state persistence for production web
-applications.
+**Open-source virtualized DataGrid built on Web Components, with integrations for React, Angular, Vue, and Blazor.**
+
+LitGrid is designed for data-heavy web applications that need row and column virtualization, sorting, filtering, pagination, selection, keyboard navigation, configurable columns, and state persistence.
+
+[**Live Demo**](https://tipolox.com/litgrid/demo) · [**Installation Guide**](docs/installation.md) · [**API Reference**](docs/api-reference.md) · [**Report an Issue**](https://github.com/tipolox/litgrid/issues)
+
+**Web Components · React · Angular · Vue · Blazor**
+
+**MIT Licensed**
+
+## See LitGrid in action
+
+![LitGrid playground showing custom renderers](docs/assets/litgrid-demo.png)
+
+*Custom renderers in the LitGrid playground, including status badges, progress values, formatted data, sorting, filtering, and other grid interactions.*
+
+## Core capabilities
+
+- **Row and column virtualization** — render large datasets while keeping the visible grid focused on the active viewport.
+- **Sorting, filtering, and pagination** — built-in client-side data operations.
+- **Selection and keyboard navigation** — support interactive, data-heavy workflows.
+- **Configurable columns** — resize, reorder, show or hide columns, and persist column state.
+- **Custom cell renderers** — render formatted values, badges, progress indicators, and Lit templates.
+- **Framework integrations** — use the same Web Component core from React, Angular, Vue, Blazor, or directly in the browser.
 
 ## Getting Started
 
-### Prerequisites
-
-- A modern browser with Web Component support.
-- Node.js and pnpm when installing LitGrid from npm.
-
 ### Install
 
-Install the package for the integration you use:
+Choose the integration you use:
 
-For npm, Yarn, local-workspace instructions, and integration requirements, see
-the [Installation guide](docs/installation.md).
-
+**Web Components**
 ```bash
 pnpm add @tipolox/litgrid-web
 ```
 
+**React**
 ```bash
 pnpm add @tipolox/litgrid-react
 ```
 
+**Angular**
 ```bash
 pnpm add @tipolox/litgrid-angular
 ```
 
+**Vue**
 ```bash
 pnpm add @tipolox/litgrid-vue
 ```
 
+**Blazor**
 ```bash
 dotnet add package Tipolox.LitGrid.Blazor
 ```
+For npm, Yarn, local-workspace instructions, and integration requirements, see
+the [Installation Guide](docs/installation.md).
 
-The React package includes the Web Component dependency. Install only
-`@tipolox/litgrid-react` for a React application.
-
-The Angular and Vue wrappers include the Web Component dependency. Install
-only the wrapper package for those applications.
-
-The Blazor NuGet package bundles static assets and requires no Node.js setup.
+React, Angular, and Vue wrappers include the Web Component dependency, so you only need to install the framework package. The Blazor package bundles its static assets and requires no Node.js setup.
 
 ### Use the Web Component
 
