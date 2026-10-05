@@ -2,6 +2,14 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.0.2
+
+### Packaging
+
+- Added package-specific READMEs for all published LitGrid npm packages so package pages include installation and getting-started guidance.
+- Ensured the Angular package includes its README in the built npm artifact.
+- Extended release artifact validation to require a root README in every published npm package.
+
 ## 1.0.1
 
 ### Fixed
