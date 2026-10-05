@@ -135,6 +135,7 @@ function validateNpmArtifacts(version, artifactsDir, failures) {
     }
     foundPackages.set(manifest.name, { files, manifest });
 
+    if (!files.has('package/README.md')) failures.push(`${manifest.name}: README.md missing from package root`);
     if (manifest.version !== version) failures.push(`${manifest.name}: version is ${manifest.version}, expected ${version}`);
     if (![...files.keys()].some((path) => path.split('/').at(-1) === 'LICENSE')) {
       failures.push(`${manifest.name}: LICENSE is missing`);
