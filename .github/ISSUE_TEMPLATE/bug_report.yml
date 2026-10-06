@@ -1,0 +1,81 @@
+name: Bug report
+description: Report a reproducible problem in LitGrid
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Please include enough detail for someone else to reproduce it.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+      placeholder: Tell us what you observed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the smallest reproduction you can, including code, steps, or a repository/demo link.
+      placeholder: |
+        1. Configure...
+        2. Render...
+        3. Interact...
+        4. Observe...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: integration
+    attributes:
+      label: Integration
+      options:
+        - Web Component
+        - React
+        - Angular
+        - Vue
+        - Blazor
+        - Core / Renderer
+        - Multiple / Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: LitGrid version
+      placeholder: e.g. 1.0.2
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include browser, framework/runtime version, operating system, and anything else that may matter.
+      placeholder: |
+        Browser:
+        Framework/runtime:
+        OS:
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add screenshots, logs, stack traces, or related information if useful.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: I can reproduce this with a supported LitGrid version.
+          required: true
