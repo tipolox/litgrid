@@ -12,6 +12,8 @@ LitGrid is designed for data-heavy web applications that need row and column vir
 
 ## See LitGrid in action
 
+The public [Live Demo](https://tipolox.com/litgrid/demo) now includes focused scenarios for row virtualization, column virtualization, client-side pagination, checkbox/multi-row selection, custom renderers, and browser-local saved column preferences. Saved preferences stay in the browser.
+
 ![LitGrid playground showing custom renderers](docs/assets/litgrid-demo.png)
 
 *Custom renderers in the LitGrid playground, including status badges, progress values, formatted data, sorting, filtering, and other grid interactions.*
