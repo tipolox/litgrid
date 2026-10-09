@@ -2493,7 +2493,6 @@ export class DataGrid extends LitElement {
   }
 
     set data(value: unknown[]) {
-    this.activeCell = null
     this.clearQuickSearchDebounce()
 
     this.sourceRowCount = Array.isArray(value) ? value.length : 0
@@ -2543,13 +2542,16 @@ export class DataGrid extends LitElement {
   }
 
         set columns(value: GridColumn[]) {
-        this.activeCell = null
+    const activeCell = this.activeCell
         this.sourceColumnDefs = Array.isArray(value) ? [...value] : []
     this.columnDefs = [...this.sourceColumnDefs]
     this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key))
 
     this.clearBestFitWidths()
     this.restorePersistedColumnState()
+    // Structural synchronization must not discard navigation. This also
+    // restores the position after persisted column state has been applied.
+    this.activeCell = activeCell
     this.requestUpdate()
   }
 

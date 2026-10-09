@@ -3326,7 +3326,6 @@ var DataGrid = class DataGrid extends i$2 {
     `;
 	}
 	set data(value) {
-		this.activeCell = null;
 		this.clearQuickSearchDebounce();
 		this.sourceRowCount = Array.isArray(value) ? value.length : 0;
 		this.engine.setData(value ?? []);
@@ -3363,12 +3362,13 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	set columns(value) {
-		this.activeCell = null;
+		const activeCell = this.activeCell;
 		this.sourceColumnDefs = Array.isArray(value) ? [...value] : [];
 		this.columnDefs = [...this.sourceColumnDefs];
 		this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key));
 		this.clearBestFitWidths();
 		this.restorePersistedColumnState();
+		this.activeCell = activeCell;
 		this.requestUpdate();
 	}
 	get columnStateStorageKey() {
@@ -3738,22 +3738,40 @@ var DataGrid = class DataGrid extends i$2 {
 if (!customElements.get("yc-grid")) customElements.define("yc-grid", DataGrid);
 //#endregion
 //#region src/gridBindings.ts
+var synchronizedInputs = /* @__PURE__ */ new WeakMap();
 function syncGridInputs(grid, inputs) {
 	grid.data = inputs.data;
 	grid.columns = inputs.columns;
-	grid.config = inputs.config;
-	grid.theme = inputs.theme;
-	grid.ariaLabel = inputs.ariaLabel;
-	grid.ariaDescription = inputs.ariaDescription;
-	grid.screenReaderAnnouncements = inputs.screenReaderAnnouncements;
-	grid.viewportHeight = inputs.height;
-	grid.virtualRowHeight = inputs.rowHeight;
-	grid.overscanCount = inputs.overscan;
-	grid.columnOverscanCount = inputs.columnOverscan;
-	grid.bestFitSampleSize = inputs.bestFitSampleSize;
-	grid.quickSearchDebounceThreshold = inputs.quickSearchDebounceThreshold;
-	grid.quickSearchDebounceMs = inputs.quickSearchDebounceMs;
-	grid.columnStateStorageKey = inputs.columnStateStorageKey ?? null;
+	const { data: _, columns: __, ...scalars } = inputs;
+	const values = {
+		...scalars,
+		columnStateStorageKey: inputs.columnStateStorageKey ?? null
+	};
+	const previous = synchronizedInputs.get(grid) ?? {};
+	const propertyNames = {
+		height: "viewportHeight",
+		rowHeight: "virtualRowHeight",
+		overscan: "overscanCount",
+		columnOverscan: "columnOverscanCount"
+	};
+	for (const [key, input] of Object.entries(values)) {
+		const value = key === "columnStateStorageKey" ? input ?? null : input;
+		const config = key === "config" ? input : void 0;
+		const comparison = config ? JSON.stringify([
+			config.selection?.mode ?? "none",
+			config.selection?.checkboxes ?? false,
+			config.rowHeader?.enabled ?? false,
+			config.rowHeader?.width ?? 56,
+			config.pagination?.enabled ?? false,
+			Number.isFinite(config.pagination?.pageSize) && config.pagination.pageSize > 0 ? Math.max(1, Math.floor(config.pagination.pageSize)) : 50,
+			Number.isFinite(config.pagination?.pageIndex) && config.pagination.pageIndex >= 0 ? Math.floor(config.pagination.pageIndex) : 0
+		]) : value;
+		if (!(key in previous) || previous[key] !== comparison) {
+			Reflect.set(grid, propertyNames[key] ?? key, value);
+			previous[key] = comparison;
+		}
+	}
+	synchronizedInputs.set(grid, previous);
 }
 //#endregion
 //#region src/index.ts
