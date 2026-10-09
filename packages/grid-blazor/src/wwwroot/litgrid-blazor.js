@@ -1355,6 +1355,7 @@ function isGridColumnState(value) {
 }
 //#endregion
 //#region ../grid-web/dist/components/DataGrid.js
+var CELL_CONTROL_SELECTOR = "a[href], area[href], button, input, select, textarea, summary, audio[controls], video[controls], [tabindex], [contenteditable]:not([contenteditable=\"false\"])";
 var FILTER_OPERATORS = [
 	{
 		value: "contains",
@@ -2527,7 +2528,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	getScreenReaderDescription() {
-		return this.ariaDescription || "Use arrow keys to move between cells. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.";
+		return this.ariaDescription || "Use arrow keys to move between cells. Press F2 to interact with controls in a cell and Escape to return to cell navigation. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.";
 	}
 	getColumnLabel(columnKey) {
 		return (this.getVisibleColumns().find((item) => item.key === columnKey) ?? this.getResolvedColumns().find((item) => item.key === columnKey))?.header ?? columnKey;
@@ -3089,12 +3090,78 @@ var DataGrid = class DataGrid extends i$2 {
 		if (columnLeft < viewport.scrollLeft) viewport.scrollLeft = columnLeft;
 		else if (columnRight > viewport.scrollLeft + bodyViewportWidth) viewport.scrollLeft = Math.max(0, columnRight - bodyViewportWidth);
 	}
+	getCellControls(cell) {
+		return Array.from(cell.querySelectorAll(CELL_CONTROL_SELECTOR)).filter((control) => !control.matches(":disabled, input[type=\"hidden\"]") && !control.closest("[hidden], [inert]"));
+	}
+	focusCellControl(control) {
+		control.focus({ preventScroll: true });
+		return control.getRootNode().activeElement === control;
+	}
+	syncInteractionCell(cell) {
+		const rowIndex = Number(cell.dataset.rowIndex);
+		const columnIndex = Number(cell.dataset.columnIndex);
+		if (this.activeCell?.rowIndex !== rowIndex || this.activeCell.columnIndex !== columnIndex) {
+			this.setActiveCell(rowIndex, columnIndex);
+			this.requestUpdate();
+		}
+	}
 	handleKeyDown(event) {
-		const target = event.target;
-		if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement) return;
+		if (event.defaultPrevented) return;
+		let owningCell;
+		let insideControl = false;
+		for (const target of event.composedPath()) {
+			if (!(target instanceof Element)) continue;
+			if (target.matches(".cell[role=\"gridcell\"]")) {
+				owningCell = target;
+				break;
+			}
+			if (target === event.currentTarget) break;
+			if (target.matches(CELL_CONTROL_SELECTOR)) insideControl = true;
+		}
+		if (insideControl) {
+			if (!owningCell) return;
+			if (event.key === "Escape") {
+				event.preventDefault();
+				event.stopPropagation();
+				this.syncInteractionCell(owningCell);
+				owningCell.focus({ preventScroll: true });
+				return;
+			}
+			const focused = this.renderRoot.activeElement;
+			if (event.key !== "Tab" || !focused || focused === owningCell || !owningCell.contains(focused)) return;
+			if (focused.shadowRoot?.activeElement) return;
+			const controls = this.getCellControls(owningCell).filter((control) => control.tabIndex >= 0 || control === focused || control.matches("[contenteditable]:not([tabindex])"));
+			const current = controls.indexOf(focused);
+			if (current < 0) return;
+			const direction = event.shiftKey ? -1 : 1;
+			for (let index = current + direction; index >= 0 && index < controls.length; index += direction) if (this.focusCellControl(controls[index])) {
+				event.preventDefault();
+				return;
+			}
+			this.syncInteractionCell(owningCell);
+			if (event.shiftKey) {
+				event.preventDefault();
+				owningCell.focus({ preventScroll: true });
+				return;
+			}
+		}
 		const rowCount = this.engine.getRowCount();
 		const columnCount = this.getVisibleColumns().length;
 		if (rowCount === 0 || columnCount === 0) return;
+		if (event.key === "F2" && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+			const active = this.activeCell ?? {
+				rowIndex: 0,
+				columnIndex: 0
+			};
+			const cell = owningCell ?? this.renderRoot.querySelector(`.cell[data-row-index="${active.rowIndex}"][data-column-index="${active.columnIndex}"]`);
+			if (cell) {
+				for (const control of this.getCellControls(cell)) if (this.focusCellControl(control)) {
+					event.preventDefault();
+					break;
+				}
+			}
+			return;
+		}
 		if ((event.key === "Enter" || event.key === " ") && !event.ctrlKey && !event.metaKey && !event.altKey) {
 			const activeCell = this.activeCell ?? {
 				rowIndex: 0,

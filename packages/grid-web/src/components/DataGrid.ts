@@ -31,6 +31,7 @@ import {
   type GridColumnState
 } from '../columnState/columnState.js'
 
+const CELL_CONTROL_SELECTOR = 'a[href], area[href], button, input, select, textarea, summary, audio[controls], video[controls], [tabindex], [contenteditable]:not([contenteditable="false"])'
 
 
 
@@ -1254,7 +1255,7 @@ export class DataGrid extends LitElement {
   }
 
   private getScreenReaderDescription() {
-    return this.ariaDescription || 'Use arrow keys to move between cells. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.'
+    return this.ariaDescription || 'Use arrow keys to move between cells. Press F2 to interact with controls in a cell and Escape to return to cell navigation. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.'
   }
 
   private getColumnLabel(columnKey: string) {
@@ -2182,15 +2183,97 @@ export class DataGrid extends LitElement {
     }
   }
 
+  private getCellControls(cell: HTMLElement) {
+    // Only inspect the cell explicitly entered by the user, never a render or
+    // virtualization path. Custom focusable hosts can own shadow controls.
+    return Array.from(cell.querySelectorAll<HTMLElement>(CELL_CONTROL_SELECTOR))
+      .filter((control) => !control.matches(':disabled, input[type="hidden"]')
+        && !control.closest('[hidden], [inert]'))
+  }
+
+  private focusCellControl(control: HTMLElement) {
+    control.focus({ preventScroll: true })
+    return (control.getRootNode() as Document | ShadowRoot).activeElement === control
+  }
+
+  private syncInteractionCell(cell: HTMLElement) {
+    const rowIndex = Number(cell.dataset.rowIndex)
+    const columnIndex = Number(cell.dataset.columnIndex)
+    if (this.activeCell?.rowIndex !== rowIndex || this.activeCell.columnIndex !== columnIndex) {
+      this.setActiveCell(rowIndex, columnIndex)
+      this.requestUpdate()
+    }
+  }
+
   private handleKeyDown(event: KeyboardEvent) {
-    const target = event.target
-    if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement) {
-      return
+    if (event.defaultPrevented) return
+
+    let owningCell: HTMLElement | undefined
+    let insideControl = false
+    // The composed path also protects nested markup and renderer shadow controls.
+    for (const target of event.composedPath()) {
+      if (!(target instanceof Element)) continue
+      if (target.matches('.cell[role="gridcell"]')) {
+        owningCell = target as HTMLElement
+        break
+      }
+      if (target === event.currentTarget) break
+      if (target.matches(CELL_CONTROL_SELECTOR)) insideControl = true
+    }
+    if (insideControl) {
+      if (!owningCell) return
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        event.stopPropagation()
+        this.syncInteractionCell(owningCell)
+        owningCell.focus({ preventScroll: true })
+        return
+      }
+      const focused = (this.renderRoot as ShadowRoot).activeElement
+      if (event.key !== 'Tab' || !focused || focused === owningCell || !owningCell.contains(focused)) return
+      // An open shadow widget owns the Tab order of its internal controls.
+      if (focused.shadowRoot?.activeElement) return
+
+      const controls = this.getCellControls(owningCell).filter((control) => control.tabIndex >= 0
+        || control === focused || control.matches('[contenteditable]:not([tabindex])'))
+      const current = controls.indexOf(focused as HTMLElement)
+      // Shadow widgets own their internal Tab order; a focusable host is their entry point.
+      if (current < 0) return
+      const direction = event.shiftKey ? -1 : 1
+      for (let index = current + direction; index >= 0 && index < controls.length; index += direction) {
+        if (this.focusCellControl(controls[index])) {
+          event.preventDefault()
+          return
+        }
+      }
+      this.syncInteractionCell(owningCell)
+      if (event.shiftKey) {
+        event.preventDefault()
+        owningCell.focus({ preventScroll: true })
+        return
+      }
+      // At the last control, resume the existing forward cell Tab navigation.
     }
 
         const rowCount = this.engine.getRowCount()
     const columnCount = this.getVisibleColumns().length
     if (rowCount === 0 || columnCount === 0) {
+      return
+    }
+
+    if (event.key === 'F2' && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+      const active = this.activeCell ?? { rowIndex: 0, columnIndex: 0 }
+      const cell = owningCell ?? this.renderRoot.querySelector<HTMLElement>(
+        `.cell[data-row-index="${active.rowIndex}"][data-column-index="${active.columnIndex}"]`
+      )
+      if (cell) {
+        for (const control of this.getCellControls(cell)) {
+          if (this.focusCellControl(control)) {
+            event.preventDefault()
+            break
+          }
+        }
+      }
       return
     }
 
