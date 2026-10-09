@@ -169,6 +169,8 @@ export class DataGrid extends LitElement {
   static styles = [lightThemeStyles, darkThemeStyles, css`
     :host {
       display: block;
+      min-width: 0;
+      max-width: 100%;
       color: var(--litgrid-color-text);
       font: 14px/1.4 system-ui, sans-serif;
     }
@@ -296,6 +298,8 @@ export class DataGrid extends LitElement {
 
     .header-row-header {
       position: relative;
+      /* Cover translated headers without clipping menus below the header. */
+      z-index: 4;
       height: 36px;
       border-right: 1px solid var(--litgrid-color-border);
     }
@@ -634,6 +638,7 @@ export class DataGrid extends LitElement {
 
     .pagination {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
@@ -644,8 +649,29 @@ export class DataGrid extends LitElement {
       font-size: 13px;
     }
 
+    .pagination-summary,
+    .pagination-navigation {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .pagination span,
+    .pagination label {
+      white-space: nowrap;
+    }
+
+    .pagination label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .pagination button,
     .pagination select {
+      flex-shrink: 0;
       border: 1px solid var(--litgrid-color-border);
       border-radius: 6px;
       background: var(--litgrid-color-surface);
@@ -2874,32 +2900,36 @@ export class DataGrid extends LitElement {
         ${pagination.enabled
           ? html`
               <div class="pagination" role="navigation" aria-label="Pagination">
-                <span>${pagination.totalRows} rows</span>
-                <label>
-                  Rows per page
-                  <select
-                    aria-label="Rows per page"
-                    @change=${(event: Event) =>
-                      this.setPageSize(Number((event.target as HTMLSelectElement).value))}
-                  >
-                    ${pageSizeOptions.map((pageSize) => html`
-                      <option value=${pageSize} ?selected=${pageSize === pagination.pageSize}>
-                        ${pageSize}
-                      </option>
-                    `)}
-                  </select>
-                </label>
-                <span>Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}</span>
-                <button
-                  type="button"
-                  ?disabled=${pagination.pageIndex === 0}
-                  @click=${() => this.setPage(pagination.pageIndex - 1)}
-                >Previous</button>
-                <button
-                  type="button"
-                  ?disabled=${pagination.pageCount === 0 || pagination.pageIndex >= pagination.pageCount - 1}
-                  @click=${() => this.setPage(pagination.pageIndex + 1)}
-                >Next</button>
+                <div class="pagination-summary">
+                  <span>${pagination.totalRows} rows</span>
+                  <label>
+                    Rows per page
+                    <select
+                      aria-label="Rows per page"
+                      @change=${(event: Event) =>
+                        this.setPageSize(Number((event.target as HTMLSelectElement).value))}
+                    >
+                      ${pageSizeOptions.map((pageSize) => html`
+                        <option value=${pageSize} ?selected=${pageSize === pagination.pageSize}>
+                          ${pageSize}
+                        </option>
+                      `)}
+                    </select>
+                  </label>
+                </div>
+                <div class="pagination-navigation">
+                  <span>Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}</span>
+                  <button
+                    type="button"
+                    ?disabled=${pagination.pageIndex === 0}
+                    @click=${() => this.setPage(pagination.pageIndex - 1)}
+                  >Previous</button>
+                  <button
+                    type="button"
+                    ?disabled=${pagination.pageCount === 0 || pagination.pageIndex >= pagination.pageCount - 1}
+                    @click=${() => this.setPage(pagination.pageIndex + 1)}
+                  >Next</button>
+                </div>
               </div>
             `
           : ''}
