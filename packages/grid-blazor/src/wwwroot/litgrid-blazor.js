@@ -3162,12 +3162,12 @@ var DataGrid = class DataGrid extends i$2 {
 			}
 			return;
 		}
-		if ((event.key === "Enter" || event.key === " ") && !event.ctrlKey && !event.metaKey && !event.altKey) {
+		if ((event.key === "Enter" || event.key === " ") && !event.altKey) {
 			const activeCell = this.activeCell ?? {
 				rowIndex: 0,
 				columnIndex: 0
 			};
-			if (this.isCellSelectionMode()) {
+			if (this.isCellSelectionMode() && !event.ctrlKey && !event.metaKey) {
 				const column = this.getVisibleColumns()[activeCell.columnIndex];
 				if (column) {
 					event.preventDefault();
@@ -3177,7 +3177,7 @@ var DataGrid = class DataGrid extends i$2 {
 				}
 			} else if (this.isRowSelectionMode()) {
 				event.preventDefault();
-				this.engine.selectRow(activeCell.rowIndex, "replace");
+				this.engine.selectRow(activeCell.rowIndex, this.getRowSelectionIntent(event));
 				this.announceRowSelection(activeCell.rowIndex);
 				this.requestUpdate();
 			}

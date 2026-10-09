@@ -2277,11 +2277,11 @@ export class DataGrid extends LitElement {
       return
     }
 
-            if ((event.key === 'Enter' || event.key === ' ') && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    if ((event.key === 'Enter' || event.key === ' ') && !event.altKey) {
       const activeCell = this.activeCell ?? { rowIndex: 0, columnIndex: 0 }
 
 
-      if (this.isCellSelectionMode()) {
+      if (this.isCellSelectionMode() && !event.ctrlKey && !event.metaKey) {
         const column = this.getVisibleColumns()[activeCell.columnIndex]
         if (column) {
           event.preventDefault()
@@ -2291,7 +2291,7 @@ export class DataGrid extends LitElement {
         }
       } else if (this.isRowSelectionMode()) {
         event.preventDefault()
-        this.engine.selectRow(activeCell.rowIndex, 'replace')
+        this.engine.selectRow(activeCell.rowIndex, this.getRowSelectionIntent(event))
         this.announceRowSelection(activeCell.rowIndex)
         this.requestUpdate()
       }
@@ -2365,7 +2365,7 @@ export class DataGrid extends LitElement {
     this.requestUpdate()
     }
 
-  private getRowSelectionIntent(event: MouseEvent) {
+  private getRowSelectionIntent(event: MouseEvent | KeyboardEvent): SelectionIntent {
     if (event.shiftKey) {
       return 'range'
     }
