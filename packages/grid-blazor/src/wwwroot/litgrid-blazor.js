@@ -1482,6 +1482,11 @@ var DataGrid = class DataGrid extends i$2 {
 		this.headerRowElement = null;
 		this.activeCell = null;
 		this.shouldFocusActiveCell = false;
+		this.gridCellHasFocus = false;
+		this.shouldFocusViewport = false;
+		this.renderedActiveCellId = null;
+		this.renderedRowStart = 0;
+		this.renderedColumnStart = 0;
 		this.headerMenuTrigger = null;
 		this.shouldFocusHeaderMenu = false;
 		this.shouldRestoreHeaderMenuFocus = false;
@@ -2130,6 +2135,10 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	updated() {
 		this.updateScrollbarWidth();
+		if (this.shouldFocusViewport) {
+			this.shouldFocusViewport = false;
+			this.viewportElement?.focus({ preventScroll: true });
+		}
 		this.focusActiveCell();
 		this.focusHeaderMenu();
 		try {
@@ -2152,6 +2161,7 @@ var DataGrid = class DataGrid extends i$2 {
 		const viewportElement = this.renderRoot.querySelector(".viewport");
 		if (viewportElement) viewportElement.removeEventListener("scroll", this.handleScroll);
 		this.headerRowElement = null;
+		this.viewportElement = null;
 		if (this.measureContainer && this.measureContainer.parentNode) this.measureContainer.parentNode.removeChild(this.measureContainer);
 		this.measureContainer = null;
 		if (super.disconnectedCallback) super.disconnectedCallback();
@@ -2174,6 +2184,7 @@ var DataGrid = class DataGrid extends i$2 {
 	updateScrollbarWidth() {
 		const viewport = this.renderRoot.querySelector(".viewport");
 		if (!(viewport instanceof HTMLElement)) return;
+		this.viewportElement = viewport;
 		const nextWidth = viewport.offsetWidth - viewport.clientWidth;
 		const nextViewportWidth = viewport.clientWidth;
 		if (nextWidth !== this.scrollbarWidth || nextViewportWidth !== this.viewportWidth) {
@@ -2518,9 +2529,13 @@ var DataGrid = class DataGrid extends i$2 {
 		this.closeHeaderMenu(true);
 	}
 	handleViewportFocus(event) {
-		if (event.target !== event.currentTarget || this.activeCell) return;
+		if (event.target !== event.currentTarget || this.activeCell || this.engine.getRowCount() === 0 || this.getVisibleColumns().length === 0) return;
 		this.setActiveCell(0, 0);
 		this.requestUpdate();
+	}
+	handleGridFocusIn(event) {
+		const target = event.composedPath()[0];
+		this.gridCellHasFocus = target instanceof HTMLElement && target.classList.contains("cell");
 	}
 	announceScreenReader(message) {
 		if (!this.screenReaderAnnouncements || !message || message === this.lastScreenReaderAnnouncement) return;
@@ -3035,8 +3050,25 @@ var DataGrid = class DataGrid extends i$2 {
 		this.shouldFocusActiveCell = shouldFocus;
 		this.announceActiveCell();
 	}
+	reconcileActiveCell(rowCount, columnCount) {
+		if (!this.activeCell) return;
+		if (rowCount === 0 || columnCount === 0) {
+			this.activeCell = null;
+			this.shouldFocusActiveCell = false;
+			return;
+		}
+		const rowIndex = Math.min(this.activeCell.rowIndex, rowCount - 1);
+		const columnIndex = Math.min(this.activeCell.columnIndex, columnCount - 1);
+		if (rowIndex !== this.activeCell.rowIndex || columnIndex !== this.activeCell.columnIndex) {
+			this.activeCell = {
+				rowIndex,
+				columnIndex
+			};
+			this.shouldFocusActiveCell = this.gridCellHasFocus;
+		}
+	}
 	focusActiveCell() {
-		if (!this.shouldFocusActiveCell || !this.activeCell) return;
+		if (!this.shouldFocusActiveCell || !this.activeCell || !this.renderedActiveCellId) return;
 		const cell = this.renderRoot.querySelector(`.cell[data-row-index="${this.activeCell.rowIndex}"][data-column-index="${this.activeCell.columnIndex}"]`);
 		if (cell) {
 			this.shouldFocusActiveCell = false;
@@ -3161,6 +3193,7 @@ var DataGrid = class DataGrid extends i$2 {
 		}
 		const rowCount = this.engine.getRowCount();
 		const columnCount = this.getVisibleColumns().length;
+		this.reconcileActiveCell(rowCount, columnCount);
 		if (rowCount === 0 || columnCount === 0) return;
 		if (event.key === "F2" && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
 			const active = this.activeCell ?? {
@@ -3448,6 +3481,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.lastTotalSize = totalSize;
 		if (totalSizeChanged || !this.lastDisplayTotal) this.lastDisplayTotal = displayTotal;
 		const safeStartIndex = Math.max(0, Math.min(range.startIndex, Math.max(0, count)));
+		let renderedRowStart = safeStartIndex;
 		const safeEndIndex = Math.max(safeStartIndex, Math.min(range.endIndex, count));
 		let rows = this.engine.getVisibleRows(safeStartIndex, safeEndIndex);
 		if (rows.length === 0 && count > 0) {
@@ -3455,6 +3489,7 @@ var DataGrid = class DataGrid extends i$2 {
 			const fallbackStart = Math.max(0, count - visibleCountFallback);
 			const fallbackEnd = count;
 			rows = this.engine.getVisibleRows(fallbackStart, fallbackEnd);
+			renderedRowStart = fallbackStart;
 		}
 		const columns = this.getVisibleColumns();
 		const columnWidths = columns.map((column) => this.getColumnWidth(column));
@@ -3466,6 +3501,12 @@ var DataGrid = class DataGrid extends i$2 {
 		});
 		const columnRange = this.columnVirtualizer.getState();
 		const visibleColumns = columns.slice(columnRange.startIndex, columnRange.endIndex);
+		this.reconcileActiveCell(count, columns.length);
+		const activeCellIsRendered = this.activeCell !== null && this.activeCell.rowIndex >= renderedRowStart && this.activeCell.rowIndex < renderedRowStart + rows.length && this.activeCell.columnIndex >= columnRange.startIndex && this.activeCell.columnIndex < columnRange.endIndex;
+		this.renderedActiveCellId = activeCellIsRendered && this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : null;
+		if (!activeCellIsRendered || this.renderedRowStart !== renderedRowStart || this.renderedColumnStart !== columnRange.startIndex) this.shouldFocusViewport = this.gridCellHasFocus;
+		this.renderedRowStart = renderedRowStart;
+		this.renderedColumnStart = columnRange.startIndex;
 		const visibleColumnWidths = columnWidths.slice(columnRange.startIndex, columnRange.endIndex);
 		const gridTemplate = [
 			...this.isRowHeaderVisible() ? [`${rowHeaderWidth}px`] : [],
@@ -3658,13 +3699,17 @@ var DataGrid = class DataGrid extends i$2 {
           aria-label=${this.ariaLabel || "Data grid"}
           aria-rowcount=${count + 1}
           aria-colcount=${columns.length + (this.isRowHeaderVisible() ? 1 : 0)}
-          aria-activedescendant=${this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : void 0}
+          aria-activedescendant=${this.renderedActiveCellId ?? A}
           aria-describedby=${`${this.gridId}-description`}
           aria-owns=${this.getHeaderRowId()}
           style=${`--grid-height: ${this.height}px;`}
           tabindex="0"
           @scroll=${this.handleScroll}
           @focus=${this.handleViewportFocus}
+          @focusin=${this.handleGridFocusIn}
+          @focusout=${() => {
+			this.gridCellHasFocus = false;
+		}}
 
           @keydown=${this.handleKeyDown}
           @click=${() => this.closeHeaderMenu()}
@@ -3676,7 +3721,7 @@ var DataGrid = class DataGrid extends i$2 {
               style=${`--offset-top: ${displayOffsetTop}px; padding-bottom: ${displayBottomPadding}px;`}
             >
               ${rows.map((row, index) => {
-			const rowIndex = range.startIndex + index;
+			const rowIndex = renderedRowStart + index;
 			const height = this.getRowHeight(rowIndex);
 			return b`
                                     <div

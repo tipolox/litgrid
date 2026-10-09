@@ -134,6 +134,11 @@ export class DataGrid extends LitElement {
     private activeCell: ActiveCell | null = null
 
   private shouldFocusActiveCell = false
+  private gridCellHasFocus = false
+  private shouldFocusViewport = false
+  private renderedActiveCellId: string | null = null
+  private renderedRowStart = 0
+  private renderedColumnStart = 0
   private headerMenuTrigger: HTMLButtonElement | null = null
   private shouldFocusHeaderMenu = false
   private shouldRestoreHeaderMenuFocus = false
@@ -698,6 +703,10 @@ export class DataGrid extends LitElement {
       updated() {
     this.updateScrollbarWidth()
 
+    if (this.shouldFocusViewport) {
+      this.shouldFocusViewport = false
+      this.viewportElement?.focus({ preventScroll: true })
+    }
     this.focusActiveCell()
     this.focusHeaderMenu()
 
@@ -736,6 +745,7 @@ export class DataGrid extends LitElement {
       viewportElement.removeEventListener('scroll', this.handleScroll)
     }
     this.headerRowElement = null
+    this.viewportElement = null
     if (this.measureContainer && this.measureContainer.parentNode) {
       this.measureContainer.parentNode.removeChild(this.measureContainer)
     }
@@ -773,6 +783,7 @@ export class DataGrid extends LitElement {
     if (!(viewport instanceof HTMLElement)) {
       return
     }
+    this.viewportElement = viewport
 
     const nextWidth = viewport.offsetWidth - viewport.clientWidth
     const nextViewportWidth = viewport.clientWidth
@@ -1243,12 +1254,17 @@ export class DataGrid extends LitElement {
   }
 
   private handleViewportFocus(event: FocusEvent) {
-    if (event.target !== event.currentTarget || this.activeCell) {
+    if (event.target !== event.currentTarget || this.activeCell || this.engine.getRowCount() === 0 || this.getVisibleColumns().length === 0) {
       return
     }
 
     this.setActiveCell(0, 0)
     this.requestUpdate()
+  }
+
+  private handleGridFocusIn(event: FocusEvent) {
+    const target = event.composedPath()[0]
+    this.gridCellHasFocus = target instanceof HTMLElement && target.classList.contains('cell')
   }
 
   private announceScreenReader(message: string) {
@@ -2089,8 +2105,23 @@ export class DataGrid extends LitElement {
     this.announceActiveCell()
   }
 
+  private reconcileActiveCell(rowCount: number, columnCount: number) {
+    if (!this.activeCell) return
+    if (rowCount === 0 || columnCount === 0) {
+      this.activeCell = null
+      this.shouldFocusActiveCell = false
+      return
+    }
+    const rowIndex = Math.min(this.activeCell.rowIndex, rowCount - 1)
+    const columnIndex = Math.min(this.activeCell.columnIndex, columnCount - 1)
+    if (rowIndex !== this.activeCell.rowIndex || columnIndex !== this.activeCell.columnIndex) {
+      this.activeCell = { rowIndex, columnIndex }
+      this.shouldFocusActiveCell = this.gridCellHasFocus
+    }
+  }
+
   private focusActiveCell() {
-    if (!this.shouldFocusActiveCell || !this.activeCell) {
+    if (!this.shouldFocusActiveCell || !this.activeCell || !this.renderedActiveCellId) {
       return
     }
 
@@ -2288,6 +2319,7 @@ export class DataGrid extends LitElement {
 
         const rowCount = this.engine.getRowCount()
     const columnCount = this.getVisibleColumns().length
+    this.reconcileActiveCell(rowCount, columnCount)
     if (rowCount === 0 || columnCount === 0) {
       return
     }
@@ -2704,6 +2736,7 @@ export class DataGrid extends LitElement {
     }
     // Ensure start/end indices are within valid bounds to avoid empty renders
     const safeStartIndex = Math.max(0, Math.min(range.startIndex, Math.max(0, count)))
+    let renderedRowStart = safeStartIndex
     const safeEndIndex = Math.max(safeStartIndex, Math.min(range.endIndex, count))
     let rows = this.engine.getVisibleRows(safeStartIndex, safeEndIndex)
     if (rows.length === 0 && count > 0) {
@@ -2713,6 +2746,7 @@ export class DataGrid extends LitElement {
       const fallbackStart = Math.max(0, count - visibleCountFallback)
       const fallbackEnd = count
       rows = this.engine.getVisibleRows(fallbackStart, fallbackEnd)
+      renderedRowStart = fallbackStart
     }
         const columns = this.getVisibleColumns()
     const columnWidths = columns.map((column) => this.getColumnWidth(column))
@@ -2726,6 +2760,23 @@ export class DataGrid extends LitElement {
 
     const columnRange = this.columnVirtualizer.getState()
     const visibleColumns = columns.slice(columnRange.startIndex, columnRange.endIndex)
+    this.reconcileActiveCell(count, columns.length)
+    const activeCellIsRendered = this.activeCell !== null
+      && this.activeCell.rowIndex >= renderedRowStart
+      && this.activeCell.rowIndex < renderedRowStart + rows.length
+      && this.activeCell.columnIndex >= columnRange.startIndex
+      && this.activeCell.columnIndex < columnRange.endIndex
+    this.renderedActiveCellId = activeCellIsRendered && this.activeCell
+      ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex)
+      : null
+    if (!activeCellIsRendered || this.renderedRowStart !== renderedRowStart || this.renderedColumnStart !== columnRange.startIndex) {
+      // Preserve logical navigation when the cell leaves either rendered range.
+      // A focused node can also be reused for another cell when the range moves.
+      // Hand off once; later scroll renders don't touch focus on the viewport.
+      this.shouldFocusViewport = this.gridCellHasFocus
+    }
+    this.renderedRowStart = renderedRowStart
+    this.renderedColumnStart = columnRange.startIndex
     const visibleColumnWidths = columnWidths.slice(
       columnRange.startIndex,
       columnRange.endIndex
@@ -2966,13 +3017,15 @@ export class DataGrid extends LitElement {
           aria-label=${this.ariaLabel || 'Data grid'}
           aria-rowcount=${count + 1}
           aria-colcount=${columns.length + (this.isRowHeaderVisible() ? 1 : 0)}
-          aria-activedescendant=${this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : undefined}
+          aria-activedescendant=${this.renderedActiveCellId ?? nothing}
           aria-describedby=${`${this.gridId}-description`}
           aria-owns=${this.getHeaderRowId()}
           style=${`--grid-height: ${this.height}px;`}
           tabindex="0"
           @scroll=${this.handleScroll}
           @focus=${this.handleViewportFocus}
+          @focusin=${this.handleGridFocusIn}
+          @focusout=${() => { this.gridCellHasFocus = false }}
 
           @keydown=${this.handleKeyDown}
           @click=${() => this.closeHeaderMenu()}
@@ -2984,7 +3037,7 @@ export class DataGrid extends LitElement {
               style=${`--offset-top: ${displayOffsetTop}px; padding-bottom: ${displayBottomPadding}px;`}
             >
               ${rows.map((row, index) => {
-                const rowIndex = range.startIndex + index
+                const rowIndex = renderedRowStart + index
                 const height = this.getRowHeight(rowIndex)
 
                 return html`
