@@ -1,5 +1,5 @@
 // src/components/DataGrid.ts
-import { LitElement, css, html, render as litRender } from 'lit'
+import { LitElement, css, html, nothing, render as litRender } from 'lit'
 import { cache } from 'lit/directives/cache.js'
 import {
   createGridEngine,
@@ -2940,6 +2940,7 @@ export class DataGrid extends LitElement {
                 <div
                     class="viewport"
           role="grid"
+          aria-multiselectable=${['multi-row', 'multi-cell'].includes(this.engine.getConfig().selection.mode) ? 'true' : nothing}
           aria-label=${this.ariaLabel || 'Data grid'}
           aria-rowcount=${count + 1}
           aria-colcount=${columns.length + (this.isRowHeaderVisible() ? 1 : 0)}

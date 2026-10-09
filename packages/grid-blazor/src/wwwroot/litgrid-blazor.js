@@ -3645,6 +3645,7 @@ var DataGrid = class DataGrid extends i$2 {
                 <div
                     class="viewport"
           role="grid"
+          aria-multiselectable=${["multi-row", "multi-cell"].includes(this.engine.getConfig().selection.mode) ? "true" : A}
           aria-label=${this.ariaLabel || "Data grid"}
           aria-rowcount=${count + 1}
           aria-colcount=${columns.length + (this.isRowHeaderVisible() ? 1 : 0)}
