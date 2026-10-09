@@ -2529,7 +2529,11 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	getScreenReaderDescription() {
-		return this.ariaDescription || "Use arrow keys to move between cells. Press F2 to interact with controls in a cell and Escape to return to cell navigation. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.";
+		if (this.ariaDescription) return this.ariaDescription;
+		const mode = this.engine.getConfig().selection.mode;
+		const navigation = "Use arrow keys to move between cells. Press F2 to interact with controls in a cell and Escape to return to cell navigation.";
+		if (mode === "none") return navigation;
+		return `${navigation} ${mode === "multi-row" ? "Press Enter or Space to select a row. Hold Control or Command to toggle a row, or Shift to select a range of rows." : mode === "multi-cell" ? "Press Enter or Space to toggle a cell." : `Press Enter or Space to select a ${mode === "row" ? "row" : "cell"}.`} Press Control or Command C to copy selected cells or rows.`;
 	}
 	getColumnLabel(columnKey) {
 		return (this.getVisibleColumns().find((item) => item.key === columnKey) ?? this.getResolvedColumns().find((item) => item.key === columnKey))?.header ?? columnKey;
@@ -2547,8 +2551,9 @@ var DataGrid = class DataGrid extends i$2 {
 	announceActiveCell() {
 		this.announceScreenReader(this.getActiveCellAnnouncement());
 	}
-	announceRowSelection(rowIndex) {
-		this.announceScreenReader(`Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? "selected" : "deselected"}.`);
+	announceRowSelection(rowIndex, intent = "replace") {
+		const anchor = this.engine.getSelection().anchorRowIndex ?? rowIndex;
+		this.announceScreenReader(intent === "range" && anchor !== rowIndex ? `Rows ${Math.min(anchor, rowIndex) + 1} through ${Math.max(anchor, rowIndex) + 1} selected.` : `Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? "selected" : "deselected"}.`);
 	}
 	announceCellSelection(rowIndex, columnKey) {
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)}, row ${rowIndex + 1} ${this.engine.isCellSelected(rowIndex, columnKey) ? "selected" : "deselected"}.`);
@@ -2763,18 +2768,26 @@ var DataGrid = class DataGrid extends i$2 {
 		return this.engine.getTotalRowCount();
 	}
 	selectRow(rowIndex, intent) {
-		this.engine.selectRow(rowIndex, intent);
-		this.announceRowSelection(rowIndex);
+		if (!this.isRowSelectionMode() || !Number.isInteger(rowIndex) || rowIndex < 0 || rowIndex >= this.engine.getRowCount()) return;
+		const effectiveIntent = this.engine.getConfig().selection.mode === "row" ? "replace" : intent ?? "replace";
+		const previous = this.engine.getSelection();
+		const unchanged = effectiveIntent === "range" ? previous.rowIndex === rowIndex && previous.rowIndexes.size === Math.abs((previous.anchorRowIndex ?? rowIndex) - rowIndex) + 1 : effectiveIntent === "replace" && previous.rowIndexes.size === 1 && previous.rowIndexes.has(rowIndex);
+		this.engine.selectRow(rowIndex, effectiveIntent);
+		if (!unchanged) this.announceRowSelection(rowIndex, effectiveIntent);
 		this.requestUpdate();
 	}
 	selectAllRows() {
+		if (this.engine.getConfig().selection.mode !== "multi-row" || this.engine.getRowCount() === 0) return;
+		const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getRowCount();
 		this.engine.selectAllRows();
-		this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`);
+		if (!unchanged) this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`);
 		this.requestUpdate();
 	}
 	clearSelection() {
+		const previous = this.engine.getSelection();
+		const hadSelection = previous.rowIndexes.size > 0 || previous.cells.size > 0;
 		this.engine.clearSelection();
-		this.announceScreenReader("Selection cleared.");
+		if (hadSelection) this.announceScreenReader("Selection cleared.");
 		this.requestUpdate();
 	}
 	getSelection() {
@@ -3172,15 +3185,14 @@ var DataGrid = class DataGrid extends i$2 {
 				const column = this.getVisibleColumns()[activeCell.columnIndex];
 				if (column) {
 					event.preventDefault();
+					const unchanged = this.engine.getConfig().selection.mode === "cell" && this.engine.isCellSelected(activeCell.rowIndex, column.key);
 					this.engine.selectCell(activeCell.rowIndex, column.key);
-					this.announceCellSelection(activeCell.rowIndex, column.key);
+					if (!unchanged) this.announceCellSelection(activeCell.rowIndex, column.key);
 					this.requestUpdate();
 				}
 			} else if (this.isRowSelectionMode()) {
 				event.preventDefault();
-				this.engine.selectRow(activeCell.rowIndex, this.getRowSelectionIntent(event));
-				this.announceRowSelection(activeCell.rowIndex);
-				this.requestUpdate();
+				this.selectRow(activeCell.rowIndex, this.getRowSelectionIntent(event));
 			}
 			return;
 		}
@@ -3255,9 +3267,7 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	handleRowClick(event, rowIndex) {
 		if (!this.isRowSelectionMode()) return;
-		this.engine.selectRow(rowIndex, this.getRowSelectionIntent(event));
-		this.announceRowSelection(rowIndex);
-		this.requestUpdate();
+		this.selectRow(rowIndex, this.getRowSelectionIntent(event));
 	}
 	handleRowMouseDown(event) {
 		if (this.isRowSelectionMode() && event.shiftKey) event.preventDefault();
@@ -3269,8 +3279,9 @@ var DataGrid = class DataGrid extends i$2 {
 			return;
 		}
 		event.stopPropagation();
+		const unchanged = this.engine.getConfig().selection.mode === "cell" && this.engine.isCellSelected(rowIndex, column.key);
 		this.engine.selectCell(rowIndex, column.key);
-		this.announceCellSelection(rowIndex, column.key);
+		if (!unchanged) this.announceCellSelection(rowIndex, column.key);
 		this.requestUpdate();
 	}
 	renderCell(column, row, rowIndex) {
@@ -3325,9 +3336,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	handleRowCheckboxChange(rowIndex) {
-		this.engine.selectRow(rowIndex, "toggle");
-		this.announceRowSelection(rowIndex);
-		this.requestUpdate();
+		this.selectRow(rowIndex, "toggle");
 	}
 	getDisplayedSelectedRowCount() {
 		const rowCount = this.engine.getRowCount();
