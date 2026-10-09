@@ -1165,7 +1165,7 @@ export class DataGrid extends LitElement {
       this.columnChooserOpen = false
       this.columnChooserPosition = null
       this.shouldFocusHeaderMenu = false
-      this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null
+      this.shouldRestoreHeaderMenuFocus = restoreFocus
       this.requestUpdate()
     }
 
@@ -1176,6 +1176,9 @@ export class DataGrid extends LitElement {
       }
 
             if (event?.currentTarget instanceof HTMLElement) {
+        if (!this.activeHeaderMenu && event.currentTarget instanceof HTMLButtonElement) {
+          this.headerMenuTrigger = event.currentTarget
+        }
         const shell = this.renderRoot.querySelector('.shell') as HTMLElement | null
         const menu = event.currentTarget.closest('.header-menu') as HTMLElement | null
         const anchorBounds = (menu ?? event.currentTarget).getBoundingClientRect()
@@ -1201,14 +1204,18 @@ export class DataGrid extends LitElement {
     this.columnChooserOpen = false
     this.columnChooserPosition = null
     this.shouldFocusHeaderMenu = false
-    this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null
+    this.shouldRestoreHeaderMenuFocus = restoreFocus
     this.requestUpdate()
   }
 
   private focusHeaderMenu() {
     if (this.shouldRestoreHeaderMenuFocus) {
       this.shouldRestoreHeaderMenuFocus = false
-      this.headerMenuTrigger?.focus()
+      const target = this.headerMenuTrigger?.isConnected
+        ? this.headerMenuTrigger
+        : this.renderRoot.querySelector<HTMLElement>('.header-action-button, .columns-button')
+          ?? this.viewportElement
+      target?.focus()
       this.headerMenuTrigger = null
       return
     }
@@ -1304,31 +1311,31 @@ export class DataGrid extends LitElement {
     this.engine.sortBy(columnKey, 'asc')
     this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`)
     this.requestUpdate()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleSortDescending(columnKey: string) {
     this.engine.sortBy(columnKey, 'desc')
     this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`)
     this.requestUpdate()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleClearSort() {
     this.engine.clearSort()
     this.announceScreenReader('Sorting cleared.')
     this.requestUpdate()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleBestFit(columnKey: string) {
     this.bestFitColumn(columnKey)
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleBestFitAllColumns() {
     this.bestFitAllColumns()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private getTextMeasureContext() {
@@ -1514,7 +1521,7 @@ export class DataGrid extends LitElement {
 
   private toggleQuickSearch() {
     this.quickSearchVisible = !this.quickSearchVisible
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleQuickSearchInput(query: string) {
@@ -1670,12 +1677,12 @@ export class DataGrid extends LitElement {
       ...filter,
       value: this.isValueFreeFilter(filter.operator) ? undefined : filter.value
     })
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private clearHeaderFilter(columnKey: string) {
     this.clearFilter(columnKey)
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private isColumnFiltered(columnKey: string) {
@@ -2927,7 +2934,7 @@ export class DataGrid extends LitElement {
         </div>
                 ${visibleColumns.length === 0
           ? html`<div class="column-chooser-empty">
-              <button type="button" @click=${() => this.toggleColumnChooser()}>Columns</button>
+              <button class="columns-button" type="button" @click=${(event: MouseEvent) => this.toggleColumnChooser(event)}>Columns</button>
             </div>`
           : ''}
                 <div

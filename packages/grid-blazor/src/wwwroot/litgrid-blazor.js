@@ -2466,7 +2466,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.columnChooserOpen = false;
 		this.columnChooserPosition = null;
 		this.shouldFocusHeaderMenu = false;
-		this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null;
+		this.shouldRestoreHeaderMenuFocus = restoreFocus;
 		this.requestUpdate();
 	}
 	toggleColumnChooser(event) {
@@ -2475,6 +2475,7 @@ var DataGrid = class DataGrid extends i$2 {
 			return;
 		}
 		if (event?.currentTarget instanceof HTMLElement) {
+			if (!this.activeHeaderMenu && event.currentTarget instanceof HTMLButtonElement) this.headerMenuTrigger = event.currentTarget;
 			const shell = this.renderRoot.querySelector(".shell");
 			const anchorBounds = (event.currentTarget.closest(".header-menu") ?? event.currentTarget).getBoundingClientRect();
 			const shellBounds = shell?.getBoundingClientRect();
@@ -2493,13 +2494,13 @@ var DataGrid = class DataGrid extends i$2 {
 		this.columnChooserOpen = false;
 		this.columnChooserPosition = null;
 		this.shouldFocusHeaderMenu = false;
-		this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null;
+		this.shouldRestoreHeaderMenuFocus = restoreFocus;
 		this.requestUpdate();
 	}
 	focusHeaderMenu() {
 		if (this.shouldRestoreHeaderMenuFocus) {
 			this.shouldRestoreHeaderMenuFocus = false;
-			this.headerMenuTrigger?.focus();
+			(this.headerMenuTrigger?.isConnected ? this.headerMenuTrigger : this.renderRoot.querySelector(".header-action-button, .columns-button") ?? this.viewportElement)?.focus();
 			this.headerMenuTrigger = null;
 			return;
 		}
@@ -2560,27 +2561,27 @@ var DataGrid = class DataGrid extends i$2 {
 		this.engine.sortBy(columnKey, "asc");
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`);
 		this.requestUpdate();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleSortDescending(columnKey) {
 		this.engine.sortBy(columnKey, "desc");
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`);
 		this.requestUpdate();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleClearSort() {
 		this.engine.clearSort();
 		this.announceScreenReader("Sorting cleared.");
 		this.requestUpdate();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleBestFit(columnKey) {
 		this.bestFitColumn(columnKey);
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleBestFitAllColumns() {
 		this.bestFitAllColumns();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	getTextMeasureContext() {
 		if (this.textMeasureContext) return this.textMeasureContext;
@@ -2706,7 +2707,7 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	toggleQuickSearch() {
 		this.quickSearchVisible = !this.quickSearchVisible;
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleQuickSearchInput(query) {
 		this.quickSearchDraft = query;
@@ -2829,11 +2830,11 @@ var DataGrid = class DataGrid extends i$2 {
 			...filter,
 			value: this.isValueFreeFilter(filter.operator) ? void 0 : filter.value
 		});
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	clearHeaderFilter(columnKey) {
 		this.clearFilter(columnKey);
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	isColumnFiltered(columnKey) {
 		return this.engine.getFilters().some((filter) => filter.columnKey === columnKey);
@@ -3639,7 +3640,7 @@ var DataGrid = class DataGrid extends i$2 {
           <div class="header-gutter"></div>
         </div>
                 ${visibleColumns.length === 0 ? b`<div class="column-chooser-empty">
-              <button type="button" @click=${() => this.toggleColumnChooser()}>Columns</button>
+              <button class="columns-button" type="button" @click=${(event) => this.toggleColumnChooser(event)}>Columns</button>
             </div>` : ""}
                 <div
                     class="viewport"
