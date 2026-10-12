@@ -1355,6 +1355,7 @@ function isGridColumnState(value) {
 }
 //#endregion
 //#region ../grid-web/dist/components/DataGrid.js
+var CELL_CONTROL_SELECTOR = "a[href], area[href], button, input, select, textarea, summary, audio[controls], video[controls], [tabindex], [contenteditable]:not([contenteditable=\"false\"])";
 var FILTER_OPERATORS = [
 	{
 		value: "contains",
@@ -1481,6 +1482,11 @@ var DataGrid = class DataGrid extends i$2 {
 		this.headerRowElement = null;
 		this.activeCell = null;
 		this.shouldFocusActiveCell = false;
+		this.gridCellHasFocus = false;
+		this.shouldFocusViewport = false;
+		this.renderedActiveCellId = null;
+		this.renderedRowStart = 0;
+		this.renderedColumnStart = 0;
 		this.headerMenuTrigger = null;
 		this.shouldFocusHeaderMenu = false;
 		this.shouldRestoreHeaderMenuFocus = false;
@@ -2129,6 +2135,10 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	updated() {
 		this.updateScrollbarWidth();
+		if (this.shouldFocusViewport) {
+			this.shouldFocusViewport = false;
+			this.viewportElement?.focus({ preventScroll: true });
+		}
 		this.focusActiveCell();
 		this.focusHeaderMenu();
 		try {
@@ -2151,6 +2161,7 @@ var DataGrid = class DataGrid extends i$2 {
 		const viewportElement = this.renderRoot.querySelector(".viewport");
 		if (viewportElement) viewportElement.removeEventListener("scroll", this.handleScroll);
 		this.headerRowElement = null;
+		this.viewportElement = null;
 		if (this.measureContainer && this.measureContainer.parentNode) this.measureContainer.parentNode.removeChild(this.measureContainer);
 		this.measureContainer = null;
 		if (super.disconnectedCallback) super.disconnectedCallback();
@@ -2173,6 +2184,7 @@ var DataGrid = class DataGrid extends i$2 {
 	updateScrollbarWidth() {
 		const viewport = this.renderRoot.querySelector(".viewport");
 		if (!(viewport instanceof HTMLElement)) return;
+		this.viewportElement = viewport;
 		const nextWidth = viewport.offsetWidth - viewport.clientWidth;
 		const nextViewportWidth = viewport.clientWidth;
 		if (nextWidth !== this.scrollbarWidth || nextViewportWidth !== this.viewportWidth) {
@@ -2465,7 +2477,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.columnChooserOpen = false;
 		this.columnChooserPosition = null;
 		this.shouldFocusHeaderMenu = false;
-		this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null;
+		this.shouldRestoreHeaderMenuFocus = restoreFocus;
 		this.requestUpdate();
 	}
 	toggleColumnChooser(event) {
@@ -2474,6 +2486,7 @@ var DataGrid = class DataGrid extends i$2 {
 			return;
 		}
 		if (event?.currentTarget instanceof HTMLElement) {
+			if (!this.activeHeaderMenu && event.currentTarget instanceof HTMLButtonElement) this.headerMenuTrigger = event.currentTarget;
 			const shell = this.renderRoot.querySelector(".shell");
 			const anchorBounds = (event.currentTarget.closest(".header-menu") ?? event.currentTarget).getBoundingClientRect();
 			const shellBounds = shell?.getBoundingClientRect();
@@ -2492,13 +2505,13 @@ var DataGrid = class DataGrid extends i$2 {
 		this.columnChooserOpen = false;
 		this.columnChooserPosition = null;
 		this.shouldFocusHeaderMenu = false;
-		this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null;
+		this.shouldRestoreHeaderMenuFocus = restoreFocus;
 		this.requestUpdate();
 	}
 	focusHeaderMenu() {
 		if (this.shouldRestoreHeaderMenuFocus) {
 			this.shouldRestoreHeaderMenuFocus = false;
-			this.headerMenuTrigger?.focus();
+			(this.headerMenuTrigger?.isConnected ? this.headerMenuTrigger : this.renderRoot.querySelector(".header-action-button, .columns-button") ?? this.viewportElement)?.focus();
 			this.headerMenuTrigger = null;
 			return;
 		}
@@ -2516,9 +2529,13 @@ var DataGrid = class DataGrid extends i$2 {
 		this.closeHeaderMenu(true);
 	}
 	handleViewportFocus(event) {
-		if (event.target !== event.currentTarget || this.activeCell) return;
+		if (event.target !== event.currentTarget || this.activeCell || this.engine.getRowCount() === 0 || this.getVisibleColumns().length === 0) return;
 		this.setActiveCell(0, 0);
 		this.requestUpdate();
+	}
+	handleGridFocusIn(event) {
+		const target = event.composedPath()[0];
+		this.gridCellHasFocus = target instanceof HTMLElement && target.classList.contains("cell");
 	}
 	announceScreenReader(message) {
 		if (!this.screenReaderAnnouncements || !message || message === this.lastScreenReaderAnnouncement) return;
@@ -2527,7 +2544,11 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	getScreenReaderDescription() {
-		return this.ariaDescription || "Use arrow keys to move between cells. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.";
+		if (this.ariaDescription) return this.ariaDescription;
+		const mode = this.engine.getConfig().selection.mode;
+		const navigation = "Use arrow keys to move between cells. Press F2 to interact with controls in a cell and Escape to return to cell navigation.";
+		if (mode === "none") return navigation;
+		return `${navigation} ${mode === "multi-row" ? "Press Enter or Space to select a row. Hold Control or Command to toggle a row, or Shift to select a range of rows." : mode === "multi-cell" ? "Press Enter or Space to toggle a cell." : `Press Enter or Space to select a ${mode === "row" ? "row" : "cell"}.`} Press Control or Command C to copy selected cells or rows.`;
 	}
 	getColumnLabel(columnKey) {
 		return (this.getVisibleColumns().find((item) => item.key === columnKey) ?? this.getResolvedColumns().find((item) => item.key === columnKey))?.header ?? columnKey;
@@ -2545,8 +2566,9 @@ var DataGrid = class DataGrid extends i$2 {
 	announceActiveCell() {
 		this.announceScreenReader(this.getActiveCellAnnouncement());
 	}
-	announceRowSelection(rowIndex) {
-		this.announceScreenReader(`Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? "selected" : "deselected"}.`);
+	announceRowSelection(rowIndex, intent = "replace") {
+		const anchor = this.engine.getSelection().anchorRowIndex ?? rowIndex;
+		this.announceScreenReader(intent === "range" && anchor !== rowIndex ? `Rows ${Math.min(anchor, rowIndex) + 1} through ${Math.max(anchor, rowIndex) + 1} selected.` : `Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? "selected" : "deselected"}.`);
 	}
 	announceCellSelection(rowIndex, columnKey) {
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)}, row ${rowIndex + 1} ${this.engine.isCellSelected(rowIndex, columnKey) ? "selected" : "deselected"}.`);
@@ -2559,27 +2581,27 @@ var DataGrid = class DataGrid extends i$2 {
 		this.engine.sortBy(columnKey, "asc");
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`);
 		this.requestUpdate();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleSortDescending(columnKey) {
 		this.engine.sortBy(columnKey, "desc");
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`);
 		this.requestUpdate();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleClearSort() {
 		this.engine.clearSort();
 		this.announceScreenReader("Sorting cleared.");
 		this.requestUpdate();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleBestFit(columnKey) {
 		this.bestFitColumn(columnKey);
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleBestFitAllColumns() {
 		this.bestFitAllColumns();
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	getTextMeasureContext() {
 		if (this.textMeasureContext) return this.textMeasureContext;
@@ -2705,7 +2727,7 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	toggleQuickSearch() {
 		this.quickSearchVisible = !this.quickSearchVisible;
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	handleQuickSearchInput(query) {
 		this.quickSearchDraft = query;
@@ -2761,18 +2783,26 @@ var DataGrid = class DataGrid extends i$2 {
 		return this.engine.getTotalRowCount();
 	}
 	selectRow(rowIndex, intent) {
-		this.engine.selectRow(rowIndex, intent);
-		this.announceRowSelection(rowIndex);
+		if (!this.isRowSelectionMode() || !Number.isInteger(rowIndex) || rowIndex < 0 || rowIndex >= this.engine.getRowCount()) return;
+		const effectiveIntent = this.engine.getConfig().selection.mode === "row" ? "replace" : intent ?? "replace";
+		const previous = this.engine.getSelection();
+		const unchanged = effectiveIntent === "range" ? previous.rowIndex === rowIndex && previous.rowIndexes.size === Math.abs((previous.anchorRowIndex ?? rowIndex) - rowIndex) + 1 : effectiveIntent === "replace" && previous.rowIndexes.size === 1 && previous.rowIndexes.has(rowIndex);
+		this.engine.selectRow(rowIndex, effectiveIntent);
+		if (!unchanged) this.announceRowSelection(rowIndex, effectiveIntent);
 		this.requestUpdate();
 	}
 	selectAllRows() {
+		if (this.engine.getConfig().selection.mode !== "multi-row" || this.engine.getRowCount() === 0) return;
+		const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getRowCount();
 		this.engine.selectAllRows();
-		this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`);
+		if (!unchanged) this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`);
 		this.requestUpdate();
 	}
 	clearSelection() {
+		const previous = this.engine.getSelection();
+		const hadSelection = previous.rowIndexes.size > 0 || previous.cells.size > 0;
 		this.engine.clearSelection();
-		this.announceScreenReader("Selection cleared.");
+		if (hadSelection) this.announceScreenReader("Selection cleared.");
 		this.requestUpdate();
 	}
 	getSelection() {
@@ -2828,11 +2858,11 @@ var DataGrid = class DataGrid extends i$2 {
 			...filter,
 			value: this.isValueFreeFilter(filter.operator) ? void 0 : filter.value
 		});
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	clearHeaderFilter(columnKey) {
 		this.clearFilter(columnKey);
-		this.closeHeaderMenu();
+		this.closeHeaderMenu(true);
 	}
 	isColumnFiltered(columnKey) {
 		return this.engine.getFilters().some((filter) => filter.columnKey === columnKey);
@@ -3020,8 +3050,25 @@ var DataGrid = class DataGrid extends i$2 {
 		this.shouldFocusActiveCell = shouldFocus;
 		this.announceActiveCell();
 	}
+	reconcileActiveCell(rowCount, columnCount) {
+		if (!this.activeCell) return;
+		if (rowCount === 0 || columnCount === 0) {
+			this.activeCell = null;
+			this.shouldFocusActiveCell = false;
+			return;
+		}
+		const rowIndex = Math.min(this.activeCell.rowIndex, rowCount - 1);
+		const columnIndex = Math.min(this.activeCell.columnIndex, columnCount - 1);
+		if (rowIndex !== this.activeCell.rowIndex || columnIndex !== this.activeCell.columnIndex) {
+			this.activeCell = {
+				rowIndex,
+				columnIndex
+			};
+			this.shouldFocusActiveCell = this.gridCellHasFocus;
+		}
+	}
 	focusActiveCell() {
-		if (!this.shouldFocusActiveCell || !this.activeCell) return;
+		if (!this.shouldFocusActiveCell || !this.activeCell || !this.renderedActiveCellId) return;
 		const cell = this.renderRoot.querySelector(`.cell[data-row-index="${this.activeCell.rowIndex}"][data-column-index="${this.activeCell.columnIndex}"]`);
 		if (cell) {
 			this.shouldFocusActiveCell = false;
@@ -3089,30 +3136,96 @@ var DataGrid = class DataGrid extends i$2 {
 		if (columnLeft < viewport.scrollLeft) viewport.scrollLeft = columnLeft;
 		else if (columnRight > viewport.scrollLeft + bodyViewportWidth) viewport.scrollLeft = Math.max(0, columnRight - bodyViewportWidth);
 	}
+	getCellControls(cell) {
+		return Array.from(cell.querySelectorAll(CELL_CONTROL_SELECTOR)).filter((control) => !control.matches(":disabled, input[type=\"hidden\"]") && !control.closest("[hidden], [inert]"));
+	}
+	focusCellControl(control) {
+		control.focus({ preventScroll: true });
+		return control.getRootNode().activeElement === control;
+	}
+	syncInteractionCell(cell) {
+		const rowIndex = Number(cell.dataset.rowIndex);
+		const columnIndex = Number(cell.dataset.columnIndex);
+		if (this.activeCell?.rowIndex !== rowIndex || this.activeCell.columnIndex !== columnIndex) {
+			this.setActiveCell(rowIndex, columnIndex);
+			this.requestUpdate();
+		}
+	}
 	handleKeyDown(event) {
-		const target = event.target;
-		if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement) return;
+		if (event.defaultPrevented) return;
+		let owningCell;
+		let insideControl = false;
+		for (const target of event.composedPath()) {
+			if (!(target instanceof Element)) continue;
+			if (target.matches(".cell[role=\"gridcell\"]")) {
+				owningCell = target;
+				break;
+			}
+			if (target === event.currentTarget) break;
+			if (target.matches(CELL_CONTROL_SELECTOR)) insideControl = true;
+		}
+		if (insideControl) {
+			if (!owningCell) return;
+			if (event.key === "Escape") {
+				event.preventDefault();
+				event.stopPropagation();
+				this.syncInteractionCell(owningCell);
+				owningCell.focus({ preventScroll: true });
+				return;
+			}
+			const focused = this.renderRoot.activeElement;
+			if (event.key !== "Tab" || !focused || focused === owningCell || !owningCell.contains(focused)) return;
+			if (focused.shadowRoot?.activeElement) return;
+			const controls = this.getCellControls(owningCell).filter((control) => control.tabIndex >= 0 || control === focused || control.matches("[contenteditable]:not([tabindex])"));
+			const current = controls.indexOf(focused);
+			if (current < 0) return;
+			const direction = event.shiftKey ? -1 : 1;
+			for (let index = current + direction; index >= 0 && index < controls.length; index += direction) if (this.focusCellControl(controls[index])) {
+				event.preventDefault();
+				return;
+			}
+			this.syncInteractionCell(owningCell);
+			if (event.shiftKey) {
+				event.preventDefault();
+				owningCell.focus({ preventScroll: true });
+				return;
+			}
+		}
 		const rowCount = this.engine.getRowCount();
 		const columnCount = this.getVisibleColumns().length;
+		this.reconcileActiveCell(rowCount, columnCount);
 		if (rowCount === 0 || columnCount === 0) return;
-		if ((event.key === "Enter" || event.key === " ") && !event.ctrlKey && !event.metaKey && !event.altKey) {
+		if (event.key === "F2" && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+			const active = this.activeCell ?? {
+				rowIndex: 0,
+				columnIndex: 0
+			};
+			const cell = owningCell ?? this.renderRoot.querySelector(`.cell[data-row-index="${active.rowIndex}"][data-column-index="${active.columnIndex}"]`);
+			if (cell) {
+				for (const control of this.getCellControls(cell)) if (this.focusCellControl(control)) {
+					event.preventDefault();
+					break;
+				}
+			}
+			return;
+		}
+		if ((event.key === "Enter" || event.key === " ") && !event.altKey) {
 			const activeCell = this.activeCell ?? {
 				rowIndex: 0,
 				columnIndex: 0
 			};
-			if (this.isCellSelectionMode()) {
+			if (this.isCellSelectionMode() && !event.ctrlKey && !event.metaKey) {
 				const column = this.getVisibleColumns()[activeCell.columnIndex];
 				if (column) {
 					event.preventDefault();
+					const unchanged = this.engine.getConfig().selection.mode === "cell" && this.engine.isCellSelected(activeCell.rowIndex, column.key);
 					this.engine.selectCell(activeCell.rowIndex, column.key);
-					this.announceCellSelection(activeCell.rowIndex, column.key);
+					if (!unchanged) this.announceCellSelection(activeCell.rowIndex, column.key);
 					this.requestUpdate();
 				}
 			} else if (this.isRowSelectionMode()) {
 				event.preventDefault();
-				this.engine.selectRow(activeCell.rowIndex, "replace");
-				this.announceRowSelection(activeCell.rowIndex);
-				this.requestUpdate();
+				this.selectRow(activeCell.rowIndex, this.getRowSelectionIntent(event));
 			}
 			return;
 		}
@@ -3187,9 +3300,7 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	handleRowClick(event, rowIndex) {
 		if (!this.isRowSelectionMode()) return;
-		this.engine.selectRow(rowIndex, this.getRowSelectionIntent(event));
-		this.announceRowSelection(rowIndex);
-		this.requestUpdate();
+		this.selectRow(rowIndex, this.getRowSelectionIntent(event));
 	}
 	handleRowMouseDown(event) {
 		if (this.isRowSelectionMode() && event.shiftKey) event.preventDefault();
@@ -3201,8 +3312,9 @@ var DataGrid = class DataGrid extends i$2 {
 			return;
 		}
 		event.stopPropagation();
+		const unchanged = this.engine.getConfig().selection.mode === "cell" && this.engine.isCellSelected(rowIndex, column.key);
 		this.engine.selectCell(rowIndex, column.key);
-		this.announceCellSelection(rowIndex, column.key);
+		if (!unchanged) this.announceCellSelection(rowIndex, column.key);
 		this.requestUpdate();
 	}
 	renderCell(column, row, rowIndex) {
@@ -3247,7 +3359,6 @@ var DataGrid = class DataGrid extends i$2 {
     `;
 	}
 	set data(value) {
-		this.activeCell = null;
 		this.clearQuickSearchDebounce();
 		this.sourceRowCount = Array.isArray(value) ? value.length : 0;
 		this.engine.setData(value ?? []);
@@ -3257,9 +3368,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	handleRowCheckboxChange(rowIndex) {
-		this.engine.selectRow(rowIndex, "toggle");
-		this.announceRowSelection(rowIndex);
-		this.requestUpdate();
+		this.selectRow(rowIndex, "toggle");
 	}
 	getDisplayedSelectedRowCount() {
 		const rowCount = this.engine.getRowCount();
@@ -3286,12 +3395,13 @@ var DataGrid = class DataGrid extends i$2 {
 		this.requestUpdate();
 	}
 	set columns(value) {
-		this.activeCell = null;
+		const activeCell = this.activeCell;
 		this.sourceColumnDefs = Array.isArray(value) ? [...value] : [];
 		this.columnDefs = [...this.sourceColumnDefs];
 		this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key));
 		this.clearBestFitWidths();
 		this.restorePersistedColumnState();
+		this.activeCell = activeCell;
 		this.requestUpdate();
 	}
 	get columnStateStorageKey() {
@@ -3371,6 +3481,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.lastTotalSize = totalSize;
 		if (totalSizeChanged || !this.lastDisplayTotal) this.lastDisplayTotal = displayTotal;
 		const safeStartIndex = Math.max(0, Math.min(range.startIndex, Math.max(0, count)));
+		let renderedRowStart = safeStartIndex;
 		const safeEndIndex = Math.max(safeStartIndex, Math.min(range.endIndex, count));
 		let rows = this.engine.getVisibleRows(safeStartIndex, safeEndIndex);
 		if (rows.length === 0 && count > 0) {
@@ -3378,6 +3489,7 @@ var DataGrid = class DataGrid extends i$2 {
 			const fallbackStart = Math.max(0, count - visibleCountFallback);
 			const fallbackEnd = count;
 			rows = this.engine.getVisibleRows(fallbackStart, fallbackEnd);
+			renderedRowStart = fallbackStart;
 		}
 		const columns = this.getVisibleColumns();
 		const columnWidths = columns.map((column) => this.getColumnWidth(column));
@@ -3389,6 +3501,12 @@ var DataGrid = class DataGrid extends i$2 {
 		});
 		const columnRange = this.columnVirtualizer.getState();
 		const visibleColumns = columns.slice(columnRange.startIndex, columnRange.endIndex);
+		this.reconcileActiveCell(count, columns.length);
+		const activeCellIsRendered = this.activeCell !== null && this.activeCell.rowIndex >= renderedRowStart && this.activeCell.rowIndex < renderedRowStart + rows.length && this.activeCell.columnIndex >= columnRange.startIndex && this.activeCell.columnIndex < columnRange.endIndex;
+		this.renderedActiveCellId = activeCellIsRendered && this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : null;
+		if (!activeCellIsRendered || this.renderedRowStart !== renderedRowStart || this.renderedColumnStart !== columnRange.startIndex) this.shouldFocusViewport = this.gridCellHasFocus;
+		this.renderedRowStart = renderedRowStart;
+		this.renderedColumnStart = columnRange.startIndex;
 		const visibleColumnWidths = columnWidths.slice(columnRange.startIndex, columnRange.endIndex);
 		const gridTemplate = [
 			...this.isRowHeaderVisible() ? [`${rowHeaderWidth}px`] : [],
@@ -3572,21 +3690,26 @@ var DataGrid = class DataGrid extends i$2 {
           <div class="header-gutter"></div>
         </div>
                 ${visibleColumns.length === 0 ? b`<div class="column-chooser-empty">
-              <button type="button" @click=${() => this.toggleColumnChooser()}>Columns</button>
+              <button class="columns-button" type="button" @click=${(event) => this.toggleColumnChooser(event)}>Columns</button>
             </div>` : ""}
                 <div
                     class="viewport"
           role="grid"
+          aria-multiselectable=${["multi-row", "multi-cell"].includes(this.engine.getConfig().selection.mode) ? "true" : A}
           aria-label=${this.ariaLabel || "Data grid"}
           aria-rowcount=${count + 1}
           aria-colcount=${columns.length + (this.isRowHeaderVisible() ? 1 : 0)}
-          aria-activedescendant=${this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : void 0}
+          aria-activedescendant=${this.renderedActiveCellId ?? A}
           aria-describedby=${`${this.gridId}-description`}
           aria-owns=${this.getHeaderRowId()}
           style=${`--grid-height: ${this.height}px;`}
           tabindex="0"
           @scroll=${this.handleScroll}
           @focus=${this.handleViewportFocus}
+          @focusin=${this.handleGridFocusIn}
+          @focusout=${() => {
+			this.gridCellHasFocus = false;
+		}}
 
           @keydown=${this.handleKeyDown}
           @click=${() => this.closeHeaderMenu()}
@@ -3598,7 +3721,7 @@ var DataGrid = class DataGrid extends i$2 {
               style=${`--offset-top: ${displayOffsetTop}px; padding-bottom: ${displayBottomPadding}px;`}
             >
               ${rows.map((row, index) => {
-			const rowIndex = range.startIndex + index;
+			const rowIndex = renderedRowStart + index;
 			const height = this.getRowHeight(rowIndex);
 			return b`
                                     <div
@@ -3660,22 +3783,40 @@ var DataGrid = class DataGrid extends i$2 {
 if (!customElements.get("yc-grid")) customElements.define("yc-grid", DataGrid);
 //#endregion
 //#region src/gridBindings.ts
+var synchronizedInputs = /* @__PURE__ */ new WeakMap();
 function syncGridInputs(grid, inputs) {
 	grid.data = inputs.data;
 	grid.columns = inputs.columns;
-	grid.config = inputs.config;
-	grid.theme = inputs.theme;
-	grid.ariaLabel = inputs.ariaLabel;
-	grid.ariaDescription = inputs.ariaDescription;
-	grid.screenReaderAnnouncements = inputs.screenReaderAnnouncements;
-	grid.viewportHeight = inputs.height;
-	grid.virtualRowHeight = inputs.rowHeight;
-	grid.overscanCount = inputs.overscan;
-	grid.columnOverscanCount = inputs.columnOverscan;
-	grid.bestFitSampleSize = inputs.bestFitSampleSize;
-	grid.quickSearchDebounceThreshold = inputs.quickSearchDebounceThreshold;
-	grid.quickSearchDebounceMs = inputs.quickSearchDebounceMs;
-	grid.columnStateStorageKey = inputs.columnStateStorageKey ?? null;
+	const { data: _, columns: __, ...scalars } = inputs;
+	const values = {
+		...scalars,
+		columnStateStorageKey: inputs.columnStateStorageKey ?? null
+	};
+	const previous = synchronizedInputs.get(grid) ?? {};
+	const propertyNames = {
+		height: "viewportHeight",
+		rowHeight: "virtualRowHeight",
+		overscan: "overscanCount",
+		columnOverscan: "columnOverscanCount"
+	};
+	for (const [key, input] of Object.entries(values)) {
+		const value = key === "columnStateStorageKey" ? input ?? null : input;
+		const config = key === "config" ? input : void 0;
+		const comparison = config ? JSON.stringify([
+			config.selection?.mode ?? "none",
+			config.selection?.checkboxes ?? false,
+			config.rowHeader?.enabled ?? false,
+			config.rowHeader?.width ?? 56,
+			config.pagination?.enabled ?? false,
+			Number.isFinite(config.pagination?.pageSize) && config.pagination.pageSize > 0 ? Math.max(1, Math.floor(config.pagination.pageSize)) : 50,
+			Number.isFinite(config.pagination?.pageIndex) && config.pagination.pageIndex >= 0 ? Math.floor(config.pagination.pageIndex) : 0
+		]) : value;
+		if (!(key in previous) || previous[key] !== comparison) {
+			Reflect.set(grid, propertyNames[key] ?? key, value);
+			previous[key] = comparison;
+		}
+	}
+	synchronizedInputs.set(grid, previous);
 }
 //#endregion
 //#region src/index.ts

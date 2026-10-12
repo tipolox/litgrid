@@ -1,5 +1,5 @@
 // src/components/DataGrid.ts
-import { LitElement, css, html, render as litRender } from 'lit'
+import { LitElement, css, html, nothing, render as litRender } from 'lit'
 import { cache } from 'lit/directives/cache.js'
 import {
   createGridEngine,
@@ -31,6 +31,7 @@ import {
   type GridColumnState
 } from '../columnState/columnState.js'
 
+const CELL_CONTROL_SELECTOR = 'a[href], area[href], button, input, select, textarea, summary, audio[controls], video[controls], [tabindex], [contenteditable]:not([contenteditable="false"])'
 
 
 
@@ -133,6 +134,11 @@ export class DataGrid extends LitElement {
     private activeCell: ActiveCell | null = null
 
   private shouldFocusActiveCell = false
+  private gridCellHasFocus = false
+  private shouldFocusViewport = false
+  private renderedActiveCellId: string | null = null
+  private renderedRowStart = 0
+  private renderedColumnStart = 0
   private headerMenuTrigger: HTMLButtonElement | null = null
   private shouldFocusHeaderMenu = false
   private shouldRestoreHeaderMenuFocus = false
@@ -697,6 +703,10 @@ export class DataGrid extends LitElement {
       updated() {
     this.updateScrollbarWidth()
 
+    if (this.shouldFocusViewport) {
+      this.shouldFocusViewport = false
+      this.viewportElement?.focus({ preventScroll: true })
+    }
     this.focusActiveCell()
     this.focusHeaderMenu()
 
@@ -735,6 +745,7 @@ export class DataGrid extends LitElement {
       viewportElement.removeEventListener('scroll', this.handleScroll)
     }
     this.headerRowElement = null
+    this.viewportElement = null
     if (this.measureContainer && this.measureContainer.parentNode) {
       this.measureContainer.parentNode.removeChild(this.measureContainer)
     }
@@ -772,6 +783,7 @@ export class DataGrid extends LitElement {
     if (!(viewport instanceof HTMLElement)) {
       return
     }
+    this.viewportElement = viewport
 
     const nextWidth = viewport.offsetWidth - viewport.clientWidth
     const nextViewportWidth = viewport.clientWidth
@@ -1164,7 +1176,7 @@ export class DataGrid extends LitElement {
       this.columnChooserOpen = false
       this.columnChooserPosition = null
       this.shouldFocusHeaderMenu = false
-      this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null
+      this.shouldRestoreHeaderMenuFocus = restoreFocus
       this.requestUpdate()
     }
 
@@ -1175,6 +1187,9 @@ export class DataGrid extends LitElement {
       }
 
             if (event?.currentTarget instanceof HTMLElement) {
+        if (!this.activeHeaderMenu && event.currentTarget instanceof HTMLButtonElement) {
+          this.headerMenuTrigger = event.currentTarget
+        }
         const shell = this.renderRoot.querySelector('.shell') as HTMLElement | null
         const menu = event.currentTarget.closest('.header-menu') as HTMLElement | null
         const anchorBounds = (menu ?? event.currentTarget).getBoundingClientRect()
@@ -1200,14 +1215,18 @@ export class DataGrid extends LitElement {
     this.columnChooserOpen = false
     this.columnChooserPosition = null
     this.shouldFocusHeaderMenu = false
-    this.shouldRestoreHeaderMenuFocus = restoreFocus && this.headerMenuTrigger !== null
+    this.shouldRestoreHeaderMenuFocus = restoreFocus
     this.requestUpdate()
   }
 
   private focusHeaderMenu() {
     if (this.shouldRestoreHeaderMenuFocus) {
       this.shouldRestoreHeaderMenuFocus = false
-      this.headerMenuTrigger?.focus()
+      const target = this.headerMenuTrigger?.isConnected
+        ? this.headerMenuTrigger
+        : this.renderRoot.querySelector<HTMLElement>('.header-action-button, .columns-button')
+          ?? this.viewportElement
+      target?.focus()
       this.headerMenuTrigger = null
       return
     }
@@ -1235,12 +1254,17 @@ export class DataGrid extends LitElement {
   }
 
   private handleViewportFocus(event: FocusEvent) {
-    if (event.target !== event.currentTarget || this.activeCell) {
+    if (event.target !== event.currentTarget || this.activeCell || this.engine.getRowCount() === 0 || this.getVisibleColumns().length === 0) {
       return
     }
 
     this.setActiveCell(0, 0)
     this.requestUpdate()
+  }
+
+  private handleGridFocusIn(event: FocusEvent) {
+    const target = event.composedPath()[0]
+    this.gridCellHasFocus = target instanceof HTMLElement && target.classList.contains('cell')
   }
 
   private announceScreenReader(message: string) {
@@ -1254,7 +1278,16 @@ export class DataGrid extends LitElement {
   }
 
   private getScreenReaderDescription() {
-    return this.ariaDescription || 'Use arrow keys to move between cells. Press Enter or Space to select. Press Control or Command C to copy selected cells or rows.'
+    if (this.ariaDescription) return this.ariaDescription
+    const mode = this.engine.getConfig().selection.mode
+    const navigation = 'Use arrow keys to move between cells. Press F2 to interact with controls in a cell and Escape to return to cell navigation.'
+    if (mode === 'none') return navigation
+    const selection = mode === 'multi-row'
+      ? 'Press Enter or Space to select a row. Hold Control or Command to toggle a row, or Shift to select a range of rows.'
+      : mode === 'multi-cell'
+        ? 'Press Enter or Space to toggle a cell.'
+        : `Press Enter or Space to select a ${mode === 'row' ? 'row' : 'cell'}.`
+    return `${navigation} ${selection} Press Control or Command C to copy selected cells or rows.`
   }
 
   private getColumnLabel(columnKey: string) {
@@ -1284,8 +1317,11 @@ export class DataGrid extends LitElement {
     this.announceScreenReader(this.getActiveCellAnnouncement())
   }
 
-  private announceRowSelection(rowIndex: number) {
-    this.announceScreenReader(`Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? 'selected' : 'deselected'}.`)
+  private announceRowSelection(rowIndex: number, intent: SelectionIntent = 'replace') {
+    const anchor = this.engine.getSelection().anchorRowIndex ?? rowIndex
+    this.announceScreenReader(intent === 'range' && anchor !== rowIndex
+      ? `Rows ${Math.min(anchor, rowIndex) + 1} through ${Math.max(anchor, rowIndex) + 1} selected.`
+      : `Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? 'selected' : 'deselected'}.`)
   }
 
   private announceCellSelection(rowIndex: number, columnKey: string) {
@@ -1303,31 +1339,31 @@ export class DataGrid extends LitElement {
     this.engine.sortBy(columnKey, 'asc')
     this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`)
     this.requestUpdate()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleSortDescending(columnKey: string) {
     this.engine.sortBy(columnKey, 'desc')
     this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`)
     this.requestUpdate()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleClearSort() {
     this.engine.clearSort()
     this.announceScreenReader('Sorting cleared.')
     this.requestUpdate()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleBestFit(columnKey: string) {
     this.bestFitColumn(columnKey)
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleBestFitAllColumns() {
     this.bestFitAllColumns()
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private getTextMeasureContext() {
@@ -1513,7 +1549,7 @@ export class DataGrid extends LitElement {
 
   private toggleQuickSearch() {
     this.quickSearchVisible = !this.quickSearchVisible
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private handleQuickSearchInput(query: string) {
@@ -1584,20 +1620,32 @@ export class DataGrid extends LitElement {
   }
 
   selectRow(rowIndex: number, intent?: SelectionIntent) {
-    this.engine.selectRow(rowIndex, intent)
-    this.announceRowSelection(rowIndex)
+    if (!this.isRowSelectionMode() || !Number.isInteger(rowIndex) || rowIndex < 0 || rowIndex >= this.engine.getRowCount()) return
+    const effectiveIntent = this.engine.getConfig().selection.mode === 'row' ? 'replace' : intent ?? 'replace'
+    const previous = this.engine.getSelection()
+    // The engine's range operation always produces a contiguous anchored range.
+    // Its endpoint and size identify a repeated operation without scanning rows.
+    const unchanged = effectiveIntent === 'range'
+      ? previous.rowIndex === rowIndex && previous.rowIndexes.size === Math.abs((previous.anchorRowIndex ?? rowIndex) - rowIndex) + 1
+      : effectiveIntent === 'replace' && previous.rowIndexes.size === 1 && previous.rowIndexes.has(rowIndex)
+    this.engine.selectRow(rowIndex, effectiveIntent)
+    if (!unchanged) this.announceRowSelection(rowIndex, effectiveIntent)
     this.requestUpdate()
   }
 
   selectAllRows() {
+    if (this.engine.getConfig().selection.mode !== 'multi-row' || this.engine.getRowCount() === 0) return
+    const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getRowCount()
     this.engine.selectAllRows()
-    this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`)
+    if (!unchanged) this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`)
     this.requestUpdate()
   }
 
   clearSelection() {
+    const previous = this.engine.getSelection()
+    const hadSelection = previous.rowIndexes.size > 0 || previous.cells.size > 0
     this.engine.clearSelection()
-    this.announceScreenReader('Selection cleared.')
+    if (hadSelection) this.announceScreenReader('Selection cleared.')
     this.requestUpdate()
   }
 
@@ -1669,12 +1717,12 @@ export class DataGrid extends LitElement {
       ...filter,
       value: this.isValueFreeFilter(filter.operator) ? undefined : filter.value
     })
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private clearHeaderFilter(columnKey: string) {
     this.clearFilter(columnKey)
-    this.closeHeaderMenu()
+    this.closeHeaderMenu(true)
   }
 
   private isColumnFiltered(columnKey: string) {
@@ -2057,8 +2105,23 @@ export class DataGrid extends LitElement {
     this.announceActiveCell()
   }
 
+  private reconcileActiveCell(rowCount: number, columnCount: number) {
+    if (!this.activeCell) return
+    if (rowCount === 0 || columnCount === 0) {
+      this.activeCell = null
+      this.shouldFocusActiveCell = false
+      return
+    }
+    const rowIndex = Math.min(this.activeCell.rowIndex, rowCount - 1)
+    const columnIndex = Math.min(this.activeCell.columnIndex, columnCount - 1)
+    if (rowIndex !== this.activeCell.rowIndex || columnIndex !== this.activeCell.columnIndex) {
+      this.activeCell = { rowIndex, columnIndex }
+      this.shouldFocusActiveCell = this.gridCellHasFocus
+    }
+  }
+
   private focusActiveCell() {
-    if (!this.shouldFocusActiveCell || !this.activeCell) {
+    if (!this.shouldFocusActiveCell || !this.activeCell || !this.renderedActiveCellId) {
       return
     }
 
@@ -2182,35 +2245,117 @@ export class DataGrid extends LitElement {
     }
   }
 
+  private getCellControls(cell: HTMLElement) {
+    // Only inspect the cell explicitly entered by the user, never a render or
+    // virtualization path. Custom focusable hosts can own shadow controls.
+    return Array.from(cell.querySelectorAll<HTMLElement>(CELL_CONTROL_SELECTOR))
+      .filter((control) => !control.matches(':disabled, input[type="hidden"]')
+        && !control.closest('[hidden], [inert]'))
+  }
+
+  private focusCellControl(control: HTMLElement) {
+    control.focus({ preventScroll: true })
+    return (control.getRootNode() as Document | ShadowRoot).activeElement === control
+  }
+
+  private syncInteractionCell(cell: HTMLElement) {
+    const rowIndex = Number(cell.dataset.rowIndex)
+    const columnIndex = Number(cell.dataset.columnIndex)
+    if (this.activeCell?.rowIndex !== rowIndex || this.activeCell.columnIndex !== columnIndex) {
+      this.setActiveCell(rowIndex, columnIndex)
+      this.requestUpdate()
+    }
+  }
+
   private handleKeyDown(event: KeyboardEvent) {
-    const target = event.target
-    if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement) {
-      return
+    if (event.defaultPrevented) return
+
+    let owningCell: HTMLElement | undefined
+    let insideControl = false
+    // The composed path also protects nested markup and renderer shadow controls.
+    for (const target of event.composedPath()) {
+      if (!(target instanceof Element)) continue
+      if (target.matches('.cell[role="gridcell"]')) {
+        owningCell = target as HTMLElement
+        break
+      }
+      if (target === event.currentTarget) break
+      if (target.matches(CELL_CONTROL_SELECTOR)) insideControl = true
+    }
+    if (insideControl) {
+      if (!owningCell) return
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        event.stopPropagation()
+        this.syncInteractionCell(owningCell)
+        owningCell.focus({ preventScroll: true })
+        return
+      }
+      const focused = (this.renderRoot as ShadowRoot).activeElement
+      if (event.key !== 'Tab' || !focused || focused === owningCell || !owningCell.contains(focused)) return
+      // An open shadow widget owns the Tab order of its internal controls.
+      if (focused.shadowRoot?.activeElement) return
+
+      const controls = this.getCellControls(owningCell).filter((control) => control.tabIndex >= 0
+        || control === focused || control.matches('[contenteditable]:not([tabindex])'))
+      const current = controls.indexOf(focused as HTMLElement)
+      // Shadow widgets own their internal Tab order; a focusable host is their entry point.
+      if (current < 0) return
+      const direction = event.shiftKey ? -1 : 1
+      for (let index = current + direction; index >= 0 && index < controls.length; index += direction) {
+        if (this.focusCellControl(controls[index])) {
+          event.preventDefault()
+          return
+        }
+      }
+      this.syncInteractionCell(owningCell)
+      if (event.shiftKey) {
+        event.preventDefault()
+        owningCell.focus({ preventScroll: true })
+        return
+      }
+      // At the last control, resume the existing forward cell Tab navigation.
     }
 
         const rowCount = this.engine.getRowCount()
     const columnCount = this.getVisibleColumns().length
+    this.reconcileActiveCell(rowCount, columnCount)
     if (rowCount === 0 || columnCount === 0) {
       return
     }
 
-            if ((event.key === 'Enter' || event.key === ' ') && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    if (event.key === 'F2' && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+      const active = this.activeCell ?? { rowIndex: 0, columnIndex: 0 }
+      const cell = owningCell ?? this.renderRoot.querySelector<HTMLElement>(
+        `.cell[data-row-index="${active.rowIndex}"][data-column-index="${active.columnIndex}"]`
+      )
+      if (cell) {
+        for (const control of this.getCellControls(cell)) {
+          if (this.focusCellControl(control)) {
+            event.preventDefault()
+            break
+          }
+        }
+      }
+      return
+    }
+
+    if ((event.key === 'Enter' || event.key === ' ') && !event.altKey) {
       const activeCell = this.activeCell ?? { rowIndex: 0, columnIndex: 0 }
 
 
-      if (this.isCellSelectionMode()) {
+      if (this.isCellSelectionMode() && !event.ctrlKey && !event.metaKey) {
         const column = this.getVisibleColumns()[activeCell.columnIndex]
         if (column) {
           event.preventDefault()
+          const unchanged = this.engine.getConfig().selection.mode === 'cell' && this.engine.isCellSelected(activeCell.rowIndex, column.key)
           this.engine.selectCell(activeCell.rowIndex, column.key)
-          this.announceCellSelection(activeCell.rowIndex, column.key)
+          if (!unchanged) this.announceCellSelection(activeCell.rowIndex, column.key)
           this.requestUpdate()
         }
       } else if (this.isRowSelectionMode()) {
         event.preventDefault()
-        this.engine.selectRow(activeCell.rowIndex, 'replace')
-        this.announceRowSelection(activeCell.rowIndex)
-        this.requestUpdate()
+        this.selectRow(activeCell.rowIndex, this.getRowSelectionIntent(event))
       }
       return
     }
@@ -2282,7 +2427,7 @@ export class DataGrid extends LitElement {
     this.requestUpdate()
     }
 
-  private getRowSelectionIntent(event: MouseEvent) {
+  private getRowSelectionIntent(event: MouseEvent | KeyboardEvent): SelectionIntent {
     if (event.shiftKey) {
       return 'range'
     }
@@ -2299,9 +2444,7 @@ export class DataGrid extends LitElement {
       return
     }
 
-    this.engine.selectRow(rowIndex, this.getRowSelectionIntent(event))
-    this.announceRowSelection(rowIndex)
-    this.requestUpdate()
+    this.selectRow(rowIndex, this.getRowSelectionIntent(event))
   }
 
   private handleRowMouseDown(event: MouseEvent) {
@@ -2319,8 +2462,9 @@ export class DataGrid extends LitElement {
     }
 
     event.stopPropagation()
+    const unchanged = this.engine.getConfig().selection.mode === 'cell' && this.engine.isCellSelected(rowIndex, column.key)
     this.engine.selectCell(rowIndex, column.key)
-    this.announceCellSelection(rowIndex, column.key)
+    if (!unchanged) this.announceCellSelection(rowIndex, column.key)
     this.requestUpdate()
   }
 
@@ -2381,7 +2525,6 @@ export class DataGrid extends LitElement {
   }
 
     set data(value: unknown[]) {
-    this.activeCell = null
     this.clearQuickSearchDebounce()
 
     this.sourceRowCount = Array.isArray(value) ? value.length : 0
@@ -2393,9 +2536,7 @@ export class DataGrid extends LitElement {
   }
 
   private handleRowCheckboxChange(rowIndex: number) {
-    this.engine.selectRow(rowIndex, 'toggle')
-    this.announceRowSelection(rowIndex)
-    this.requestUpdate()
+    this.selectRow(rowIndex, 'toggle')
   }
 
   private getDisplayedSelectedRowCount() {
@@ -2433,13 +2574,16 @@ export class DataGrid extends LitElement {
   }
 
         set columns(value: GridColumn[]) {
-        this.activeCell = null
+    const activeCell = this.activeCell
         this.sourceColumnDefs = Array.isArray(value) ? [...value] : []
     this.columnDefs = [...this.sourceColumnDefs]
     this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key))
 
     this.clearBestFitWidths()
     this.restorePersistedColumnState()
+    // Structural synchronization must not discard navigation. This also
+    // restores the position after persisted column state has been applied.
+    this.activeCell = activeCell
     this.requestUpdate()
   }
 
@@ -2592,6 +2736,7 @@ export class DataGrid extends LitElement {
     }
     // Ensure start/end indices are within valid bounds to avoid empty renders
     const safeStartIndex = Math.max(0, Math.min(range.startIndex, Math.max(0, count)))
+    let renderedRowStart = safeStartIndex
     const safeEndIndex = Math.max(safeStartIndex, Math.min(range.endIndex, count))
     let rows = this.engine.getVisibleRows(safeStartIndex, safeEndIndex)
     if (rows.length === 0 && count > 0) {
@@ -2601,6 +2746,7 @@ export class DataGrid extends LitElement {
       const fallbackStart = Math.max(0, count - visibleCountFallback)
       const fallbackEnd = count
       rows = this.engine.getVisibleRows(fallbackStart, fallbackEnd)
+      renderedRowStart = fallbackStart
     }
         const columns = this.getVisibleColumns()
     const columnWidths = columns.map((column) => this.getColumnWidth(column))
@@ -2614,6 +2760,23 @@ export class DataGrid extends LitElement {
 
     const columnRange = this.columnVirtualizer.getState()
     const visibleColumns = columns.slice(columnRange.startIndex, columnRange.endIndex)
+    this.reconcileActiveCell(count, columns.length)
+    const activeCellIsRendered = this.activeCell !== null
+      && this.activeCell.rowIndex >= renderedRowStart
+      && this.activeCell.rowIndex < renderedRowStart + rows.length
+      && this.activeCell.columnIndex >= columnRange.startIndex
+      && this.activeCell.columnIndex < columnRange.endIndex
+    this.renderedActiveCellId = activeCellIsRendered && this.activeCell
+      ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex)
+      : null
+    if (!activeCellIsRendered || this.renderedRowStart !== renderedRowStart || this.renderedColumnStart !== columnRange.startIndex) {
+      // Preserve logical navigation when the cell leaves either rendered range.
+      // A focused node can also be reused for another cell when the range moves.
+      // Hand off once; later scroll renders don't touch focus on the viewport.
+      this.shouldFocusViewport = this.gridCellHasFocus
+    }
+    this.renderedRowStart = renderedRowStart
+    this.renderedColumnStart = columnRange.startIndex
     const visibleColumnWidths = columnWidths.slice(
       columnRange.startIndex,
       columnRange.endIndex
@@ -2844,22 +3007,25 @@ export class DataGrid extends LitElement {
         </div>
                 ${visibleColumns.length === 0
           ? html`<div class="column-chooser-empty">
-              <button type="button" @click=${() => this.toggleColumnChooser()}>Columns</button>
+              <button class="columns-button" type="button" @click=${(event: MouseEvent) => this.toggleColumnChooser(event)}>Columns</button>
             </div>`
           : ''}
                 <div
                     class="viewport"
           role="grid"
+          aria-multiselectable=${['multi-row', 'multi-cell'].includes(this.engine.getConfig().selection.mode) ? 'true' : nothing}
           aria-label=${this.ariaLabel || 'Data grid'}
           aria-rowcount=${count + 1}
           aria-colcount=${columns.length + (this.isRowHeaderVisible() ? 1 : 0)}
-          aria-activedescendant=${this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : undefined}
+          aria-activedescendant=${this.renderedActiveCellId ?? nothing}
           aria-describedby=${`${this.gridId}-description`}
           aria-owns=${this.getHeaderRowId()}
           style=${`--grid-height: ${this.height}px;`}
           tabindex="0"
           @scroll=${this.handleScroll}
           @focus=${this.handleViewportFocus}
+          @focusin=${this.handleGridFocusIn}
+          @focusout=${() => { this.gridCellHasFocus = false }}
 
           @keydown=${this.handleKeyDown}
           @click=${() => this.closeHeaderMenu()}
@@ -2871,7 +3037,7 @@ export class DataGrid extends LitElement {
               style=${`--offset-top: ${displayOffsetTop}px; padding-bottom: ${displayBottomPadding}px;`}
             >
               ${rows.map((row, index) => {
-                const rowIndex = range.startIndex + index
+                const rowIndex = renderedRowStart + index
                 const height = this.getRowHeight(rowIndex)
 
                 return html`

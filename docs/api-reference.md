@@ -117,6 +117,18 @@ Assign arrays and configuration as JavaScript properties rather than HTML attrib
 | `quickSearchDebounceMs` | `number` | `150` | Debounce delay for quick search at or above the threshold. |
 | `columnStateStorageKey` | `string \| null` | `null` | `localStorage` key for column state. |
 
+### Keyboard interaction in custom cells
+
+Arrow keys and Tab navigate grid cells. Enter and Space keep their selection
+behavior, including in cells containing custom controls. Press F2 on a cell to
+focus its first usable link, button, input, or other focusable descendant.
+Native control keys then apply. Press Escape to return to the owning cell.
+Tab moves through controls within that cell, then resumes forward cell navigation;
+Shift+Tab from the first control returns to the cell. Controls that consume a key
+with `preventDefault()` retain that key. This does not add page-level tab stops.
+Custom widgets with shadow DOM should expose a focusable host and manage their
+internal focus and Tab order.
+
 ### Imperative methods
 
 | Area | Methods | Result |
