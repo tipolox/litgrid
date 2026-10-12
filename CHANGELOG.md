@@ -2,6 +2,24 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.0.3
+
+### Fixes
+
+- Fixed pagination controls overlapping or clipping on narrow/mobile layouts.
+- Kept horizontally scrolled column headers behind the fixed row-header column.
+- Synchronized the Blazor shipping bundle with the shared grid fixes.
+
+### Accessibility and keyboard
+
+- Preserved native keyboard interaction with controls in custom-rendered cells; F2 enters cell controls and Escape returns to cell navigation.
+- Added keyboard multi-row toggle selection with Control/Command and range selection with Shift, using Enter or Space.
+- Restored focus after column menu and chooser actions, including when the original trigger is no longer available.
+- Exposed correct ARIA multi-selection metadata for multi-row and multi-cell modes.
+- Kept active-cell references valid through filtering, pagination, and row/column virtualization.
+- Preserved active grid navigation during unrelated React and Blazor input updates.
+- Matched selection guidance and announcements to the configured selection mode and actual selection changes.
+
 ## 1.0.2
 
 ### Packaging
