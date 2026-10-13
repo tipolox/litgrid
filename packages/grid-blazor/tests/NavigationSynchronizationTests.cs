@@ -10,7 +10,11 @@ public class NavigationSynchronizationTests
     private sealed class TestGrid : DataGrid<object>
     {
         public Task Initialize() => OnAfterRenderAsync(true);
-        public Task Update() => OnParametersSetAsync();
+        public async Task Update()
+        {
+            OnParametersSet();
+            await OnAfterRenderAsync(false);
+        }
     }
 
     private sealed class Interop : IJSRuntime, IJSObjectReference

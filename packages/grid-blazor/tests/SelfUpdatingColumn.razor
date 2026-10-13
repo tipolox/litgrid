@@ -1,0 +1,10 @@
+@using Microsoft.AspNetCore.Components
+@using Tipolox.LitGrid.Blazor
+@namespace Tipolox.LitGrid.Blazor.Tests
+
+<LitGridColumn TItem="Employee" Field="@(e => e.Department)" Title="@title" />
+
+@code {
+    private string title = "Department";
+    public Task ChangeTitle(string value) => InvokeAsync(() => { title = value; StateHasChanged(); });
+}

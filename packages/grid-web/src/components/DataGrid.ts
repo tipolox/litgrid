@@ -104,6 +104,7 @@ export class DataGrid extends LitElement {
   private scrollbarWidth = 0
   private columnDefs: GridColumn[] = []
   private sourceColumnDefs: GridColumn[] = []
+  private _inferColumns = true
   private columnWidths = new Map<string, number>()
     private hiddenColumnKeys = new Set<string>()
   private _columnStateStorageKey: string | null = null
@@ -796,7 +797,7 @@ export class DataGrid extends LitElement {
   }
 
     private getResolvedColumns(): GridColumn[] {
-    if (this.columnDefs.length > 0) {
+    if (this.columnDefs.length > 0 || !this._inferColumns) {
       return this.columnDefs
     }
 
@@ -1078,7 +1079,7 @@ export class DataGrid extends LitElement {
     }
   }
 
-  private restorePersistedColumnState() {
+  private restorePersistedColumnState(notify = true) {
     if (!this._columnStateStorageKey || this.sourceColumnDefs.length === 0) return
 
     const storage = this.getColumnStateStorage()
@@ -1094,7 +1095,7 @@ export class DataGrid extends LitElement {
       this.hiddenColumnKeys = resolvedState.hiddenKeys
       this.activeCell = null
       this.requestUpdate()
-      this.dispatchColumnStateChange('restore')
+      if (notify) this.dispatchColumnStateChange('restore')
     } catch {
       // Storage may be unavailable or blocked by browser privacy settings.
     }
@@ -1880,6 +1881,10 @@ export class DataGrid extends LitElement {
   }
 
   private stopColumnReorder = () => {
+    this.finishColumnReorder()
+  }
+
+  private finishColumnReorder(commit = true) {
     const state = this.columnReorderState
     if (!state) return
 
@@ -1890,7 +1895,7 @@ export class DataGrid extends LitElement {
     this.removeColumnDragPreview()
     if (state.hasMoved) this.stopBodyResize()
 
-    if (state.hasMoved && state.sourceIndex !== state.targetIndex) {
+    if (commit && state.hasMoved && state.sourceIndex !== state.targetIndex) {
       this.moveColumn(state.columnKey, state.targetIndex)
     } else {
       this.requestUpdate()
@@ -1966,12 +1971,16 @@ export class DataGrid extends LitElement {
   }
 
     private stopColumnResize = () => {
+    this.finishColumnResize()
+  }
+
+  private finishColumnResize(commit = true) {
     if (!this.columnResizeState) {
       return
     }
 
     this.columnResizeState = null
-    this.commitColumnState('resize')
+    if (commit) this.commitColumnState('resize')
 
     this.stopBodyResize()
     window.removeEventListener('pointermove', this.handleColumnResize)
@@ -2569,6 +2578,76 @@ export class DataGrid extends LitElement {
     } else {
       this.engine.selectAllRows()
       this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`)
+    }
+    this.requestUpdate()
+  }
+
+  get inferColumns() {
+    return this._inferColumns
+  }
+
+  set inferColumns(value: boolean) {
+    if (this._inferColumns === value) return
+    this._inferColumns = value
+    this.requestUpdate()
+  }
+
+  /** Reconcile an explicit schema, optionally switching its persistence namespace atomically. */
+  updateColumnSchema(value: GridColumn[], applyOrder = false, storageKey = this._columnStateStorageKey) {
+    const columns = value.map(column => ({ ...column }))
+    const nextByKey = new Map(columns.map(column => [column.key, column]))
+    if (nextByKey.size !== columns.length) throw new Error('Duplicate column schema keys.')
+    const previousByKey = new Map(this.sourceColumnDefs.map(column => [column.key, column]))
+    const activeCell = this.activeCell
+    const activeColumnKey = activeCell
+      ? this.getVisibleColumns()[activeCell.columnIndex]?.key
+      : undefined
+    const nextStorageKey = typeof storageKey === 'string' && storageKey.trim() ? storageKey : null
+    const storageChanged = nextStorageKey !== this._columnStateStorageKey
+
+    this.finishColumnResize(false)
+    this.finishColumnReorder(false)
+    if (storageChanged) {
+      // Install the target schema and defaults before restoring its namespace.
+      // Do not reconcile/persist the outgoing view, or carry its customization
+      // into an unsaved target. A namespace switch itself performs no writes.
+      this._columnStateStorageKey = nextStorageKey
+      this.sourceColumnDefs = columns
+      this.columnDefs = [...columns]
+      this.columnWidths.clear()
+      this.hiddenColumnKeys = new Set(columns.filter(column => column.hidden).map(column => column.key))
+      this.restorePersistedColumnState(false)
+    } else {
+      for (const key of this.columnWidths.keys()) {
+        if (!nextByKey.has(key)) this.columnWidths.delete(key)
+      }
+      for (const key of this.hiddenColumnKeys) {
+        if (!nextByKey.has(key)) this.hiddenColumnKeys.delete(key)
+      }
+      for (const column of columns) {
+        const previous = previousByKey.get(column.key)
+        if (!previous || previous.width !== column.width) this.columnWidths.delete(column.key)
+        if (!previous || previous.hidden !== column.hidden) {
+          if (column.hidden) this.hiddenColumnKeys.add(column.key)
+          else this.hiddenColumnKeys.delete(column.key)
+        }
+      }
+
+      // Surviving columns keep user order; newly registered columns follow them.
+      // An explicit Order change reapplies the complete deterministic schema order.
+      const retained = this.columnDefs.filter(column => nextByKey.has(column.key))
+        .map(column => nextByKey.get(column.key)!)
+      const retainedKeys = new Set(retained.map(column => column.key))
+      this.columnDefs = applyOrder ? columns : [
+        ...retained, ...columns.filter(column => !retainedKeys.has(column.key))
+      ]
+      this.sourceColumnDefs = columns
+      this.persistColumnState()
+    }
+    this.clearBestFitWidths()
+    if (activeCell) {
+      const columnIndex = this.getVisibleColumns().findIndex(column => column.key === activeColumnKey)
+      this.activeCell = columnIndex < 0 ? null : { ...activeCell, columnIndex }
     }
     this.requestUpdate()
   }

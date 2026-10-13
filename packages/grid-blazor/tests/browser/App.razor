@@ -1,0 +1,147 @@
+@using System.Linq.Expressions
+@using System.Text.Json.Serialization
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tipolox.LitGrid.Blazor
+@inject IJSRuntime JS
+
+<main>
+    <h1>Declarative column test host</h1>
+    <div>
+        <button id="basic" @onclick="Basic">Basic</button>
+        <button id="large" @onclick="Large">30,000 rows</button>
+        <button id="wide" @onclick="Wide">120 columns</button>
+        <button id="stress" @onclick="Combined">30,000 rows / 120 columns stress</button>
+        <button id="rerender" @onclick="Rerender">Parent rerender</button>
+        <button id="mutate" @onclick="Mutate">Mutate same list</button>
+        <button id="metadata" @onclick="Metadata">Change title</button>
+        <button id="defaults" @onclick="Defaults">Change defaults</button>
+        <button id="reorder" @onclick="Reorder">Change Order</button>
+        <button id="remove" @onclick="Remove">Remove department</button>
+        <button id="add" @onclick="Add">Add department</button>
+        <button id="empty" @onclick="Empty">Empty schema</button>
+        <button id="programmatic" @onclick="Programmatic">Programmatic</button>
+        <button id="infer" @onclick="Infer">Legacy inference</button>
+        <button id="filter" @onclick="Filter">Filter department</button>
+        <button id="clear-filter" @onclick="ClearFilter">Clear filter</button>
+        <button id="unmount" @onclick="Unmount">Unmount</button>
+        <button id="mount" @onclick="Mount">Mount</button>
+        <button id="view-a" @onclick="ViewA">View A</button>
+        <button id="view-b" @onclick="ViewB">View B</button>
+        <button id="view-c" @onclick="ViewC">Unsaved view C</button>
+        <button id="view-null" @onclick="ViewNull">No storage key</button>
+        <button id="key-only-a" @onclick="KeyOnlyA">Only key A</button>
+    </div>
+    <p id="revision">@revision</p>
+    <div class="grid-host">
+        @if (mounted)
+        {
+            @if (declarative)
+            {
+                <DataGrid TItem="Employee" @ref="grid" Data="@rows" Config="@config" Height="400" ColumnStateStorageKey="@storageKey">
+                    @foreach (var spec in specs)
+                    {
+                        <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
+                                       Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" />
+                    }
+                </DataGrid>
+            }
+            else
+            {
+                <DataGrid TItem="Employee" @ref="grid" Data="@rows" Columns="@programmatic" Config="@config" Height="400" />
+            }
+        }
+    </div>
+</main>
+
+@code {
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string? Department { get; set; }
+        public decimal Salary { get; set; }
+        public DateTime Joined { get; set; }
+        [JsonPropertyName("employee_name")] public string Alias { get; set; } = "";
+        [JsonExtensionData] public Dictionary<string, object?> Extra { get; set; } = [];
+    }
+    private record Spec(string Id, Expression<Func<Employee, object?>>? Field = null, string? Key = null,
+        string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null);
+    private DataGrid<Employee>? grid;
+    private readonly GridConfig config = new() { Selection = new() { Mode = SelectionMode.MultiCell } };
+    private List<Employee> rows = [];
+    private List<Spec> specs = [];
+    private IReadOnlyList<GridColumn> programmatic = [];
+    private bool declarative = true;
+    private bool mounted = true;
+    private int revision;
+    private string? storageKey = "browser-columns";
+
+    protected override void OnInitialized() => Basic();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+        => await JS.InvokeVoidAsync("recordInteropRows", (object)rows.Take(3).ToArray());
+
+    private static List<Spec> BasicSpecs() => [
+        new("id", e => e.Id, Title: "ID", Width: "80", Order: 0),
+        new("name", e => e.Name, Title: "Employee", Width: "220", Order: 1),
+        new("department", e => e.Department, Title: "Department", Width: "180", Order: 2),
+        new("salary", e => e.Salary, Title: "Salary", Width: "120", Order: 3),
+        new("joined", e => e.Joined, Title: "Joined", Width: "220", Order: 4),
+        new("alias", e => e.Alias, Title: "Alias", Width: "150", Order: 5)
+    ];
+    private void Basic()
+    {
+        rows = [
+            new() { Id = 2, Name = "Grace", Department = null, Salary = 200.5m, Joined = new(2020, 2, 1), Alias = "Amazing Grace" },
+            new() { Id = 1, Name = "Ada", Department = "Computing", Salary = 100.25m, Joined = new(2019, 1, 1), Alias = "Enchantress" },
+            new() { Id = 3, Name = "Katherine", Department = "Science", Salary = 300m, Joined = new(2021, 3, 1), Alias = "Calculator" }
+        ];
+        specs = BasicSpecs(); declarative = true; mounted = true; storageKey = "browser-columns"; revision++;
+    }
+    private void Large()
+    {
+        Basic();
+        rows = Enumerable.Range(0, 30000).Select(i => new Employee {
+            Id = i, Name = $"Employee {i}", Department = "Computing", Salary = i,
+            Joined = new(2020, 1, 1), Alias = $"Alias {i}"
+        }).ToList();
+        revision++;
+    }
+    private void Wide() => WideRows(100);
+    private void Combined() => WideRows(30000);
+    private void WideRows(int count)
+    {
+        specs = Enumerable.Range(0, 120).Select(i => i == 0
+            ? new Spec("id", e => e.Id, Title: "ID", Width: 100, Order: 0)
+            : new Spec($"c{i}", Key: $"c{i}", Title: $"Column {i}", Width: 100, Order: i)).ToList();
+        // Share immutable repeated values to avoid benchmarking millions of fixture
+        // string/dictionary allocations. Interop still sends all 120 values per row.
+        var repeatedValues = Enumerable.Range(1, 119).ToDictionary(c => $"c{c}", c => (object?)c);
+        rows = Enumerable.Range(0, count).Select(i => new Employee { Id = i, Extra = repeatedValues }).ToList();
+        declarative = true; mounted = true; revision++;
+    }
+    private void Rerender() => revision++;
+    private void Mutate() { rows[0].Name = "Updated Grace"; rows.Add(new() { Id = 4, Name = "Lin" }); revision++; }
+    private void Metadata() { specs = specs.Select(s => s.Id == "name" ? s with { Title = "Person" } : s).ToList(); revision++; }
+    private void Defaults() { specs = specs.Select(s => s.Id == "name" ? s with { Width = 260 } : s.Id == "department" ? s with { Hidden = false } : s).ToList(); revision++; }
+    private void Reorder() { specs = specs.Select(s => s with { Order = s.Id == "department" ? -1 : s.Order }).ToList(); revision++; }
+    private void Remove() { specs.RemoveAll(s => s.Id == "department"); revision++; }
+    private void Add() { if (specs.All(s => s.Id != "department")) specs.Add(BasicSpecs()[2]); revision++; }
+    private void Empty() { specs.Clear(); revision++; }
+    private void Programmatic() { Basic(); declarative = false; programmatic = [new() { Key = "id", Header = "ID" }, new() { Key = "name", Header = "Employee" }]; }
+    private void Infer() { Basic(); declarative = false; programmatic = []; }
+    private async Task Filter() { if (grid != null) await grid.SetFilterAsync(new() { ColumnKey = "department", Operator = FilterOperator.Equals, Value = "Computing" }); }
+    private async Task ClearFilter() { if (grid != null) await grid.ClearFilterAsync(); }
+    private void Unmount() { mounted = false; revision++; }
+    private void Mount() { mounted = true; revision++; }
+    private void ViewA() { specs = BasicSpecs(); storageKey = "browser-A"; revision++; }
+    private void ViewB()
+    {
+        specs = [BasicSpecs()[2] with { Order = 0 }, BasicSpecs()[0] with { Order = 1 }, BasicSpecs()[3] with { Order = 2 }];
+        storageKey = "browser-B"; revision++;
+    }
+    private void ViewC() { ViewB(); storageKey = "browser-C"; }
+    private void ViewNull() { ViewB(); storageKey = null; }
+    private void KeyOnlyA() { storageKey = "browser-A"; revision++; }
+}

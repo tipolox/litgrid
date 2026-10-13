@@ -1,11 +1,12 @@
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Tipolox.LitGrid.Blazor;
 
-public class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> where TEnum : struct, Enum
+public class EnumMemberJsonConverter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] TEnum> : JsonConverter<TEnum> where TEnum : struct, Enum
 {
     private readonly Dictionary<TEnum, string> _enumToString = new();
     private readonly Dictionary<string, TEnum> _stringToEnum = new(StringComparer.OrdinalIgnoreCase);
@@ -15,7 +16,9 @@ public class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> where TEnum :
         var type = typeof(TEnum);
         foreach (var value in Enum.GetValues<TEnum>())
         {
-            var memberInfo = type.GetMember(value.ToString()).FirstOrDefault();
+            // Release WebAssembly trims reflection metadata. Keep the enum fields
+            // (and their EnumMember attributes) needed for the public wire values.
+            var memberInfo = type.GetField(value.ToString());
             var enumMemberAttribute = memberInfo?.GetCustomAttribute<EnumMemberAttribute>();
             var stringValue = enumMemberAttribute?.Value ?? value.ToString();
 

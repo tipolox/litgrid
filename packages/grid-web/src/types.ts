@@ -62,6 +62,8 @@ export type DataGridElement = HTMLElement & {
   quickSearchDebounceThreshold: number
   quickSearchDebounceMs: number
   columnStateStorageKey: string | null
+  inferColumns: boolean
+  updateColumnSchema: (columns: GridColumn[], applyOrder?: boolean, storageKey?: string | null) => void
   getRowHeight: (rowIndex: number) => number
   getColumnWidth: (column: GridColumn) => number
   setRowHeight: (rowIndex: number, height: number) => void

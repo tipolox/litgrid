@@ -56,9 +56,9 @@ Define a model class, create column definitions, and pass your dataset to `DataG
 
     private IReadOnlyList<GridColumn> columns = new List<GridColumn>
     {
-        new GridColumn { Key = "Id", Header = "ID", Width = 80 },
-        new GridColumn { Key = "Name", Header = "Full Name", Width = 220 },
-        new GridColumn { Key = "Role", Header = "Role" }
+        new GridColumn { Key = "id", Header = "ID", Width = 80 },
+        new GridColumn { Key = "name", Header = "Full Name", Width = 220 },
+        new GridColumn { Key = "role", Header = "Role" }
     };
 
     private GridConfig gridConfig = new GridConfig
@@ -76,7 +76,8 @@ A fixed `Height` (in pixels) is required in practice because row virtualization 
 | Parameter | Type | Default | Purpose |
 | --- | --- | --- | --- |
 | `Data` | `IEnumerable<TItem>` | `[]` | Collection of row data items. |
-| `Columns` | `IReadOnlyList<GridColumn>` | `[]` | Column definitions. If empty, columns are inferred from the first item. |
+| `Columns` | `IReadOnlyList<GridColumn>` | `[]` | Programmatic definitions. If empty and `ChildContent` is absent, columns are inferred. |
+| `ChildContent` | `RenderFragment?` | `null` | Declarative column metadata; exclusive with nonempty `Columns`. Empty content disables inference. |
 | `Config` | `GridConfig` | `new()` | Selection, row-header, and pagination configuration. |
 | `Theme` | `GridTheme` | `GridTheme.Light` | Built-in theme (`GridTheme.Light` or `GridTheme.Dark`). |
 | `AriaLabel` | `string` | `"Data grid"` | Accessible label for screen readers. |
@@ -93,6 +94,26 @@ A fixed `Height` (in pixels) is required in practice because row virtualization 
 
 ## Columns
 
+Define columns in Razor using `LitGridColumn<TItem>` in the grid's child content:
+
+```razor
+<DataGrid TItem="User" Data="@users" Height="400">
+    <LitGridColumn Field="@(e => e.Id)" Title="ID" Width="80" />
+    <LitGridColumn Field="@(e => e.Name)" Title="Full Name" Width="220" />
+    <LitGridColumn Field="@(e => e.Role)" Title="Role" />
+</DataGrid>
+```
+
+`TItem` cascades to child columns. `Field` resolves the serialized camelCase
+property name and honors `JsonPropertyName`. Column components render metadata
+only. Use either declarative content or nonempty `Columns`; mixing them is an
+error. Empty declarative schemas stay empty. Unchanged declarations preserve
+user customization. See [Declarative Blazor columns](blazor-declarative-columns.md)
+for the public parameters, supported expressions, dynamic examples, ordering,
+state precedence, serialization limitations, and future template boundaries.
+
+### Programmatic columns
+
 Columns are defined using `GridColumn` instances:
 
 ```csharp
@@ -105,7 +126,13 @@ public class GridColumn
 }
 ```
 
-Column widths are normalized to at least `64px`. Default row height is normalized to at least `28px`.
+Interactive column resizing enforces a minimum of `64px`; declared widths use
+the existing column sizing rules. Default row height is normalized to at least `28px`.
+
+`GridColumn.Key` is a literal serialized property name. Standard Blazor JS
+interop maps C# `Id`/`Name` to `id`/`name`; use those keys for programmatic
+columns and filters. `JsonPropertyName` overrides that convention. Existing
+string-key semantics have not changed.
 
 ## Configuration: Selection, Pagination, Row Headers
 

@@ -1,5 +1,9 @@
 # Blazor Examples
 
+For strongly typed Razor declarations, dynamic `@key`/`Order` examples, JSON
+name mapping, and state precedence, see [Declarative Blazor columns](blazor-declarative-columns.md).
+The programmatic examples below use actual camelCase keys sent by Blazor JS interop.
+
 Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
 ## 1. Basic Read-Only Grid
@@ -33,10 +37,10 @@ Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
     private IReadOnlyList<GridColumn> columns = new List<GridColumn>
     {
-        new GridColumn { Key = "Id", Header = "ID", Width = 80 },
-        new GridColumn { Key = "Name", Header = "Employee Name", Width = 200 },
-        new GridColumn { Key = "Department", Header = "Department", Width = 150 },
-        new GridColumn { Key = "Salary", Header = "Salary" }
+        new GridColumn { Key = "id", Header = "ID", Width = 80 },
+        new GridColumn { Key = "name", Header = "Employee Name", Width = 200 },
+        new GridColumn { Key = "department", Header = "Department", Width = 150 },
+        new GridColumn { Key = "salary", Header = "Salary" }
     };
 }
 ```
@@ -83,10 +87,10 @@ Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
     private IReadOnlyList<GridColumn> columns = new List<GridColumn>
     {
-        new GridColumn { Key = "Sku", Header = "SKU", Width = 100 },
-        new GridColumn { Key = "Title", Header = "Product Name", Width = 250 },
-        new GridColumn { Key = "Stock", Header = "Units in Stock", Width = 140 },
-        new GridColumn { Key = "Price", Header = "Price" }
+        new GridColumn { Key = "sku", Header = "SKU", Width = 100 },
+        new GridColumn { Key = "title", Header = "Product Name", Width = 250 },
+        new GridColumn { Key = "stock", Header = "Units in Stock", Width = 140 },
+        new GridColumn { Key = "price", Header = "Price" }
     };
 
     private GridConfig config = new GridConfig
@@ -164,9 +168,9 @@ Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
     private IReadOnlyList<GridColumn> columns = new List<GridColumn>
     {
-        new GridColumn { Key = "Id", Header = "ID", Width = 80 },
-        new GridColumn { Key = "Name", Header = "Name", Width = 180 },
-        new GridColumn { Key = "Title", Header = "Job Title" }
+        new GridColumn { Key = "id", Header = "ID", Width = 80 },
+        new GridColumn { Key = "name", Header = "Name", Width = 180 },
+        new GridColumn { Key = "title", Header = "Job Title" }
     };
 
     private async Task OnQuickSearchChanged(ChangeEventArgs e)
@@ -183,7 +187,7 @@ Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
         {
             await grid.SetFilterAsync(new GridFilter
             {
-                ColumnKey = "Title",
+                ColumnKey = "title",
                 Operator = FilterOperator.Contains,
                 Value = "Engineer"
             });
@@ -249,10 +253,10 @@ Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
     private IReadOnlyList<GridColumn> columns = new List<GridColumn>
     {
-        new GridColumn { Key = "Id", Header = "ID", Width = 80 },
-        new GridColumn { Key = "Code", Header = "Code", Width = 140 },
-        new GridColumn { Key = "Category", Header = "Category", Width = 160 },
-        new GridColumn { Key = "Status", Header = "Status" }
+        new GridColumn { Key = "id", Header = "ID", Width = 80 },
+        new GridColumn { Key = "code", Header = "Code", Width = 140 },
+        new GridColumn { Key = "category", Header = "Category", Width = 160 },
+        new GridColumn { Key = "status", Header = "Status" }
     };
 
     private async Task BestFitAll()
@@ -331,9 +335,9 @@ Practical, copyable examples for the `Tipolox.LitGrid.Blazor` NuGet package.
 
     private IReadOnlyList<GridColumn> columns = new List<GridColumn>
     {
-        new GridColumn { Key = "Id", Header = "ID", Width = 80 },
-        new GridColumn { Key = "Item", Header = "Item Name", Width = 200 },
-        new GridColumn { Key = "Qty", Header = "Quantity" }
+        new GridColumn { Key = "id", Header = "ID", Width = 80 },
+        new GridColumn { Key = "item", Header = "Item Name", Width = 200 },
+        new GridColumn { Key = "qty", Header = "Quantity" }
     };
 
     private GridConfig config = new GridConfig

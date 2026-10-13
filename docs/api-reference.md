@@ -266,6 +266,7 @@ Examples](vue-examples.md) for setup and copyable patterns.
 | --- | --- | --- | --- |
 | `Data` | `IEnumerable<TItem>` | `[]` | `data` |
 | `Columns` | `IReadOnlyList<GridColumn>` | `[]` | `columns` |
+| `ChildContent` | `RenderFragment?` | `null` | Declarative columns; exclusive with nonempty `Columns`. |
 | `Config` | `GridConfig` | `new()` | `config` |
 | `Theme` | `GridTheme` | `GridTheme.Light` | `theme` |
 | `AriaLabel` | `string` | `"Data grid"` | `ariaLabel` |
@@ -279,6 +280,17 @@ Examples](vue-examples.md) for setup and copyable patterns.
 | `QuickSearchDebounceThreshold` | `int` | `10000` | `quickSearchDebounceThreshold` |
 | `QuickSearchDebounceMs` | `int` | `150` | `quickSearchDebounceMs` |
 | `ColumnStateStorageKey` | `string?` | `null` | `columnStateStorageKey` |
+
+### Declarative `LitGridColumn<TItem>`
+
+`DataGrid` cascades `TItem` to metadata-only child columns. The parameters are
+`Field` (`Expression<Func<TItem, object?>>?`), `Key` (`string?`), `Title`
+(`string?`), `Width` (`object?`), `Hidden` (`bool?`), and `Order` (`int?`).
+`Field` resolves camelCase or `JsonPropertyName` serialized keys. Both `Field`
+and `Key`, when supplied, must agree. Empty declarative schemas disable inference.
+Unchanged declarations preserve user state; explicit changes reconcile only
+the affected defaults. See [Declarative Blazor columns](blazor-declarative-columns.md)
+for validation, dynamic ordering, precedence, and unsupported mappings.
 
 ### Callbacks & Events
 
