@@ -1,8 +1,7 @@
 # Blazor data synchronization
 
-B1.1 makes `Automatic` the default for `DataGrid<TItem>`. Rows, columns and
+LitGrid v1.1.0 makes `Automatic` the default for `DataGrid<TItem>`. Rows, columns and
 configuration synchronize independently through ordinary Blazor JSON interop.
-These changes are unreleased; package versions remain **1.0.3**.
 
 > **Migration warning for LitGrid v1.1.0:** Blazor's default changes from
 > parent-update synchronization to `Automatic`. Apps that mutate plain lists or
@@ -202,7 +201,8 @@ packages and Blazor NuGet. The default changed to remove full-dataset work from
 ordinary unchanged parent updates without requiring a performance flag or revision.
 The product owner explicitly accepts the breaking Blazor behavior in this minor
 release; this is a deliberate semantic-versioning exception, not a claim of full
-backward compatibility. Package versions have not been changed in this work.
+backward compatibility. For package alignment, first-registration behavior, and
+asset-cache migration, see [Upgrading to v1.1.0](installation.md#upgrading-to-v110).
 The earlier major-release recommendation remains in the historical investigation
 report; the [final product-owner decision and review corrections](blazor-b11-review-corrections.md)
 record the approved policy separately.

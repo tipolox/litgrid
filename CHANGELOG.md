@@ -28,6 +28,24 @@ With the default null revision, Legacy preserves v1.0.3 parent-update semantics.
 
 The product owner deliberately approved this **breaking minor release** as a semantic-versioning exception for coordinated LitGrid v1.1.0 across the six public npm packages and Blazor NuGet. It is not fully backward compatible.
 
+### Package debugging and coordinated upgrades
+
+- npm packages provide the original sources needed by JavaScript and declaration
+  maps for debugging and type navigation without requiring the repository source tree.
+- Upgrade all LitGrid wrappers/bundles on a shared page to the coordinated 1.1.0
+  set, including the Blazor NuGet package where used. Packed Web requires core and
+  renderer at `^1.1.0`; React, Angular, and Vue require Web at `^1.1.0`. Update and
+  review consumer lockfiles, check resolved dependencies, and rebuild affected apps.
+- The first `yc-grid` registration wins. The duplicate-registration guard avoids
+  an exception but cannot replace an older constructor: Web 1.0.3 loaded first
+  leaves `updateColumnSchema` unavailable even after 1.1.0 loads. Deliver matching
+  assets and reload open pages; do not attempt to register the name twice.
+- Deploy matching application and Blazor JavaScript assets together. Use asset
+  fingerprints or cache revalidation/purges, update service-worker precaches where
+  used, and test an upgrade from a cached client. Publication does not automatically
+  update installed packages, lockfiles, deployed consumers, or browser caches.
+  See [the upgrade guide](docs/installation.md#upgrading-to-v110).
+
 ## 1.0.3
 
 ### Fixes

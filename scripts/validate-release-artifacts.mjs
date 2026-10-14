@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, posix } from 'node:path';
 import { gunzipSync, inflateRawSync } from 'node:zlib';
 
 const expectedPackages = [
@@ -105,6 +105,36 @@ function validateEntryPath(files, packageName, field, value, failures) {
   }
 }
 
+function validateSourceMaps(files, packageName, failures) {
+  for (const [path, contents] of files) {
+    if (path.endsWith('.map')) {
+      try {
+        const map = JSON.parse(contents.toString('utf8'));
+        if (map.version !== 3 || !Array.isArray(map.sources) || typeof map.mappings !== 'string') {
+          throw new Error('expected a version 3 source map');
+        }
+        for (const [index, source] of map.sources.entries()) {
+          if (/^(?:[a-z][a-z\d+.-]*:|[\\/])/i.test(source) ||
+              /^(?:[a-z][a-z\d+.-]*:|[\\/])/i.test(map.sourceRoot ?? '')) {
+            throw new Error(`absolute source path: ${source}`);
+          }
+          const original = posix.normalize(posix.join(posix.dirname(path), map.sourceRoot ?? '', source));
+          if (typeof map.sourcesContent?.[index] !== 'string' && !files.has(original)) {
+            throw new Error(`original source is neither embedded nor packaged: ${source}`);
+          }
+        }
+      } catch (error) {
+        failures.push(`${packageName}: ${path}: ${error.message}`);
+      }
+    } else if (/\.(?:m?js|d\.ts)$/.test(path)) {
+      for (const match of contents.toString('utf8').matchAll(/\/\/[#@]\s*sourceMappingURL=(\S+)/g)) {
+        const mapPath = posix.normalize(posix.join(posix.dirname(path), match[1]));
+        if (!files.has(mapPath)) failures.push(`${packageName}: ${path}: source map is missing: ${match[1]}`);
+      }
+    }
+  }
+}
+
 function validateNpmArtifacts(version, artifactsDir, failures) {
   const npmDir = join(artifactsDir, 'npm');
   const tarballs = readdirSync(npmDir)
@@ -135,6 +165,7 @@ function validateNpmArtifacts(version, artifactsDir, failures) {
     }
     foundPackages.set(manifest.name, { files, manifest });
 
+    validateSourceMaps(files, manifest.name, failures);
     if (!files.has('package/README.md')) failures.push(`${manifest.name}: README.md missing from package root`);
     if (manifest.version !== version) failures.push(`${manifest.name}: version is ${manifest.version}, expected ${version}`);
     if (![...files.keys()].some((path) => path.split('/').at(-1) === 'LICENSE')) {
