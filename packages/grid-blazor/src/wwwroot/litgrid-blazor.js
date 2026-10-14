@@ -3959,6 +3959,7 @@ function requireGrid(element) {
 function initGrid(element, dotNetHelper, inputs) {
 	const grid = requireGrid(element);
 	syncGridInputs(grid, inputs);
+	disposeGrid(element);
 	const onStateChange = (event) => {
 		const detail = event.detail;
 		dotNetHelper.invokeMethodAsync("HandleColumnStateChange", detail);

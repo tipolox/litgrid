@@ -176,7 +176,8 @@ public class DeclarativeComponentTests
                 .WaitAsync(TimeSpan.FromSeconds(2));
             await renderer.Drain();
             Assert.False(pending.Task.IsCompleted);
-            Assert.True(interop.Tokens[stage].IsCancellationRequested);
+            Assert.False(interop.Tokens[stage].CanBeCanceled);
+            pending.TrySetResult();
             Assert.False(interop.Tokens["disposeGrid"].IsCancellationRequested);
             AssertReleased(host.Grid!, interop);
             await renderer.Render(root, ("Specs", Basic));

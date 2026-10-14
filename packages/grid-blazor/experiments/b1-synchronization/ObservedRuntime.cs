@@ -9,7 +9,12 @@ public sealed class ObservedRuntime(IJSRuntime inner) : IJSRuntime
     public int Calls, Transfers, Columns, Configurations, InFlight;
     public bool DelayNextSync;
     public bool DecorateComponent;
-    public ValueTask<T> InvokeAsync<T>(string name, object?[]? args) => InvokeAsync<T>(name, CancellationToken.None, args);
+    public async ValueTask<T> InvokeAsync<T>(string name, object?[]? args)
+    {
+        if (name == "import") Calls++;
+        var result = await inner.InvokeAsync<T>(name, args);
+        return result is IJSObjectReference module ? (T)(object)new ObservedModule(module, this) : result;
+    }
     public async ValueTask<T> InvokeAsync<T>(string name, CancellationToken token, object?[]? args)
     {
         if (name == "import") Calls++;
@@ -18,8 +23,10 @@ public sealed class ObservedRuntime(IJSRuntime inner) : IJSRuntime
     }
     private sealed class ObservedModule(IJSObjectReference inner, ObservedRuntime owner) : IJSObjectReference
     {
-        public ValueTask<T> InvokeAsync<T>(string name, object?[]? args) => InvokeAsync<T>(name, CancellationToken.None, args);
-        public async ValueTask<T> InvokeAsync<T>(string name, CancellationToken token, object?[]? args)
+        public ValueTask<T> InvokeAsync<T>(string name, object?[]? args) => InvokeCoreAsync<T>(name, null, args);
+        public ValueTask<T> InvokeAsync<T>(string name, CancellationToken token, object?[]? args)
+            => InvokeCoreAsync<T>(name, token, args);
+        private async ValueTask<T> InvokeCoreAsync<T>(string name, CancellationToken? token, object?[]? args)
         {
             owner.Calls++;
             if (name is "initGrid" or "updateInputs" && args?.LastOrDefault() is IDictionary<string, object?> inputs)
@@ -34,9 +41,12 @@ public sealed class ObservedRuntime(IJSRuntime inner) : IJSRuntime
                 if (name == "updateInputs" && owner.DelayNextSync)
                 {
                     owner.DelayNextSync = false;
-                    await Task.Delay(250, token);
+                    await Task.Delay(250, token ?? CancellationToken.None);
                 }
-                return await inner.InvokeAsync<T>(name, token, args);
+                // Even an explicit CancellationToken.None overrides JSRuntime's
+                // default timeout. The decorator must preserve overload semantics.
+                return token.HasValue ? await inner.InvokeAsync<T>(name, token.Value, args)
+                    : await inner.InvokeAsync<T>(name, args);
             }
             finally { owner.InFlight--; }
         }

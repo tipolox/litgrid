@@ -281,7 +281,8 @@ public class DataSynchronizationTests
             var count = interop.Syncs.Length;
             await grid.DisposeAsync(); await refresh.WaitAsync(TimeSpan.FromSeconds(2));
             Assert.Equal(count, interop.Syncs.Length);
-            Assert.True(interop.Tokens["updateInputs"].IsCancellationRequested);
+            Assert.False(interop.Tokens["updateInputs"].CanBeCanceled);
+            interop.UpdateGate.TrySetResult();
             Assert.Empty(renderer.Errors);
         }
     }

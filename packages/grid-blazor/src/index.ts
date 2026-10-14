@@ -79,6 +79,9 @@ export function initGrid(
 ): void {
   const grid = requireGrid(element)
   syncGridInputs(grid, inputs)
+  // Initialization may have applied successfully but lost its Server acknowledgment.
+  // Retrying must replace callbacks rather than retaining duplicate listeners.
+  disposeGrid(element)
 
     const onStateChange = (event: Event) => {
     const detail = (event as CustomEvent<ColumnStateChangeDetail>).detail

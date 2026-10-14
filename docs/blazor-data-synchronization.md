@@ -164,6 +164,23 @@ Only successful interop advances the captured synchronization state. There is no
 unbounded automatic retry loop; unexpected failures reach the caller or Blazor
 renderer. Navigation cancels pending work using the existing lifetime token.
 
+Interactive Server synchronization uses the framework's configured interop
+deadline (`CircuitOptions.JSInteropDefaultCallTimeout`, normally one minute).
+Passing only a component-lifetime token would disable that deadline and can
+leave a lost transport acknowledgment holding the synchronization gate after
+reconnection. LitGrid preserves the runtime deadline and separately cancels its
+own wait during disposal. A lost call can remain pending until that deadline;
+successful reconnection alone is not an acknowledgment of the operation.
+
+An explicit refresh reports timeout/disconnect failures to its caller. Render
+and notification synchronization logs these recoverable interop failures and
+retains pending state for a later render, notification, or explicit refresh.
+It does not start an automatic retry loop or record the failed operation as
+successful. Unexpected JavaScript setter errors still propagate. An expired
+or terminated circuit requires the application's normal reload/new-circuit
+recovery; LitGrid does not claim that it reconnected. Applications deliberately
+disabling the framework deadline also disable that bound on lost interop calls.
+
 ## Legacy compatibility and migration
 
 ```razor

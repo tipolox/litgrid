@@ -197,10 +197,16 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
             if (!isInitialized)
             {
                 dotNetRef ??= DotNetObjectReference.Create(this);
-                await module.InvokeVoidAsync("initGrid", lifetime.Token, elementRef, dotNetRef, inputs);
+                // An explicit token overrides JSRuntime's configured timeout. Keep
+                // its default interop deadline, and cancel our wait on disposal
+                // separately. Lost Server acknowledgments must not occupy the gate
+                // for the component lifetime.
+                await module.InvokeVoidAsync("initGrid", elementRef, dotNetRef, inputs)
+                    .AsTask().WaitAsync(lifetime.Token);
                 isInitialized = !disposed;
             }
-            else await module.InvokeVoidAsync("updateInputs", lifetime.Token, elementRef, inputs);
+            else await module.InvokeVoidAsync("updateInputs", elementRef, inputs)
+                .AsTask().WaitAsync(lifetime.Token);
             if (disposed) return;
             synchronizedColumns = snapshot;
             synchronizedDeclarativeMode = declarative;
@@ -225,7 +231,7 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
         {
             // Navigation may disconnect an import/update that was already in flight.
         }
-        catch
+        catch (Exception exception)
         {
             inputsPending = true;
             if (attemptedInputs != null)
@@ -239,6 +245,16 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
             // An explicit refresh must remain retryable even when its reference and
             // revision already matched the last successful transfer.
             if (forceData || dataAttempted) failedDataPending = true;
+            if (!forceData &&
+                exception is JSDisconnectedException or OperationCanceledException)
+            {
+                // Render/notification work can lose its acknowledgment or run on
+                // a disconnected retained circuit. Keep the operation dirty without
+                // killing that circuit or retrying in a loop. Explicit refresh still
+                // surfaces the failure. Unexpected setter exceptions still propagate.
+                Logger.LogWarning(exception, "Grid synchronization did not complete; a later render or refresh will retry.");
+                return;
+            }
             throw;
         }
         finally

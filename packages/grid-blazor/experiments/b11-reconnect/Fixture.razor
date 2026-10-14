@@ -1,0 +1,69 @@
+@namespace ReconnectHost
+@using B1Host
+@using B11Host
+@using Microsoft.JSInterop
+@using Tipolox.LitGrid.Blazor
+@inject IJSRuntime JS
+@inject ObservedRuntime Observed
+@implements IAsyncDisposable
+
+@if (show) {
+    <ObservedGrid @ref="grid" Data="rows" Columns="columns" DataSyncMode="mode" Height="200" />
+    <ObservedGrid @ref="other" Data="rows" Columns="columns" DataSyncMode="mode" Height="200" />
+}
+@code {
+    private ObservedGrid? grid, other;
+    private DotNetObjectReference<Fixture>? reference;
+    private readonly CountedObservable rows = new([new Row(1), new Row(2)]);
+    private readonly GridColumn[] columns = [new() { Key = "id" }, new() { Key = "name" }, new() { Key = "alias" }];
+    private readonly Dictionary<string, Probe> probes = [];
+    private bool show;
+    private DataSyncMode mode;
+    private sealed class Probe { public bool Complete { get; set; } public string? Error { get; set; } }
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender) { reference = DotNetObjectReference.Create(this); await JS.InvokeVoidAsync("reconnectReady", reference); }
+    }
+    [JSInvokable] public void Mount(bool legacy) { mode = legacy ? DataSyncMode.Legacy : DataSyncMode.Automatic; show = true; StateHasChanged(); }
+    [JSInvokable] public void Start(string id, string value, bool delay, bool second = false) {
+        var probe = probes[id] = new();
+        _ = InvokeAsync(async () => {
+            try {
+                rows[0].Alias = value;
+                Observed.DelayNextSync = delay;
+                await (second ? other! : grid!).RefreshDataAsync();
+            } catch (Exception error) { probe.Error = error.GetType().Name + ": " + error.Message; }
+            finally { probe.Complete = true; }
+        });
+    }
+    [JSInvokable] public void Notify(string value, int milliseconds) {
+        _ = Task.Run(async () => { await Task.Delay(milliseconds); await InvokeAsync(() => rows[0].Name = value); });
+    }
+    [JSInvokable] public void ScheduleRefresh(string id, string value, int milliseconds) {
+        _ = Task.Run(async () => { await Task.Delay(milliseconds); await InvokeAsync(() => Start(id, value, false)); });
+    }
+    // A direct runtime call is the configured-timeout control, independent of LitGrid.
+    [JSInvokable] public void Control(string id, int milliseconds) {
+        var probe = probes[id] = new();
+        _ = Task.Run(async () => {
+            await Task.Delay(milliseconds);
+            await InvokeAsync(async () => {
+                try { await JS.InvokeVoidAsync("console.log", "timeout control"); }
+                catch (Exception error) { probe.Error = error.GetType().Name; }
+                finally { probe.Complete = true; }
+            });
+        });
+    }
+    [JSInvokable] public object Status() => new { Probes = probes, Observed.InFlight, Observed.Transfers,
+        Subscribers = rows.Sum(row => row.Subscribers) };
+    [JSInvokable] public async Task Unmount() { await grid!.DisposeAsync(); await other!.DisposeAsync(); show = false; StateHasChanged(); }
+    [JSInvokable] public void ScheduleUnmount(int milliseconds) {
+        var probe = probes["offline-dispose"] = new();
+        _ = Task.Run(async () => {
+            await Task.Delay(milliseconds);
+            try { await InvokeAsync(Unmount); }
+            catch (Exception error) { probe.Error = error.GetType().Name + ": " + error.Message; }
+            finally { probe.Complete = true; }
+        });
+    }
+    public async ValueTask DisposeAsync() { if (grid != null) await grid.DisposeAsync(); if (other != null) await other.DisposeAsync(); reference?.Dispose(); }
+}

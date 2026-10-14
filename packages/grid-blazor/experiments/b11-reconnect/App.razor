@@ -1,0 +1,13 @@
+@page "/"
+@page "/qa"
+@page "/b11"
+@namespace ReconnectHost
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@inject Microsoft.AspNetCore.Components.NavigationManager Navigation
+<!doctype html><html lang="en"><head><meta charset="utf-8" /><base href="/" /><title>Server reconnect regression</title><link rel="icon" href="data:," /></head><body>
+@if (Navigation.Uri.Contains("/qa")) { <QaReconnect.QaFixture @rendermode="InteractiveServer" /> }
+else if (Navigation.Uri.Contains("/b11")) { <B11Host.Fixture @rendermode="InteractiveServer" /> }
+else { <Fixture @rendermode="InteractiveServer" /> }
+<script>window.reconnectReady = ref => window.reconnectFixture = ref; window.b11Ready = ref => window.b11 = ref;</script>
+<script src="_framework/blazor.web.js"></script>
+</body></html>
