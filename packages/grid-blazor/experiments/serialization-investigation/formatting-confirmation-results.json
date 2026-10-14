@@ -1,0 +1,601 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T06:42:01.778Z",
+    "browser": "156.0.8078.4",
+    "node": "v22.14.0",
+    "host": "Release net8.0 WebAssembly; RunAOTCompilation unset",
+    "sdk": "10.0.401",
+    "methodology": "1 excluded warmup per mode; 3 measured rotated-order repetitions per fixture; no dataset interop, parse, render or task yields within timed managed sections"
+  },
+  "results": [
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 819,
+      "allocatedBytes": 5264256,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 874.8,
+      "allocatedBytes": 3199568,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 668.9,
+      "allocatedBytes": 1514432,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 578.0999,
+      "allocatedBytes": 828248,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 131.7999,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 468.8,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-chars",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 484,
+      "allocatedBytes": 184,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 467.3,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-chars",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 469.9,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 832.6,
+      "allocatedBytes": 3199488,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 939.8999,
+      "allocatedBytes": 3199488,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 747.9,
+      "allocatedBytes": 1514432,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 545.5999,
+      "allocatedBytes": 828160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 133,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 537.7999,
+      "allocatedBytes": 828160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 125.1,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 461.3,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-chars",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 486.5,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 845.4,
+      "allocatedBytes": 3199488,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 816.7,
+      "allocatedBytes": 3199488,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 2,
+      "elapsedMs": 765.2999,
+      "allocatedBytes": 1514432,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 820.9,
+      "allocatedBytes": 3199488,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 698.5999,
+      "allocatedBytes": 1514432,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 597.8,
+      "allocatedBytes": 828160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 135.7,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 475.5,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-chars",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 474.0999,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    },
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 3,
+      "elapsedMs": 816.3,
+      "allocatedBytes": 3199488,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true
+    }
+  ],
+  "errors": []
+}

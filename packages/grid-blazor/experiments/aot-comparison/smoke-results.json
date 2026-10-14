@@ -1,0 +1,2968 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T07:33:28.169Z",
+    "browser": "156.0.8078.4",
+    "node": "v22.14.0",
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalProcessors": 8,
+      "physicalMemoryBytes": 32147910656,
+      "platform": "win32",
+      "osRelease": "10.0.26200"
+    },
+    "contexts": 1,
+    "postWarmupRepetitionsPerContext": 1,
+    "warmupsPerModePerContext": 1,
+    "fixtures": {
+      "narrow": "1000 x AccountRow10",
+      "wide": "300 x AccountRow120"
+    },
+    "runtime": "8.0.31",
+    "target": "net8.0",
+    "sdk": "10.0.401",
+    "publishTrimmed": true,
+    "trimMode": "partial",
+    "methodology": "Same unchanged Probe.Run; managed elapsed excludes setup and verification; browser gaps include the entire probe; fresh contexts with no-store HTTP and Brotli where published"
+  },
+  "startup": [
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "readyAtMs": 1819.199999988079,
+      "resources": [
+        {
+          "name": "/_framework/blazor.webassembly.js",
+          "transferSize": 17130,
+          "encodedBodySize": 16830,
+          "decodedBodySize": 60012,
+          "durationMs": 114.20000000298023
+        },
+        {
+          "name": "/_framework/dotnet.js",
+          "transferSize": 10553,
+          "encodedBodySize": 10253,
+          "decodedBodySize": 35871,
+          "durationMs": 22.799999997019768
+        },
+        {
+          "name": "/_framework/blazor.boot.json",
+          "transferSize": 1909,
+          "encodedBodySize": 1609,
+          "decodedBodySize": 3643,
+          "durationMs": 42.599999994039536
+        },
+        {
+          "name": "/_framework/dotnet.runtime.js",
+          "transferSize": 54964,
+          "encodedBodySize": 54664,
+          "decodedBodySize": 223202,
+          "durationMs": 52.3999999910593
+        },
+        {
+          "name": "/_framework/dotnet.native.js",
+          "transferSize": 26515,
+          "encodedBodySize": 26215,
+          "decodedBodySize": 134653,
+          "durationMs": 58.5
+        },
+        {
+          "name": "/_framework/dotnet.native.wasm",
+          "transferSize": 891111,
+          "encodedBodySize": 890811,
+          "decodedBodySize": 2729187,
+          "durationMs": 140.40000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.wasm",
+          "transferSize": 48156,
+          "encodedBodySize": 47856,
+          "decodedBodySize": 127765,
+          "durationMs": 86.20000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.Web.wasm",
+          "transferSize": 14782,
+          "encodedBodySize": 14482,
+          "decodedBodySize": 41749,
+          "durationMs": 96.1000000089407
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "transferSize": 26530,
+          "encodedBodySize": 26230,
+          "decodedBodySize": 69909,
+          "durationMs": 101.09999999403954
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.wasm",
+          "transferSize": 3841,
+          "encodedBodySize": 3541,
+          "decodedBodySize": 8981,
+          "durationMs": 87.90000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "transferSize": 2619,
+          "encodedBodySize": 2319,
+          "decodedBodySize": 6421,
+          "durationMs": 91.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Json.wasm",
+          "transferSize": 3854,
+          "encodedBodySize": 3554,
+          "decodedBodySize": 8981,
+          "durationMs": 184
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.wasm",
+          "transferSize": 18704,
+          "encodedBodySize": 18404,
+          "decodedBodySize": 43797,
+          "durationMs": 187.70000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "transferSize": 6118,
+          "encodedBodySize": 5818,
+          "decodedBodySize": 15637,
+          "durationMs": 184.70000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.wasm",
+          "transferSize": 7768,
+          "encodedBodySize": 7468,
+          "decodedBodySize": 17173,
+          "durationMs": 187.80000001192093
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.Abstractions.wasm",
+          "transferSize": 9957,
+          "encodedBodySize": 9657,
+          "decodedBodySize": 23317,
+          "durationMs": 188.59999999403954
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Options.wasm",
+          "transferSize": 7283,
+          "encodedBodySize": 6983,
+          "decodedBodySize": 16661,
+          "durationMs": 189.29999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Primitives.wasm",
+          "transferSize": 3665,
+          "encodedBodySize": 3365,
+          "decodedBodySize": 8981,
+          "durationMs": 254.90000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.wasm",
+          "transferSize": 17120,
+          "encodedBodySize": 16820,
+          "decodedBodySize": 42261,
+          "durationMs": 303.5
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.WebAssembly.wasm",
+          "transferSize": 4206,
+          "encodedBodySize": 3906,
+          "decodedBodySize": 9493,
+          "durationMs": 302.8999999910593
+        },
+        {
+          "name": "/_framework/System.Collections.Concurrent.wasm",
+          "transferSize": 8196,
+          "encodedBodySize": 7896,
+          "decodedBodySize": 18197,
+          "durationMs": 323.20000000298023
+        },
+        {
+          "name": "/_framework/System.Collections.wasm",
+          "transferSize": 4302,
+          "encodedBodySize": 4002,
+          "decodedBodySize": 10005,
+          "durationMs": 306.70000000298023
+        },
+        {
+          "name": "/_framework/System.ComponentModel.wasm",
+          "transferSize": 2011,
+          "encodedBodySize": 1711,
+          "decodedBodySize": 4885,
+          "durationMs": 321.90000000596046
+        },
+        {
+          "name": "/_framework/System.Console.wasm",
+          "transferSize": 6436,
+          "encodedBodySize": 6136,
+          "decodedBodySize": 14613,
+          "durationMs": 353.29999999701977
+        },
+        {
+          "name": "/_framework/System.Linq.wasm",
+          "transferSize": 8045,
+          "encodedBodySize": 7745,
+          "decodedBodySize": 19733,
+          "durationMs": 369
+        },
+        {
+          "name": "/_framework/System.Memory.wasm",
+          "transferSize": 6968,
+          "encodedBodySize": 6668,
+          "decodedBodySize": 15637,
+          "durationMs": 360.59999999403954
+        },
+        {
+          "name": "/_framework/System.Private.Uri.wasm",
+          "transferSize": 24177,
+          "encodedBodySize": 23877,
+          "decodedBodySize": 58645,
+          "durationMs": 382.20000000298023
+        },
+        {
+          "name": "/_framework/System.Runtime.InteropServices.JavaScript.wasm",
+          "transferSize": 14310,
+          "encodedBodySize": 14010,
+          "decodedBodySize": 34581,
+          "durationMs": 382.3999999910593
+        },
+        {
+          "name": "/_framework/System.Runtime.wasm",
+          "transferSize": 2566,
+          "encodedBodySize": 2266,
+          "decodedBodySize": 6933,
+          "durationMs": 368.20000000298023
+        },
+        {
+          "name": "/_framework/System.Text.Encodings.Web.wasm",
+          "transferSize": 9893,
+          "encodedBodySize": 9593,
+          "decodedBodySize": 29461,
+          "durationMs": 403.59999999403954
+        },
+        {
+          "name": "/_framework/System.Text.Json.wasm",
+          "transferSize": 118123,
+          "encodedBodySize": 117823,
+          "decodedBodySize": 354069,
+          "durationMs": 421.20000000298023
+        },
+        {
+          "name": "/_framework/System.Private.CoreLib.wasm",
+          "transferSize": 455569,
+          "encodedBodySize": 455269,
+          "decodedBodySize": 1445141,
+          "durationMs": 463.09999999403954
+        },
+        {
+          "name": "/_framework/SerializationInvestigation.wasm",
+          "transferSize": 32713,
+          "encodedBodySize": 32413,
+          "decodedBodySize": 187157,
+          "durationMs": 419.8999999910593
+        },
+        {
+          "name": "/_framework/icudt_EFIGS.dat",
+          "transferSize": 144283,
+          "encodedBodySize": 143983,
+          "decodedBodySize": 550832,
+          "durationMs": 453.6000000089407
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "readyAtMs": 1902.8999999910593,
+      "resources": [
+        {
+          "name": "/_framework/blazor.webassembly.js",
+          "transferSize": 17130,
+          "encodedBodySize": 16830,
+          "decodedBodySize": 60012,
+          "durationMs": 17.400000005960464
+        },
+        {
+          "name": "/_framework/dotnet.js",
+          "transferSize": 10553,
+          "encodedBodySize": 10253,
+          "decodedBodySize": 35871,
+          "durationMs": 6.600000008940697
+        },
+        {
+          "name": "/_framework/blazor.boot.json",
+          "transferSize": 1909,
+          "encodedBodySize": 1609,
+          "decodedBodySize": 3643,
+          "durationMs": 13.399999991059303
+        },
+        {
+          "name": "/_framework/dotnet.runtime.js",
+          "transferSize": 54964,
+          "encodedBodySize": 54664,
+          "decodedBodySize": 223202,
+          "durationMs": 150.29999999701977
+        },
+        {
+          "name": "/_framework/dotnet.native.js",
+          "transferSize": 26515,
+          "encodedBodySize": 26215,
+          "decodedBodySize": 134653,
+          "durationMs": 144.79999999701977
+        },
+        {
+          "name": "/_framework/dotnet.native.wasm",
+          "transferSize": 891111,
+          "encodedBodySize": 890811,
+          "decodedBodySize": 2729187,
+          "durationMs": 256.5
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.wasm",
+          "transferSize": 48156,
+          "encodedBodySize": 47856,
+          "decodedBodySize": 127765,
+          "durationMs": 99.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.Web.wasm",
+          "transferSize": 14782,
+          "encodedBodySize": 14482,
+          "decodedBodySize": 41749,
+          "durationMs": 127.20000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "transferSize": 26530,
+          "encodedBodySize": 26230,
+          "decodedBodySize": 69909,
+          "durationMs": 126.90000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.wasm",
+          "transferSize": 3841,
+          "encodedBodySize": 3541,
+          "decodedBodySize": 8981,
+          "durationMs": 168.5
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "transferSize": 2619,
+          "encodedBodySize": 2319,
+          "decodedBodySize": 6421,
+          "durationMs": 178
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Json.wasm",
+          "transferSize": 3854,
+          "encodedBodySize": 3554,
+          "decodedBodySize": 8981,
+          "durationMs": 231.70000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.wasm",
+          "transferSize": 18704,
+          "encodedBodySize": 18404,
+          "decodedBodySize": 43797,
+          "durationMs": 238.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "transferSize": 6118,
+          "encodedBodySize": 5818,
+          "decodedBodySize": 15637,
+          "durationMs": 240.40000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.wasm",
+          "transferSize": 7768,
+          "encodedBodySize": 7468,
+          "decodedBodySize": 17173,
+          "durationMs": 255.90000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.Abstractions.wasm",
+          "transferSize": 9957,
+          "encodedBodySize": 9657,
+          "decodedBodySize": 23317,
+          "durationMs": 264
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Options.wasm",
+          "transferSize": 7283,
+          "encodedBodySize": 6983,
+          "decodedBodySize": 16661,
+          "durationMs": 387.29999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Primitives.wasm",
+          "transferSize": 3665,
+          "encodedBodySize": 3365,
+          "decodedBodySize": 8981,
+          "durationMs": 386.5
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.wasm",
+          "transferSize": 17120,
+          "encodedBodySize": 16820,
+          "decodedBodySize": 42261,
+          "durationMs": 408.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.WebAssembly.wasm",
+          "transferSize": 4206,
+          "encodedBodySize": 3906,
+          "decodedBodySize": 9493,
+          "durationMs": 419.8999999910593
+        },
+        {
+          "name": "/_framework/System.Collections.Concurrent.wasm",
+          "transferSize": 8196,
+          "encodedBodySize": 7896,
+          "decodedBodySize": 18197,
+          "durationMs": 408
+        },
+        {
+          "name": "/_framework/System.Collections.wasm",
+          "transferSize": 4302,
+          "encodedBodySize": 4002,
+          "decodedBodySize": 10005,
+          "durationMs": 464.6000000089407
+        },
+        {
+          "name": "/_framework/System.ComponentModel.wasm",
+          "transferSize": 2011,
+          "encodedBodySize": 1711,
+          "decodedBodySize": 4885,
+          "durationMs": 592.3000000119209
+        },
+        {
+          "name": "/_framework/System.Console.wasm",
+          "transferSize": 6436,
+          "encodedBodySize": 6136,
+          "decodedBodySize": 14613,
+          "durationMs": 608.2000000029802
+        },
+        {
+          "name": "/_framework/System.Linq.wasm",
+          "transferSize": 8045,
+          "encodedBodySize": 7745,
+          "decodedBodySize": 19733,
+          "durationMs": 624.0999999940395
+        },
+        {
+          "name": "/_framework/System.Memory.wasm",
+          "transferSize": 6968,
+          "encodedBodySize": 6668,
+          "decodedBodySize": 15637,
+          "durationMs": 619.1000000089407
+        },
+        {
+          "name": "/_framework/System.Private.Uri.wasm",
+          "transferSize": 24177,
+          "encodedBodySize": 23877,
+          "decodedBodySize": 58645,
+          "durationMs": 624.6000000089407
+        },
+        {
+          "name": "/_framework/System.Runtime.InteropServices.JavaScript.wasm",
+          "transferSize": 14310,
+          "encodedBodySize": 14010,
+          "decodedBodySize": 34581,
+          "durationMs": 644.7999999970198
+        },
+        {
+          "name": "/_framework/System.Runtime.wasm",
+          "transferSize": 2566,
+          "encodedBodySize": 2266,
+          "decodedBodySize": 6933,
+          "durationMs": 691
+        },
+        {
+          "name": "/_framework/System.Text.Encodings.Web.wasm",
+          "transferSize": 9893,
+          "encodedBodySize": 9593,
+          "decodedBodySize": 29461,
+          "durationMs": 732.3999999910593
+        },
+        {
+          "name": "/_framework/System.Text.Json.wasm",
+          "transferSize": 118123,
+          "encodedBodySize": 117823,
+          "decodedBodySize": 354069,
+          "durationMs": 704.6000000089407
+        },
+        {
+          "name": "/_framework/System.Private.CoreLib.wasm",
+          "transferSize": 455569,
+          "encodedBodySize": 455269,
+          "decodedBodySize": 1445141,
+          "durationMs": 768
+        },
+        {
+          "name": "/_framework/SerializationInvestigation.wasm",
+          "transferSize": 32713,
+          "encodedBodySize": 32413,
+          "decodedBodySize": 187157,
+          "durationMs": 733.7000000029802
+        },
+        {
+          "name": "/_framework/icudt_EFIGS.dat",
+          "transferSize": 144283,
+          "encodedBodySize": 143983,
+          "decodedBodySize": 550832,
+          "durationMs": 765.5999999940395
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "readyAtMs": 1904.300000011921,
+      "resources": [
+        {
+          "name": "/_framework/blazor.webassembly.js",
+          "transferSize": 17130,
+          "encodedBodySize": 16830,
+          "decodedBodySize": 60012,
+          "durationMs": 150.70000000298023
+        },
+        {
+          "name": "/_framework/dotnet.js",
+          "transferSize": 10553,
+          "encodedBodySize": 10253,
+          "decodedBodySize": 35871,
+          "durationMs": 46.599999994039536
+        },
+        {
+          "name": "/_framework/blazor.boot.json",
+          "transferSize": 1909,
+          "encodedBodySize": 1609,
+          "decodedBodySize": 3643,
+          "durationMs": 8.700000002980232
+        },
+        {
+          "name": "/_framework/dotnet.runtime.js",
+          "transferSize": 54964,
+          "encodedBodySize": 54664,
+          "decodedBodySize": 223202,
+          "durationMs": 64.90000000596046
+        },
+        {
+          "name": "/_framework/dotnet.native.js",
+          "transferSize": 27069,
+          "encodedBodySize": 26769,
+          "decodedBodySize": 143507,
+          "durationMs": 34.5
+        },
+        {
+          "name": "/_framework/dotnet.native.wasm",
+          "transferSize": 2622972,
+          "encodedBodySize": 2622672,
+          "decodedBodySize": 10951269,
+          "durationMs": 528
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.wasm",
+          "transferSize": 48156,
+          "encodedBodySize": 47856,
+          "decodedBodySize": 127765,
+          "durationMs": 47.29999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.Web.wasm",
+          "transferSize": 14782,
+          "encodedBodySize": 14482,
+          "decodedBodySize": 41749,
+          "durationMs": 121.59999999403954
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "transferSize": 26530,
+          "encodedBodySize": 26230,
+          "decodedBodySize": 69909,
+          "durationMs": 131.70000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.wasm",
+          "transferSize": 3841,
+          "encodedBodySize": 3541,
+          "decodedBodySize": 8981,
+          "durationMs": 74.59999999403954
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "transferSize": 2619,
+          "encodedBodySize": 2319,
+          "decodedBodySize": 6421,
+          "durationMs": 74.40000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Json.wasm",
+          "transferSize": 3854,
+          "encodedBodySize": 3554,
+          "decodedBodySize": 8981,
+          "durationMs": 97.19999998807907
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.wasm",
+          "transferSize": 18704,
+          "encodedBodySize": 18404,
+          "decodedBodySize": 43797,
+          "durationMs": 124.8999999910593
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "transferSize": 6118,
+          "encodedBodySize": 5818,
+          "decodedBodySize": 15637,
+          "durationMs": 129.69999998807907
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.wasm",
+          "transferSize": 7768,
+          "encodedBodySize": 7468,
+          "decodedBodySize": 17173,
+          "durationMs": 144.59999999403954
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.Abstractions.wasm",
+          "transferSize": 9957,
+          "encodedBodySize": 9657,
+          "decodedBodySize": 23317,
+          "durationMs": 152.8999999910593
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Options.wasm",
+          "transferSize": 7283,
+          "encodedBodySize": 6983,
+          "decodedBodySize": 16661,
+          "durationMs": 150.5
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Primitives.wasm",
+          "transferSize": 3665,
+          "encodedBodySize": 3365,
+          "decodedBodySize": 8981,
+          "durationMs": 152.40000000596046
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.wasm",
+          "transferSize": 17120,
+          "encodedBodySize": 16820,
+          "decodedBodySize": 42261,
+          "durationMs": 189
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.WebAssembly.wasm",
+          "transferSize": 4206,
+          "encodedBodySize": 3906,
+          "decodedBodySize": 9493,
+          "durationMs": 153.3999999910593
+        },
+        {
+          "name": "/_framework/System.Collections.Concurrent.wasm",
+          "transferSize": 8196,
+          "encodedBodySize": 7896,
+          "decodedBodySize": 18197,
+          "durationMs": 214.5
+        },
+        {
+          "name": "/_framework/System.Collections.wasm",
+          "transferSize": 4302,
+          "encodedBodySize": 4002,
+          "decodedBodySize": 10005,
+          "durationMs": 187.59999999403954
+        },
+        {
+          "name": "/_framework/System.ComponentModel.wasm",
+          "transferSize": 2011,
+          "encodedBodySize": 1711,
+          "decodedBodySize": 4885,
+          "durationMs": 157
+        },
+        {
+          "name": "/_framework/System.Console.wasm",
+          "transferSize": 6436,
+          "encodedBodySize": 6136,
+          "decodedBodySize": 14613,
+          "durationMs": 188.6000000089407
+        },
+        {
+          "name": "/_framework/System.Linq.wasm",
+          "transferSize": 8045,
+          "encodedBodySize": 7745,
+          "decodedBodySize": 19733,
+          "durationMs": 230.40000000596046
+        },
+        {
+          "name": "/_framework/System.Memory.wasm",
+          "transferSize": 6968,
+          "encodedBodySize": 6668,
+          "decodedBodySize": 15637,
+          "durationMs": 233.6000000089407
+        },
+        {
+          "name": "/_framework/System.Private.Uri.wasm",
+          "transferSize": 24177,
+          "encodedBodySize": 23877,
+          "decodedBodySize": 58645,
+          "durationMs": 231.09999999403954
+        },
+        {
+          "name": "/_framework/System.Runtime.InteropServices.JavaScript.wasm",
+          "transferSize": 14310,
+          "encodedBodySize": 14010,
+          "decodedBodySize": 34581,
+          "durationMs": 234
+        },
+        {
+          "name": "/_framework/System.Runtime.wasm",
+          "transferSize": 2566,
+          "encodedBodySize": 2266,
+          "decodedBodySize": 6933,
+          "durationMs": 233
+        },
+        {
+          "name": "/_framework/System.Text.Encodings.Web.wasm",
+          "transferSize": 9733,
+          "encodedBodySize": 9433,
+          "decodedBodySize": 29461,
+          "durationMs": 242.6000000089407
+        },
+        {
+          "name": "/_framework/System.Text.Json.wasm",
+          "transferSize": 118123,
+          "encodedBodySize": 117823,
+          "decodedBodySize": 354069,
+          "durationMs": 274.3999999910593
+        },
+        {
+          "name": "/_framework/System.Private.CoreLib.wasm",
+          "transferSize": 454885,
+          "encodedBodySize": 454585,
+          "decodedBodySize": 1443605,
+          "durationMs": 301.29999999701977
+        },
+        {
+          "name": "/_framework/SerializationInvestigation.wasm",
+          "transferSize": 32541,
+          "encodedBodySize": 32241,
+          "decodedBodySize": 187157,
+          "durationMs": 266.1000000089407
+        },
+        {
+          "name": "/_framework/icudt_EFIGS.dat",
+          "transferSize": 144283,
+          "encodedBodySize": 143983,
+          "decodedBodySize": 550832,
+          "durationMs": 292.90000000596046
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "readyAtMs": 1616.699999988079,
+      "resources": [
+        {
+          "name": "/_framework/blazor.webassembly.js",
+          "transferSize": 17130,
+          "encodedBodySize": 16830,
+          "decodedBodySize": 60012,
+          "durationMs": 16.700000002980232
+        },
+        {
+          "name": "/_framework/dotnet.js",
+          "transferSize": 10553,
+          "encodedBodySize": 10253,
+          "decodedBodySize": 35871,
+          "durationMs": 8.200000002980232
+        },
+        {
+          "name": "/_framework/blazor.boot.json",
+          "transferSize": 1909,
+          "encodedBodySize": 1609,
+          "decodedBodySize": 3643,
+          "durationMs": 5.600000008940697
+        },
+        {
+          "name": "/_framework/dotnet.runtime.js",
+          "transferSize": 54964,
+          "encodedBodySize": 54664,
+          "decodedBodySize": 223202,
+          "durationMs": 8.099999994039536
+        },
+        {
+          "name": "/_framework/dotnet.native.js",
+          "transferSize": 27069,
+          "encodedBodySize": 26769,
+          "decodedBodySize": 143507,
+          "durationMs": 13.299999997019768
+        },
+        {
+          "name": "/_framework/dotnet.native.wasm",
+          "transferSize": 2622972,
+          "encodedBodySize": 2622672,
+          "decodedBodySize": 10951269,
+          "durationMs": 396
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.wasm",
+          "transferSize": 48156,
+          "encodedBodySize": 47856,
+          "decodedBodySize": 127765,
+          "durationMs": 23.400000005960464
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.Web.wasm",
+          "transferSize": 14782,
+          "encodedBodySize": 14482,
+          "decodedBodySize": 41749,
+          "durationMs": 55
+        },
+        {
+          "name": "/_framework/Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "transferSize": 26530,
+          "encodedBodySize": 26230,
+          "decodedBodySize": 69909,
+          "durationMs": 49.099999994039536
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.wasm",
+          "transferSize": 3841,
+          "encodedBodySize": 3541,
+          "decodedBodySize": 8981,
+          "durationMs": 51.099999994039536
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "transferSize": 2619,
+          "encodedBodySize": 2319,
+          "decodedBodySize": 6421,
+          "durationMs": 54.20000000298023
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Configuration.Json.wasm",
+          "transferSize": 3854,
+          "encodedBodySize": 3554,
+          "decodedBodySize": 8981,
+          "durationMs": 54.29999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.wasm",
+          "transferSize": 18704,
+          "encodedBodySize": 18404,
+          "decodedBodySize": 43797,
+          "durationMs": 79
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "transferSize": 6118,
+          "encodedBodySize": 5818,
+          "decodedBodySize": 15637,
+          "durationMs": 84.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.wasm",
+          "transferSize": 7768,
+          "encodedBodySize": 7468,
+          "decodedBodySize": 17173,
+          "durationMs": 83
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Logging.Abstractions.wasm",
+          "transferSize": 9957,
+          "encodedBodySize": 9657,
+          "decodedBodySize": 23317,
+          "durationMs": 84.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Options.wasm",
+          "transferSize": 7283,
+          "encodedBodySize": 6983,
+          "decodedBodySize": 16661,
+          "durationMs": 84.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.Extensions.Primitives.wasm",
+          "transferSize": 3665,
+          "encodedBodySize": 3365,
+          "decodedBodySize": 8981,
+          "durationMs": 106.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.wasm",
+          "transferSize": 17120,
+          "encodedBodySize": 16820,
+          "decodedBodySize": 42261,
+          "durationMs": 108.79999999701977
+        },
+        {
+          "name": "/_framework/Microsoft.JSInterop.WebAssembly.wasm",
+          "transferSize": 4206,
+          "encodedBodySize": 3906,
+          "decodedBodySize": 9493,
+          "durationMs": 110.30000001192093
+        },
+        {
+          "name": "/_framework/System.Collections.Concurrent.wasm",
+          "transferSize": 8196,
+          "encodedBodySize": 7896,
+          "decodedBodySize": 18197,
+          "durationMs": 129.79999999701977
+        },
+        {
+          "name": "/_framework/System.Collections.wasm",
+          "transferSize": 4302,
+          "encodedBodySize": 4002,
+          "decodedBodySize": 10005,
+          "durationMs": 139.29999999701977
+        },
+        {
+          "name": "/_framework/System.ComponentModel.wasm",
+          "transferSize": 2011,
+          "encodedBodySize": 1711,
+          "decodedBodySize": 4885,
+          "durationMs": 182.70000000298023
+        },
+        {
+          "name": "/_framework/System.Console.wasm",
+          "transferSize": 6436,
+          "encodedBodySize": 6136,
+          "decodedBodySize": 14613,
+          "durationMs": 197.8999999910593
+        },
+        {
+          "name": "/_framework/System.Linq.wasm",
+          "transferSize": 8045,
+          "encodedBodySize": 7745,
+          "decodedBodySize": 19733,
+          "durationMs": 213.09999999403954
+        },
+        {
+          "name": "/_framework/System.Memory.wasm",
+          "transferSize": 6968,
+          "encodedBodySize": 6668,
+          "decodedBodySize": 15637,
+          "durationMs": 225.29999999701977
+        },
+        {
+          "name": "/_framework/System.Private.Uri.wasm",
+          "transferSize": 24177,
+          "encodedBodySize": 23877,
+          "decodedBodySize": 58645,
+          "durationMs": 237.5
+        },
+        {
+          "name": "/_framework/System.Runtime.InteropServices.JavaScript.wasm",
+          "transferSize": 14310,
+          "encodedBodySize": 14010,
+          "decodedBodySize": 34581,
+          "durationMs": 242
+        },
+        {
+          "name": "/_framework/System.Runtime.wasm",
+          "transferSize": 2566,
+          "encodedBodySize": 2266,
+          "decodedBodySize": 6933,
+          "durationMs": 240.79999999701977
+        },
+        {
+          "name": "/_framework/System.Text.Encodings.Web.wasm",
+          "transferSize": 9733,
+          "encodedBodySize": 9433,
+          "decodedBodySize": 29461,
+          "durationMs": 243.59999999403954
+        },
+        {
+          "name": "/_framework/System.Text.Json.wasm",
+          "transferSize": 118123,
+          "encodedBodySize": 117823,
+          "decodedBodySize": 354069,
+          "durationMs": 271
+        },
+        {
+          "name": "/_framework/System.Private.CoreLib.wasm",
+          "transferSize": 454885,
+          "encodedBodySize": 454585,
+          "decodedBodySize": 1443605,
+          "durationMs": 361
+        },
+        {
+          "name": "/_framework/SerializationInvestigation.wasm",
+          "transferSize": 32541,
+          "encodedBodySize": 32241,
+          "decodedBodySize": 187157,
+          "durationMs": 309.70000000298023
+        },
+        {
+          "name": "/_framework/icudt_EFIGS.dat",
+          "transferSize": 144283,
+          "encodedBodySize": 143983,
+          "decodedBodySize": 550832,
+          "durationMs": 351.20000000298023
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 347,
+      "allocatedBytes": 1017144,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 777.2000000029802,
+      "browserMaxTimerGapMs": 777.7000000029802,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 131.8,
+      "allocatedBytes": 354952,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 218.70000000298023,
+      "browserMaxTimerGapMs": 219.09999999403954,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 115.3,
+      "allocatedBytes": 279552,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 253.59999999403954,
+      "browserMaxTimerGapMs": 253.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 3197.5,
+          "duration": 253
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 104.9,
+      "allocatedBytes": 606024,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 192.59999999403954,
+      "browserMaxTimerGapMs": 192.8999999910593,
+      "browserLongTasks": [
+        {
+          "start": 3551.2999999970198,
+          "duration": 192
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 69.1,
+      "allocatedBytes": 354872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 142.79999999701977,
+      "browserMaxTimerGapMs": 143.09999999403954,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 71.7,
+      "allocatedBytes": 28200,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 89.70000000298023,
+      "browserMaxTimerGapMs": 90,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 2.3,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 14.299999997019768,
+      "browserMaxTimerGapMs": 19.700000002980232,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 2.2,
+      "allocatedBytes": 272,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 57.1000000089407,
+      "browserMaxTimerGapMs": 57.20000000298023,
+      "browserLongTasks": [
+        {
+          "start": 4360.399999991059,
+          "duration": 57
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 72.3,
+      "allocatedBytes": 605312,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 148.40000000596046,
+      "browserMaxTimerGapMs": 148.5,
+      "browserLongTasks": [
+        {
+          "start": 4517.0999999940395,
+          "duration": 148
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 95.3,
+      "allocatedBytes": 354936,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 177.20000000298023,
+      "browserMaxTimerGapMs": 177.40000000596046,
+      "browserLongTasks": [
+        {
+          "start": 4796.899999991059,
+          "duration": 177
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 5.7,
+      "allocatedBytes": 24160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 15.100000008940697,
+      "browserMaxTimerGapMs": 25.299999997019768,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 1.8,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 16.099999994039536,
+      "browserMaxTimerGapMs": 20,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 3.5,
+      "allocatedBytes": 552,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 29.299999997019768,
+      "browserMaxTimerGapMs": 29.5,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 67.6,
+      "allocatedBytes": 354872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 158.1000000089407,
+      "browserMaxTimerGapMs": 174,
+      "browserLongTasks": [
+        {
+          "start": 5402.199999988079,
+          "duration": 158
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 60.4,
+      "allocatedBytes": 354872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 127.8999999910593,
+      "browserMaxTimerGapMs": 128.20000000298023,
+      "browserLongTasks": [
+        {
+          "start": 5651,
+          "duration": 128
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 90.3,
+      "allocatedBytes": 276392,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 204.80000001192093,
+      "browserMaxTimerGapMs": 205.1000000089407,
+      "browserLongTasks": [
+        {
+          "start": 5881.199999988079,
+          "duration": 204
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 325,
+      "allocatedBytes": 5269320,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 1013.2999999970198,
+      "browserMaxTimerGapMs": 1023.0999999940395,
+      "browserLongTasks": [
+        {
+          "start": 2055,
+          "duration": 1013
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 198.2,
+      "allocatedBytes": 3199568,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 427.70000000298023,
+      "browserMaxTimerGapMs": 428,
+      "browserLongTasks": [
+        {
+          "start": 3156.699999988079,
+          "duration": 427
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 147.5,
+      "allocatedBytes": 1514864,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 327.40000000596046,
+      "browserMaxTimerGapMs": 328,
+      "browserLongTasks": [
+        {
+          "start": 3667.199999988079,
+          "duration": 327
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 202,
+      "allocatedBytes": 3866712,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 404.20000000298023,
+      "browserMaxTimerGapMs": 404.5,
+      "browserLongTasks": [
+        {
+          "start": 4083.8999999910593,
+          "duration": 404
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 188.3,
+      "allocatedBytes": 3180288,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 387,
+      "browserMaxTimerGapMs": 388.5,
+      "browserLongTasks": [
+        {
+          "start": 4579.899999991059,
+          "duration": 387
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 134.3,
+      "allocatedBytes": 831960,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 233.5,
+      "browserMaxTimerGapMs": 233.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 5061.899999991059,
+          "duration": 233
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 64.1,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 168.70000000298023,
+      "browserMaxTimerGapMs": 169,
+      "browserLongTasks": [
+        {
+          "start": 5386.699999988079,
+          "duration": 168
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 27.5999,
+      "allocatedBytes": 664,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 542.5,
+      "browserMaxTimerGapMs": 542.7999999970198,
+      "browserLongTasks": [
+        {
+          "start": 5651.399999991059,
+          "duration": 542
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 184.5,
+      "allocatedBytes": 3866544,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 374.79999999701977,
+      "browserMaxTimerGapMs": 375.6000000089407,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 168.1,
+      "allocatedBytes": 3180288,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 342.6000000089407,
+      "browserMaxTimerGapMs": 342.8999999910593,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 70.1,
+      "allocatedBytes": 828160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 126.30000001192093,
+      "browserMaxTimerGapMs": 126.40000000596046,
+      "browserLongTasks": [
+        {
+          "start": 7185.699999988079,
+          "duration": 126
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 57.3999,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 111.5,
+      "browserMaxTimerGapMs": 111.79999999701977,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 15.7,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 402.40000000596046,
+      "browserMaxTimerGapMs": 402.90000000596046,
+      "browserLongTasks": [
+        {
+          "start": 7603.899999991059,
+          "duration": 402
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 169.4,
+      "allocatedBytes": 3180288,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 351.20000000298023,
+      "browserMaxTimerGapMs": 351.6000000089407,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 210.8,
+      "allocatedBytes": 3180288,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 399.79999999701977,
+      "browserMaxTimerGapMs": 400.3999999910593,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "interpreter",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 127.6,
+      "allocatedBytes": 1514848,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 322.90000000596046,
+      "browserMaxTimerGapMs": 323.20000000298023,
+      "browserLongTasks": [
+        {
+          "start": 9080.699999988079,
+          "duration": 323
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 76.3,
+      "allocatedBytes": 876072,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 413.69999998807907,
+      "browserMaxTimerGapMs": 414.29999999701977,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 29.7,
+      "allocatedBytes": 306952,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 60.29999999701977,
+      "browserMaxTimerGapMs": 60.5,
+      "browserLongTasks": [
+        {
+          "start": 2497.9000000059605,
+          "duration": 60
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 15.1,
+      "allocatedBytes": 250872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 53,
+      "browserMaxTimerGapMs": 53.30000001192093,
+      "browserLongTasks": [
+        {
+          "start": 2644.5,
+          "duration": 53
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 27.6,
+      "allocatedBytes": 557312,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 60.5,
+      "browserMaxTimerGapMs": 61.099999994039536,
+      "browserLongTasks": [
+        {
+          "start": 2781.4000000059605,
+          "duration": 60
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 21.6,
+      "allocatedBytes": 306872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 49.79999999701977,
+      "browserMaxTimerGapMs": 49.79999999701977,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 63.1,
+      "allocatedBytes": 4200,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 81.8999999910593,
+      "browserMaxTimerGapMs": 82.79999999701977,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 1.7,
+      "allocatedBytes": 184,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 11.399999991059303,
+      "browserMaxTimerGapMs": 24.099999994039536,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "rows": 1000,
+      "repetition": 0,
+      "elapsedMs": 0.6,
+      "allocatedBytes": 272,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 24.700000002980232,
+      "browserMaxTimerGapMs": 24.900000005960464,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 23.4,
+      "allocatedBytes": 557312,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 46,
+      "browserMaxTimerGapMs": 46.1000000089407,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 15.9,
+      "allocatedBytes": 306872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 32.79999999701977,
+      "browserMaxTimerGapMs": 32.900000005960464,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 1.5,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 14,
+      "browserMaxTimerGapMs": 25.899999991059303,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 2.1,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 9,
+      "browserMaxTimerGapMs": 20.599999994039536,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 1.3,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 8102,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 12.400000005960464,
+      "browserMaxTimerGapMs": 19.399999991059303,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 15.7,
+      "allocatedBytes": 306872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 29.200000002980232,
+      "browserMaxTimerGapMs": 29.299999997019768,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 14.3,
+      "allocatedBytes": 306872,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 28.799999997019768,
+      "browserMaxTimerGapMs": 29,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "rows": 1000,
+      "repetition": 1,
+      "elapsedMs": 7.8,
+      "allocatedBytes": 250616,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 250440,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 26.5,
+      "browserMaxTimerGapMs": 26.700000002980232,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 94.7999,
+      "allocatedBytes": 3598848,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 533.9000000059605,
+      "browserMaxTimerGapMs": 534.5,
+      "browserLongTasks": [
+        {
+          "start": 1719.0999999940395,
+          "duration": 534
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 63.3,
+      "allocatedBytes": 1533968,
+      "gcCollections": [
+        1,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 126.29999999701977,
+      "browserMaxTimerGapMs": 135.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 2328,
+          "duration": 126
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 24,
+      "allocatedBytes": 686432,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 89,
+      "browserMaxTimerGapMs": 89.40000000596046,
+      "browserLongTasks": [
+        {
+          "start": 2534.3999999910593,
+          "duration": 89
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 63.7,
+      "allocatedBytes": 2210544,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 128.5,
+      "browserMaxTimerGapMs": 128.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 2710.5,
+          "duration": 128
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 74.5,
+      "allocatedBytes": 1524288,
+      "gcCollections": [
+        0,
+        1,
+        1
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 139.70000000298023,
+      "browserMaxTimerGapMs": 140.29999999701977,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 59.3,
+      "allocatedBytes": 4200,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 174.90000000596046,
+      "browserMaxTimerGapMs": 175.20000000298023,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 26.1,
+      "allocatedBytes": 184,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 119.59999999403954,
+      "browserMaxTimerGapMs": 119.8999999910593,
+      "browserLongTasks": [
+        {
+          "start": 3427,
+          "duration": 119
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 0,
+      "elapsedMs": 13.4,
+      "allocatedBytes": 272,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 227.09999999403954,
+      "browserMaxTimerGapMs": 227.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 3673.5,
+          "duration": 227
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 56.1,
+      "allocatedBytes": 2210544,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 143.79999999701977,
+      "browserMaxTimerGapMs": 144.09999999403954,
+      "browserLongTasks": [
+        {
+          "start": 3988.5,
+          "duration": 144
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 76.7,
+      "allocatedBytes": 1524288,
+      "gcCollections": [
+        0,
+        1,
+        1
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 161.79999999701977,
+      "browserMaxTimerGapMs": 162.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 4219.5999999940395,
+          "duration": 161
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 25.6,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 121.6000000089407,
+      "browserMaxTimerGapMs": 121.79999999701977,
+      "browserLongTasks": [
+        {
+          "start": 4469.399999991059,
+          "duration": 121
+        }
+      ],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 14.5,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 0,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 81.70000000298023,
+      "browserMaxTimerGapMs": 82,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 7.3,
+      "allocatedBytes": 160,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 197630,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 147.70000000298023,
+      "browserMaxTimerGapMs": 147.90000000596046,
+      "browserLongTasks": [],
+      "equivalenceTested": false
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 90.2,
+      "allocatedBytes": 1524288,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 184.8999999910593,
+      "browserMaxTimerGapMs": 185.09999999403954,
+      "browserLongTasks": [
+        {
+          "start": 5116,
+          "duration": 184
+        }
+      ],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 67,
+      "allocatedBytes": 1524288,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 135,
+      "browserMaxTimerGapMs": 135.70000000298023,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    },
+    {
+      "variant": "aot",
+      "contextIndex": 0,
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "rows": 300,
+      "repetition": 1,
+      "elapsedMs": 16.8,
+      "allocatedBytes": 686432,
+      "gcCollections": [
+        0,
+        0,
+        0
+      ],
+      "payloadBytes": 686254,
+      "equivalent": true,
+      "fastArrayHandler": true,
+      "fastRowHandler": true,
+      "runtime": ".NET 8.0.31",
+      "serializerAssembly": "8.0.0.0",
+      "serializerBuild": "8.0.31+1219a42122cf5190c7f512850557e38c422430dc",
+      "dynamicCodeCompiled": false,
+      "dynamicCodeSupported": true,
+      "invocationMs": 79.29999999701977,
+      "browserMaxTimerGapMs": 81.5,
+      "browserLongTasks": [],
+      "equivalenceTested": true
+    }
+  ],
+  "errors": []
+}

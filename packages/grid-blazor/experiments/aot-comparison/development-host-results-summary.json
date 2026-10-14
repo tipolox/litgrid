@@ -1,0 +1,2429 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T08:23:22.752Z",
+    "browser": "156.0.8078.4",
+    "node": "v22.14.0",
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalProcessors": 8,
+      "physicalMemoryBytes": 32147910656,
+      "platform": "win32",
+      "osRelease": "10.0.26200"
+    },
+    "variants": [
+      "development",
+      "stock-interpreter"
+    ],
+    "contexts": 3,
+    "postWarmupRepetitionsPerContext": 4,
+    "warmupsPerModePerContext": 1,
+    "fixtures": {
+      "narrow": "1000 x AccountRow10",
+      "wide": "300 x AccountRow120"
+    },
+    "runtime": "8.0.31",
+    "target": "net8.0",
+    "sdk": "10.0.401",
+    "publishTrimmed": true,
+    "trimMode": "partial",
+    "methodology": "Same unchanged Probe.Run; managed elapsed excludes setup and verification; browser gaps include the entire probe; fresh contexts with no-store HTTP and Brotli where published",
+    "developmentControl": "Existing untrimmed Release development-host artifact; separate from published AOT matrix"
+  },
+  "cells": [
+    {
+      "variant": "development",
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 16.4,
+      "p95Ms": 17.7,
+      "maxMs": 17.7,
+      "medianAllocatedBytes": 24160,
+      "gcCollections": 0,
+      "medianInvocationMs": 27.05000000447035,
+      "p95TimerGapMs": 42.400000005960464,
+      "maxTimerGapMs": 42.400000005960464,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 16.25
+        },
+        {
+          "index": 1,
+          "medianMs": 17
+        },
+        {
+          "index": 2,
+          "medianMs": 15.999949999999998
+        }
+      ]
+    },
+    {
+      "variant": "development",
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 247.7,
+      "p95Ms": 277.9,
+      "maxMs": 277.9,
+      "medianAllocatedBytes": 510872,
+      "gcCollections": 2,
+      "medianInvocationMs": 522.8500000014901,
+      "p95TimerGapMs": 567.5,
+      "maxTimerGapMs": 567.5,
+      "longTaskCount": 9,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 245.89999999999998
+        },
+        {
+          "index": 1,
+          "medianMs": 249.2
+        },
+        {
+          "index": 2,
+          "medianMs": 256.3999
+        }
+      ]
+    },
+    {
+      "variant": "development",
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 526.05,
+      "p95Ms": 547.9,
+      "maxMs": 547.9,
+      "medianAllocatedBytes": 828160,
+      "gcCollections": 0,
+      "medianInvocationMs": 605.2500000074506,
+      "p95TimerGapMs": 640.8999999910593,
+      "maxTimerGapMs": 640.8999999910593,
+      "longTaskCount": 8,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 534.4000000000001
+        },
+        {
+          "index": 1,
+          "medianMs": 529.4
+        },
+        {
+          "index": 2,
+          "medianMs": 524.8499999999999
+        }
+      ]
+    },
+    {
+      "variant": "development",
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 795.75,
+      "p95Ms": 832.7999,
+      "maxMs": 832.7999,
+      "medianAllocatedBytes": 3199488,
+      "gcCollections": 12,
+      "medianInvocationMs": 1660.9999999925494,
+      "p95TimerGapMs": 1763.0999999940395,
+      "maxTimerGapMs": 1763.0999999940395,
+      "longTaskCount": 7,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 814.09995
+        },
+        {
+          "index": 1,
+          "medianMs": 786
+        },
+        {
+          "index": 2,
+          "medianMs": 795.75
+        }
+      ]
+    },
+    {
+      "variant": "stock-interpreter",
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 2.24995,
+      "p95Ms": 11.9,
+      "maxMs": 11.9,
+      "medianAllocatedBytes": 24160,
+      "gcCollections": 0,
+      "medianInvocationMs": 10.949999995529652,
+      "p95TimerGapMs": 24,
+      "maxTimerGapMs": 24,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 2.8
+        },
+        {
+          "index": 1,
+          "medianMs": 2.25
+        },
+        {
+          "index": 2,
+          "medianMs": 1.9999500000000001
+        }
+      ]
+    },
+    {
+      "variant": "stock-interpreter",
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 49.799949999999995,
+      "p95Ms": 76.8999,
+      "maxMs": 76.8999,
+      "medianAllocatedBytes": 354872,
+      "gcCollections": 0,
+      "medianInvocationMs": 115.05000000447035,
+      "p95TimerGapMs": 193.19999998807907,
+      "maxTimerGapMs": 193.19999998807907,
+      "longTaskCount": 8,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 47.35
+        },
+        {
+          "index": 1,
+          "medianMs": 49.75
+        },
+        {
+          "index": 2,
+          "medianMs": 53.49995
+        }
+      ]
+    },
+    {
+      "variant": "stock-interpreter",
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 52.2,
+      "p95Ms": 65.3,
+      "maxMs": 65.3,
+      "medianAllocatedBytes": 828160,
+      "gcCollections": 0,
+      "medianInvocationMs": 91,
+      "p95TimerGapMs": 104.90000000596046,
+      "maxTimerGapMs": 104.90000000596046,
+      "longTaskCount": 8,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 54.25
+        },
+        {
+          "index": 1,
+          "medianMs": 49.8
+        },
+        {
+          "index": 2,
+          "medianMs": 52
+        }
+      ]
+    },
+    {
+      "variant": "stock-interpreter",
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "count": 12,
+      "contexts": 3,
+      "medianMs": 105.65,
+      "p95Ms": 153.6,
+      "maxMs": 153.6,
+      "medianAllocatedBytes": 3180288,
+      "gcCollections": 12,
+      "medianInvocationMs": 220.40000000596046,
+      "p95TimerGapMs": 283.29999999701977,
+      "maxTimerGapMs": 283.29999999701977,
+      "longTaskCount": 8,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 102.80000000000001
+        },
+        {
+          "index": 1,
+          "medianMs": 108.95
+        },
+        {
+          "index": 2,
+          "medianMs": 108.09989999999999
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "baseline": "development",
+      "comparison": "stock-interpreter",
+      "baselineMedianMs": 16.4,
+      "comparisonMedianMs": 2.24995,
+      "speedup": 7.289050867797061,
+      "reductionPercent": 86.28079268292683
+    },
+    {
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "baseline": "development",
+      "comparison": "stock-interpreter",
+      "baselineMedianMs": 247.7,
+      "comparisonMedianMs": 49.799949999999995,
+      "speedup": 4.973900576205398,
+      "reductionPercent": 79.895054501413
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "baseline": "development",
+      "comparison": "stock-interpreter",
+      "baselineMedianMs": 526.05,
+      "comparisonMedianMs": 52.2,
+      "speedup": 10.07758620689655,
+      "reductionPercent": 90.07698887938409
+    },
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "baseline": "development",
+      "comparison": "stock-interpreter",
+      "baselineMedianMs": 795.75,
+      "comparisonMedianMs": 105.65,
+      "speedup": 7.531945101751065,
+      "reductionPercent": 86.72321709079485
+    }
+  ],
+  "startup": [
+    {
+      "variant": "development",
+      "count": 6,
+      "medianReadyMs": 1932.4500000029802,
+      "minReadyMs": 1878.2999999970198,
+      "maxReadyMs": 2681.5,
+      "medianEncodedResourceBytes": 9323101,
+      "medianTransferResourceBytes": 9383101,
+      "medianDecodedResourceBytes": 23835852
+    },
+    {
+      "variant": "stock-interpreter",
+      "count": 6,
+      "medianReadyMs": 955.7000000029802,
+      "minReadyMs": 890.1000000089407,
+      "maxReadyMs": 1060.0999999940395,
+      "medianEncodedResourceBytes": 2070143,
+      "medianTransferResourceBytes": 2080343,
+      "medianDecodedResourceBytes": 6594859
+    }
+  ],
+  "artifacts": [
+    {
+      "variant": "development",
+      "uncompressedArtifactBytes": 26268881,
+      "files": [
+        {
+          "name": "_framework\\blazor.boot.json",
+          "bytes": 19683
+        },
+        {
+          "name": "_framework\\blazor.boot.json.gz",
+          "bytes": 8694
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js",
+          "bytes": 60012
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.gz",
+          "bytes": 19088
+        },
+        {
+          "name": "_framework\\dotnet.js",
+          "bytes": 35871
+        },
+        {
+          "name": "_framework\\dotnet.js.gz",
+          "bytes": 11550
+        },
+        {
+          "name": "_framework\\dotnet.js.map",
+          "bytes": 49829
+        },
+        {
+          "name": "_framework\\dotnet.js.map.gz",
+          "bytes": 18974
+        },
+        {
+          "name": "_framework\\dotnet.native.js",
+          "bytes": 160089
+        },
+        {
+          "name": "_framework\\dotnet.native.js.gz",
+          "bytes": 36547
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm",
+          "bytes": 2921027
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.gz",
+          "bytes": 1174493
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js",
+          "bytes": 223202
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.gz",
+          "bytes": 65705
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.map",
+          "bytes": 318294
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.map.gz",
+          "bytes": 101324
+        },
+        {
+          "name": "_framework\\emcc-props.json",
+          "bytes": 1322
+        },
+        {
+          "name": "_framework\\emcc-props.json.gz",
+          "bytes": 604
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat",
+          "bytes": 956416
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.gz",
+          "bytes": 359741
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat",
+          "bytes": 550832
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.gz",
+          "bytes": 220093
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat",
+          "bytes": 1107168
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.gz",
+          "bytes": 347783
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Authorization.wasm",
+          "bytes": 40725
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Authorization.wasm.gz",
+          "bytes": 18046
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Forms.wasm",
+          "bytes": 35093
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Forms.wasm.gz",
+          "bytes": 16687
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm",
+          "bytes": 318741
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.gz",
+          "bytes": 129023
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm",
+          "bytes": 163093
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.gz",
+          "bytes": 66508
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "bytes": 109845
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.gz",
+          "bytes": 47049
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Metadata.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Metadata.wasm.gz",
+          "bytes": 2422
+        },
+        {
+          "name": "_framework\\Microsoft.CSharp.wasm",
+          "bytes": 298261
+        },
+        {
+          "name": "_framework\\Microsoft.CSharp.wasm.gz",
+          "bytes": 132901
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "bytes": 17173
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.gz",
+          "bytes": 7941
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Binder.wasm",
+          "bytes": 32021
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Binder.wasm.gz",
+          "bytes": 14113
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.FileExtensions.wasm",
+          "bytes": 17173
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.FileExtensions.wasm.gz",
+          "bytes": 7938
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm",
+          "bytes": 16149
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.gz",
+          "bytes": 7643
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm",
+          "bytes": 33045
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.gz",
+          "bytes": 15437
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "bytes": 53525
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.gz",
+          "bytes": 21210
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm",
+          "bytes": 81685
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.gz",
+          "bytes": 35839
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.FileProviders.Abstractions.wasm",
+          "bytes": 11541
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.FileProviders.Abstractions.wasm.gz",
+          "bytes": 5156
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.FileProviders.Physical.wasm",
+          "bytes": 34069
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.FileProviders.Physical.wasm.gz",
+          "bytes": 16731
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.FileSystemGlobbing.wasm",
+          "bytes": 35093
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.FileSystemGlobbing.wasm.gz",
+          "bytes": 16450
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm",
+          "bytes": 54549
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.gz",
+          "bytes": 24161
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm",
+          "bytes": 40213
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.gz",
+          "bytes": 18921
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm",
+          "bytes": 54037
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.gz",
+          "bytes": 23698
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm",
+          "bytes": 33045
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.gz",
+          "bytes": 15127
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm",
+          "bytes": 55573
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.gz",
+          "bytes": 24568
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm",
+          "bytes": 14101
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.gz",
+          "bytes": 6900
+        },
+        {
+          "name": "_framework\\Microsoft.VisualBasic.Core.wasm",
+          "bytes": 418581
+        },
+        {
+          "name": "_framework\\Microsoft.VisualBasic.Core.wasm.gz",
+          "bytes": 171072
+        },
+        {
+          "name": "_framework\\Microsoft.VisualBasic.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\Microsoft.VisualBasic.wasm.gz",
+          "bytes": 2883
+        },
+        {
+          "name": "_framework\\Microsoft.Win32.Primitives.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\Microsoft.Win32.Primitives.wasm.gz",
+          "bytes": 2208
+        },
+        {
+          "name": "_framework\\Microsoft.Win32.Registry.wasm",
+          "bytes": 21269
+        },
+        {
+          "name": "_framework\\Microsoft.Win32.Registry.wasm.gz",
+          "bytes": 8704
+        },
+        {
+          "name": "_framework\\mscorlib.wasm",
+          "bytes": 48917
+        },
+        {
+          "name": "_framework\\mscorlib.wasm.gz",
+          "bytes": 14810
+        },
+        {
+          "name": "_framework\\netstandard.wasm",
+          "bytes": 90389
+        },
+        {
+          "name": "_framework\\netstandard.wasm.gz",
+          "bytes": 26160
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.pdb",
+          "bytes": 85608
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.pdb.gz",
+          "bytes": 52433
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm",
+          "bytes": 187157
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.gz",
+          "bytes": 50075
+        },
+        {
+          "name": "_framework\\System.AppContext.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.AppContext.wasm.gz",
+          "bytes": 2096
+        },
+        {
+          "name": "_framework\\System.Buffers.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Buffers.wasm.gz",
+          "bytes": 2095
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm",
+          "bytes": 75029
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.gz",
+          "bytes": 32829
+        },
+        {
+          "name": "_framework\\System.Collections.Immutable.wasm",
+          "bytes": 234773
+        },
+        {
+          "name": "_framework\\System.Collections.Immutable.wasm.gz",
+          "bytes": 96606
+        },
+        {
+          "name": "_framework\\System.Collections.NonGeneric.wasm",
+          "bytes": 36117
+        },
+        {
+          "name": "_framework\\System.Collections.NonGeneric.wasm.gz",
+          "bytes": 14335
+        },
+        {
+          "name": "_framework\\System.Collections.Specialized.wasm",
+          "bytes": 36629
+        },
+        {
+          "name": "_framework\\System.Collections.Specialized.wasm.gz",
+          "bytes": 16270
+        },
+        {
+          "name": "_framework\\System.Collections.wasm",
+          "bytes": 91413
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.gz",
+          "bytes": 39702
+        },
+        {
+          "name": "_framework\\System.ComponentModel.Annotations.wasm",
+          "bytes": 90901
+        },
+        {
+          "name": "_framework\\System.ComponentModel.Annotations.wasm.gz",
+          "bytes": 35887
+        },
+        {
+          "name": "_framework\\System.ComponentModel.DataAnnotations.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.ComponentModel.DataAnnotations.wasm.gz",
+          "bytes": 2573
+        },
+        {
+          "name": "_framework\\System.ComponentModel.EventBasedAsync.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\System.ComponentModel.EventBasedAsync.wasm.gz",
+          "bytes": 6897
+        },
+        {
+          "name": "_framework\\System.ComponentModel.Primitives.wasm",
+          "bytes": 30997
+        },
+        {
+          "name": "_framework\\System.ComponentModel.Primitives.wasm.gz",
+          "bytes": 13260
+        },
+        {
+          "name": "_framework\\System.ComponentModel.TypeConverter.wasm",
+          "bytes": 291605
+        },
+        {
+          "name": "_framework\\System.ComponentModel.TypeConverter.wasm.gz",
+          "bytes": 120403
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.gz",
+          "bytes": 2563
+        },
+        {
+          "name": "_framework\\System.Configuration.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\System.Configuration.wasm.gz",
+          "bytes": 3138
+        },
+        {
+          "name": "_framework\\System.Console.wasm",
+          "bytes": 43797
+        },
+        {
+          "name": "_framework\\System.Console.wasm.gz",
+          "bytes": 20443
+        },
+        {
+          "name": "_framework\\System.Core.wasm",
+          "bytes": 13077
+        },
+        {
+          "name": "_framework\\System.Core.wasm.gz",
+          "bytes": 4575
+        },
+        {
+          "name": "_framework\\System.Data.Common.wasm",
+          "bytes": 1007893
+        },
+        {
+          "name": "_framework\\System.Data.Common.wasm.gz",
+          "bytes": 380012
+        },
+        {
+          "name": "_framework\\System.Data.DataSetExtensions.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Data.DataSetExtensions.wasm.gz",
+          "bytes": 2057
+        },
+        {
+          "name": "_framework\\System.Data.wasm",
+          "bytes": 14613
+        },
+        {
+          "name": "_framework\\System.Data.wasm.gz",
+          "bytes": 5067
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Contracts.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Contracts.wasm.gz",
+          "bytes": 2390
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Debug.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Debug.wasm.gz",
+          "bytes": 2270
+        },
+        {
+          "name": "_framework\\System.Diagnostics.DiagnosticSource.wasm",
+          "bytes": 153365
+        },
+        {
+          "name": "_framework\\System.Diagnostics.DiagnosticSource.wasm.gz",
+          "bytes": 66477
+        },
+        {
+          "name": "_framework\\System.Diagnostics.FileVersionInfo.wasm",
+          "bytes": 10517
+        },
+        {
+          "name": "_framework\\System.Diagnostics.FileVersionInfo.wasm.gz",
+          "bytes": 4574
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Process.wasm",
+          "bytes": 44309
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Process.wasm.gz",
+          "bytes": 15859
+        },
+        {
+          "name": "_framework\\System.Diagnostics.StackTrace.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\System.Diagnostics.StackTrace.wasm.gz",
+          "bytes": 7494
+        },
+        {
+          "name": "_framework\\System.Diagnostics.TextWriterTraceListener.wasm",
+          "bytes": 20757
+        },
+        {
+          "name": "_framework\\System.Diagnostics.TextWriterTraceListener.wasm.gz",
+          "bytes": 9549
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Tools.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Tools.wasm.gz",
+          "bytes": 2170
+        },
+        {
+          "name": "_framework\\System.Diagnostics.TraceSource.wasm",
+          "bytes": 46869
+        },
+        {
+          "name": "_framework\\System.Diagnostics.TraceSource.wasm.gz",
+          "bytes": 19872
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Tracing.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Diagnostics.Tracing.wasm.gz",
+          "bytes": 2507
+        },
+        {
+          "name": "_framework\\System.Drawing.Primitives.wasm",
+          "bytes": 52501
+        },
+        {
+          "name": "_framework\\System.Drawing.Primitives.wasm.gz",
+          "bytes": 23724
+        },
+        {
+          "name": "_framework\\System.Drawing.wasm",
+          "bytes": 10005
+        },
+        {
+          "name": "_framework\\System.Drawing.wasm.gz",
+          "bytes": 3880
+        },
+        {
+          "name": "_framework\\System.Dynamic.Runtime.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Dynamic.Runtime.wasm.gz",
+          "bytes": 2439
+        },
+        {
+          "name": "_framework\\System.Formats.Asn1.wasm",
+          "bytes": 86293
+        },
+        {
+          "name": "_framework\\System.Formats.Asn1.wasm.gz",
+          "bytes": 36255
+        },
+        {
+          "name": "_framework\\System.Formats.Tar.wasm",
+          "bytes": 26389
+        },
+        {
+          "name": "_framework\\System.Formats.Tar.wasm.gz",
+          "bytes": 9939
+        },
+        {
+          "name": "_framework\\System.Globalization.Calendars.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Globalization.Calendars.wasm.gz",
+          "bytes": 2285
+        },
+        {
+          "name": "_framework\\System.Globalization.Extensions.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Globalization.Extensions.wasm.gz",
+          "bytes": 2165
+        },
+        {
+          "name": "_framework\\System.Globalization.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Globalization.wasm.gz",
+          "bytes": 2259
+        },
+        {
+          "name": "_framework\\System.IO.Compression.Brotli.wasm",
+          "bytes": 16149
+        },
+        {
+          "name": "_framework\\System.IO.Compression.Brotli.wasm.gz",
+          "bytes": 6340
+        },
+        {
+          "name": "_framework\\System.IO.Compression.FileSystem.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.IO.Compression.FileSystem.wasm.gz",
+          "bytes": 1976
+        },
+        {
+          "name": "_framework\\System.IO.Compression.wasm",
+          "bytes": 97557
+        },
+        {
+          "name": "_framework\\System.IO.Compression.wasm.gz",
+          "bytes": 43096
+        },
+        {
+          "name": "_framework\\System.IO.Compression.ZipFile.wasm",
+          "bytes": 26389
+        },
+        {
+          "name": "_framework\\System.IO.Compression.ZipFile.wasm.gz",
+          "bytes": 12426
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.AccessControl.wasm",
+          "bytes": 20245
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.AccessControl.wasm.gz",
+          "bytes": 8017
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.DriveInfo.wasm",
+          "bytes": 12565
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.DriveInfo.wasm.gz",
+          "bytes": 5630
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.Primitives.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.Primitives.wasm.gz",
+          "bytes": 2176
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.wasm.gz",
+          "bytes": 2297
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.Watcher.wasm",
+          "bytes": 21269
+        },
+        {
+          "name": "_framework\\System.IO.FileSystem.Watcher.wasm.gz",
+          "bytes": 8328
+        },
+        {
+          "name": "_framework\\System.IO.IsolatedStorage.wasm",
+          "bytes": 23317
+        },
+        {
+          "name": "_framework\\System.IO.IsolatedStorage.wasm.gz",
+          "bytes": 8915
+        },
+        {
+          "name": "_framework\\System.IO.MemoryMappedFiles.wasm",
+          "bytes": 37653
+        },
+        {
+          "name": "_framework\\System.IO.MemoryMappedFiles.wasm.gz",
+          "bytes": 16719
+        },
+        {
+          "name": "_framework\\System.IO.Pipelines.wasm",
+          "bytes": 67349
+        },
+        {
+          "name": "_framework\\System.IO.Pipelines.wasm.gz",
+          "bytes": 30225
+        },
+        {
+          "name": "_framework\\System.IO.Pipes.AccessControl.wasm",
+          "bytes": 12053
+        },
+        {
+          "name": "_framework\\System.IO.Pipes.AccessControl.wasm.gz",
+          "bytes": 5373
+        },
+        {
+          "name": "_framework\\System.IO.Pipes.wasm",
+          "bytes": 29973
+        },
+        {
+          "name": "_framework\\System.IO.Pipes.wasm.gz",
+          "bytes": 10640
+        },
+        {
+          "name": "_framework\\System.IO.UnmanagedMemoryStream.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.IO.UnmanagedMemoryStream.wasm.gz",
+          "bytes": 2199
+        },
+        {
+          "name": "_framework\\System.IO.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.IO.wasm.gz",
+          "bytes": 2260
+        },
+        {
+          "name": "_framework\\System.Linq.Expressions.wasm",
+          "bytes": 564501
+        },
+        {
+          "name": "_framework\\System.Linq.Expressions.wasm.gz",
+          "bytes": 217789
+        },
+        {
+          "name": "_framework\\System.Linq.Parallel.wasm",
+          "bytes": 213781
+        },
+        {
+          "name": "_framework\\System.Linq.Parallel.wasm.gz",
+          "bytes": 88509
+        },
+        {
+          "name": "_framework\\System.Linq.Queryable.wasm",
+          "bytes": 63253
+        },
+        {
+          "name": "_framework\\System.Linq.Queryable.wasm.gz",
+          "bytes": 20500
+        },
+        {
+          "name": "_framework\\System.Linq.wasm",
+          "bytes": 124181
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.gz",
+          "bytes": 51171
+        },
+        {
+          "name": "_framework\\System.Memory.wasm",
+          "bytes": 44309
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.gz",
+          "bytes": 20842
+        },
+        {
+          "name": "_framework\\System.Net.Http.Json.wasm",
+          "bytes": 44821
+        },
+        {
+          "name": "_framework\\System.Net.Http.Json.wasm.gz",
+          "bytes": 19480
+        },
+        {
+          "name": "_framework\\System.Net.Http.wasm",
+          "bytes": 266517
+        },
+        {
+          "name": "_framework\\System.Net.Http.wasm.gz",
+          "bytes": 112994
+        },
+        {
+          "name": "_framework\\System.Net.HttpListener.wasm",
+          "bytes": 44309
+        },
+        {
+          "name": "_framework\\System.Net.HttpListener.wasm.gz",
+          "bytes": 15718
+        },
+        {
+          "name": "_framework\\System.Net.Mail.wasm",
+          "bytes": 92949
+        },
+        {
+          "name": "_framework\\System.Net.Mail.wasm.gz",
+          "bytes": 42351
+        },
+        {
+          "name": "_framework\\System.Net.NameResolution.wasm",
+          "bytes": 12565
+        },
+        {
+          "name": "_framework\\System.Net.NameResolution.wasm.gz",
+          "bytes": 5403
+        },
+        {
+          "name": "_framework\\System.Net.NetworkInformation.wasm",
+          "bytes": 30485
+        },
+        {
+          "name": "_framework\\System.Net.NetworkInformation.wasm.gz",
+          "bytes": 12449
+        },
+        {
+          "name": "_framework\\System.Net.Ping.wasm",
+          "bytes": 16149
+        },
+        {
+          "name": "_framework\\System.Net.Ping.wasm.gz",
+          "bytes": 7062
+        },
+        {
+          "name": "_framework\\System.Net.Primitives.wasm",
+          "bytes": 93973
+        },
+        {
+          "name": "_framework\\System.Net.Primitives.wasm.gz",
+          "bytes": 46104
+        },
+        {
+          "name": "_framework\\System.Net.Quic.wasm",
+          "bytes": 27413
+        },
+        {
+          "name": "_framework\\System.Net.Quic.wasm.gz",
+          "bytes": 10797
+        },
+        {
+          "name": "_framework\\System.Net.Requests.wasm",
+          "bytes": 49941
+        },
+        {
+          "name": "_framework\\System.Net.Requests.wasm.gz",
+          "bytes": 18581
+        },
+        {
+          "name": "_framework\\System.Net.Security.wasm",
+          "bytes": 97557
+        },
+        {
+          "name": "_framework\\System.Net.Security.wasm.gz",
+          "bytes": 32488
+        },
+        {
+          "name": "_framework\\System.Net.ServicePoint.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\System.Net.ServicePoint.wasm.gz",
+          "bytes": 7369
+        },
+        {
+          "name": "_framework\\System.Net.Sockets.wasm",
+          "bytes": 62741
+        },
+        {
+          "name": "_framework\\System.Net.Sockets.wasm.gz",
+          "bytes": 22914
+        },
+        {
+          "name": "_framework\\System.Net.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\System.Net.wasm.gz",
+          "bytes": 2748
+        },
+        {
+          "name": "_framework\\System.Net.WebClient.wasm",
+          "bytes": 41749
+        },
+        {
+          "name": "_framework\\System.Net.WebClient.wasm.gz",
+          "bytes": 13594
+        },
+        {
+          "name": "_framework\\System.Net.WebHeaderCollection.wasm",
+          "bytes": 22805
+        },
+        {
+          "name": "_framework\\System.Net.WebHeaderCollection.wasm.gz",
+          "bytes": 10829
+        },
+        {
+          "name": "_framework\\System.Net.WebProxy.wasm",
+          "bytes": 11541
+        },
+        {
+          "name": "_framework\\System.Net.WebProxy.wasm.gz",
+          "bytes": 5695
+        },
+        {
+          "name": "_framework\\System.Net.WebSockets.Client.wasm",
+          "bytes": 36629
+        },
+        {
+          "name": "_framework\\System.Net.WebSockets.Client.wasm.gz",
+          "bytes": 16401
+        },
+        {
+          "name": "_framework\\System.Net.WebSockets.wasm",
+          "bytes": 71445
+        },
+        {
+          "name": "_framework\\System.Net.WebSockets.wasm.gz",
+          "bytes": 32254
+        },
+        {
+          "name": "_framework\\System.Numerics.Vectors.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Numerics.Vectors.wasm.gz",
+          "bytes": 2268
+        },
+        {
+          "name": "_framework\\System.Numerics.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Numerics.wasm.gz",
+          "bytes": 2014
+        },
+        {
+          "name": "_framework\\System.ObjectModel.wasm",
+          "bytes": 28949
+        },
+        {
+          "name": "_framework\\System.ObjectModel.wasm.gz",
+          "bytes": 12819
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm",
+          "bytes": 4199705
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.gz",
+          "bytes": 1429927
+        },
+        {
+          "name": "_framework\\System.Private.DataContractSerialization.wasm",
+          "bytes": 843541
+        },
+        {
+          "name": "_framework\\System.Private.DataContractSerialization.wasm.gz",
+          "bytes": 306237
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm",
+          "bytes": 91413
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.gz",
+          "bytes": 41920
+        },
+        {
+          "name": "_framework\\System.Private.Xml.Linq.wasm",
+          "bytes": 142613
+        },
+        {
+          "name": "_framework\\System.Private.Xml.Linq.wasm.gz",
+          "bytes": 59845
+        },
+        {
+          "name": "_framework\\System.Private.Xml.wasm",
+          "bytes": 3106585
+        },
+        {
+          "name": "_framework\\System.Private.Xml.wasm.gz",
+          "bytes": 1082027
+        },
+        {
+          "name": "_framework\\System.Reflection.DispatchProxy.wasm",
+          "bytes": 26389
+        },
+        {
+          "name": "_framework\\System.Reflection.DispatchProxy.wasm.gz",
+          "bytes": 12447
+        },
+        {
+          "name": "_framework\\System.Reflection.Emit.ILGeneration.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Reflection.Emit.ILGeneration.wasm.gz",
+          "bytes": 2273
+        },
+        {
+          "name": "_framework\\System.Reflection.Emit.Lightweight.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Reflection.Emit.Lightweight.wasm.gz",
+          "bytes": 2226
+        },
+        {
+          "name": "_framework\\System.Reflection.Emit.wasm",
+          "bytes": 61205
+        },
+        {
+          "name": "_framework\\System.Reflection.Emit.wasm.gz",
+          "bytes": 27402
+        },
+        {
+          "name": "_framework\\System.Reflection.Extensions.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Reflection.Extensions.wasm.gz",
+          "bytes": 2147
+        },
+        {
+          "name": "_framework\\System.Reflection.Metadata.wasm",
+          "bytes": 465173
+        },
+        {
+          "name": "_framework\\System.Reflection.Metadata.wasm.gz",
+          "bytes": 183173
+        },
+        {
+          "name": "_framework\\System.Reflection.Primitives.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Reflection.Primitives.wasm.gz",
+          "bytes": 2370
+        },
+        {
+          "name": "_framework\\System.Reflection.TypeExtensions.wasm",
+          "bytes": 13077
+        },
+        {
+          "name": "_framework\\System.Reflection.TypeExtensions.wasm.gz",
+          "bytes": 5729
+        },
+        {
+          "name": "_framework\\System.Reflection.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Reflection.wasm.gz",
+          "bytes": 2450
+        },
+        {
+          "name": "_framework\\System.Resources.Reader.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Resources.Reader.wasm.gz",
+          "bytes": 2118
+        },
+        {
+          "name": "_framework\\System.Resources.ResourceManager.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Resources.ResourceManager.wasm.gz",
+          "bytes": 2236
+        },
+        {
+          "name": "_framework\\System.Resources.Writer.wasm",
+          "bytes": 16149
+        },
+        {
+          "name": "_framework\\System.Resources.Writer.wasm.gz",
+          "bytes": 7764
+        },
+        {
+          "name": "_framework\\System.Runtime.CompilerServices.Unsafe.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Runtime.CompilerServices.Unsafe.wasm.gz",
+          "bytes": 2119
+        },
+        {
+          "name": "_framework\\System.Runtime.CompilerServices.VisualC.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\System.Runtime.CompilerServices.VisualC.wasm.gz",
+          "bytes": 3083
+        },
+        {
+          "name": "_framework\\System.Runtime.Extensions.wasm",
+          "bytes": 7445
+        },
+        {
+          "name": "_framework\\System.Runtime.Extensions.wasm.gz",
+          "bytes": 2982
+        },
+        {
+          "name": "_framework\\System.Runtime.Handles.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Runtime.Handles.wasm.gz",
+          "bytes": 2191
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm",
+          "bytes": 82709
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.gz",
+          "bytes": 34830
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.RuntimeInformation.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.RuntimeInformation.wasm.gz",
+          "bytes": 2140
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.wasm",
+          "bytes": 47381
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.wasm.gz",
+          "bytes": 20935
+        },
+        {
+          "name": "_framework\\System.Runtime.Intrinsics.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.Runtime.Intrinsics.wasm.gz",
+          "bytes": 2644
+        },
+        {
+          "name": "_framework\\System.Runtime.Loader.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Runtime.Loader.wasm.gz",
+          "bytes": 2316
+        },
+        {
+          "name": "_framework\\System.Runtime.Numerics.wasm",
+          "bytes": 117525
+        },
+        {
+          "name": "_framework\\System.Runtime.Numerics.wasm.gz",
+          "bytes": 46601
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Formatters.wasm",
+          "bytes": 55061
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Formatters.wasm.gz",
+          "bytes": 24356
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Json.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Json.wasm.gz",
+          "bytes": 2245
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Primitives.wasm",
+          "bytes": 12565
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Primitives.wasm.gz",
+          "bytes": 5496
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.wasm.gz",
+          "bytes": 2491
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Xml.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.Runtime.Serialization.Xml.wasm.gz",
+          "bytes": 2565
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm",
+          "bytes": 33045
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.gz",
+          "bytes": 10515
+        },
+        {
+          "name": "_framework\\System.Security.AccessControl.wasm",
+          "bytes": 45845
+        },
+        {
+          "name": "_framework\\System.Security.AccessControl.wasm.gz",
+          "bytes": 16619
+        },
+        {
+          "name": "_framework\\System.Security.Claims.wasm",
+          "bytes": 42261
+        },
+        {
+          "name": "_framework\\System.Security.Claims.wasm.gz",
+          "bytes": 16028
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Algorithms.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Algorithms.wasm.gz",
+          "bytes": 2714
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Cng.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Cng.wasm.gz",
+          "bytes": 2476
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Csp.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Csp.wasm.gz",
+          "bytes": 2336
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Encoding.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Encoding.wasm.gz",
+          "bytes": 2268
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.OpenSsl.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.OpenSsl.wasm.gz",
+          "bytes": 2197
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Primitives.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.Primitives.wasm.gz",
+          "bytes": 2333
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.wasm",
+          "bytes": 469269
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.wasm.gz",
+          "bytes": 180176
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.X509Certificates.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.Security.Cryptography.X509Certificates.wasm.gz",
+          "bytes": 2670
+        },
+        {
+          "name": "_framework\\System.Security.Principal.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Security.Principal.wasm.gz",
+          "bytes": 2160
+        },
+        {
+          "name": "_framework\\System.Security.Principal.Windows.wasm",
+          "bytes": 25877
+        },
+        {
+          "name": "_framework\\System.Security.Principal.Windows.wasm.gz",
+          "bytes": 10790
+        },
+        {
+          "name": "_framework\\System.Security.SecureString.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Security.SecureString.wasm.gz",
+          "bytes": 2186
+        },
+        {
+          "name": "_framework\\System.Security.wasm",
+          "bytes": 7957
+        },
+        {
+          "name": "_framework\\System.Security.wasm.gz",
+          "bytes": 2971
+        },
+        {
+          "name": "_framework\\System.ServiceModel.Web.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.ServiceModel.Web.wasm.gz",
+          "bytes": 2542
+        },
+        {
+          "name": "_framework\\System.ServiceProcess.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.ServiceProcess.wasm.gz",
+          "bytes": 2287
+        },
+        {
+          "name": "_framework\\System.Text.Encoding.CodePages.wasm",
+          "bytes": 729877
+        },
+        {
+          "name": "_framework\\System.Text.Encoding.CodePages.wasm.gz",
+          "bytes": 518117
+        },
+        {
+          "name": "_framework\\System.Text.Encoding.Extensions.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Text.Encoding.Extensions.wasm.gz",
+          "bytes": 2250
+        },
+        {
+          "name": "_framework\\System.Text.Encoding.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Text.Encoding.wasm.gz",
+          "bytes": 2228
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm",
+          "bytes": 60181
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.gz",
+          "bytes": 24011
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm",
+          "bytes": 569621
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.gz",
+          "bytes": 204488
+        },
+        {
+          "name": "_framework\\System.Text.RegularExpressions.wasm",
+          "bytes": 348949
+        },
+        {
+          "name": "_framework\\System.Text.RegularExpressions.wasm.gz",
+          "bytes": 151978
+        },
+        {
+          "name": "_framework\\System.Threading.Channels.wasm",
+          "bytes": 42261
+        },
+        {
+          "name": "_framework\\System.Threading.Channels.wasm.gz",
+          "bytes": 19628
+        },
+        {
+          "name": "_framework\\System.Threading.Overlapped.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Threading.Overlapped.wasm.gz",
+          "bytes": 2311
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.Dataflow.wasm",
+          "bytes": 175893
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.Dataflow.wasm.gz",
+          "bytes": 74665
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.Extensions.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.Extensions.wasm.gz",
+          "bytes": 2294
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.Parallel.wasm",
+          "bytes": 51989
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.Parallel.wasm.gz",
+          "bytes": 22044
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\System.Threading.Tasks.wasm.gz",
+          "bytes": 2555
+        },
+        {
+          "name": "_framework\\System.Threading.Thread.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Threading.Thread.wasm.gz",
+          "bytes": 2340
+        },
+        {
+          "name": "_framework\\System.Threading.ThreadPool.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Threading.ThreadPool.wasm.gz",
+          "bytes": 2260
+        },
+        {
+          "name": "_framework\\System.Threading.Timer.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Threading.Timer.wasm.gz",
+          "bytes": 2123
+        },
+        {
+          "name": "_framework\\System.Threading.wasm",
+          "bytes": 33557
+        },
+        {
+          "name": "_framework\\System.Threading.wasm.gz",
+          "bytes": 14546
+        },
+        {
+          "name": "_framework\\System.Transactions.Local.wasm",
+          "bytes": 164117
+        },
+        {
+          "name": "_framework\\System.Transactions.Local.wasm.gz",
+          "bytes": 52147
+        },
+        {
+          "name": "_framework\\System.Transactions.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Transactions.wasm.gz",
+          "bytes": 2361
+        },
+        {
+          "name": "_framework\\System.ValueTuple.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.ValueTuple.wasm.gz",
+          "bytes": 2169
+        },
+        {
+          "name": "_framework\\System.wasm",
+          "bytes": 39701
+        },
+        {
+          "name": "_framework\\System.wasm.gz",
+          "bytes": 11825
+        },
+        {
+          "name": "_framework\\System.Web.HttpUtility.wasm",
+          "bytes": 17173
+        },
+        {
+          "name": "_framework\\System.Web.HttpUtility.wasm.gz",
+          "bytes": 8555
+        },
+        {
+          "name": "_framework\\System.Web.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.Web.wasm.gz",
+          "bytes": 2111
+        },
+        {
+          "name": "_framework\\System.Windows.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Windows.wasm.gz",
+          "bytes": 2265
+        },
+        {
+          "name": "_framework\\System.Xml.Linq.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Xml.Linq.wasm.gz",
+          "bytes": 2201
+        },
+        {
+          "name": "_framework\\System.Xml.ReaderWriter.wasm",
+          "bytes": 11541
+        },
+        {
+          "name": "_framework\\System.Xml.ReaderWriter.wasm.gz",
+          "bytes": 4032
+        },
+        {
+          "name": "_framework\\System.Xml.Serialization.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\System.Xml.Serialization.wasm.gz",
+          "bytes": 2244
+        },
+        {
+          "name": "_framework\\System.Xml.wasm",
+          "bytes": 13077
+        },
+        {
+          "name": "_framework\\System.Xml.wasm.gz",
+          "bytes": 4229
+        },
+        {
+          "name": "_framework\\System.Xml.XDocument.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Xml.XDocument.wasm.gz",
+          "bytes": 2391
+        },
+        {
+          "name": "_framework\\System.Xml.XmlDocument.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Xml.XmlDocument.wasm.gz",
+          "bytes": 2355
+        },
+        {
+          "name": "_framework\\System.Xml.XmlSerializer.wasm",
+          "bytes": 7445
+        },
+        {
+          "name": "_framework\\System.Xml.XmlSerializer.wasm.gz",
+          "bytes": 2857
+        },
+        {
+          "name": "_framework\\System.Xml.XPath.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Xml.XPath.wasm.gz",
+          "bytes": 2320
+        },
+        {
+          "name": "_framework\\System.Xml.XPath.XDocument.wasm",
+          "bytes": 5397
+        },
+        {
+          "name": "_framework\\System.Xml.XPath.XDocument.wasm.gz",
+          "bytes": 2484
+        },
+        {
+          "name": "_framework\\WindowsBase.wasm",
+          "bytes": 5909
+        },
+        {
+          "name": "_framework\\WindowsBase.wasm.gz",
+          "bytes": 2504
+        }
+      ]
+    },
+    {
+      "variant": "stock-interpreter",
+      "uncompressedArtifactBytes": 8658829,
+      "files": [
+        {
+          "name": "index.html",
+          "bytes": 386
+        },
+        {
+          "name": "_framework\\blazor.boot.json",
+          "bytes": 3643
+        },
+        {
+          "name": "_framework\\blazor.boot.json.br",
+          "bytes": 1607
+        },
+        {
+          "name": "_framework\\blazor.boot.json.gz",
+          "bytes": 1755
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js",
+          "bytes": 60012
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.br",
+          "bytes": 16830
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.gz",
+          "bytes": 19088
+        },
+        {
+          "name": "_framework\\dotnet.js",
+          "bytes": 35871
+        },
+        {
+          "name": "_framework\\dotnet.js.br",
+          "bytes": 10253
+        },
+        {
+          "name": "_framework\\dotnet.js.gz",
+          "bytes": 11550
+        },
+        {
+          "name": "_framework\\dotnet.native.js",
+          "bytes": 160089
+        },
+        {
+          "name": "_framework\\dotnet.native.js.br",
+          "bytes": 31474
+        },
+        {
+          "name": "_framework\\dotnet.native.js.gz",
+          "bytes": 36547
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm",
+          "bytes": 2921027
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.br",
+          "bytes": 951403
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.gz",
+          "bytes": 1174493
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js",
+          "bytes": 223202
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.br",
+          "bytes": 54664
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.gz",
+          "bytes": 65705
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat",
+          "bytes": 956416
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.br",
+          "bytes": 248840
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.gz",
+          "bytes": 359741
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat",
+          "bytes": 550832
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.br",
+          "bytes": 143983
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.gz",
+          "bytes": 220093
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat",
+          "bytes": 1107168
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.br",
+          "bytes": 222250
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.gz",
+          "bytes": 347783
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm",
+          "bytes": 127765
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.br",
+          "bytes": 47856
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.gz",
+          "bytes": 55719
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm",
+          "bytes": 41749
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.br",
+          "bytes": 14482
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.gz",
+          "bytes": 17393
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "bytes": 69909
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.br",
+          "bytes": 26230
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.gz",
+          "bytes": 30221
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.br",
+          "bytes": 2319
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.gz",
+          "bytes": 2692
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.br",
+          "bytes": 3554
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.gz",
+          "bytes": 4084
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.br",
+          "bytes": 3541
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.gz",
+          "bytes": 4062
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.br",
+          "bytes": 5818
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.gz",
+          "bytes": 6638
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm",
+          "bytes": 43797
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.br",
+          "bytes": 18404
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.gz",
+          "bytes": 21170
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm",
+          "bytes": 23317
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.br",
+          "bytes": 9657
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.gz",
+          "bytes": 11066
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm",
+          "bytes": 17173
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.br",
+          "bytes": 7468
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.gz",
+          "bytes": 8571
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm",
+          "bytes": 16661
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.br",
+          "bytes": 6983
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.gz",
+          "bytes": 8029
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.br",
+          "bytes": 3365
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.gz",
+          "bytes": 3873
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm",
+          "bytes": 42261
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.br",
+          "bytes": 16820
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.gz",
+          "bytes": 19371
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm",
+          "bytes": 9493
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.br",
+          "bytes": 3906
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.gz",
+          "bytes": 4471
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm",
+          "bytes": 187157
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.br",
+          "bytes": 32530
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.gz",
+          "bytes": 50094
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm",
+          "bytes": 18197
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.br",
+          "bytes": 7896
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.gz",
+          "bytes": 8800
+        },
+        {
+          "name": "_framework\\System.Collections.wasm",
+          "bytes": 10005
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.br",
+          "bytes": 4002
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.gz",
+          "bytes": 4528
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.br",
+          "bytes": 1711
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.gz",
+          "bytes": 1933
+        },
+        {
+          "name": "_framework\\System.Console.wasm",
+          "bytes": 14613
+        },
+        {
+          "name": "_framework\\System.Console.wasm.br",
+          "bytes": 6136
+        },
+        {
+          "name": "_framework\\System.Console.wasm.gz",
+          "bytes": 7223
+        },
+        {
+          "name": "_framework\\System.Linq.wasm",
+          "bytes": 19733
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.br",
+          "bytes": 7745
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.gz",
+          "bytes": 8992
+        },
+        {
+          "name": "_framework\\System.Memory.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.br",
+          "bytes": 6668
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.gz",
+          "bytes": 7622
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm",
+          "bytes": 1445141
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.br",
+          "bytes": 455269
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.gz",
+          "bytes": 564195
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm",
+          "bytes": 58645
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.br",
+          "bytes": 23877
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.gz",
+          "bytes": 27168
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm",
+          "bytes": 34581
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.br",
+          "bytes": 14010
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.gz",
+          "bytes": 16394
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.br",
+          "bytes": 2266
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.gz",
+          "bytes": 2615
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm",
+          "bytes": 29461
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.br",
+          "bytes": 9593
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.gz",
+          "bytes": 11070
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm",
+          "bytes": 354069
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.br",
+          "bytes": 117823
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.gz",
+          "bytes": 141599
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

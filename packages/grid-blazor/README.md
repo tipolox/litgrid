@@ -18,6 +18,17 @@ Add the namespace to `_Imports.razor` or to the component using the grid:
 
 ## Basic usage
 
+Rows synchronize automatically on source replacement and supported collection/item
+notifications. Unchanged parent updates do zero dataset work. Plain list mutations
+require replacement, optional `DataRevision="@revision"`, or `grid.RefreshDataAsync()`.
+`DataSyncMode="DataSyncMode.Legacy"` retains v1.0.3 parent-update behavior.
+**Migration warning:** the new default is a breaking change approved for coordinated
+LitGrid v1.1.0 as a deliberate semantic-versioning exception. Existing mutation-on-
+parent-update apps must use Legacy or explicit signals. Package versions remain
+1.0.3 in this checkout. Columns/configuration are independent. Changed data
+still uses full-dataset JSON interop; AOT is optional.
+See [the synchronization contract](https://github.com/tipolox/litgrid/blob/main/docs/blazor-data-synchronization.md).
+
 ### Declarative columns
 
 ```razor

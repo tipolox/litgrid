@@ -174,8 +174,11 @@ conditional columns are supported without private render-tree APIs.
 
 Registrations and removals are batched after rendering into a schema update.
 Child-only schema changes do not resend rows. Unchanged schemas are not
-serialized again. Parent rerenders still synchronize same-reference list
-additions and row edits, preserving the existing data behavior and cost.
+serialized again. Default automatic synchronization observes source replacements
+and supported collection/item notifications. Unchanged parent renders omit rows.
+Plain list mutations require optional `DataRevision`, replacement, or refresh.
+`DataSyncMode.Legacy` preserves v1.0.3 behavior; the default change is breaking. See
+[the synchronization contract](blazor-data-synchronization.md).
 
 ## Customization and schema precedence
 
@@ -213,7 +216,7 @@ Reapplying an unchanged declaration does not override a user's preferences.
 To reset preferences explicitly, use the existing sizing, visibility, order,
 and column-state reset methods described in the [Blazor guide](blazor-guide.md).
 Schema updates emit no user-interaction events, preventing callback feedback loops.
-The legacy programmatic synchronization path retains its existing semantics.
+Programmatic columns retain their existing metadata synchronization semantics.
 
 ## Current limitations and future work
 

@@ -4,7 +4,7 @@
 
 @if (Declarative)
 {
-    <DataGrid TItem="Employee" Data="@Items" Columns="@Programmatic" @ref="Grid">
+    <DataGrid TItem="Employee" Data="@Items" DataRevision="@Revision" Columns="@Programmatic" Config="@Configuration" ColumnStateStorageKey="@StorageKey" @ref="Grid">
         @foreach (var spec in Specs)
         {
             <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
@@ -30,11 +30,14 @@
 }
 else
 {
-    <DataGrid TItem="Employee" Data="@Items" Columns="@Programmatic" @ref="Grid" />
+    <DataGrid TItem="Employee" Data="@Items" DataRevision="@Revision" Columns="@Programmatic" Config="@Configuration" ColumnStateStorageKey="@StorageKey" @ref="Grid" />
 }
 
 @code {
     [Parameter] public bool Declarative { get; set; } = true;
+    [Parameter] public long? Revision { get; set; }
+    [Parameter] public GridConfig Configuration { get; set; } = new();
+    [Parameter] public string? StorageKey { get; set; }
     [Parameter] public bool Nested { get; set; }
     [Parameter] public bool SelfUpdating { get; set; }
     [Parameter] public bool MismatchedNested { get; set; }

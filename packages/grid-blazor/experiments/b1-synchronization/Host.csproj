@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <WasmBuildNative>false</WasmBuildNative>
+    <B1LibraryProject Condition="'$(B1LibraryProject)' == ''">../../src/Tipolox.LitGrid.Blazor.csproj</B1LibraryProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+    <ProjectReference Include="$(B1LibraryProject)" />
+    <Compile Include="../../tests/browser/Performance/BusinessModels.cs" Link="BusinessModels.cs" />
+    <Compile Remove="server/**" />
+    <Content Remove="server/**" />
+    <None Remove="server/**" />
+  </ItemGroup>
+</Project>

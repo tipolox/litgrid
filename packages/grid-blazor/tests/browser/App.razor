@@ -5,7 +5,14 @@
 @using Microsoft.JSInterop
 @using Tipolox.LitGrid.Blazor
 @inject IJSRuntime JS
+@inject NavigationManager Navigation
 
+@if (Navigation.Uri.Contains("?performance"))
+{
+    <BrowserHost.Performance.Experiment />
+}
+else
+{
 <main>
     <h1>Declarative column test host</h1>
     <div>
@@ -39,7 +46,7 @@
         {
             @if (declarative)
             {
-                <DataGrid TItem="Employee" @ref="grid" Data="@rows" Config="@config" Height="400" ColumnStateStorageKey="@storageKey">
+                <DataGrid TItem="Employee" @ref="grid" Data="@rows" DataSyncMode="DataSyncMode.Legacy" Config="@config" Height="400" ColumnStateStorageKey="@storageKey">
                     @foreach (var spec in specs)
                     {
                         <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
@@ -49,11 +56,12 @@
             }
             else
             {
-                <DataGrid TItem="Employee" @ref="grid" Data="@rows" Columns="@programmatic" Config="@config" Height="400" />
+                <DataGrid TItem="Employee" @ref="grid" Data="@rows" DataSyncMode="DataSyncMode.Legacy" Columns="@programmatic" Config="@config" Height="400" />
             }
         }
     </div>
 </main>
+}
 
 @code {
     public class Employee

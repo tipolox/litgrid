@@ -24,6 +24,7 @@ internal sealed class TestRenderer(IServiceProvider services) : Renderer(service
     protected override void HandleException(Exception exception) => Errors.Add(exception);
     protected override Task UpdateDisplayAsync(in RenderBatch renderBatch) => Task.CompletedTask;
     internal int Mount(IComponent component) => AssignRootComponentId(component);
+    internal T Create<T>() where T : IComponent => (T)InstantiateComponent(typeof(T));
     internal Task Render(int id, params (string Name, object? Value)[] parameters)
         => Dispatcher.InvokeAsync(() => RenderRootComponentAsync(id,
             ParameterView.FromDictionary(parameters.ToDictionary(pair => pair.Name, pair => pair.Value))));
@@ -53,7 +54,7 @@ internal sealed class RecordingInterop : IJSRuntime, IJSObjectReference
         Calls.Add((identifier, JsonSerializer.SerializeToElement(args?.LastOrDefault(), json)));
         Tokens[identifier] = cancellationToken;
         if (identifier == "updateInputs") UpdateStarted?.TrySetResult();
-        if (identifier == "initGrid") Reference = (DotNetObjectReference<DataGrid<Employee>>)args![1]!;
+        if (identifier == "initGrid") Reference = args![1] as DotNetObjectReference<DataGrid<Employee>>;
         if (Failures.TryGetValue(identifier, out var failure)) throw failure;
         if (identifier == "import")
         {
@@ -334,10 +335,7 @@ public class DeclarativeComponentTests
             Assert.Equal(80, initial.GetProperty("columns")[0].GetProperty("width").GetDouble());
             await renderer.Render(root, ("Specs", Basic));
             await renderer.Drain();
-            var update = interop.Syncs.Last();
-            Assert.False(update.TryGetProperty("columns", out _));
-            Assert.True(update.TryGetProperty("data", out _));
-            Assert.Equal(2, interop.Syncs.Length);
+            Assert.Single(interop.Syncs);
         }
         Assert.Equal(1, interop.ModuleDisposals);
         Assert.Single(interop.Calls, call => call.Name == "disposeGrid");
@@ -418,11 +416,11 @@ public class DeclarativeComponentTests
             {
                 await renderer.Render(root, ("Specs", specs.Select(spec => spec with { }).ToArray()));
                 await renderer.Drain();
-                Assert.False(interop.Syncs.Last().TryGetProperty("columns", out _));
+                Assert.Single(interop.Syncs);
             }
             await renderer.Render(root, ("Specs", Array.Empty<ColumnSpec>()));
             await renderer.Drain();
-            Assert.Equal(7, interop.Syncs.Length);
+            Assert.Equal(2, interop.Syncs.Length);
             Assert.Empty(interop.Syncs.Last().GetProperty("columns").EnumerateArray());
             Assert.Empty(renderer.Errors);
         }

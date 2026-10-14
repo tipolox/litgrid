@@ -76,6 +76,8 @@ A fixed `Height` (in pixels) is required in practice because row virtualization 
 | Parameter | Type | Default | Purpose |
 | --- | --- | --- | --- |
 | `Data` | `IEnumerable<TItem>` | `[]` | Collection of row data items. |
+| `DataRevision` | `long?` | `null` | Optional caller-owned additive data change signal. |
+| `DataSyncMode` | `DataSyncMode` | `Automatic` | `Legacy` retains v1.0.3 parent-update synchronization. |
 | `Columns` | `IReadOnlyList<GridColumn>` | `[]` | Programmatic definitions. If empty and `ChildContent` is absent, columns are inferred. |
 | `ChildContent` | `RenderFragment?` | `null` | Declarative column metadata; exclusive with nonempty `Columns`. Empty content disables inference. |
 | `Config` | `GridConfig` | `new()` | Selection, row-header, and pagination configuration. |
@@ -91,6 +93,17 @@ A fixed `Height` (in pixels) is required in practice because row virtualization 
 | `QuickSearchDebounceThreshold` | `int` | `10000` | Dataset size threshold to enable debouncing for quick search. |
 | `QuickSearchDebounceMs` | `int` | `150` | Debounce delay in milliseconds for quick search. |
 | `ColumnStateStorageKey` | `string?` | `null` | Key for browser `localStorage` persistence of column order/widths/visibility. |
+
+## Data synchronization
+
+By default, replacements and supported collection/item notifications synchronize
+rows. Unchanged parent updates do zero dataset work. Plain list/row mutations
+require replacement, an optional revision change, or `grid.RefreshDataAsync()`.
+`DataSyncMode="DataSyncMode.Legacy"` preserves v1.0.3 parent-update semantics.
+This is a breaking default change accepted by the product owner for coordinated
+v1.1.0 as a deliberate semantic-versioning exception. See the migration warning
+in the synchronization guide. Columns and configuration remain independent.
+See [the complete contract and example](blazor-data-synchronization.md).
 
 ## Columns
 

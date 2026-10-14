@@ -47,6 +47,7 @@ public class NavigationSynchronizationTests
         var items = new List<MutableItem> { new() { Name = "Ada" }, new() { Name = "Grace" } };
         var columns = new List<GridColumn> { new() { Key = "Name" } };
         grid.Data = items;
+        grid.DataSyncMode = DataSyncMode.Legacy;
         grid.Columns = columns;
         await grid.Initialize();
         Assert.Equal(2, interop.LastInputs.GetProperty("data").GetArrayLength());
@@ -62,7 +63,7 @@ public class NavigationSynchronizationTests
             }
             await grid.Update();
             Assert.Equal(2, interop.LastInputs.GetProperty("data").GetArrayLength());
-            Assert.Single(interop.LastInputs.GetProperty("columns").EnumerateArray());
+            Assert.False(interop.LastInputs.TryGetProperty("columns", out _));
         }
         // Parent rerenders must continue to serialize in-place collection/item changes.
         items.Add(new() { Name = "Katherine" });
@@ -84,7 +85,7 @@ public class NavigationSynchronizationTests
         grid.Data = new object[] { new { Name = "Lin" } };
         await grid.Update();
         Assert.Equal("Lin", interop.LastInputs.GetProperty("data")[0].GetProperty("Name").GetString());
-        Assert.Single(interop.LastInputs.GetProperty("columns").EnumerateArray());
+        Assert.False(interop.LastInputs.TryGetProperty("columns", out _));
         grid.Columns = new[] { new GridColumn { Key = "Name", Header = "Person" } };
         await grid.Update();
         Assert.Equal("Person", interop.LastInputs.GetProperty("columns")[0].GetProperty("header").GetString());

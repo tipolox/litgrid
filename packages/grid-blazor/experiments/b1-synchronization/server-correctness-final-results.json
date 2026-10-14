@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "scenario": "declarative child-only change",
+      "transfers": 0,
+      "schemaCalls": 1
+    },
+    {
+      "scenario": "declarative namespace A/B/A persistence",
+      "passed": true
+    },
+    {
+      "scenario": "actual JS failure propagates; next render retries forced refresh",
+      "passed": true
+    },
+    {
+      "scenario": "rapid revisions adopt latest data",
+      "passed": true
+    },
+    {
+      "scenario": "dispose during pending synchronization; remount",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

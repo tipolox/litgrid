@@ -15,7 +15,7 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     private DotNetObjectReference<DataGrid<TItem>>? dotNetRef;
     private IJSObjectReference? module;
     private bool isInitialized;
-    private bool disposed;
+    private volatile bool disposed;
     private bool inputsPending = true;
     private bool renderQueued;
     private readonly SemaphoreSlim synchronization = new(1, 1);
@@ -23,8 +23,29 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     private readonly ColumnRegistry<TItem> columnRegistry;
     private DeclaredColumn[]? synchronizedColumns;
     private bool? synchronizedDeclarativeMode;
+    private IEnumerable<TItem>? synchronizedData;
+    private long? synchronizedDataRevision;
+    private bool dataSynchronized;
+    private bool failedDataPending;
+    private IEnumerable<TItem>? boundData;
+    private DataSyncMode? boundDataSyncMode;
+    private long sourceGeneration;
+    private long synchronizedSourceGeneration;
+    private readonly DataChangeTracker<TItem> dataChanges;
+    private long notificationVersion;
+    private long synchronizedNotificationVersion;
+    private int notificationRenderQueued;
+    private DataSyncMode? synchronizedDataSyncMode;
+    private readonly HashSet<string> retryInputs = [];
+    private bool retryColumnOrder;
+    private Dictionary<string, object?> synchronizedScalars = [];
+    private ConfigurationSnapshot? synchronizedConfiguration;
 
-    public DataGrid() => columnRegistry = new ColumnRegistry<TItem>(SchemaChanged);
+    public DataGrid()
+    {
+        columnRegistry = new ColumnRegistry<TItem>(SchemaChanged);
+        dataChanges = new DataChangeTracker<TItem>(DataChanged);
+    }
 
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
@@ -34,6 +55,22 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
 
     [Parameter]
     public IEnumerable<TItem> Data { get; set; } = [];
+
+    /// <summary>
+    /// Optional caller-owned change signal. Revision changes (including null transitions)
+    /// synchronize alongside replacements, notifications and explicit refreshes.
+    /// An unchanged revision never suppresses a supported notification in Automatic mode.
+    /// </summary>
+    [Parameter]
+    public long? DataRevision { get; set; }
+
+    /// <summary>
+    /// Automatic relies on replacements, supported notifications, revisions or refresh;
+    /// reference equality does not detect arbitrary in-place mutations. Legacy with a
+    /// null revision retains v1.0.3 synchronization on every parent parameter update.
+    /// </summary>
+    [Parameter]
+    public DataSyncMode DataSyncMode { get; set; } = DataSyncMode.Automatic;
 
     [Parameter]
     public IReadOnlyList<GridColumn> Columns { get; set; } = [];
@@ -91,11 +128,15 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
 
     public ElementReference Element => elementRef;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender) => SynchronizeAsync();
+
+    private async Task SynchronizeAsync(bool forceData = false)
     {
         // Render completion is the public Blazor boundary at which child registrations,
         // parameter updates and removals have all been processed for this batch.
         if (disposed) return;
+        Dictionary<string, object?>? attemptedInputs = null;
+        var dataAttempted = false;
         try
         {
             await synchronization.WaitAsync(lifetime.Token);
@@ -106,10 +147,11 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
             if (disposed) return;
             var declarative = ChildContent != null;
             ValidateColumnSources();
-            var snapshot = declarative ? columnRegistry.Snapshot() : null;
+            var snapshot = CaptureColumns(declarative);
             var schemaChanged = synchronizedDeclarativeMode != declarative ||
-                (declarative && (synchronizedColumns == null || !snapshot!.SequenceEqual(synchronizedColumns)));
-            if (isInitialized && !inputsPending && !schemaChanged) return;
+                synchronizedColumns == null || !snapshot.SequenceEqual(synchronizedColumns) || retryInputs.Contains("columns");
+            if (isInitialized && !inputsPending && !schemaChanged && !forceData && !failedDataPending &&
+                retryInputs.Count == 0 && Volatile.Read(ref notificationVersion) == synchronizedNotificationVersion) return;
 
             if (module == null)
             {
@@ -129,12 +171,29 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
             // loading the module. Updates after this point are serialized by the gate.
             declarative = ChildContent != null;
             ValidateColumnSources();
-            snapshot = declarative ? columnRegistry.Snapshot() : null;
+            snapshot = CaptureColumns(declarative);
             schemaChanged = synchronizedDeclarativeMode != declarative ||
-                (declarative && (synchronizedColumns == null || !snapshot!.SequenceEqual(synchronizedColumns)));
-            var includeData = inputsPending || !isInitialized;
+                synchronizedColumns == null || !snapshot.SequenceEqual(synchronizedColumns) || retryInputs.Contains("columns");
+            // Capture the exact successful operation, never the live parameters after
+            // an await. A newer render remains pending and compares against this state.
+            var data = Data;
+            var revision = DataRevision;
+            var mode = DataSyncMode;
+            var notifications = Volatile.Read(ref notificationVersion);
+            var sourceVersion = sourceGeneration;
+            var includeData = forceData || failedDataPending || retryInputs.Contains("data") || !dataSynchronized ||
+                !ReferenceEquals(data, synchronizedData) || revision != synchronizedDataRevision ||
+                mode != synchronizedDataSyncMode || sourceVersion != synchronizedSourceGeneration || notifications != synchronizedNotificationVersion ||
+                (mode == DataSyncMode.Legacy && revision == null && inputsPending);
+            dataAttempted = includeData;
+            if (includeData) dataChanges.Reconcile(forceData || failedDataPending || revision != synchronizedDataRevision);
+            var scalars = CaptureScalars();
+            var configuration = ConfigurationSnapshot.Capture(Config);
             inputsPending = false;
-            var inputs = GetGridInputs(snapshot, declarative, includeData, schemaChanged);
+            var inputs = GetGridInputs(snapshot, declarative, includeData, schemaChanged, data, scalars, configuration);
+            if (isInitialized && inputs.Count == 0) return;
+            inputs["declarativeColumns"] = declarative;
+            attemptedInputs = inputs;
             if (!isInitialized)
             {
                 dotNetRef ??= DotNetObjectReference.Create(this);
@@ -145,6 +204,22 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
             if (disposed) return;
             synchronizedColumns = snapshot;
             synchronizedDeclarativeMode = declarative;
+            synchronizedScalars = scalars;
+            synchronizedConfiguration = configuration;
+            retryInputs.Clear();
+            retryColumnOrder = false;
+            if (includeData)
+            {
+                // A newer source may have arrived while interop awaited. Keep the
+                // successful operation's tokens without retaining its obsolete source.
+                synchronizedData = sourceGeneration == sourceVersion && ReferenceEquals(Data, data) ? data : null;
+                synchronizedSourceGeneration = sourceVersion;
+                synchronizedDataRevision = revision;
+                synchronizedDataSyncMode = mode;
+                synchronizedNotificationVersion = notifications;
+                dataSynchronized = true;
+                failedDataPending = false;
+            }
         }
         catch (Exception exception) when (disposed && exception is JSDisconnectedException or OperationCanceledException)
         {
@@ -153,6 +228,17 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
         catch
         {
             inputsPending = true;
+            if (attemptedInputs != null)
+            {
+                // JS may have applied earlier fields before a later setter failed.
+                // Retry those fields even if newer parameters revert to the last
+                // successful values; do not mistake that reversion for a no-op.
+                retryInputs.UnionWith(attemptedInputs.Keys.Where(key => key is not "declarativeColumns" and not "columnOrderChanged"));
+                retryColumnOrder |= attemptedInputs.TryGetValue("columnOrderChanged", out var changed) && changed is true;
+            }
+            // An explicit refresh must remain retryable even when its reference and
+            // revision already matched the last successful transfer.
+            if (forceData || dataAttempted) failedDataPending = true;
             throw;
         }
         finally
@@ -164,8 +250,46 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     protected override void OnParametersSet()
     {
         ValidateColumnSources();
-        // Keep the existing same-reference List<T> and row mutation behavior.
+        if (!Enum.IsDefined(DataSyncMode)) throw new ArgumentOutOfRangeException(nameof(DataSyncMode));
+        if (!ReferenceEquals(boundData, Data) || boundDataSyncMode != DataSyncMode)
+        {
+            boundData = Data;
+            boundDataSyncMode = DataSyncMode;
+            sourceGeneration++;
+        }
+        dataChanges.SetSource(DataSyncMode == DataSyncMode.Automatic ? Data : null);
+        // Release the obsolete source even if synchronization of its replacement fails.
+        if (!ReferenceEquals(Data, synchronizedData)) synchronizedData = null;
         inputsPending = true;
+    }
+
+    private void DataChanged()
+    {
+        if (disposed) return;
+        Interlocked.Increment(ref notificationVersion);
+        if (Interlocked.Exchange(ref notificationRenderQueued, 1) == 0) _ = RenderDataChangesAsync();
+    }
+
+    private async Task RenderDataChangesAsync()
+    {
+        try
+        {
+            // A bounded batch window coalesces synchronous and background event bursts.
+            // No per-item interop; render completion uses the existing synchronization gate.
+            await Task.Delay(1, lifetime.Token).ConfigureAwait(false);
+            await InvokeAsync(() =>
+            {
+                Interlocked.Exchange(ref notificationRenderQueued, 0);
+                if (!disposed) StateHasChanged();
+            });
+        }
+        catch (Exception exception) when (disposed && exception is OperationCanceledException or ObjectDisposedException) { }
+        catch (Exception exception)
+        {
+            Interlocked.Exchange(ref notificationRenderQueued, 0);
+            try { if (!disposed) await DispatchExceptionAsync(exception); }
+            catch (Exception dispatchFailure) when (disposed && dispatchFailure is ObjectDisposedException or InvalidOperationException) { }
+        }
     }
 
     private static async Task DisposeLateImportAsync(Task<IJSObjectReference> importing, ILogger logger)
@@ -230,35 +354,70 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
         }
     }
 
-    private object GetGridInputs(DeclaredColumn[]? snapshot, bool declarative, bool includeData, bool schemaChanged)
+    private DeclaredColumn[] CaptureColumns(bool declarative) => declarative ? columnRegistry.Snapshot() :
+        Columns.Select(column => new DeclaredColumn(column.Key, column.Header, column.Width, column.Hidden, null)).ToArray();
+
+    private Dictionary<string, object?> CaptureScalars() => new()
     {
-        var inputs = new Dictionary<string, object?>
+        ["theme"] = Theme == GridTheme.Dark ? "dark" : "light",
+        ["ariaLabel"] = AriaLabel,
+        ["ariaDescription"] = AriaDescription,
+        ["screenReaderAnnouncements"] = ScreenReaderAnnouncements,
+        ["height"] = Height,
+        ["rowHeight"] = RowHeight,
+        ["overscan"] = Overscan,
+        ["columnOverscan"] = ColumnOverscan,
+        ["bestFitSampleSize"] = BestFitSampleSize,
+        ["quickSearchDebounceThreshold"] = QuickSearchDebounceThreshold,
+        ["quickSearchDebounceMs"] = QuickSearchDebounceMs,
+        ["columnStateStorageKey"] = ColumnStateStorageKey
+    };
+
+    // Copy supported mutable configuration values without serializing it to compare.
+    private sealed record ConfigurationSnapshot(SelectionMode? Mode, bool? Checkboxes,
+        bool? RowHeaderEnabled, double? RowHeaderWidth, bool? PaginationEnabled, int? PageSize, int? PageIndex)
+    {
+        internal static ConfigurationSnapshot Capture(GridConfig config) => new(config.Selection?.Mode,
+            config.Selection?.Checkboxes, config.RowHeader?.Enabled, config.RowHeader?.Width,
+            config.Pagination?.Enabled, config.Pagination?.PageSize, config.Pagination?.PageIndex);
+        internal GridConfig ToConfig() => new()
         {
-            ["config"] = Config,
-            ["theme"] = Theme == GridTheme.Dark ? "dark" : "light",
-            ["ariaLabel"] = AriaLabel,
-            ["ariaDescription"] = AriaDescription,
-            ["screenReaderAnnouncements"] = ScreenReaderAnnouncements,
-            ["height"] = Height,
-            ["rowHeight"] = RowHeight,
-            ["overscan"] = Overscan,
-            ["columnOverscan"] = ColumnOverscan,
-            ["bestFitSampleSize"] = BestFitSampleSize,
-            ["quickSearchDebounceThreshold"] = QuickSearchDebounceThreshold,
-            ["quickSearchDebounceMs"] = QuickSearchDebounceMs,
-            ["columnStateStorageKey"] = ColumnStateStorageKey,
-            ["declarativeColumns"] = declarative
+            Selection = new() { Mode = Mode, Checkboxes = Checkboxes },
+            RowHeader = new() { Enabled = RowHeaderEnabled, Width = RowHeaderWidth },
+            Pagination = new() { Enabled = PaginationEnabled, PageSize = PageSize, PageIndex = PageIndex }
         };
-        if (includeData) inputs["data"] = Data;
-        if (!declarative) inputs["columns"] = Columns;
-        else if (schemaChanged)
+    }
+
+    private Dictionary<string, object?> GetGridInputs(DeclaredColumn[] snapshot, bool declarative,
+        bool includeData, bool schemaChanged, IEnumerable<TItem> data,
+        Dictionary<string, object?> scalars, ConfigurationSnapshot configuration)
+    {
+        var inputs = scalars.Where(pair => !synchronizedScalars.TryGetValue(pair.Key, out var old) ||
+            !Equals(old, pair.Value) || retryInputs.Contains(pair.Key)).ToDictionary(pair => pair.Key, pair => pair.Value);
+        if (configuration != synchronizedConfiguration || retryInputs.Contains("config")) inputs["config"] = configuration.ToConfig();
+        if (includeData) inputs["data"] = data;
+        if (schemaChanged)
         {
-            inputs["columns"] = snapshot!.Select(column => column.ToGridColumn()).ToArray();
-            var previous = synchronizedColumns?.ToDictionary(column => column.Key);
-            inputs["columnOrderChanged"] = previous != null && snapshot.Any(column =>
-                previous.TryGetValue(column.Key, out var old) ? old.Order != column.Order : column.Order != null);
+            inputs["columns"] = snapshot.Select(column => column.ToGridColumn()).ToArray();
+            if (declarative)
+            {
+                var previous = synchronizedDeclarativeMode == true ? synchronizedColumns?.ToDictionary(column => column.Key) : null;
+                inputs["columnOrderChanged"] = retryColumnOrder || previous != null && snapshot.Any(column =>
+                    previous.TryGetValue(column.Key, out var old) ? old.Order != column.Order : column.Order != null);
+            }
         }
         return inputs;
+    }
+
+    /// <summary>Forces row synchronization through the normal lifecycle gate.</summary>
+    public async ValueTask RefreshDataAsync()
+    {
+        RequireModule();
+        await InvokeAsync(async () =>
+        {
+            RequireModule();
+            await SynchronizeAsync(forceData: true);
+        });
     }
 
     private IJSObjectReference RequireModule()
@@ -470,6 +629,9 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
         if (disposed) return;
         disposed = true;
         isInitialized = false;
+        dataChanges.Dispose();
+        boundData = null;
+        synchronizedData = null;
         columnRegistry.Dispose();
         // Cancel pending interop and semaphore waiters before waiting for the owner
         // to release the gate. Cleanup uses its own token, not the canceled lifetime.

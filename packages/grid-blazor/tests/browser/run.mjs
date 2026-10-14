@@ -22,6 +22,24 @@ const ready = () => page.waitForFunction(() => {
   return grid?.shadowRoot?.querySelector('.viewport') && typeof grid.getColumnOrder === 'function'
 })
 const settle = () => page.evaluate(async () => { await document.querySelector('yc-grid')?.updateComplete })
+const waitActiveCell = async (row, column) => {
+  // Virtualization can schedule a later RAF after the current Lit updateComplete.
+  // Wait for the expected semantic cell and real focus, not an arbitrary frame count.
+  await page.waitForFunction(({ row, column }) => {
+    const grid = document.querySelector('yc-grid')
+    const viewport = grid?.shadowRoot?.querySelector('.viewport')
+    const id = viewport?.getAttribute('aria-activedescendant')
+    const cell = id ? grid.shadowRoot.getElementById(id) : null
+    return cell?.classList.contains('cell-active') &&
+      Number(cell.getAttribute('data-row-index')) === row &&
+      Number(cell.getAttribute('data-column-index')) === column &&
+      document.activeElement === grid && grid.shadowRoot.activeElement === cell
+  }, { row, column }, { timeout: 15000 })
+  const active = await host.locator('.viewport').getAttribute('aria-activedescendant')
+  assert.ok(active)
+  assert.equal(await host.locator(`[id="${active}"]`).count(), 1)
+  return active
+}
 const click = async (id, timeout = 30000) => { await page.locator(`#${id}`).click({ timeout }); await settle() }
 const state = () => page.evaluate(() => document.querySelector('yc-grid').getColumnState())
 const rowValues = row => host.locator(`.cell[data-row-index="${row}"]`).allTextContents().then(values => values.map(value => value.trim()))
@@ -243,13 +261,27 @@ try {
     assert.equal(await page.evaluate(() => window.schemaUpdates), 0)
     assert.deepEqual(await state(), before)
     const viewport = host.locator('.viewport')
-    await viewport.focus()
-    await page.keyboard.press('End')
-    await page.keyboard.press('ArrowDown')
-    await settle()
-    const active = await viewport.getAttribute('aria-activedescendant')
-    assert.ok(active)
-    assert.equal(await host.locator(`[id="${active}"]`).count(), 1)
+    const lastColumn = await page.evaluate(() => document.querySelector('yc-grid').getVisibleColumnKeys().length - 1)
+    const repetitions = Number(process.env.LITGRID_KEYBOARD_REPETITIONS ?? 20)
+    assert.ok(Number.isInteger(repetitions) && repetitions > 0)
+    for (let iteration = 0; iteration < repetitions; iteration++) {
+      await page.evaluate(iteration => {
+        const viewport = document.querySelector('yc-grid').shadowRoot.querySelector('.viewport')
+        viewport.scrollTop = 100000 + (iteration % 10) * 50000
+        viewport.dispatchEvent(new Event('scroll'))
+      }, iteration)
+      await page.waitForFunction(() => {
+        const grid = document.querySelector('yc-grid')
+        const first = grid.shadowRoot.querySelector('.cell')
+        return first && Number(first.getAttribute('data-row-index')) > 1000
+      }, null, { timeout: 15000 })
+      await viewport.focus()
+      await page.keyboard.press('Control+Home'); await waitActiveCell(0, 0)
+      await page.keyboard.press('End'); await waitActiveCell(0, lastColumn)
+      await page.keyboard.press('ArrowDown'); await waitActiveCell(1, lastColumn)
+      assert.ok(await host.locator('.row').count() < 30)
+    }
+    console.log(`Large-grid keyboard focus recovery: ${repetitions} cycles, ${repetitions * 3} expected-cell checks`)
   })
   await run('120 columns, horizontal virtualization and schema-free scrolling/rerenders', async () => {
     await click('wide')
@@ -275,11 +307,8 @@ try {
     assert.equal(await page.evaluate(() => window.schemaUpdates), 0)
     const viewport = host.locator('.viewport')
     await viewport.focus()
-    await page.keyboard.press('End')
-    await settle()
-    const active = await viewport.getAttribute('aria-activedescendant')
-    assert.ok(active)
-    assert.equal(await host.locator(`[id="${active}"]`).count(), 1)
+    await page.keyboard.press('Control+Home'); await waitActiveCell(0, 0)
+    await page.keyboard.press('End'); await waitActiveCell(0, 119)
   })
   await run('rapid scenario changes and mobile page overflow', async () => {
     for (const id of ['empty', 'basic', 'remove', 'add', 'unmount', 'mount', 'programmatic', 'infer', 'basic']) await click(id)

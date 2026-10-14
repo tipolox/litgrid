@@ -9,6 +9,7 @@ public class DataGridComponentUnitTests
     {
         var grid = new DataGrid<object>();
 
+        await Assert.ThrowsAsync<InvalidOperationException>(() => grid.RefreshDataAsync().AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() => grid.GetRowHeightAsync(0).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() => grid.SetColumnWidthAsync("col1", 100).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() => grid.GetColumnOrderAsync().AsTask());

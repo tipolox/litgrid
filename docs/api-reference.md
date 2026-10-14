@@ -18,6 +18,12 @@ Most applications should use the Web Component or a framework wrapper. Core does
 
 ## Shared configuration and types
 
+`DataGridElement` keeps `inferColumns` and `updateColumnSchema` optional so
+v1.0.3 structural implementations and mocks remain assignable. The concrete
+production `DataGrid` class implements both with required types. Code using an
+abstract `DataGridElement` must check these capabilities before requesting
+declarative schema behavior; the Blazor adapter checks them at runtime.
+
 ### `GridColumn`
 
 ```ts
@@ -260,11 +266,19 @@ Examples](vue-examples.md) for setup and copyable patterns.
 
 `DataGrid<TItem>` is a strongly-typed Blazor wrapper component. It is distributed via the NuGet package `Tipolox.LitGrid.Blazor` and embeds static assets requiring no Node.js setup on the client.
 
+**Migration warning for the approved v1.1.0 release:** the new `Automatic` data
+default is a breaking Blazor behavior change accepted by the product owner as
+a deliberate semantic-versioning exception. Existing mutation-on-parent-update
+apps can select `DataSyncMode.Legacy`; see the [migration contract](blazor-data-synchronization.md).
+Checkout package versions remain 1.0.3 until release preparation is authorized.
+
 ### Parameters
 
 | Parameter | Type | Default | Corresponding Web Component property |
 | --- | --- | --- | --- |
 | `Data` | `IEnumerable<TItem>` | `[]` | `data` |
+| `DataRevision` | `long?` | `null` | Optional additive data change signal; not forwarded to JavaScript. |
+| `DataSyncMode` | `DataSyncMode` | `Automatic` | Replacements/notifications/revisions/refresh; `Legacy` retains v1.0.3 parent-update semantics. |
 | `Columns` | `IReadOnlyList<GridColumn>` | `[]` | `columns` |
 | `ChildContent` | `RenderFragment?` | `null` | Declarative columns; exclusive with nonempty `Columns`. |
 | `Config` | `GridConfig` | `new()` | `config` |
@@ -302,6 +316,7 @@ for validation, dynamic ordering, precedence, and unsupported mappings.
 
 Capture `@ref="gridRef"` on `DataGrid<TItem>` to invoke asynchronous methods (`ValueTask` / `Task`):
 
+- **Data**: `RefreshDataAsync()` (`ValueTask`), forces synchronization through the lifecycle gate. See [revision/default behavior](blazor-data-synchronization.md).
 - **Sizing**: `GetRowHeightAsync`, `SetRowHeightAsync`, `ResetRowHeightAsync`, `ResetAllRowHeightsAsync`, `GetColumnWidthAsync`, `SetColumnWidthAsync`, `ResetColumnWidthAsync`, `ResetAllColumnWidthsAsync`
 - **Auto-sizing**: `BestFitColumnAsync`, `BestFitAllColumnsAsync`
 - **Column Order & Visibility**: `MoveColumnAsync`, `GetColumnOrderAsync`, `SetColumnOrderAsync`, `ResetColumnOrderAsync`, `SetColumnVisibleAsync`, `IsColumnVisibleAsync`, `GetVisibleColumnKeysAsync`, `ResetColumnVisibilityAsync`

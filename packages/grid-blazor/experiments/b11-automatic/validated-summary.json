@@ -1,0 +1,3302 @@
+[
+  {
+    "input": "packages/grid-blazor/experiments/b11-automatic/wasm-validated-results.json",
+    "environment": {
+      "dateUtc": "2026-10-13T15:18:35.829Z",
+      "browser": "156.0.8078.4",
+      "host": "http://127.0.0.1:5217",
+      "contexts": 3,
+      "warmRefreshes": 3,
+      "methodology": "Release published non-AOT WASM; production serializer, setter and component. Ten business properties plus ignored subscriber count. Setup excluded; completion includes synchronization, updateComplete and two animation frames. Optional equal forced-refresh warmup after cold initial binding; warmup outside measurements. Live managed heap includes the mounted component; not JS or peak memory. No builds during sampling."
+    },
+    "observations": 288,
+    "correctness": 13,
+    "errors": [],
+    "performance": [
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 487.70000000298023,
+        "elapsedMinMs": 461.79999999701977,
+        "elapsedMaxMs": 502,
+        "maxGapMedianMs": 452,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 10.900000005960464,
+        "elapsedMinMs": 4.4000000059604645,
+        "elapsedMaxMs": 34.3999999910593,
+        "maxGapMedianMs": 11,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 75.5,
+        "elapsedMinMs": 59.79999999701977,
+        "elapsedMaxMs": 76.5,
+        "maxGapMedianMs": 59.900000005960464,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "item",
+        "samples": 3,
+        "elapsedMedianMs": 122.09999999403954,
+        "elapsedMinMs": 109.3999999910593,
+        "elapsedMaxMs": 125.09999999403954,
+        "maxGapMedianMs": 95.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "burst",
+        "samples": 3,
+        "elapsedMedianMs": 92.90000000596046,
+        "elapsedMinMs": 92.79999999701977,
+        "elapsedMaxMs": 108.70000000298023,
+        "maxGapMedianMs": 71.80000001192093,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "background",
+        "samples": 3,
+        "elapsedMedianMs": 59.3999999910593,
+        "elapsedMinMs": 59.20000000298023,
+        "elapsedMaxMs": 74.29999999701977,
+        "maxGapMedianMs": 51.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 59.900000005960464,
+        "elapsedMinMs": 59.599999994039536,
+        "elapsedMaxMs": 74.5,
+        "maxGapMedianMs": 53.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 58.599999994039536,
+        "elapsedMinMs": 57,
+        "elapsedMaxMs": 58.70000000298023,
+        "maxGapMedianMs": 49.099999994039536,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 58.400000005960464,
+        "elapsedMinMs": 57.20000000298023,
+        "elapsedMaxMs": 59,
+        "maxGapMedianMs": 48.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 31.099999979138374,
+        "elapsedMinMs": 28.899999991059303,
+        "elapsedMaxMs": 34.099999994039536,
+        "maxGapMedianMs": 17.099999994039536,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 17.100000008940697,
+        "elapsedMinMs": 12.5,
+        "elapsedMaxMs": 20.200000002980232,
+        "maxGapMedianMs": 16.5,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 423.20000000298023,
+        "elapsedMinMs": 422.09999999403954,
+        "elapsedMaxMs": 511.8999999910593,
+        "maxGapMedianMs": 416,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 61.20000000298023,
+        "elapsedMinMs": 8.299999997019768,
+        "elapsedMaxMs": 91.8999999910593,
+        "maxGapMedianMs": 49.900000005960464,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 77.1000000089407,
+        "elapsedMinMs": 76.69999998807907,
+        "elapsedMaxMs": 77.5,
+        "maxGapMedianMs": 66.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 57.20000000298023,
+        "elapsedMinMs": 57,
+        "elapsedMaxMs": 57.8999999910593,
+        "maxGapMedianMs": 46.3999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 59.5,
+        "elapsedMinMs": 58,
+        "elapsedMaxMs": 60.5,
+        "maxGapMedianMs": 44.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 58.79999999701977,
+        "elapsedMinMs": 58.20000000298023,
+        "elapsedMaxMs": 59.29999999701977,
+        "maxGapMedianMs": 42.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 26.099999994039536,
+        "elapsedMinMs": 24.299999997019768,
+        "elapsedMaxMs": 28.899999991059303,
+        "maxGapMedianMs": 13.299999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 12.5,
+        "elapsedMinMs": 11.5,
+        "elapsedMaxMs": 12.5,
+        "maxGapMedianMs": 10.700000002980232,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 459.40000000596046,
+        "elapsedMinMs": 433.1000000089407,
+        "elapsedMaxMs": 670.5,
+        "maxGapMedianMs": 450.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 10,
+        "elapsedMinMs": 6.399999991059303,
+        "elapsedMaxMs": 17.899999991059303,
+        "maxGapMedianMs": 10.900000005960464,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 76.90000000596046,
+        "elapsedMinMs": 75.29999999701977,
+        "elapsedMaxMs": 91.70000000298023,
+        "maxGapMedianMs": 70.90000000596046,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection",
+        "samples": 3,
+        "elapsedMedianMs": 141.5,
+        "elapsedMinMs": 124.3999999910593,
+        "elapsedMaxMs": 152.5,
+        "maxGapMedianMs": 126.29999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "item",
+        "samples": 3,
+        "elapsedMedianMs": 61.900000005960464,
+        "elapsedMinMs": 58.3999999910593,
+        "elapsedMaxMs": 73.79999999701977,
+        "maxGapMedianMs": 61.900000005960464,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "burst",
+        "samples": 3,
+        "elapsedMedianMs": 76.3999999910593,
+        "elapsedMinMs": 70,
+        "elapsedMaxMs": 91.69999998807907,
+        "maxGapMedianMs": 50.599999994039536,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "background",
+        "samples": 3,
+        "elapsedMedianMs": 59.900000005960464,
+        "elapsedMinMs": 59.70000000298023,
+        "elapsedMaxMs": 75.79999999701977,
+        "maxGapMedianMs": 57,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 60,
+        "elapsedMinMs": 58.70000000298023,
+        "elapsedMaxMs": 75.90000000596046,
+        "maxGapMedianMs": 55.599999994039536,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 59.900000005960464,
+        "elapsedMinMs": 59.29999999701977,
+        "elapsedMaxMs": 72.5,
+        "maxGapMedianMs": 49.30000001192093,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 60.5,
+        "elapsedMinMs": 60.1000000089407,
+        "elapsedMaxMs": 75.69999998807907,
+        "maxGapMedianMs": 44.19999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection-burst",
+        "samples": 3,
+        "elapsedMedianMs": 76.19999998807907,
+        "elapsedMinMs": 75.1000000089407,
+        "elapsedMaxMs": 90.29999999701977,
+        "maxGapMedianMs": 57,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 20.799999982118607,
+        "elapsedMinMs": 19.599999994039536,
+        "elapsedMaxMs": 33.20000000298023,
+        "maxGapMedianMs": 16.600000008940697,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 3.800000011920929,
+        "elapsedMinMs": 2.5999999940395355,
+        "elapsedMaxMs": 18.799999982118607,
+        "maxGapMedianMs": 17,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 448,
+        "elapsedMinMs": 437.20000000298023,
+        "elapsedMaxMs": 560.1000000089407,
+        "maxGapMedianMs": 440,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 61,
+        "elapsedMinMs": 8.599999994039536,
+        "elapsedMaxMs": 100,
+        "maxGapMedianMs": 57.6000000089407,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 91.70000000298023,
+        "elapsedMinMs": 76,
+        "elapsedMaxMs": 92.20000000298023,
+        "maxGapMedianMs": 78.30000001192093,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 60,
+        "elapsedMinMs": 58.5,
+        "elapsedMaxMs": 73.1000000089407,
+        "maxGapMedianMs": 55.599999994039536,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 59,
+        "elapsedMinMs": 59,
+        "elapsedMaxMs": 59.19999998807907,
+        "maxGapMedianMs": 46,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 58.8999999910593,
+        "elapsedMinMs": 58.79999999701977,
+        "elapsedMaxMs": 76.40000000596046,
+        "maxGapMedianMs": 43,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 26.400000005960464,
+        "elapsedMinMs": 24.600000008940697,
+        "elapsedMaxMs": 27.700000002980232,
+        "maxGapMedianMs": 12.399999991059303,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 18.299999997019768,
+        "elapsedMinMs": 17.5,
+        "elapsedMaxMs": 19.799999997019768,
+        "maxGapMedianMs": 10.800000011920929,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 1048.699999988079,
+        "elapsedMinMs": 1027.4000000059605,
+        "elapsedMaxMs": 1152,
+        "maxGapMedianMs": 1030.0999999940395,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 17.600000008940697,
+        "elapsedMinMs": 4.5,
+        "elapsedMaxMs": 20.700000002980232,
+        "maxGapMedianMs": 20.899999991059303,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 505.29999999701977,
+        "elapsedMinMs": 473.1000000089407,
+        "elapsedMaxMs": 525.7999999970198,
+        "maxGapMedianMs": 494.09999999403954,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "item",
+        "samples": 3,
+        "elapsedMedianMs": 523.8999999910593,
+        "elapsedMinMs": 436.1000000089407,
+        "elapsedMaxMs": 533.2000000029802,
+        "maxGapMedianMs": 510,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "burst",
+        "samples": 3,
+        "elapsedMedianMs": 466.20000000298023,
+        "elapsedMinMs": 431.79999999701977,
+        "elapsedMaxMs": 547.5,
+        "maxGapMedianMs": 440.1000000089407,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "background",
+        "samples": 3,
+        "elapsedMedianMs": 436.5,
+        "elapsedMinMs": 434.5,
+        "elapsedMaxMs": 629.5999999940395,
+        "maxGapMedianMs": 411.79999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 453.79999999701977,
+        "elapsedMinMs": 400.40000000596046,
+        "elapsedMaxMs": 514.0999999940395,
+        "maxGapMedianMs": 448.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 449.59999999403954,
+        "elapsedMinMs": 413.19999998807907,
+        "elapsedMaxMs": 514.2999999970198,
+        "maxGapMedianMs": 438.29999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 460.90000000596046,
+        "elapsedMinMs": 400.59999999403954,
+        "elapsedMaxMs": 463.40000000596046,
+        "maxGapMedianMs": 453.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 55.79999999701977,
+        "elapsedMinMs": 42.400000005960464,
+        "elapsedMaxMs": 59.1000000089407,
+        "maxGapMedianMs": 22.799999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 12.799999997019768,
+        "elapsedMinMs": 7.000000014901161,
+        "elapsedMaxMs": 17.399999991059303,
+        "maxGapMedianMs": 22.600000008940697,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 1099.9000000059605,
+        "elapsedMinMs": 952.7999999970198,
+        "elapsedMaxMs": 1197,
+        "maxGapMedianMs": 1092.7000000029802,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 392.1000000089407,
+        "elapsedMinMs": 3.499999985098839,
+        "elapsedMaxMs": 537.5999999940395,
+        "maxGapMedianMs": 388.5,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 438.09999999403954,
+        "elapsedMinMs": 425.5,
+        "elapsedMaxMs": 488,
+        "maxGapMedianMs": 428.79999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 432,
+        "elapsedMinMs": 403.40000000596046,
+        "elapsedMaxMs": 435.6000000089407,
+        "maxGapMedianMs": 424.8999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 459.19999998807907,
+        "elapsedMinMs": 399.5,
+        "elapsedMaxMs": 486.20000000298023,
+        "maxGapMedianMs": 449.19999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 403.79999999701977,
+        "elapsedMinMs": 387.20000000298023,
+        "elapsedMaxMs": 465.70000000298023,
+        "maxGapMedianMs": 391.19999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 37.19999998807907,
+        "elapsedMinMs": 17.399999991059303,
+        "elapsedMaxMs": 48.70000000298023,
+        "maxGapMedianMs": 18,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 16.900000005960464,
+        "elapsedMinMs": 7.9000000059604645,
+        "elapsedMaxMs": 19.899999991059303,
+        "maxGapMedianMs": 23.400000005960464,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 1055.2000000029802,
+        "elapsedMinMs": 1005.2000000029802,
+        "elapsedMaxMs": 1225.4000000059605,
+        "maxGapMedianMs": 1042.0999999940395,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 17.799999997019768,
+        "elapsedMinMs": 5.5,
+        "elapsedMaxMs": 20.5,
+        "maxGapMedianMs": 21.400000005960464,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 488.90000000596046,
+        "elapsedMinMs": 456.70000000298023,
+        "elapsedMaxMs": 505.29999999701977,
+        "maxGapMedianMs": 485.1000000089407,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection",
+        "samples": 3,
+        "elapsedMedianMs": 454.3999999910593,
+        "elapsedMinMs": 420.59999999403954,
+        "elapsedMaxMs": 490.70000000298023,
+        "maxGapMedianMs": 428.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "item",
+        "samples": 3,
+        "elapsedMedianMs": 466.29999999701977,
+        "elapsedMinMs": 418.09999999403954,
+        "elapsedMaxMs": 519.5999999940395,
+        "maxGapMedianMs": 442.90000000596046,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "burst",
+        "samples": 3,
+        "elapsedMedianMs": 483.29999999701977,
+        "elapsedMinMs": 387.09999999403954,
+        "elapsedMaxMs": 513.2000000029802,
+        "maxGapMedianMs": 463.19999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "background",
+        "samples": 3,
+        "elapsedMedianMs": 468.5,
+        "elapsedMinMs": 421.3999999910593,
+        "elapsedMaxMs": 482.80000001192093,
+        "maxGapMedianMs": 442.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 454.70000000298023,
+        "elapsedMinMs": 386.70000000298023,
+        "elapsedMaxMs": 465.5,
+        "maxGapMedianMs": 451.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 388.80000001192093,
+        "elapsedMinMs": 382,
+        "elapsedMaxMs": 434.40000000596046,
+        "maxGapMedianMs": 384.1000000089407,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 418.30000001192093,
+        "elapsedMinMs": 384.40000000596046,
+        "elapsedMaxMs": 419.79999999701977,
+        "maxGapMedianMs": 403.1000000089407,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection-burst",
+        "samples": 3,
+        "elapsedMedianMs": 418.90000000596046,
+        "elapsedMinMs": 412.09999999403954,
+        "elapsedMaxMs": 451.5,
+        "maxGapMedianMs": 390.09999999403954,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 39.8999999910593,
+        "elapsedMinMs": 21.700000002980232,
+        "elapsedMaxMs": 50.099999994039536,
+        "maxGapMedianMs": 23.200000002980232,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 13.800000011920929,
+        "elapsedMinMs": 5.799999982118607,
+        "elapsedMaxMs": 16.799999997019768,
+        "maxGapMedianMs": 18.299999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "initial",
+        "samples": 3,
+        "elapsedMedianMs": 975.4000000059605,
+        "elapsedMinMs": 933.7000000029802,
+        "elapsedMaxMs": 1010.2999999970198,
+        "maxGapMedianMs": 972.2999999970198,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 9,
+        "elapsedMedianMs": 396.20000000298023,
+        "elapsedMinMs": 17.50000001490116,
+        "elapsedMaxMs": 422.29999999701977,
+        "maxGapMedianMs": 384.5,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 3,
+        "elapsedMedianMs": 391.30000001192093,
+        "elapsedMinMs": 387.69999998807907,
+        "elapsedMaxMs": 423.30000001192093,
+        "maxGapMedianMs": 379.19999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 3,
+        "elapsedMedianMs": 434.5,
+        "elapsedMinMs": 361,
+        "elapsedMaxMs": 448.90000000596046,
+        "maxGapMedianMs": 418.69999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision",
+        "samples": 3,
+        "elapsedMedianMs": 434.5,
+        "elapsedMinMs": 416.20000000298023,
+        "elapsedMaxMs": 436.3999999910593,
+        "maxGapMedianMs": 416,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 3,
+        "elapsedMedianMs": 417.19999998807907,
+        "elapsedMinMs": 387.90000000596046,
+        "elapsedMaxMs": 453.1000000089407,
+        "maxGapMedianMs": 404.59999999403954,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 3,
+        "elapsedMedianMs": 35,
+        "elapsedMinMs": 32,
+        "elapsedMaxMs": 36.900000005960464,
+        "maxGapMedianMs": 17.200000002980232,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 3,
+        "elapsedMedianMs": 18.399999991059303,
+        "elapsedMinMs": 18.19999998807907,
+        "elapsedMaxMs": 18.400000005960464,
+        "maxGapMedianMs": 16.399999991059303,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      }
+    ],
+    "tracking": [
+      {
+        "count": 1000,
+        "samples": 3,
+        "setupMs": 3.3,
+        "disposalMs": 1.9,
+        "allocated": 103816,
+        "retained": 55504,
+        "afterDispose": 1416,
+        "remaining": 0
+      },
+      {
+        "count": 10000,
+        "samples": 3,
+        "setupMs": 15.6,
+        "disposalMs": 7,
+        "allocated": 943496,
+        "retained": 491712,
+        "afterDispose": 1416,
+        "remaining": 0
+      }
+    ]
+  },
+  {
+    "input": "packages/grid-blazor/experiments/b11-automatic/server-validated-results.json",
+    "environment": {
+      "dateUtc": "2026-10-13T15:22:28.051Z",
+      "browser": "156.0.8078.4",
+      "host": "http://127.0.0.1:5218",
+      "contexts": 1,
+      "warmRefreshes": 3,
+      "methodology": "Release published non-AOT WASM; production serializer, setter and component. Ten business properties plus ignored subscriber count. Setup excluded; completion includes synchronization, updateComplete and two animation frames. Optional equal forced-refresh warmup after cold initial binding; warmup outside measurements. Live managed heap includes the mounted component; not JS or peak memory. No builds during sampling."
+    },
+    "observations": 96,
+    "correctness": 13,
+    "errors": [],
+    "performance": [
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 281.59999999403954,
+        "elapsedMinMs": 281.59999999403954,
+        "elapsedMaxMs": 281.59999999403954,
+        "maxGapMedianMs": 67.79999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 11.699999988079071,
+        "elapsedMinMs": 8.399999991059303,
+        "elapsedMaxMs": 14.5,
+        "maxGapMedianMs": 11.299999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 49.30000001192093,
+        "elapsedMinMs": 49.30000001192093,
+        "elapsedMaxMs": 49.30000001192093,
+        "maxGapMedianMs": 11.600000008940697,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "item",
+        "samples": 1,
+        "elapsedMedianMs": 57,
+        "elapsedMinMs": 57,
+        "elapsedMaxMs": 57,
+        "maxGapMedianMs": 16.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "burst",
+        "samples": 1,
+        "elapsedMedianMs": 55.70000000298023,
+        "elapsedMinMs": 55.70000000298023,
+        "elapsedMaxMs": 55.70000000298023,
+        "maxGapMedianMs": 15.600000008940697,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "background",
+        "samples": 1,
+        "elapsedMedianMs": 58.6000000089407,
+        "elapsedMinMs": 58.6000000089407,
+        "elapsedMaxMs": 58.6000000089407,
+        "maxGapMedianMs": 18,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 23,
+        "elapsedMinMs": 23,
+        "elapsedMaxMs": 23,
+        "maxGapMedianMs": 16.299999997019768,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 23.900000005960464,
+        "elapsedMinMs": 23.900000005960464,
+        "elapsedMaxMs": 23.900000005960464,
+        "maxGapMedianMs": 10.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 24.5,
+        "elapsedMinMs": 24.5,
+        "elapsedMaxMs": 24.5,
+        "maxGapMedianMs": 15.699999988079071,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 33.6000000089407,
+        "elapsedMinMs": 33.6000000089407,
+        "elapsedMaxMs": 33.6000000089407,
+        "maxGapMedianMs": 11,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 13.899999991059303,
+        "elapsedMinMs": 13.899999991059303,
+        "elapsedMaxMs": 13.899999991059303,
+        "maxGapMedianMs": 10.5,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 149.80000001192093,
+        "elapsedMinMs": 149.80000001192093,
+        "elapsedMaxMs": 149.80000001192093,
+        "maxGapMedianMs": 55.3999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 25.700000002980232,
+        "elapsedMinMs": 7.799999997019768,
+        "elapsedMaxMs": 58.5,
+        "maxGapMedianMs": 10.400000005960464,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 52.3999999910593,
+        "elapsedMinMs": 52.3999999910593,
+        "elapsedMaxMs": 52.3999999910593,
+        "maxGapMedianMs": 17,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 53.29999999701977,
+        "elapsedMinMs": 53.29999999701977,
+        "elapsedMaxMs": 53.29999999701977,
+        "maxGapMedianMs": 10.700000002980232,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 22.399999991059303,
+        "elapsedMinMs": 22.399999991059303,
+        "elapsedMaxMs": 22.399999991059303,
+        "maxGapMedianMs": 15.700000002980232,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 25.299999997019768,
+        "elapsedMinMs": 25.299999997019768,
+        "elapsedMaxMs": 25.299999997019768,
+        "maxGapMedianMs": 15.400000005960464,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 30.5,
+        "elapsedMinMs": 30.5,
+        "elapsedMaxMs": 30.5,
+        "maxGapMedianMs": 10.600000008940697,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": false,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 15.5,
+        "elapsedMinMs": 15.5,
+        "elapsedMaxMs": 15.5,
+        "maxGapMedianMs": 10.899999991059303,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 158.70000000298023,
+        "elapsedMinMs": 158.70000000298023,
+        "elapsedMaxMs": 158.70000000298023,
+        "maxGapMedianMs": 63.29999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 7.5999999940395355,
+        "elapsedMinMs": 6.299999997019768,
+        "elapsedMaxMs": 9.199999988079071,
+        "maxGapMedianMs": 10.900000005960464,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 25.5,
+        "elapsedMinMs": 25.5,
+        "elapsedMaxMs": 25.5,
+        "maxGapMedianMs": 17.099999994039536,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection",
+        "samples": 1,
+        "elapsedMedianMs": 42.599999994039536,
+        "elapsedMinMs": 42.599999994039536,
+        "elapsedMaxMs": 42.599999994039536,
+        "maxGapMedianMs": 10.899999991059303,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "item",
+        "samples": 1,
+        "elapsedMedianMs": 60,
+        "elapsedMinMs": 60,
+        "elapsedMaxMs": 60,
+        "maxGapMedianMs": 18.299999997019768,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "burst",
+        "samples": 1,
+        "elapsedMedianMs": 56,
+        "elapsedMinMs": 56,
+        "elapsedMaxMs": 56,
+        "maxGapMedianMs": 18.30000001192093,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "background",
+        "samples": 1,
+        "elapsedMedianMs": 58,
+        "elapsedMinMs": 58,
+        "elapsedMaxMs": 58,
+        "maxGapMedianMs": 13.299999997019768,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 24.799999997019768,
+        "elapsedMinMs": 24.799999997019768,
+        "elapsedMaxMs": 24.799999997019768,
+        "maxGapMedianMs": 15.899999991059303,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 26.299999997019768,
+        "elapsedMinMs": 26.299999997019768,
+        "elapsedMaxMs": 26.299999997019768,
+        "maxGapMedianMs": 14.299999997019768,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 24.700000002980232,
+        "elapsedMinMs": 24.700000002980232,
+        "elapsedMaxMs": 24.700000002980232,
+        "maxGapMedianMs": 13.700000002980232,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection-burst",
+        "samples": 1,
+        "elapsedMedianMs": 42,
+        "elapsedMinMs": 42,
+        "elapsedMaxMs": 42,
+        "maxGapMedianMs": 13.100000008940697,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 30.5,
+        "elapsedMinMs": 30.5,
+        "elapsedMaxMs": 30.5,
+        "maxGapMedianMs": 10.899999991059303,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 18,
+        "elapsedMinMs": 18,
+        "elapsedMaxMs": 18,
+        "maxGapMedianMs": 11.899999991059303,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 159.70000000298023,
+        "elapsedMinMs": 159.70000000298023,
+        "elapsedMaxMs": 159.70000000298023,
+        "maxGapMedianMs": 61.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 24.5,
+        "elapsedMinMs": 8.100000008940697,
+        "elapsedMaxMs": 25.299999997019768,
+        "maxGapMedianMs": 18.5,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 24.599999994039536,
+        "elapsedMinMs": 24.599999994039536,
+        "elapsedMaxMs": 24.599999994039536,
+        "maxGapMedianMs": 15.600000008940697,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 25.099999994039536,
+        "elapsedMinMs": 25.099999994039536,
+        "elapsedMaxMs": 25.099999994039536,
+        "maxGapMedianMs": 13.899999991059303,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 25.100000008940697,
+        "elapsedMinMs": 25.100000008940697,
+        "elapsedMaxMs": 25.100000008940697,
+        "maxGapMedianMs": 15.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 21.700000002980232,
+        "elapsedMinMs": 21.700000002980232,
+        "elapsedMaxMs": 21.700000002980232,
+        "maxGapMedianMs": 13.299999997019768,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 29.99999998509884,
+        "elapsedMinMs": 29.99999998509884,
+        "elapsedMaxMs": 29.99999998509884,
+        "maxGapMedianMs": 10.5,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 1000,
+        "observable": true,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 17.80000001192093,
+        "elapsedMinMs": 17.80000001192093,
+        "elapsedMaxMs": 17.80000001192093,
+        "maxGapMedianMs": 10.799999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 312.70000000298023,
+        "elapsedMinMs": 312.70000000298023,
+        "elapsedMaxMs": 312.70000000298023,
+        "maxGapMedianMs": 135.3999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 18.099999994039536,
+        "elapsedMinMs": 7.700000017881393,
+        "elapsedMaxMs": 18.80000001192093,
+        "maxGapMedianMs": 10.799999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 126.40000000596046,
+        "elapsedMinMs": 126.40000000596046,
+        "elapsedMaxMs": 126.40000000596046,
+        "maxGapMedianMs": 69.90000000596046,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "item",
+        "samples": 1,
+        "elapsedMedianMs": 123.90000000596046,
+        "elapsedMinMs": 123.90000000596046,
+        "elapsedMaxMs": 123.90000000596046,
+        "maxGapMedianMs": 61.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "burst",
+        "samples": 1,
+        "elapsedMedianMs": 185.40000000596046,
+        "elapsedMinMs": 185.40000000596046,
+        "elapsedMaxMs": 185.40000000596046,
+        "maxGapMedianMs": 98.90000000596046,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "background",
+        "samples": 1,
+        "elapsedMedianMs": 178.5,
+        "elapsedMinMs": 178.5,
+        "elapsedMaxMs": 178.5,
+        "maxGapMedianMs": 103.80000001192093,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 147.90000000596046,
+        "elapsedMinMs": 147.90000000596046,
+        "elapsedMaxMs": 147.90000000596046,
+        "maxGapMedianMs": 84.79999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 119.70000000298023,
+        "elapsedMinMs": 119.70000000298023,
+        "elapsedMaxMs": 119.70000000298023,
+        "maxGapMedianMs": 71.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 108.59999999403954,
+        "elapsedMinMs": 108.59999999403954,
+        "elapsedMaxMs": 108.59999999403954,
+        "maxGapMedianMs": 70,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 9.200000002980232,
+        "elapsedMinMs": 9.200000002980232,
+        "elapsedMaxMs": 9.200000002980232,
+        "maxGapMedianMs": 11,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 17.700000002980232,
+        "elapsedMinMs": 17.700000002980232,
+        "elapsedMaxMs": 17.700000002980232,
+        "maxGapMedianMs": 10.599999994039536,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 225.59999999403954,
+        "elapsedMinMs": 225.59999999403954,
+        "elapsedMaxMs": 225.59999999403954,
+        "maxGapMedianMs": 114.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 106.19999998807907,
+        "elapsedMinMs": 12.699999988079071,
+        "elapsedMaxMs": 176.29999999701977,
+        "maxGapMedianMs": 65.5,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 133.30000001192093,
+        "elapsedMinMs": 133.30000001192093,
+        "elapsedMaxMs": 133.30000001192093,
+        "maxGapMedianMs": 84.3999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 122.79999999701977,
+        "elapsedMinMs": 122.79999999701977,
+        "elapsedMaxMs": 122.79999999701977,
+        "maxGapMedianMs": 82.69999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 124.79999999701977,
+        "elapsedMinMs": 124.79999999701977,
+        "elapsedMaxMs": 124.79999999701977,
+        "maxGapMedianMs": 79.8999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 109,
+        "elapsedMinMs": 109,
+        "elapsedMaxMs": 109,
+        "maxGapMedianMs": 65.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 18.200000002980232,
+        "elapsedMinMs": 18.200000002980232,
+        "elapsedMaxMs": 18.200000002980232,
+        "maxGapMedianMs": 11.400000005960464,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": false,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 14.400000005960464,
+        "elapsedMinMs": 14.400000005960464,
+        "elapsedMaxMs": 14.400000005960464,
+        "maxGapMedianMs": 11.099999994039536,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 254.29999999701977,
+        "elapsedMinMs": 254.29999999701977,
+        "elapsedMaxMs": 254.29999999701977,
+        "maxGapMedianMs": 138.29999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 10.200000002980232,
+        "elapsedMinMs": 5.5,
+        "elapsedMaxMs": 11.199999988079071,
+        "maxGapMedianMs": 11.099999994039536,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 109.6000000089407,
+        "elapsedMinMs": 109.6000000089407,
+        "elapsedMaxMs": 109.6000000089407,
+        "maxGapMedianMs": 64.90000000596046,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection",
+        "samples": 1,
+        "elapsedMedianMs": 181.59999999403954,
+        "elapsedMinMs": 181.59999999403954,
+        "elapsedMaxMs": 181.59999999403954,
+        "maxGapMedianMs": 77.70000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "item",
+        "samples": 1,
+        "elapsedMedianMs": 157,
+        "elapsedMinMs": 157,
+        "elapsedMaxMs": 157,
+        "maxGapMedianMs": 78.5,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "burst",
+        "samples": 1,
+        "elapsedMedianMs": 141.20000000298023,
+        "elapsedMinMs": 141.20000000298023,
+        "elapsedMaxMs": 141.20000000298023,
+        "maxGapMedianMs": 82,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "background",
+        "samples": 1,
+        "elapsedMedianMs": 141.20000000298023,
+        "elapsedMinMs": 141.20000000298023,
+        "elapsedMaxMs": 141.20000000298023,
+        "maxGapMedianMs": 72.3999999910593,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 104.40000000596046,
+        "elapsedMinMs": 104.40000000596046,
+        "elapsedMaxMs": 104.40000000596046,
+        "maxGapMedianMs": 74.30000001192093,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 86.90000000596046,
+        "elapsedMinMs": 86.90000000596046,
+        "elapsedMaxMs": 86.90000000596046,
+        "maxGapMedianMs": 55.29999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 92.6000000089407,
+        "elapsedMinMs": 92.6000000089407,
+        "elapsedMaxMs": 92.6000000089407,
+        "maxGapMedianMs": 65.1000000089407,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          2
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "collection-burst",
+        "samples": 1,
+        "elapsedMedianMs": 121.90000000596046,
+        "elapsedMinMs": 121.90000000596046,
+        "elapsedMaxMs": 121.90000000596046,
+        "maxGapMedianMs": 61.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 13,
+        "elapsedMinMs": 13,
+        "elapsedMaxMs": 13,
+        "maxGapMedianMs": 11.299999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": false,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 5.199999988079071,
+        "elapsedMinMs": 5.199999988079071,
+        "elapsedMaxMs": 5.199999988079071,
+        "maxGapMedianMs": 11.600000008940697,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "initial",
+        "samples": 1,
+        "elapsedMedianMs": 238.29999999701977,
+        "elapsedMinMs": 238.29999999701977,
+        "elapsedMaxMs": 238.29999999701977,
+        "maxGapMedianMs": 112.6000000089407,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "unchanged",
+        "samples": 3,
+        "elapsedMedianMs": 108.90000000596046,
+        "elapsedMinMs": 5.9000000059604645,
+        "elapsedMaxMs": 122.5,
+        "maxGapMedianMs": 67.70000000298023,
+        "transfers": [
+          1,
+          0
+        ],
+        "adoptions": [
+          1,
+          0
+        ],
+        "enumerations": [
+          1,
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "replacement",
+        "samples": 1,
+        "elapsedMedianMs": 126,
+        "elapsedMinMs": 126,
+        "elapsedMaxMs": 126,
+        "maxGapMedianMs": 71,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "refresh",
+        "samples": 1,
+        "elapsedMedianMs": 90.90000000596046,
+        "elapsedMinMs": 90.90000000596046,
+        "elapsedMaxMs": 90.90000000596046,
+        "maxGapMedianMs": 68.20000000298023,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision",
+        "samples": 1,
+        "elapsedMedianMs": 101,
+        "elapsedMinMs": 101,
+        "elapsedMaxMs": 101,
+        "maxGapMedianMs": 68.29999999701977,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "revision-null",
+        "samples": 1,
+        "elapsedMedianMs": 109.19999998807907,
+        "elapsedMinMs": 109.19999998807907,
+        "elapsedMaxMs": 109.19999998807907,
+        "maxGapMedianMs": 67.19999998807907,
+        "transfers": [
+          1
+        ],
+        "adoptions": [
+          1
+        ],
+        "enumerations": [
+          1
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "dispose",
+        "samples": 1,
+        "elapsedMedianMs": 27.900000005960464,
+        "elapsedMinMs": 27.900000005960464,
+        "elapsedMaxMs": 27.900000005960464,
+        "maxGapMedianMs": 12.299999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      },
+      {
+        "count": 10000,
+        "observable": true,
+        "legacy": true,
+        "action": "post-dispose",
+        "samples": 1,
+        "elapsedMedianMs": 14.500000014901161,
+        "elapsedMinMs": 14.500000014901161,
+        "elapsedMaxMs": 14.500000014901161,
+        "maxGapMedianMs": 10.799999997019768,
+        "transfers": [
+          0
+        ],
+        "adoptions": [
+          0
+        ],
+        "enumerations": [
+          0
+        ]
+      }
+    ],
+    "tracking": [
+      {
+        "count": 1000,
+        "samples": 1,
+        "setupMs": 0.4557,
+        "disposalMs": 0.1094,
+        "allocated": 133400,
+        "retained": 33440,
+        "afterDispose": -35624,
+        "remaining": 0
+      },
+      {
+        "count": 10000,
+        "samples": 1,
+        "setupMs": 1.5312,
+        "disposalMs": 0.4241,
+        "allocated": 1213024,
+        "retained": 632520,
+        "afterDispose": 2152,
+        "remaining": 0
+      }
+    ]
+  }
+]

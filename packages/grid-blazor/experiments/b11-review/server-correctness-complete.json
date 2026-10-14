@@ -1,0 +1,257 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-14T03:03:36.203Z",
+    "browser": "156.0.8078.4",
+    "host": "http://127.0.0.1:5223",
+    "contexts": 0,
+    "warmRefreshes": 0,
+    "methodology": "Release published non-AOT WASM; production serializer, setter and component. Ten business properties plus ignored subscriber count. Setup excluded; completion includes synchronization, updateComplete and two animation frames. Optional equal forced-refresh warmup after cold initial binding; warmup outside measurements. Live managed heap includes the mounted component; not JS or peak memory. No builds during sampling."
+  },
+  "results": [],
+  "correctness": [
+    {
+      "action": "initial",
+      "elapsedMs": 212.1000000005588,
+      "maxGapMs": 72.3999999994412,
+      "calls": 2,
+      "transfers": 1,
+      "enumerations": 2,
+      "visits": 16,
+      "allocated": 604312,
+      "adoptions": 1,
+      "after": {
+        "calls": 2,
+        "transfers": 1,
+        "inFlight": 0,
+        "enumerations": 2,
+        "visits": 16,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 13982624,
+        "allocated": 13948376,
+        "first": "Employee 1"
+      }
+    },
+    {
+      "action": "duplicates",
+      "elapsedMs": 24.90000000037253,
+      "maxGapMs": 10.899999999441206,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 10,
+      "allocated": 40640,
+      "adoptions": 1,
+      "after": {
+        "calls": 3,
+        "transfers": 2,
+        "inFlight": 0,
+        "enumerations": 3,
+        "visits": 26,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 14023336,
+        "allocated": 13989016,
+        "first": "Employee 1"
+      }
+    },
+    {
+      "action": "remove-duplicate",
+      "elapsedMs": 39.5,
+      "maxGapMs": 15.400000000372529,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 9,
+      "allocated": 24280,
+      "adoptions": 1,
+      "after": {
+        "calls": 4,
+        "transfers": 3,
+        "inFlight": 0,
+        "enumerations": 4,
+        "visits": 35,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 14047640,
+        "allocated": 14013296,
+        "first": "Employee 1"
+      }
+    },
+    {
+      "action": "item",
+      "elapsedMs": 42.799999999813735,
+      "maxGapMs": 13.099999999627471,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 9,
+      "allocated": 32800,
+      "adoptions": 1,
+      "after": {
+        "calls": 5,
+        "transfers": 4,
+        "inFlight": 0,
+        "enumerations": 5,
+        "visits": 44,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 14080536,
+        "allocated": 14046096,
+        "first": "Employee 1 changed"
+      }
+    },
+    {
+      "action": "remove-duplicate",
+      "elapsedMs": 42,
+      "maxGapMs": 11.599999999627471,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 8,
+      "allocated": 24288,
+      "adoptions": 1,
+      "after": {
+        "calls": 6,
+        "transfers": 5,
+        "inFlight": 0,
+        "enumerations": 6,
+        "visits": 52,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 14104872,
+        "allocated": 14070384,
+        "first": "Employee 1 changed"
+      }
+    },
+    {
+      "action": "item",
+      "elapsedMs": 42.69999999925494,
+      "maxGapMs": 11.099999999627471,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 8,
+      "allocated": 24320,
+      "adoptions": 1,
+      "after": {
+        "calls": 7,
+        "transfers": 6,
+        "inFlight": 0,
+        "enumerations": 7,
+        "visits": 60,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 14137144,
+        "allocated": 14102608,
+        "first": "Employee 1 changed changed"
+      }
+    },
+    {
+      "action": "move",
+      "elapsedMs": 44.200000000186265,
+      "maxGapMs": 11.599999999627471,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 8,
+      "allocated": 49832,
+      "adoptions": 1,
+      "after": {
+        "calls": 8,
+        "transfers": 7,
+        "inFlight": 0,
+        "enumerations": 8,
+        "visits": 68,
+        "subscribers": 8,
+        "retiredSubscribers": 0,
+        "managedLive": 14187120,
+        "allocated": 14152440,
+        "first": "Employee 1 changed changed"
+      }
+    },
+    {
+      "action": "replace-item",
+      "elapsedMs": 42.799999999813735,
+      "maxGapMs": 11,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 8,
+      "allocated": 24344,
+      "adoptions": 1,
+      "after": {
+        "calls": 9,
+        "transfers": 8,
+        "inFlight": 0,
+        "enumerations": 9,
+        "visits": 76,
+        "subscribers": 7,
+        "retiredSubscribers": 0,
+        "managedLive": 14219704,
+        "allocated": 14184952,
+        "first": "Employee 1 changed changed"
+      }
+    },
+    {
+      "action": "remove",
+      "elapsedMs": 44.40000000037253,
+      "maxGapMs": 10.799999999813735,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 1,
+      "visits": 7,
+      "allocated": 24584,
+      "adoptions": 1,
+      "after": {
+        "calls": 10,
+        "transfers": 9,
+        "inFlight": 0,
+        "enumerations": 10,
+        "visits": 83,
+        "subscribers": 7,
+        "retiredSubscribers": 0,
+        "managedLive": 14244336,
+        "allocated": 14209536,
+        "first": "Employee 1 changed changed"
+      }
+    },
+    {
+      "action": "reset",
+      "elapsedMs": 54.59999999962747,
+      "maxGapMs": 11.099999999627471,
+      "calls": 1,
+      "transfers": 1,
+      "enumerations": 2,
+      "visits": 0,
+      "allocated": 32768,
+      "adoptions": 1,
+      "after": {
+        "calls": 11,
+        "transfers": 10,
+        "inFlight": 0,
+        "enumerations": 12,
+        "visits": 83,
+        "subscribers": 0,
+        "retiredSubscribers": 0,
+        "managedLive": 14277176,
+        "allocated": 14242304,
+        "first": "Employee 1 changed changed"
+      }
+    },
+    {
+      "scenario": "multiple grids, overlapping notifications and disposal",
+      "passed": true
+    },
+    {
+      "scenario": "real failed interop followed by parent retry",
+      "passed": true
+    },
+    {
+      "scenario": "notification synchronization canceled during disposal",
+      "passed": true
+    }
+  ],
+  "tracking": [],
+  "errors": []
+}

@@ -3843,53 +3843,111 @@ if (!customElements.get("yc-grid")) customElements.define("yc-grid", DataGrid);
 //#endregion
 //#region src/gridBindings.ts
 var synchronizedInputs = /* @__PURE__ */ new WeakMap();
+function supportsDeclarations(grid) {
+	return typeof grid.inferColumns === "boolean" && typeof grid.updateColumnSchema === "function";
+}
+function captureValue(key, value) {
+	if (key === "columns") return value.map((column) => ({ ...column }));
+	if (key !== "config" || !value) return value;
+	const config = value;
+	return {
+		...config,
+		selection: config.selection && { ...config.selection },
+		rowHeader: config.rowHeader && { ...config.rowHeader },
+		pagination: config.pagination && { ...config.pagination }
+	};
+}
 function syncGridInputs(grid, inputs) {
-	if (inputs.data !== void 0) grid.data = inputs.data;
-	const previous = synchronizedInputs.get(grid) ?? {};
-	const declarative = inputs.declarativeColumns === true;
-	grid.inferColumns = !declarative;
-	const storageKey = typeof inputs.columnStateStorageKey === "string" && inputs.columnStateStorageKey.trim() ? inputs.columnStateStorageKey : null;
-	if (declarative) {
-		const columns = inputs.columns ?? previous.columnSchema;
-		if (columns && (inputs.columns !== void 0 || grid.columnStateStorageKey !== storageKey)) {
-			grid.updateColumnSchema(columns, inputs.columnOrderChanged, storageKey);
-			previous.columnSchema = columns.map((column) => ({ ...column }));
-		}
-	} else if (inputs.columns !== void 0) grid.columns = inputs.columns;
-	previous.declarativeColumns = declarative;
-	const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, ...scalars } = inputs;
-	const values = {
-		...scalars,
-		columnStateStorageKey: inputs.columnStateStorageKey ?? null
+	const state = synchronizedInputs.get(grid) ?? {
+		comparisons: {},
+		values: {},
+		uncertain: /* @__PURE__ */ new Set()
 	};
-	const propertyNames = {
-		height: "viewportHeight",
-		rowHeight: "virtualRowHeight",
-		overscan: "overscanCount",
-		columnOverscan: "columnOverscanCount"
+	synchronizedInputs.set(grid, state);
+	const effective = {
+		...Object.fromEntries([...state.uncertain].filter((key) => key in state.values && !(key in inputs)).map((key) => [key, state.values[key]])),
+		...inputs
 	};
-	for (const [key, input] of Object.entries(values)) {
-		if (key === "columnStateStorageKey" && declarative) {
-			previous[key] = storageKey;
-			continue;
+	const previous = { ...state.comparisons };
+	const captured = { ...state.values };
+	const touched = /* @__PURE__ */ new Set();
+	try {
+		const declarative = effective.declarativeColumns ?? previous.declarativeColumns === true;
+		const extended = supportsDeclarations(grid) ? grid : void 0;
+		if (declarative && !extended) throw new Error("LitGrid declarative columns require inferColumns and updateColumnSchema support.");
+		if (effective.data !== void 0) {
+			touched.add("data");
+			grid.data = effective.data;
+			captured.data = effective.data;
 		}
-		const value = key === "columnStateStorageKey" ? input ?? null : input;
-		const config = key === "config" ? input : void 0;
-		const comparison = config ? JSON.stringify([
-			config.selection?.mode ?? "none",
-			config.selection?.checkboxes ?? false,
-			config.rowHeader?.enabled ?? false,
-			config.rowHeader?.width ?? 56,
-			config.pagination?.enabled ?? false,
-			Number.isFinite(config.pagination?.pageSize) && config.pagination.pageSize > 0 ? Math.max(1, Math.floor(config.pagination.pageSize)) : 50,
-			Number.isFinite(config.pagination?.pageIndex) && config.pagination.pageIndex >= 0 ? Math.floor(config.pagination.pageIndex) : 0
-		]) : value;
-		if (!(key in previous) || previous[key] !== comparison) {
-			Reflect.set(grid, propertyNames[key] ?? key, value);
-			previous[key] = comparison;
+		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
+			touched.add("declarativeColumns");
+			extended.inferColumns = !declarative;
 		}
+		const keyInput = "columnStateStorageKey" in effective ? effective.columnStateStorageKey : previous.columnStateStorageKey;
+		const storageKey = typeof keyInput === "string" && keyInput.trim() ? keyInput : null;
+		if (declarative && extended) {
+			const columns = effective.columns ?? captured.columns;
+			if (columns && (effective.columns !== void 0 || state.uncertain.has("columns") || state.uncertain.has("columnStateStorageKey") || grid.columnStateStorageKey !== storageKey)) {
+				touched.add("columns");
+				touched.add("columnStateStorageKey");
+				const applyOrder = effective.columnOrderChanged === true || state.uncertain.has("columnOrderChanged");
+				if (applyOrder) touched.add("columnOrderChanged");
+				const snapshot = columns.map((column) => ({ ...column }));
+				extended.updateColumnSchema(columns, applyOrder, storageKey);
+				captured.columns = snapshot;
+			}
+		} else if (effective.columns !== void 0) {
+			touched.add("columns");
+			const snapshot = effective.columns.map((column) => ({ ...column }));
+			grid.columns = effective.columns;
+			captured.columns = snapshot;
+		}
+		previous.declarativeColumns = declarative;
+		captured.declarativeColumns = declarative;
+		captured.columnStateStorageKey = storageKey;
+		const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, ...scalars } = effective;
+		const values = {
+			...scalars,
+			columnStateStorageKey: storageKey
+		};
+		const propertyNames = {
+			height: "viewportHeight",
+			rowHeight: "virtualRowHeight",
+			overscan: "overscanCount",
+			columnOverscan: "columnOverscanCount"
+		};
+		for (const [key, input] of Object.entries(values)) {
+			if (key === "columnStateStorageKey" && declarative) {
+				previous[key] = storageKey;
+				continue;
+			}
+			const value = key === "columnStateStorageKey" ? input ?? null : input;
+			const config = key === "config" ? input : void 0;
+			const comparison = config ? JSON.stringify([
+				config.selection?.mode ?? "none",
+				config.selection?.checkboxes ?? false,
+				config.rowHeader?.enabled ?? false,
+				config.rowHeader?.width ?? 56,
+				config.pagination?.enabled ?? false,
+				Number.isFinite(config.pagination?.pageSize) && config.pagination.pageSize > 0 ? Math.max(1, Math.floor(config.pagination.pageSize)) : 50,
+				Number.isFinite(config.pagination?.pageIndex) && config.pagination.pageIndex >= 0 ? Math.floor(config.pagination.pageIndex) : 0
+			]) : value;
+			if (!(key in previous) || previous[key] !== comparison || state.uncertain.has(key)) {
+				touched.add(key);
+				if (!Reflect.set(grid, propertyNames[key] ?? key, value)) throw new TypeError("LitGrid could not set " + key + ".");
+				previous[key] = comparison;
+			}
+			captured[key] = captureValue(key, value);
+		}
+		state.comparisons = previous;
+		state.values = captured;
+		for (const key of touched) state.uncertain.delete(key);
+		if (!declarative && touched.has("columns")) state.uncertain.delete("columnOrderChanged");
+	} catch (error) {
+		for (const key of touched) state.uncertain.add(key);
+		throw error;
 	}
-	synchronizedInputs.set(grid, previous);
 }
 //#endregion
 //#region src/index.ts

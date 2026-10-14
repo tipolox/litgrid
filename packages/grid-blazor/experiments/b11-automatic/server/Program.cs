@@ -1,0 +1,13 @@
+using B1Host;
+using B11Host.Server;
+using Microsoft.JSInterop;
+using Microsoft.AspNetCore.DataProtection;
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDataProtection().UseEphemeralDataProtectionProvider();
+builder.WebHost.UseStaticWebAssets();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddScoped<ObservedRuntime>(services => new(services.GetRequiredService<IJSRuntime>()));
+var app = builder.Build();
+app.UseStaticFiles(); app.UseAntiforgery();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+app.Run();

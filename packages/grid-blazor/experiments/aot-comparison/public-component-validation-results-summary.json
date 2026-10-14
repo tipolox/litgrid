@@ -1,0 +1,89 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T08:47:36.978Z",
+    "browser": "156.0.8078.4",
+    "runtime": "8.0.31",
+    "sdk": "10.0.401",
+    "package": "Tipolox.LitGrid.Blazor 1.0.3, unchanged source project reference",
+    "contextsPerVariant": 3,
+    "postWarmupLoadsPerFixturePerContext": 5,
+    "fixtures": {
+      "A": "1000 x AccountRow10",
+      "B": "10000 x AccountRow10"
+    },
+    "methodology": "Prepare source outside load; use public DataGrid; wait for new data identity, updateComplete and two RAFs; timer gap and allocation include normal framework work"
+  },
+  "cells": [
+    {
+      "variant": "interpreter",
+      "fixture": "A",
+      "count": 15,
+      "medianMs": 135.70000000298023,
+      "p95Ms": 173.59999999403954,
+      "maxMs": 173.59999999403954,
+      "medianAllocatedBytes": 610512,
+      "p95TimerGapMs": 169.90000000596046,
+      "maxTimerGapMs": 169.90000000596046,
+      "longTaskCount": 12,
+      "gcCollections": 0
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "B",
+      "count": 15,
+      "medianMs": 675.0999999940395,
+      "p95Ms": 766.3999999910593,
+      "maxMs": 766.3999999910593,
+      "medianAllocatedBytes": 6133992,
+      "p95TimerGapMs": 755.5999999940395,
+      "maxTimerGapMs": 755.5999999940395,
+      "longTaskCount": 11,
+      "gcCollections": 12
+    },
+    {
+      "variant": "aot",
+      "fixture": "A",
+      "count": 15,
+      "medianMs": 56.400000005960464,
+      "p95Ms": 67.79999999701977,
+      "maxMs": 67.79999999701977,
+      "medianAllocatedBytes": 585488,
+      "p95TimerGapMs": 53.6000000089407,
+      "maxTimerGapMs": 53.6000000089407,
+      "longTaskCount": 2,
+      "gcCollections": 0
+    },
+    {
+      "variant": "aot",
+      "fixture": "B",
+      "count": 15,
+      "medianMs": 276.20000000298023,
+      "p95Ms": 312.20000000298023,
+      "maxMs": 312.20000000298023,
+      "medianAllocatedBytes": 5892968,
+      "p95TimerGapMs": 299.79999999701977,
+      "maxTimerGapMs": 299.79999999701977,
+      "longTaskCount": 9,
+      "gcCollections": 6
+    }
+  ],
+  "startup": [
+    {
+      "variant": "interpreter",
+      "count": 3,
+      "medianReadyMs": 2092.2000000029802,
+      "minReadyMs": 1863,
+      "maxReadyMs": 2127.2999999970198,
+      "medianEncodedResourceBytes": 2174484
+    },
+    {
+      "variant": "aot",
+      "count": 3,
+      "medianReadyMs": 2078.7000000029802,
+      "minReadyMs": 2001.1000000089407,
+      "maxReadyMs": 2437.6000000089407,
+      "medianEncodedResourceBytes": 3972023
+    }
+  ],
+  "errors": []
+}

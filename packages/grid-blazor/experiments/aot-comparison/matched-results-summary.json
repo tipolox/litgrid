@@ -1,0 +1,2028 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T07:59:55.560Z",
+    "browser": "156.0.8078.4",
+    "node": "v22.14.0",
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalProcessors": 8,
+      "physicalMemoryBytes": 32147910656,
+      "platform": "win32",
+      "osRelease": "10.0.26200"
+    },
+    "contexts": 3,
+    "postWarmupRepetitionsPerContext": 10,
+    "warmupsPerModePerContext": 1,
+    "fixtures": {
+      "narrow": "1000 x AccountRow10",
+      "wide": "300 x AccountRow120"
+    },
+    "runtime": "8.0.31",
+    "target": "net8.0",
+    "sdk": "10.0.401",
+    "publishTrimmed": true,
+    "trimMode": "partial",
+    "methodology": "Same unchanged Probe.Run; managed elapsed excludes setup and verification; browser gaps include the entire probe; fresh contexts with no-store HTTP and Brotli where published"
+  },
+  "cells": [
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 40.95,
+      "p95Ms": 54.3999,
+      "maxMs": 55.1999,
+      "medianAllocatedBytes": 605312,
+      "gcCollections": 3,
+      "medianInvocationMs": 88.14999999850988,
+      "p95TimerGapMs": 112.09999999403954,
+      "maxTimerGapMs": 120.5,
+      "longTaskCount": 16,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 44.35
+        },
+        {
+          "index": 1,
+          "medianMs": 40.1
+        },
+        {
+          "index": 2,
+          "medianMs": 40.55
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 40.95,
+      "p95Ms": 59.1,
+      "maxMs": 71,
+      "medianAllocatedBytes": 354872,
+      "gcCollections": 0,
+      "medianInvocationMs": 85.60000000149012,
+      "p95TimerGapMs": 123.8999999910593,
+      "maxTimerGapMs": 140.20000000298023,
+      "longTaskCount": 22,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 41.349999999999994
+        },
+        {
+          "index": 1,
+          "medianMs": 41.35
+        },
+        {
+          "index": 2,
+          "medianMs": 39.399950000000004
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 2.05,
+      "p95Ms": 2.5,
+      "maxMs": 2.7,
+      "medianAllocatedBytes": 24160,
+      "gcCollections": 0,
+      "medianInvocationMs": 9.450000002980232,
+      "p95TimerGapMs": 24.600000008940697,
+      "maxTimerGapMs": 24.799999997019768,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 2.1500000000000004
+        },
+        {
+          "index": 1,
+          "medianMs": 1.7999999999999998
+        },
+        {
+          "index": 2,
+          "medianMs": 2.05
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 1.25,
+      "p95Ms": 2.4,
+      "maxMs": 2.5,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 8.399999991059303,
+      "p95TimerGapMs": 24.799999997019768,
+      "maxTimerGapMs": 25.599999994039536,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 1.25
+        },
+        {
+          "index": 1,
+          "medianMs": 1.2999999999999998
+        },
+        {
+          "index": 2,
+          "medianMs": 1.2999999999999998
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 0.8500000000000001,
+      "p95Ms": 3.1999,
+      "maxMs": 3.3,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 17.549999997019768,
+      "p95TimerGapMs": 30.400000005960464,
+      "maxTimerGapMs": 33.69999998807907,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 0.95
+        },
+        {
+          "index": 1,
+          "medianMs": 0.75
+        },
+        {
+          "index": 2,
+          "medianMs": 0.84995
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 41.85,
+      "p95Ms": 54.2999,
+      "maxMs": 65.4,
+      "medianAllocatedBytes": 354872,
+      "gcCollections": 0,
+      "medianInvocationMs": 88.85000000149012,
+      "p95TimerGapMs": 118.5,
+      "maxTimerGapMs": 121.29999999701977,
+      "longTaskCount": 21,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 39.45
+        },
+        {
+          "index": 1,
+          "medianMs": 40.75
+        },
+        {
+          "index": 2,
+          "medianMs": 42.1
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 40.9,
+      "p95Ms": 56.3,
+      "maxMs": 63.5,
+      "medianAllocatedBytes": 354872,
+      "gcCollections": 0,
+      "medianInvocationMs": 85.35000000149012,
+      "p95TimerGapMs": 115.70000000298023,
+      "maxTimerGapMs": 120.40000000596046,
+      "longTaskCount": 25,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 40.05
+        },
+        {
+          "index": 1,
+          "medianMs": 43.35
+        },
+        {
+          "index": 2,
+          "medianMs": 41.05
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 42.84995,
+      "p95Ms": 60,
+      "maxMs": 61.4,
+      "medianAllocatedBytes": 274616,
+      "gcCollections": 2,
+      "medianInvocationMs": 89.45000000298023,
+      "p95TimerGapMs": 117.70000000298023,
+      "maxTimerGapMs": 121.20000000298023,
+      "longTaskCount": 24,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 46.0499
+        },
+        {
+          "index": 1,
+          "medianMs": 41.5
+        },
+        {
+          "index": 2,
+          "medianMs": 42.399950000000004
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 107.69995,
+      "p95Ms": 139.5,
+      "maxMs": 139.8,
+      "medianAllocatedBytes": 3866544,
+      "gcCollections": 20,
+      "medianInvocationMs": 227.59999999403954,
+      "p95TimerGapMs": 281.20000000298023,
+      "maxTimerGapMs": 304.29999999701977,
+      "longTaskCount": 19,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 110.1
+        },
+        {
+          "index": 1,
+          "medianMs": 102.79995
+        },
+        {
+          "index": 2,
+          "medianMs": 107.69995
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 112.45,
+      "p95Ms": 136.6,
+      "maxMs": 136.8,
+      "medianAllocatedBytes": 3180288,
+      "gcCollections": 22,
+      "medianInvocationMs": 229.35000000149012,
+      "p95TimerGapMs": 290.59999999403954,
+      "maxTimerGapMs": 299,
+      "longTaskCount": 25,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 115.80000000000001
+        },
+        {
+          "index": 1,
+          "medianMs": 99.25
+        },
+        {
+          "index": 2,
+          "medianMs": 114.7
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 52.24995,
+      "p95Ms": 66.2,
+      "maxMs": 67.1,
+      "medianAllocatedBytes": 828160,
+      "gcCollections": 5,
+      "medianInvocationMs": 90.29999999701977,
+      "p95TimerGapMs": 107.29999999701977,
+      "maxTimerGapMs": 107.90000000596046,
+      "longTaskCount": 18,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 51.6
+        },
+        {
+          "index": 1,
+          "medianMs": 52.44995
+        },
+        {
+          "index": 2,
+          "medianMs": 54.59995
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 36.05,
+      "p95Ms": 41.0999,
+      "maxMs": 41.4,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 71.24999999254942,
+      "p95TimerGapMs": 82.90000000596046,
+      "maxTimerGapMs": 88.29999999701977,
+      "longTaskCount": 22,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 34.94995
+        },
+        {
+          "index": 1,
+          "medianMs": 38.34995
+        },
+        {
+          "index": 2,
+          "medianMs": 34.75
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 10.85,
+      "p95Ms": 13.5,
+      "maxMs": 17,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 263.20000000298023,
+      "p95TimerGapMs": 325.20000000298023,
+      "maxTimerGapMs": 354.40000000596046,
+      "longTaskCount": 16,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 10.85
+        },
+        {
+          "index": 1,
+          "medianMs": 9.9
+        },
+        {
+          "index": 2,
+          "medianMs": 11.34995
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 110,
+      "p95Ms": 135.3999,
+      "maxMs": 149.8,
+      "medianAllocatedBytes": 3180288,
+      "gcCollections": 18,
+      "medianInvocationMs": 230.35000000149012,
+      "p95TimerGapMs": 298.40000000596046,
+      "maxTimerGapMs": 314.79999999701977,
+      "longTaskCount": 24,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 106.6
+        },
+        {
+          "index": 1,
+          "medianMs": 101.54995
+        },
+        {
+          "index": 2,
+          "medianMs": 121.65
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 105.64995,
+      "p95Ms": 124.6,
+      "maxMs": 139,
+      "medianAllocatedBytes": 3180288,
+      "gcCollections": 13,
+      "medianInvocationMs": 221.6000000089407,
+      "p95TimerGapMs": 284.59999999403954,
+      "maxTimerGapMs": 291.20000000298023,
+      "longTaskCount": 18,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 107.4
+        },
+        {
+          "index": 1,
+          "medianMs": 101.49995
+        },
+        {
+          "index": 2,
+          "medianMs": 114.55
+        }
+      ]
+    },
+    {
+      "variant": "interpreter",
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 62.6,
+      "p95Ms": 86.9,
+      "maxMs": 109.5999,
+      "medianAllocatedBytes": 1514432,
+      "gcCollections": 5,
+      "medianInvocationMs": 176.80000000447035,
+      "p95TimerGapMs": 241.90000000596046,
+      "maxTimerGapMs": 278.90000000596046,
+      "longTaskCount": 18,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 63.5
+        },
+        {
+          "index": 1,
+          "medianMs": 64.84995
+        },
+        {
+          "index": 2,
+          "medianMs": 60.94995
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 12.299949999999999,
+      "p95Ms": 19.9,
+      "maxMs": 22.5999,
+      "medianAllocatedBytes": 557312,
+      "gcCollections": 0,
+      "medianInvocationMs": 27.399999998509884,
+      "p95TimerGapMs": 43.1000000089407,
+      "maxTimerGapMs": 44,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 11.35
+        },
+        {
+          "index": 1,
+          "medianMs": 16.55
+        },
+        {
+          "index": 2,
+          "medianMs": 10.14995
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 13.350000000000001,
+      "p95Ms": 18.8,
+      "maxMs": 18.9,
+      "medianAllocatedBytes": 306872,
+      "gcCollections": 0,
+      "medianInvocationMs": 28.100000001490116,
+      "p95TimerGapMs": 47.29999999701977,
+      "maxTimerGapMs": 69,
+      "longTaskCount": 1,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 11.45
+        },
+        {
+          "index": 1,
+          "medianMs": 17.1
+        },
+        {
+          "index": 2,
+          "medianMs": 11.45
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 0.5,
+      "p95Ms": 1.3,
+      "maxMs": 1.7999,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 6.399999998509884,
+      "p95TimerGapMs": 25.299999997019768,
+      "maxTimerGapMs": 26.5,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 0.5
+        },
+        {
+          "index": 1,
+          "medianMs": 0.5499499999999999
+        },
+        {
+          "index": 2,
+          "medianMs": 0.5
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 0.4,
+      "p95Ms": 1.5,
+      "maxMs": 2.2,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 6.1500000059604645,
+      "p95TimerGapMs": 24.5,
+      "maxTimerGapMs": 29.100000008940697,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 0.39995
+        },
+        {
+          "index": 1,
+          "medianMs": 0.5
+        },
+        {
+          "index": 2,
+          "medianMs": 0.3
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 0.3,
+      "p95Ms": 1.5,
+      "maxMs": 1.6,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 9,
+      "p95TimerGapMs": 24.799999997019768,
+      "maxTimerGapMs": 25.400000005960464,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 0.3
+        },
+        {
+          "index": 1,
+          "medianMs": 0.3
+        },
+        {
+          "index": 2,
+          "medianMs": 0.2
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 11.0999,
+      "p95Ms": 18.7,
+      "maxMs": 19.5999,
+      "medianAllocatedBytes": 306872,
+      "gcCollections": 0,
+      "medianInvocationMs": 26.200000002980232,
+      "p95TimerGapMs": 46.79999999701977,
+      "maxTimerGapMs": 47.099999994039536,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 10.350000000000001
+        },
+        {
+          "index": 1,
+          "medianMs": 16.6
+        },
+        {
+          "index": 2,
+          "medianMs": 10.55
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 13.84995,
+      "p95Ms": 20.2,
+      "maxMs": 24.2,
+      "medianAllocatedBytes": 306872,
+      "gcCollections": 0,
+      "medianInvocationMs": 30.049999997019768,
+      "p95TimerGapMs": 44.599999994039536,
+      "maxTimerGapMs": 80.20000000298023,
+      "longTaskCount": 1,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 12.5
+        },
+        {
+          "index": 1,
+          "medianMs": 15.4
+        },
+        {
+          "index": 2,
+          "medianMs": 9.699950000000001
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 6.09995,
+      "p95Ms": 10.1999,
+      "maxMs": 10.8999,
+      "medianAllocatedBytes": 250616,
+      "gcCollections": 0,
+      "medianInvocationMs": 20.850000001490116,
+      "p95TimerGapMs": 34.29999999701977,
+      "maxTimerGapMs": 44,
+      "longTaskCount": 0,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 5.699999999999999
+        },
+        {
+          "index": 1,
+          "medianMs": 7.300000000000001
+        },
+        {
+          "index": 2,
+          "medianMs": 5.3
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 48.8,
+      "p95Ms": 74.6,
+      "maxMs": 96.4,
+      "medianAllocatedBytes": 2210544,
+      "gcCollections": 5,
+      "medianInvocationMs": 98.05000000447035,
+      "p95TimerGapMs": 161.6000000089407,
+      "maxTimerGapMs": 181.20000000298023,
+      "longTaskCount": 17,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 54.599999999999994
+        },
+        {
+          "index": 1,
+          "medianMs": 38.5
+        },
+        {
+          "index": 2,
+          "medianMs": 45.49995
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 53.05,
+      "p95Ms": 96.1,
+      "maxMs": 97.9,
+      "medianAllocatedBytes": 1524288,
+      "gcCollections": 12,
+      "medianInvocationMs": 104.29999999701977,
+      "p95TimerGapMs": 160.80000001192093,
+      "maxTimerGapMs": 179.6000000089407,
+      "longTaskCount": 24,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 69.5
+        },
+        {
+          "index": 1,
+          "medianMs": 44.49995
+        },
+        {
+          "index": 2,
+          "medianMs": 51.3
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 14.149999999999999,
+      "p95Ms": 16.5,
+      "maxMs": 17.3,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 72.75,
+      "p95TimerGapMs": 99.30000001192093,
+      "maxTimerGapMs": 109.1000000089407,
+      "longTaskCount": 23,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 14.6
+        },
+        {
+          "index": 1,
+          "medianMs": 13.149999999999999
+        },
+        {
+          "index": 2,
+          "medianMs": 13.7
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 10.9,
+      "p95Ms": 16.5,
+      "maxMs": 19.3,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 69.54999999701977,
+      "p95TimerGapMs": 92,
+      "maxTimerGapMs": 115.29999999701977,
+      "longTaskCount": 21,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 12.15
+        },
+        {
+          "index": 1,
+          "medianMs": 10.9
+        },
+        {
+          "index": 2,
+          "medianMs": 9.95
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 5.5,
+      "p95Ms": 6.9,
+      "maxMs": 7.9,
+      "medianAllocatedBytes": 160,
+      "gcCollections": 0,
+      "medianInvocationMs": 109.85000000149012,
+      "p95TimerGapMs": 144.40000000596046,
+      "maxTimerGapMs": 148.29999999701977,
+      "longTaskCount": 15,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 5.949999999999999
+        },
+        {
+          "index": 1,
+          "medianMs": 4.9
+        },
+        {
+          "index": 2,
+          "medianMs": 5.35
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 45.25,
+      "p95Ms": 72,
+      "maxMs": 73.3,
+      "medianAllocatedBytes": 1524288,
+      "gcCollections": 7,
+      "medianInvocationMs": 93.30000000447035,
+      "p95TimerGapMs": 137.1000000089407,
+      "maxTimerGapMs": 147.09999999403954,
+      "longTaskCount": 23,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 51.05
+        },
+        {
+          "index": 1,
+          "medianMs": 40
+        },
+        {
+          "index": 2,
+          "medianMs": 42.3
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 58.5,
+      "p95Ms": 97.6,
+      "maxMs": 126.5,
+      "medianAllocatedBytes": 1524288,
+      "gcCollections": 0,
+      "medianInvocationMs": 113.55000000447035,
+      "p95TimerGapMs": 185.5,
+      "maxTimerGapMs": 189.79999999701977,
+      "longTaskCount": 19,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 75.7
+        },
+        {
+          "index": 1,
+          "medianMs": 52.94995
+        },
+        {
+          "index": 2,
+          "medianMs": 46.4
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "count": 30,
+      "contexts": 3,
+      "medianMs": 13.5,
+      "p95Ms": 21,
+      "maxMs": 25.3,
+      "medianAllocatedBytes": 686432,
+      "gcCollections": 4,
+      "medianInvocationMs": 70.5,
+      "p95TimerGapMs": 97.59999999403954,
+      "maxTimerGapMs": 120.80000001192093,
+      "longTaskCount": 16,
+      "contextMediansMs": [
+        {
+          "index": 0,
+          "medianMs": 14.85
+        },
+        {
+          "index": 1,
+          "medianMs": 11.850000000000001
+        },
+        {
+          "index": 2,
+          "medianMs": 10.1
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "fixture": "narrow",
+      "mode": "reflection-array-string",
+      "interpreterMedianMs": 40.95,
+      "aotMedianMs": 12.299949999999999,
+      "speedup": 3.329281826348888,
+      "reductionPercent": 69.96349206349205
+    },
+    {
+      "fixture": "narrow",
+      "mode": "fast-with-unused-converter",
+      "interpreterMedianMs": 40.95,
+      "aotMedianMs": 13.350000000000001,
+      "speedup": 3.0674157303370784,
+      "reductionPercent": 67.3992673992674
+    },
+    {
+      "fixture": "narrow",
+      "mode": "primitive-decimal",
+      "interpreterMedianMs": 2.05,
+      "aotMedianMs": 0.5,
+      "speedup": 4.1,
+      "reductionPercent": 75.60975609756098
+    },
+    {
+      "fixture": "narrow",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "interpreterMedianMs": 1.25,
+      "aotMedianMs": 0.4,
+      "speedup": 3.125,
+      "reductionPercent": 68
+    },
+    {
+      "fixture": "narrow",
+      "mode": "primitive-raw-decimal",
+      "interpreterMedianMs": 0.8500000000000001,
+      "aotMedianMs": 0.3,
+      "speedup": 2.833333333333334,
+      "reductionPercent": 64.70588235294117
+    },
+    {
+      "fixture": "narrow",
+      "mode": "reflection-array-bytes",
+      "interpreterMedianMs": 41.85,
+      "aotMedianMs": 11.0999,
+      "speedup": 3.770304236975108,
+      "reductionPercent": 73.47694145758662
+    },
+    {
+      "fixture": "narrow",
+      "mode": "metadata-array-bytes",
+      "interpreterMedianMs": 40.9,
+      "aotMedianMs": 13.84995,
+      "speedup": 2.953079252993693,
+      "reductionPercent": 66.13704156479217
+    },
+    {
+      "fixture": "narrow",
+      "mode": "fast-array-bytes",
+      "interpreterMedianMs": 42.84995,
+      "aotMedianMs": 6.09995,
+      "speedup": 7.024639546225789,
+      "reductionPercent": 85.76439412414717
+    },
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-string",
+      "interpreterMedianMs": 107.69995,
+      "aotMedianMs": 48.8,
+      "speedup": 2.20696618852459,
+      "reductionPercent": 54.68892975344928
+    },
+    {
+      "fixture": "wide",
+      "mode": "fast-with-unused-converter",
+      "interpreterMedianMs": 112.45,
+      "aotMedianMs": 53.05,
+      "speedup": 2.119698397737983,
+      "reductionPercent": 52.82347710093376
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal",
+      "interpreterMedianMs": 52.24995,
+      "aotMedianMs": 14.149999999999999,
+      "speedup": 3.692575971731449,
+      "reductionPercent": 72.91863437189892
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-decimal-tryformat-utf8",
+      "interpreterMedianMs": 36.05,
+      "aotMedianMs": 10.9,
+      "speedup": 3.307339449541284,
+      "reductionPercent": 69.76421636615811
+    },
+    {
+      "fixture": "wide",
+      "mode": "primitive-raw-decimal",
+      "interpreterMedianMs": 10.85,
+      "aotMedianMs": 5.5,
+      "speedup": 1.9727272727272727,
+      "reductionPercent": 49.30875576036866
+    },
+    {
+      "fixture": "wide",
+      "mode": "reflection-array-bytes",
+      "interpreterMedianMs": 110,
+      "aotMedianMs": 45.25,
+      "speedup": 2.430939226519337,
+      "reductionPercent": 58.86363636363636
+    },
+    {
+      "fixture": "wide",
+      "mode": "metadata-array-bytes",
+      "interpreterMedianMs": 105.64995,
+      "aotMedianMs": 58.5,
+      "speedup": 1.8059820512820512,
+      "reductionPercent": 44.628464092978746
+    },
+    {
+      "fixture": "wide",
+      "mode": "fast-array-bytes",
+      "interpreterMedianMs": 62.6,
+      "aotMedianMs": 13.5,
+      "speedup": 4.637037037037037,
+      "reductionPercent": 78.43450479233228
+    }
+  ],
+  "startup": [
+    {
+      "variant": "interpreter",
+      "count": 6,
+      "medianReadyMs": 1035.1499999985099,
+      "minReadyMs": 950.2000000029802,
+      "maxReadyMs": 1176.9000000059605,
+      "medianEncodedResourceBytes": 2004177,
+      "medianTransferResourceBytes": 2014377,
+      "medianDecodedResourceBytes": 6377583
+    },
+    {
+      "variant": "aot",
+      "count": 6,
+      "medianReadyMs": 1234.5,
+      "minReadyMs": 1084.2000000029802,
+      "maxReadyMs": 2281.7000000029802,
+      "medianEncodedResourceBytes": 3735576,
+      "medianTransferResourceBytes": 3745776,
+      "medianDecodedResourceBytes": 14606983
+    }
+  ],
+  "artifacts": [
+    {
+      "variant": "interpreter",
+      "uncompressedArtifactBytes": 8441553,
+      "files": [
+        {
+          "name": "index.html",
+          "bytes": 386
+        },
+        {
+          "name": "_framework\\blazor.boot.json",
+          "bytes": 3643
+        },
+        {
+          "name": "_framework\\blazor.boot.json.br",
+          "bytes": 1609
+        },
+        {
+          "name": "_framework\\blazor.boot.json.gz",
+          "bytes": 1755
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js",
+          "bytes": 60012
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.br",
+          "bytes": 16830
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.gz",
+          "bytes": 19088
+        },
+        {
+          "name": "_framework\\dotnet.js",
+          "bytes": 35871
+        },
+        {
+          "name": "_framework\\dotnet.js.br",
+          "bytes": 10253
+        },
+        {
+          "name": "_framework\\dotnet.js.gz",
+          "bytes": 11550
+        },
+        {
+          "name": "_framework\\dotnet.native.js",
+          "bytes": 134653
+        },
+        {
+          "name": "_framework\\dotnet.native.js.br",
+          "bytes": 26215
+        },
+        {
+          "name": "_framework\\dotnet.native.js.gz",
+          "bytes": 30185
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm",
+          "bytes": 2729187
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.br",
+          "bytes": 890811
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.gz",
+          "bytes": 1100635
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js",
+          "bytes": 223202
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.br",
+          "bytes": 54664
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.gz",
+          "bytes": 65705
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat",
+          "bytes": 956416
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.br",
+          "bytes": 248840
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.gz",
+          "bytes": 359741
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat",
+          "bytes": 550832
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.br",
+          "bytes": 143983
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.gz",
+          "bytes": 220093
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat",
+          "bytes": 1107168
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.br",
+          "bytes": 222250
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.gz",
+          "bytes": 347783
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm",
+          "bytes": 127765
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.br",
+          "bytes": 47856
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.gz",
+          "bytes": 55719
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm",
+          "bytes": 41749
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.br",
+          "bytes": 14482
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.gz",
+          "bytes": 17393
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "bytes": 69909
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.br",
+          "bytes": 26230
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.gz",
+          "bytes": 30221
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.br",
+          "bytes": 2319
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.gz",
+          "bytes": 2692
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.br",
+          "bytes": 3554
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.gz",
+          "bytes": 4084
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.br",
+          "bytes": 3541
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.gz",
+          "bytes": 4062
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.br",
+          "bytes": 5818
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.gz",
+          "bytes": 6638
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm",
+          "bytes": 43797
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.br",
+          "bytes": 18404
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.gz",
+          "bytes": 21170
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm",
+          "bytes": 23317
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.br",
+          "bytes": 9657
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.gz",
+          "bytes": 11066
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm",
+          "bytes": 17173
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.br",
+          "bytes": 7468
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.gz",
+          "bytes": 8571
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm",
+          "bytes": 16661
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.br",
+          "bytes": 6983
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.gz",
+          "bytes": 8029
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.br",
+          "bytes": 3365
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.gz",
+          "bytes": 3873
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm",
+          "bytes": 42261
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.br",
+          "bytes": 16820
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.gz",
+          "bytes": 19371
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm",
+          "bytes": 9493
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.br",
+          "bytes": 3906
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.gz",
+          "bytes": 4471
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm",
+          "bytes": 187157
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.br",
+          "bytes": 32413
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.gz",
+          "bytes": 50088
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm",
+          "bytes": 18197
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.br",
+          "bytes": 7896
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.gz",
+          "bytes": 8800
+        },
+        {
+          "name": "_framework\\System.Collections.wasm",
+          "bytes": 10005
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.br",
+          "bytes": 4002
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.gz",
+          "bytes": 4528
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.br",
+          "bytes": 1711
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.gz",
+          "bytes": 1933
+        },
+        {
+          "name": "_framework\\System.Console.wasm",
+          "bytes": 14613
+        },
+        {
+          "name": "_framework\\System.Console.wasm.br",
+          "bytes": 6136
+        },
+        {
+          "name": "_framework\\System.Console.wasm.gz",
+          "bytes": 7223
+        },
+        {
+          "name": "_framework\\System.Linq.wasm",
+          "bytes": 19733
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.br",
+          "bytes": 7745
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.gz",
+          "bytes": 8992
+        },
+        {
+          "name": "_framework\\System.Memory.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.br",
+          "bytes": 6668
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.gz",
+          "bytes": 7622
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm",
+          "bytes": 1445141
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.br",
+          "bytes": 455269
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.gz",
+          "bytes": 564195
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm",
+          "bytes": 58645
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.br",
+          "bytes": 23877
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.gz",
+          "bytes": 27168
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm",
+          "bytes": 34581
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.br",
+          "bytes": 14010
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.gz",
+          "bytes": 16394
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.br",
+          "bytes": 2266
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.gz",
+          "bytes": 2615
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm",
+          "bytes": 29461
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.br",
+          "bytes": 9593
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.gz",
+          "bytes": 11070
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm",
+          "bytes": 354069
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.br",
+          "bytes": 117823
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.gz",
+          "bytes": 141599
+        }
+      ]
+    },
+    {
+      "variant": "aot",
+      "uncompressedArtifactBytes": 16670953,
+      "files": [
+        {
+          "name": "index.html",
+          "bytes": 386
+        },
+        {
+          "name": "_framework\\blazor.boot.json",
+          "bytes": 3643
+        },
+        {
+          "name": "_framework\\blazor.boot.json.br",
+          "bytes": 1609
+        },
+        {
+          "name": "_framework\\blazor.boot.json.gz",
+          "bytes": 1755
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js",
+          "bytes": 60012
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.br",
+          "bytes": 16830
+        },
+        {
+          "name": "_framework\\blazor.webassembly.js.gz",
+          "bytes": 19088
+        },
+        {
+          "name": "_framework\\dotnet.js",
+          "bytes": 35871
+        },
+        {
+          "name": "_framework\\dotnet.js.br",
+          "bytes": 10253
+        },
+        {
+          "name": "_framework\\dotnet.js.gz",
+          "bytes": 11550
+        },
+        {
+          "name": "_framework\\dotnet.native.js",
+          "bytes": 143507
+        },
+        {
+          "name": "_framework\\dotnet.native.js.br",
+          "bytes": 26769
+        },
+        {
+          "name": "_framework\\dotnet.native.js.gz",
+          "bytes": 30813
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm",
+          "bytes": 10951269
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.br",
+          "bytes": 2622672
+        },
+        {
+          "name": "_framework\\dotnet.native.wasm.gz",
+          "bytes": 3979916
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js",
+          "bytes": 223202
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.br",
+          "bytes": 54664
+        },
+        {
+          "name": "_framework\\dotnet.runtime.js.gz",
+          "bytes": 65705
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat",
+          "bytes": 956416
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.br",
+          "bytes": 248840
+        },
+        {
+          "name": "_framework\\icudt_CJK.dat.gz",
+          "bytes": 359741
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat",
+          "bytes": 550832
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.br",
+          "bytes": 143983
+        },
+        {
+          "name": "_framework\\icudt_EFIGS.dat.gz",
+          "bytes": 220093
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat",
+          "bytes": 1107168
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.br",
+          "bytes": 222250
+        },
+        {
+          "name": "_framework\\icudt_no_CJK.dat.gz",
+          "bytes": 347783
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm",
+          "bytes": 127765
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.br",
+          "bytes": 47856
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.wasm.gz",
+          "bytes": 55719
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm",
+          "bytes": 41749
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.br",
+          "bytes": 14482
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.Web.wasm.gz",
+          "bytes": 17393
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm",
+          "bytes": 69909
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.br",
+          "bytes": 26230
+        },
+        {
+          "name": "_framework\\Microsoft.AspNetCore.Components.WebAssembly.wasm.gz",
+          "bytes": 30221
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm",
+          "bytes": 6421
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.br",
+          "bytes": 2319
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Abstractions.wasm.gz",
+          "bytes": 2692
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.br",
+          "bytes": 3554
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.Json.wasm.gz",
+          "bytes": 4084
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.br",
+          "bytes": 3541
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Configuration.wasm.gz",
+          "bytes": 4062
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.br",
+          "bytes": 5818
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.gz",
+          "bytes": 6638
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm",
+          "bytes": 43797
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.br",
+          "bytes": 18404
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.DependencyInjection.wasm.gz",
+          "bytes": 21170
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm",
+          "bytes": 23317
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.br",
+          "bytes": 9657
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.Abstractions.wasm.gz",
+          "bytes": 11066
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm",
+          "bytes": 17173
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.br",
+          "bytes": 7468
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Logging.wasm.gz",
+          "bytes": 8571
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm",
+          "bytes": 16661
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.br",
+          "bytes": 6983
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Options.wasm.gz",
+          "bytes": 8029
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm",
+          "bytes": 8981
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.br",
+          "bytes": 3365
+        },
+        {
+          "name": "_framework\\Microsoft.Extensions.Primitives.wasm.gz",
+          "bytes": 3873
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm",
+          "bytes": 42261
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.br",
+          "bytes": 16820
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.wasm.gz",
+          "bytes": 19371
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm",
+          "bytes": 9493
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.br",
+          "bytes": 3906
+        },
+        {
+          "name": "_framework\\Microsoft.JSInterop.WebAssembly.wasm.gz",
+          "bytes": 4471
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm",
+          "bytes": 187157
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.br",
+          "bytes": 32241
+        },
+        {
+          "name": "_framework\\SerializationInvestigation.wasm.gz",
+          "bytes": 50077
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm",
+          "bytes": 18197
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.br",
+          "bytes": 7896
+        },
+        {
+          "name": "_framework\\System.Collections.Concurrent.wasm.gz",
+          "bytes": 8800
+        },
+        {
+          "name": "_framework\\System.Collections.wasm",
+          "bytes": 10005
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.br",
+          "bytes": 4002
+        },
+        {
+          "name": "_framework\\System.Collections.wasm.gz",
+          "bytes": 4528
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm",
+          "bytes": 4885
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.br",
+          "bytes": 1711
+        },
+        {
+          "name": "_framework\\System.ComponentModel.wasm.gz",
+          "bytes": 1933
+        },
+        {
+          "name": "_framework\\System.Console.wasm",
+          "bytes": 14613
+        },
+        {
+          "name": "_framework\\System.Console.wasm.br",
+          "bytes": 6136
+        },
+        {
+          "name": "_framework\\System.Console.wasm.gz",
+          "bytes": 7223
+        },
+        {
+          "name": "_framework\\System.Linq.wasm",
+          "bytes": 19733
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.br",
+          "bytes": 7745
+        },
+        {
+          "name": "_framework\\System.Linq.wasm.gz",
+          "bytes": 8992
+        },
+        {
+          "name": "_framework\\System.Memory.wasm",
+          "bytes": 15637
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.br",
+          "bytes": 6668
+        },
+        {
+          "name": "_framework\\System.Memory.wasm.gz",
+          "bytes": 7622
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm",
+          "bytes": 1443605
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.br",
+          "bytes": 454585
+        },
+        {
+          "name": "_framework\\System.Private.CoreLib.wasm.gz",
+          "bytes": 563534
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm",
+          "bytes": 58645
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.br",
+          "bytes": 23877
+        },
+        {
+          "name": "_framework\\System.Private.Uri.wasm.gz",
+          "bytes": 27168
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm",
+          "bytes": 34581
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.br",
+          "bytes": 14010
+        },
+        {
+          "name": "_framework\\System.Runtime.InteropServices.JavaScript.wasm.gz",
+          "bytes": 16394
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm",
+          "bytes": 6933
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.br",
+          "bytes": 2266
+        },
+        {
+          "name": "_framework\\System.Runtime.wasm.gz",
+          "bytes": 2615
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm",
+          "bytes": 29461
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.br",
+          "bytes": 9433
+        },
+        {
+          "name": "_framework\\System.Text.Encodings.Web.wasm.gz",
+          "bytes": 10959
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm",
+          "bytes": 354069
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.br",
+          "bytes": 117823
+        },
+        {
+          "name": "_framework\\System.Text.Json.wasm.gz",
+          "bytes": 141599
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

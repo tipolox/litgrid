@@ -1,0 +1,188 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T06:03:08.610Z",
+    "browser": "156.0.8078.4",
+    "node": "v22.14.0",
+    "platform": "win32",
+    "build": "Release net8.0 Blazor WebAssembly, interpreter (no AOT)",
+    "viewport": "1280x900 headless Chromium",
+    "batches": {
+      "targetBytes": 65536,
+      "maxRows": 128,
+      "maxRowBytes": 1048576,
+      "targetSliceMs": 8
+    }
+  },
+  "results": [
+    {
+      "mode": "dispatch-control",
+      "samples": [
+        {
+          "bytes": 0,
+          "durationsMs": [
+            1,
+            0.8,
+            0.6,
+            0.5,
+            0.5,
+            0.4,
+            0.4,
+            0.3,
+            0.1,
+            0.3,
+            0.2,
+            0.1999,
+            0.1,
+            0.2,
+            0.3,
+            0.2999,
+            0.3,
+            0.3,
+            0.2,
+            0.3,
+            0.1,
+            0.2,
+            0.3,
+            0.2999,
+            0.4,
+            0.2,
+            0.3,
+            0.2,
+            0.2,
+            0.1999
+          ],
+          "managedAllocatedBytes": 27664
+        },
+        {
+          "bytes": 65536,
+          "durationsMs": [
+            0.2999,
+            0.4,
+            0.3,
+            0.2999,
+            0.4,
+            0.3,
+            0.4,
+            0.8999,
+            1,
+            0.8,
+            0.5,
+            0.5,
+            0.3,
+            0.3,
+            0.5999,
+            0.7,
+            0.4,
+            0.3999,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.4,
+            0.3999,
+            0.3,
+            0.1999,
+            0.3,
+            0.3,
+            0.2,
+            0.3
+          ],
+          "managedAllocatedBytes": 27904
+        }
+      ]
+    },
+    {
+      "mode": "compatibility",
+      "checks": [
+        {
+          "name": "attributes, numeric enum, dates, nulls, Unicode",
+          "passed": true
+        },
+        {
+          "name": "nested, dictionary, custom value converter, string enum",
+          "passed": true
+        },
+        {
+          "name": "declared polymorphism",
+          "passed": true
+        },
+        {
+          "name": "lazy IEnumerable",
+          "passed": true
+        },
+        {
+          "name": "custom collection converter rejected",
+          "passed": true
+        },
+        {
+          "name": "reference preservation rejected",
+          "passed": true
+        },
+        {
+          "name": "throwing lazy enumerable releases staging",
+          "passed": true
+        },
+        {
+          "name": "oversized row releases staging",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "workload": "C",
+      "mode": "prototype",
+      "run": 1,
+      "rows": 30000,
+      "properties": 6,
+      "cancelled": true,
+      "managed": null,
+      "browser": {
+        "label": "prototype",
+        "parseMs": 0.5000000149011612,
+        "decodeMs": 0.6000000089406967,
+        "parseCalls": 14,
+        "maximumParseMs": 0.10000000894069672,
+        "adoptionMs": 0,
+        "deferredRenderMs": 0,
+        "maxTimerGapMs": 30.700000002980232,
+        "timerTicks": 22,
+        "longTasks": [],
+        "heapBefore": 5779945,
+        "heapPeak": 6292308,
+        "bytesReceived": 92683,
+        "batches": 14,
+        "partialVisibility": false,
+        "progressFrames": 14,
+        "transport": "Uint8Array",
+        "cdpBefore": {
+          "taskDurationSeconds": 4.402006,
+          "scriptDurationSeconds": 1.259045,
+          "jsHeapUsedBytes": 5019396,
+          "jsHeapTotalBytes": 8765440,
+          "backingStorageBytes": 765894,
+          "embedderHeapUsedBytes": 1823448
+        },
+        "operationElapsedMs": 196.5,
+        "cdpAfter": {
+          "taskDurationSeconds": 4.562017,
+          "scriptDurationSeconds": 1.26583,
+          "jsHeapUsedBytes": 5336464,
+          "jsHeapTotalBytes": 8765440,
+          "backingStorageBytes": 951916,
+          "embedderHeapUsedBytes": 2035888
+        },
+        "heapAfter": 6292308,
+        "visibleRowsAtEnd": 1
+      },
+      "diagnostic": null,
+      "cancelClickToCompletionMs": 184.33500000000004,
+      "cleanupState": {
+        "visible": 1,
+        "staged": 0,
+        "cancelled": true
+      },
+      "loadingAnimationSamples": 11
+    }
+  ],
+  "errors": []
+}
