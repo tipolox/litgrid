@@ -46,6 +46,29 @@ The product owner deliberately approved this **breaking minor release** as a sem
   update installed packages, lockfiles, deployed consumers, or browser caches.
   See [the upgrade guide](docs/installation.md#upgrading-to-v110).
 
+### Known limitations and verification scope
+
+- Actual Safari was not manually verified; Playwright WebKit testing is not
+  equivalent to testing actual Safari.
+- Physical touch devices were not manually verified; touch emulation does not
+  establish physical-device behavior.
+- Actual screen-reader announcements were not manually verified.
+- Automated accessibility and keyboard checks passed in the tested configurations;
+  no blanket WCAG conformance certification is claimed.
+- Browser, cache, and service-worker testing covers specific configurations only.
+  Native Firefox 145.0.1 cache-first upgrade checks passed. Other untested browser
+  versions, service-worker combinations, and deployment environments remain
+  unverified.
+- Blazor Interactive Server recovery after a lost JavaScript interop
+  acknowledgment may wait until the configured interop timeout expires (normally
+  approximately 60 seconds). Reconnection does not immediately acknowledge a lost
+  operation or guarantee a retry. Expired or terminated circuits require the
+  application's normal reload/new-circuit recovery. See the
+  [synchronization and migration guide](docs/blazor-data-synchronization.md).
+- Upgrading from v1.0.3 requires coordinated package versions, deployed JavaScript
+  assets, service-worker caches where used, and page reloads. See the
+  [installation and upgrade guide](docs/installation.md#upgrading-to-v110).
+
 ## 1.0.3
 
 ### Fixes
