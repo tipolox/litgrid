@@ -1,0 +1,8 @@
+@namespace B1Host
+@using BrowserHost.Performance
+@using Tipolox.LitGrid.Blazor
+<LitGridColumn TItem="AccountRow10" Key="extra" Title="@title" Width="120" />
+@code {
+    private string title = "Child";
+    public Task ChangeTitle(string value) => InvokeAsync(() => { title = value; StateHasChanged(); });
+}

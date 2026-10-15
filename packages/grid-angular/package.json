@@ -1,10 +1,10 @@
 {
   "name": "@tipolox/litgrid-angular",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Angular wrapper for LitGrid",
   "sideEffects": true,
   "scripts": {
-    "build": "ngc -p tsconfig.lib.json && ng-packagr -p ng-package.json -c tsconfig.packagr.json && node -e \"const fs=require('node:fs'); const p='../../dist/grid-angular/package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); const webPkg=JSON.parse(fs.readFileSync('../grid-web/package.json','utf8')); if(pkg.dependencies && pkg.dependencies['@tipolox/litgrid-web'] && pkg.dependencies['@tipolox/litgrid-web'].startsWith('workspace:')) { pkg.dependencies['@tipolox/litgrid-web'] = '^' + webPkg.version; } fs.writeFileSync(p, JSON.stringify(pkg, null, 2) + '\\n'); fs.copyFileSync('../../LICENSE','../../dist/grid-angular/LICENSE');\""
+    "build": "ngc -p tsconfig.lib.json && ng-packagr -p ng-package.json -c tsconfig.packagr.json && node -e \"const fs=require('node:fs'); const p='../../dist/grid-angular/package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); const webPkg=JSON.parse(fs.readFileSync('../grid-web/package.json','utf8')); if(pkg.dependencies && pkg.dependencies['@tipolox/litgrid-web'] && pkg.dependencies['@tipolox/litgrid-web'].startsWith('workspace:')) { pkg.dependencies['@tipolox/litgrid-web'] = '^' + webPkg.version; } fs.writeFileSync(p, JSON.stringify(pkg, null, 2) + '\\n'); fs.copyFileSync('../../LICENSE','../../dist/grid-angular/LICENSE');\" && node ../../scripts/embed-sourcemap-sources.mjs ../../dist/grid-angular"
   },
   "peerDependencies": {
     "@angular/common": ">=17.0.0",

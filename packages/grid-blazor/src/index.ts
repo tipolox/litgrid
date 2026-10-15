@@ -12,7 +12,7 @@ import type {
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
-import { syncGridInputs, type BlazorGridInputs } from './gridBindings'
+import { syncGridInputs, type BlazorGridInputs, type BlazorGridInputPatch } from './gridBindings'
 
 export type BlazorGridPaginationState = {
   enabled: boolean
@@ -47,7 +47,8 @@ export type {
   GridFilter,
   GridTheme,
   SelectionIntent,
-  BlazorGridInputs
+  BlazorGridInputs,
+  BlazorGridInputPatch
 }
 
 export { syncGridInputs }
@@ -78,6 +79,9 @@ export function initGrid(
 ): void {
   const grid = requireGrid(element)
   syncGridInputs(grid, inputs)
+  // Initialization may have applied successfully but lost its Server acknowledgment.
+  // Retrying must replace callbacks rather than retaining duplicate listeners.
+  disposeGrid(element)
 
     const onStateChange = (event: Event) => {
     const detail = (event as CustomEvent<ColumnStateChangeDetail>).detail
@@ -105,7 +109,7 @@ export function initGrid(
   })
 }
 
-export function updateInputs(element: HTMLElement, inputs: BlazorGridInputs): void {
+export function updateInputs(element: HTMLElement, inputs: BlazorGridInputPatch): void {
   const grid = requireGrid(element)
   syncGridInputs(grid, inputs)
 }

@@ -1,0 +1,9218 @@
+[
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 493.79999999701977,
+      "max": 516
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 1712248,
+      "max": 1712632
+    },
+    "maxTimerGapMs": {
+      "median": 493.1000000089407,
+      "max": 514.7999999970198
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 116.10000000149012,
+      "max": 156.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 616428,
+      "max": 619872
+    },
+    "maxTimerGapMs": {
+      "median": 108,
+      "max": 150.30000001192093
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 80,
+      "max": 127.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613064,
+      "max": 613064
+    },
+    "maxTimerGapMs": {
+      "median": 62,
+      "max": 95.20000000298023
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 96.69999998807907,
+      "max": 98.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1001,
+      "max": 1001
+    },
+    "allocated": {
+      "median": 613984,
+      "max": 613984
+    },
+    "maxTimerGapMs": {
+      "median": 77.40000000596046,
+      "max": 83.29999999701977
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 152,
+      "max": 196.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613552,
+      "max": 613552
+    },
+    "maxTimerGapMs": {
+      "median": 131.6000000089407,
+      "max": 169.6000000089407
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 84.19999998807907,
+      "max": 101.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613048,
+      "max": 613048
+    },
+    "maxTimerGapMs": {
+      "median": 65.5,
+      "max": 84.20000000298023
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 101.29999999701977,
+      "max": 101.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613016,
+      "max": 613016
+    },
+    "maxTimerGapMs": {
+      "median": 77.29999999701977,
+      "max": 78.40000000596046
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 84,
+      "max": 111.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613080,
+      "max": 613080
+    },
+    "maxTimerGapMs": {
+      "median": 66,
+      "max": 91.1000000089407
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.5,
+      "max": 79.6000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613048,
+      "max": 613048
+    },
+    "maxTimerGapMs": {
+      "median": 59.6000000089407,
+      "max": 73.79999999701977
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 83.6000000089407,
+      "max": 100.1000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613248,
+      "max": 613248
+    },
+    "maxTimerGapMs": {
+      "median": 62.20000000298023,
+      "max": 86.29999999701977
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 65.90000000596046,
+      "max": 84
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613104,
+      "max": 613104
+    },
+    "maxTimerGapMs": {
+      "median": 59.1000000089407,
+      "max": 63.20000000298023
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.69999998807907,
+      "max": 83.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613088,
+      "max": 613088
+    },
+    "maxTimerGapMs": {
+      "median": 58.69999998807907,
+      "max": 68.09999999403954
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 67.70000000298023,
+      "max": 68.1000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613088,
+      "max": 613088
+    },
+    "maxTimerGapMs": {
+      "median": 56.70000000298023,
+      "max": 58.3999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.90000000596046,
+      "max": 72.1000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613104,
+      "max": 613104
+    },
+    "maxTimerGapMs": {
+      "median": 56.79999999701977,
+      "max": 57
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.20000000298023,
+      "max": 67
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613088,
+      "max": 613088
+    },
+    "maxTimerGapMs": {
+      "median": 58.79999999701977,
+      "max": 63.599999994039536
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 40.80000001192093,
+      "max": 64.1000000089407
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 490.90000000596046,
+      "max": 772.5999999940395
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 1707736,
+      "max": 1712856
+    },
+    "maxTimerGapMs": {
+      "median": 490,
+      "max": 770.5999999940395
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 105.99999999254942,
+      "max": 180.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 616428,
+      "max": 619872
+    },
+    "maxTimerGapMs": {
+      "median": 97.95000000298023,
+      "max": 180.70000000298023
+    },
+    "longTaskCount": 4
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 96.19999998807907,
+      "max": 126.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613064,
+      "max": 613064
+    },
+    "maxTimerGapMs": {
+      "median": 72.90000000596046,
+      "max": 101.70000000298023
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 95.59999999403954,
+      "max": 111.90000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1001,
+      "max": 1001
+    },
+    "allocated": {
+      "median": 613984,
+      "max": 613984
+    },
+    "maxTimerGapMs": {
+      "median": 81.59999999403954,
+      "max": 90.69999998807907
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 146.40000000596046,
+      "max": 179.90000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613552,
+      "max": 613552
+    },
+    "maxTimerGapMs": {
+      "median": 125.90000000596046,
+      "max": 155.19999998807907
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 80.09999999403954,
+      "max": 103.09999999403954
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613048,
+      "max": 613048
+    },
+    "maxTimerGapMs": {
+      "median": 63.599999994039536,
+      "max": 79.59999999403954
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 96,
+      "max": 100
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613016,
+      "max": 613016
+    },
+    "maxTimerGapMs": {
+      "median": 75.29999999701977,
+      "max": 82.5
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 99.8999999910593,
+      "max": 132.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613080,
+      "max": 613080
+    },
+    "maxTimerGapMs": {
+      "median": 72.6000000089407,
+      "max": 85.5
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 80.20000000298023,
+      "max": 94.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613048,
+      "max": 613048
+    },
+    "maxTimerGapMs": {
+      "median": 68.5,
+      "max": 86.8999999910593
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 101.1000000089407,
+      "max": 106.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613248,
+      "max": 613248
+    },
+    "maxTimerGapMs": {
+      "median": 72.59999999403954,
+      "max": 79.20000000298023
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 67.29999999701977,
+      "max": 83.69999998807907
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613104,
+      "max": 613104
+    },
+    "maxTimerGapMs": {
+      "median": 67.40000000596046,
+      "max": 69.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.90000000596046,
+      "max": 69.09999999403954
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613088,
+      "max": 613088
+    },
+    "maxTimerGapMs": {
+      "median": 61.099999994039536,
+      "max": 62.29999999701977
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.09999999403954,
+      "max": 114.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613088,
+      "max": 613088
+    },
+    "maxTimerGapMs": {
+      "median": 60.20000000298023,
+      "max": 102.3999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 68,
+      "max": 100.3999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613104,
+      "max": 613104
+    },
+    "maxTimerGapMs": {
+      "median": 58.5,
+      "max": 94.90000000596046
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 67.70000000298023,
+      "max": 68.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613088,
+      "max": 613088
+    },
+    "maxTimerGapMs": {
+      "median": 62.099999994039536,
+      "max": 66.59999999403954
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 50.30000001192093,
+      "max": 60.20000000298023
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 1170.0999999940395,
+      "max": 1204.5999999940395
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 15107248,
+      "max": 15107456
+    },
+    "maxTimerGapMs": {
+      "median": 1169,
+      "max": 1202.6000000089407
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 549.1499999985099,
+      "max": 618
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138392,
+      "max": 6140312
+    },
+    "maxTimerGapMs": {
+      "median": 546.1499999910593,
+      "max": 614.5999999940395
+    },
+    "longTaskCount": 4
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 548.5,
+      "max": 550.7000000029802
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136552,
+      "max": 6136552
+    },
+    "maxTimerGapMs": {
+      "median": 518.2000000029802,
+      "max": 524.7999999970198
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 484.5,
+      "max": 515
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10001,
+      "max": 10001
+    },
+    "allocated": {
+      "median": 6139072,
+      "max": 6139072
+    },
+    "maxTimerGapMs": {
+      "median": 466,
+      "max": 497.79999999701977
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 518.3000000119209,
+      "max": 630.7000000029802
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136496,
+      "max": 6136496
+    },
+    "maxTimerGapMs": {
+      "median": 493.20000000298023,
+      "max": 610.2999999970198
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 515.8000000119209,
+      "max": 628.2999999970198
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136696,
+      "max": 6136696
+    },
+    "maxTimerGapMs": {
+      "median": 511.20000000298023,
+      "max": 605.6999999880791
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 499.70000000298023,
+      "max": 518.7999999970198
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136784,
+      "max": 6136784
+    },
+    "maxTimerGapMs": {
+      "median": 484.80000001192093,
+      "max": 497.40000000596046
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 581.7999999970198,
+      "max": 599.5999999940395
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138128,
+      "max": 6138408
+    },
+    "maxTimerGapMs": {
+      "median": 558.1000000089407,
+      "max": 582.5
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 500.69999998807907,
+      "max": 597
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136536,
+      "max": 6136536
+    },
+    "maxTimerGapMs": {
+      "median": 499.09999999403954,
+      "max": 583.7000000029802
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 533.5,
+      "max": 600
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136728,
+      "max": 6136728
+    },
+    "maxTimerGapMs": {
+      "median": 503.70000000298023,
+      "max": 570.5
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 513.5999999940395,
+      "max": 601.2000000029802
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136584,
+      "max": 6136584
+    },
+    "maxTimerGapMs": {
+      "median": 482.59999999403954,
+      "max": 590.2999999970198
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 470.3999999910593,
+      "max": 499.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138128,
+      "max": 6138128
+    },
+    "maxTimerGapMs": {
+      "median": 461.20000000298023,
+      "max": 485.59999999403954
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 528,
+      "max": 533.2999999970198
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136568,
+      "max": 6136568
+    },
+    "maxTimerGapMs": {
+      "median": 505.29999999701977,
+      "max": 519.5
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 482,
+      "max": 486.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136584,
+      "max": 6136584
+    },
+    "maxTimerGapMs": {
+      "median": 463.8999999910593,
+      "max": 472.8999999910593
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 534.7000000029802,
+      "max": 668
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136568,
+      "max": 6136568
+    },
+    "maxTimerGapMs": {
+      "median": 527.4000000059605,
+      "max": 661.7000000029802
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 62.099999994039536,
+      "max": 63.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 1188.300000011921,
+      "max": 1258.3999999910593
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 15107040,
+      "max": 15107520
+    },
+    "maxTimerGapMs": {
+      "median": 1187,
+      "max": 1257.0999999940395
+    },
+    "longTaskCount": 6
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 567.5,
+      "max": 622.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138392,
+      "max": 6140312
+    },
+    "maxTimerGapMs": {
+      "median": 559.5,
+      "max": 610.0999999940395
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 500.1000000089407,
+      "max": 533
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136552,
+      "max": 6136552
+    },
+    "maxTimerGapMs": {
+      "median": 478.69999998807907,
+      "max": 519.2000000029802
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 566.1999999880791,
+      "max": 615
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10001,
+      "max": 10001
+    },
+    "allocated": {
+      "median": 6139072,
+      "max": 6139072
+    },
+    "maxTimerGapMs": {
+      "median": 546.4000000059605,
+      "max": 596.9000000059605
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 592.4000000059605,
+      "max": 600.8000000119209
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136496,
+      "max": 6136496
+    },
+    "maxTimerGapMs": {
+      "median": 562,
+      "max": 579.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 496.09999999403954,
+      "max": 517.4000000059605
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136696,
+      "max": 6136696
+    },
+    "maxTimerGapMs": {
+      "median": 471.3999999910593,
+      "max": 489.1000000089407
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 486.5,
+      "max": 516.8000000119209
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136784,
+      "max": 6136856
+    },
+    "maxTimerGapMs": {
+      "median": 467.29999999701977,
+      "max": 493.5
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 516.5,
+      "max": 517.6999999880791
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138128,
+      "max": 6138128
+    },
+    "maxTimerGapMs": {
+      "median": 491.09999999403954,
+      "max": 500.5
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 482.90000000596046,
+      "max": 533.3000000119209
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136536,
+      "max": 6136536
+    },
+    "maxTimerGapMs": {
+      "median": 477.20000000298023,
+      "max": 517.4000000059605
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 500.09999999403954,
+      "max": 532.6000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136728,
+      "max": 6136728
+    },
+    "maxTimerGapMs": {
+      "median": 474.5,
+      "max": 507.70000000298023
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 501.29999999701977,
+      "max": 515.6000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136584,
+      "max": 6136584
+    },
+    "maxTimerGapMs": {
+      "median": 493.09999999403954,
+      "max": 514.2999999970198
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 583.6000000089407,
+      "max": 660.7000000029802
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138128,
+      "max": 6138128
+    },
+    "maxTimerGapMs": {
+      "median": 567.5,
+      "max": 658
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 485.30000001192093,
+      "max": 495.90000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136568,
+      "max": 6136568
+    },
+    "maxTimerGapMs": {
+      "median": 475,
+      "max": 487.5
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 467.90000000596046,
+      "max": 520.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136584,
+      "max": 6136584
+    },
+    "maxTimerGapMs": {
+      "median": 457.70000000298023,
+      "max": 511.59999999403954
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 483.70000000298023,
+      "max": 484.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136568,
+      "max": 6136568
+    },
+    "maxTimerGapMs": {
+      "median": 472.40000000596046,
+      "max": 476.5
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "baseline-final-results.json",
+    "variant": "baseline",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 54,
+      "max": 58.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 525.7000000029802,
+      "max": 574.2000000029802
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 1711008,
+      "max": 1717872
+    },
+    "maxTimerGapMs": {
+      "median": 525.5,
+      "max": 573.9000000059605
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 124.5,
+      "max": 145.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 617208,
+      "max": 621744
+    },
+    "maxTimerGapMs": {
+      "median": 113.89999999850988,
+      "max": 133.5
+    },
+    "longTaskCount": 6
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 97.6000000089407,
+      "max": 98.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612752,
+      "max": 612752
+    },
+    "maxTimerGapMs": {
+      "median": 73,
+      "max": 78.59999999403954
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 80.5,
+      "max": 114.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1001,
+      "max": 1001
+    },
+    "allocated": {
+      "median": 613672,
+      "max": 613672
+    },
+    "maxTimerGapMs": {
+      "median": 64.1000000089407,
+      "max": 100.3999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 148.59999999403954,
+      "max": 200
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613240,
+      "max": 613240
+    },
+    "maxTimerGapMs": {
+      "median": 123.79999999701977,
+      "max": 186
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 99.79999999701977,
+      "max": 116.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 614368,
+      "max": 614368
+    },
+    "maxTimerGapMs": {
+      "median": 75.59999999403954,
+      "max": 84.90000000596046
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 100.1000000089407,
+      "max": 118.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612992,
+      "max": 612992
+    },
+    "maxTimerGapMs": {
+      "median": 85.30000001192093,
+      "max": 88.09999999403954
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 100.20000000298023,
+      "max": 131.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612784,
+      "max": 612784
+    },
+    "maxTimerGapMs": {
+      "median": 78.59999999403954,
+      "max": 84.40000000596046
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 83.8999999910593,
+      "max": 86
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612752,
+      "max": 612752
+    },
+    "maxTimerGapMs": {
+      "median": 71.69999998807907,
+      "max": 74.40000000596046
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 83.30000001192093,
+      "max": 84.09999999403954
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612808,
+      "max": 612808
+    },
+    "maxTimerGapMs": {
+      "median": 61.70000000298023,
+      "max": 70
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.5,
+      "max": 66.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 614096,
+      "max": 614096
+    },
+    "maxTimerGapMs": {
+      "median": 62.5,
+      "max": 63.5
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.69999998807907,
+      "max": 66.69999998807907
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612720,
+      "max": 612720
+    },
+    "maxTimerGapMs": {
+      "median": 58.099999994039536,
+      "max": 59
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 66.70000000298023,
+      "max": 68.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613072,
+      "max": 613072
+    },
+    "maxTimerGapMs": {
+      "median": 57.70000000298023,
+      "max": 60.099999994039536
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 65.20000000298023,
+      "max": 68.80000001192093
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612752,
+      "max": 612752
+    },
+    "maxTimerGapMs": {
+      "median": 55.8999999910593,
+      "max": 61
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.599999994039536,
+      "max": 17.599999994039536
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 5752,
+      "max": 5752
+    },
+    "maxTimerGapMs": {
+      "median": 18.5,
+      "max": 22.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 49.20000000298023,
+      "max": 62.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 513.4000000059605,
+      "max": 522.5
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 1717568,
+      "max": 1717728
+    },
+    "maxTimerGapMs": {
+      "median": 512,
+      "max": 521.8999999910593
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 15.949999995529652,
+      "max": 22.19999998807907
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 8792,
+      "max": 11856
+    },
+    "maxTimerGapMs": {
+      "median": 10.950000002980232,
+      "max": 14.699999988079071
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 179.1000000089407,
+      "max": 181.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 615712,
+      "max": 615712
+    },
+    "maxTimerGapMs": {
+      "median": 148.70000000298023,
+      "max": 152.70000000298023
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 130.09999999403954,
+      "max": 130.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1001,
+      "max": 1001
+    },
+    "allocated": {
+      "median": 613688,
+      "max": 613688
+    },
+    "maxTimerGapMs": {
+      "median": 103.59999999403954,
+      "max": 103.79999999701977
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 98.40000000596046,
+      "max": 113.90000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612712,
+      "max": 612712
+    },
+    "maxTimerGapMs": {
+      "median": 69.20000000298023,
+      "max": 85.29999999701977
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 14.299999997019768,
+      "max": 14.899999991059303
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 9448,
+      "max": 9448
+    },
+    "maxTimerGapMs": {
+      "median": 11,
+      "max": 11.299999997019768
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 30,
+      "max": 30.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 8072,
+      "max": 8072
+    },
+    "maxTimerGapMs": {
+      "median": 13.900000005960464,
+      "max": 16.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.700000002980232,
+      "max": 16.700000002980232
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 7864,
+      "max": 7864
+    },
+    "maxTimerGapMs": {
+      "median": 17.80000001192093,
+      "max": 18.400000005960464
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.700000002980232,
+      "max": 18.80000001192093
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 7832,
+      "max": 7832
+    },
+    "maxTimerGapMs": {
+      "median": 22.5,
+      "max": 26.400000005960464
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 17.299999997019768,
+      "max": 18.700000002980232
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 5832,
+      "max": 5832
+    },
+    "maxTimerGapMs": {
+      "median": 18.200000002980232,
+      "max": 19.599999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 118.09999999403954,
+      "max": 118.19999998807907
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 614088,
+      "max": 614088
+    },
+    "maxTimerGapMs": {
+      "median": 95,
+      "max": 105
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 150.29999999701977,
+      "max": 183.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613256,
+      "max": 613256
+    },
+    "maxTimerGapMs": {
+      "median": 137.5,
+      "max": 170.79999999701977
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 82.90000000596046,
+      "max": 116.59999999403954
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 613064,
+      "max": 613064
+    },
+    "maxTimerGapMs": {
+      "median": 69.29999999701977,
+      "max": 103.19999998807907
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 83.70000000298023,
+      "max": 100.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 612744,
+      "max": 612744
+    },
+    "maxTimerGapMs": {
+      "median": 71.40000000596046,
+      "max": 88.5
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.400000005960464,
+      "max": 17.799999997019768
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 5744,
+      "max": 5744
+    },
+    "maxTimerGapMs": {
+      "median": 17.299999997019768,
+      "max": 19.400000005960464
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 61,
+      "max": 75.70000000298023
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 1168,
+      "max": 1203.699999988079
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 15113144,
+      "max": 15113176
+    },
+    "maxTimerGapMs": {
+      "median": 1166.5999999940395,
+      "max": 1202.3999999910593
+    },
+    "longTaskCount": 6
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 522.4000000059605,
+      "max": 583.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6139212,
+      "max": 6142272
+    },
+    "maxTimerGapMs": {
+      "median": 504.29999999701977,
+      "max": 575
+    },
+    "longTaskCount": 4
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 484.5,
+      "max": 517
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136232,
+      "max": 6136232
+    },
+    "maxTimerGapMs": {
+      "median": 471.20000000298023,
+      "max": 488.5
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 482.8999999910593,
+      "max": 532.4000000059605
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10001,
+      "max": 10001
+    },
+    "allocated": {
+      "median": 6138752,
+      "max": 6138752
+    },
+    "maxTimerGapMs": {
+      "median": 460.90000000596046,
+      "max": 518.2000000029802
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 499.79999999701977,
+      "max": 534.2999999970198
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136176,
+      "max": 6136176
+    },
+    "maxTimerGapMs": {
+      "median": 484.40000000596046,
+      "max": 513.7000000029802
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 499.6000000089407,
+      "max": 533.2999999970198
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6138008,
+      "max": 6138008
+    },
+    "maxTimerGapMs": {
+      "median": 485.29999999701977,
+      "max": 511.29999999701977
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 535.1000000089407,
+      "max": 584.0999999940395
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136752,
+      "max": 6136752
+    },
+    "maxTimerGapMs": {
+      "median": 509.59999999403954,
+      "max": 557.5999999940395
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 500,
+      "max": 500
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6137824,
+      "max": 6137824
+    },
+    "maxTimerGapMs": {
+      "median": 470.70000000298023,
+      "max": 482
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 516.2000000029802,
+      "max": 550.4000000059605
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136240,
+      "max": 6136240
+    },
+    "maxTimerGapMs": {
+      "median": 490.3999999910593,
+      "max": 520.7000000029802
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 484,
+      "max": 547.9000000059605
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136288,
+      "max": 6136288
+    },
+    "maxTimerGapMs": {
+      "median": 467.30000001192093,
+      "max": 515.8999999910593
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 499.29999999701977,
+      "max": 501.59999999403954
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6137576,
+      "max": 6137576
+    },
+    "maxTimerGapMs": {
+      "median": 490,
+      "max": 494.70000000298023
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 500.09999999403954,
+      "max": 519.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6137760,
+      "max": 6137760
+    },
+    "maxTimerGapMs": {
+      "median": 488.20000000298023,
+      "max": 509.3999999910593
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 533.5999999940395,
+      "max": 534
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136552,
+      "max": 6136552
+    },
+    "maxTimerGapMs": {
+      "median": 527.2999999970198,
+      "max": 529.6999999880791
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 483.29999999701977,
+      "max": 634.7000000029802
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136240,
+      "max": 6136240
+    },
+    "maxTimerGapMs": {
+      "median": 478.20000000298023,
+      "max": 631.7000000029802
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.30000001192093,
+      "max": 18.799999997019768
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 5760,
+      "max": 5760
+    },
+    "maxTimerGapMs": {
+      "median": 24.5,
+      "max": 25.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 62.20000000298023,
+      "max": 64.90000000596046
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "initial",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 1210.8999999910593,
+      "max": 1719.2000000029802
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 15113000,
+      "max": 15123304
+    },
+    "maxTimerGapMs": {
+      "median": 1209.7999999970198,
+      "max": 1712.7000000029802
+    },
+    "longTaskCount": 5
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 6,
+    "elapsedMs": {
+      "median": 16.399999998509884,
+      "max": 19.299999997019768
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 8792,
+      "max": 12136
+    },
+    "maxTimerGapMs": {
+      "median": 19.69999999552965,
+      "max": 30.200000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "item",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 618.7999999970198,
+      "max": 751.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136240,
+      "max": 6136240
+    },
+    "maxTimerGapMs": {
+      "median": 587.0999999940395,
+      "max": 725.2999999970198
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "collection",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 519.2000000029802,
+      "max": 766.2000000029802
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10001,
+      "max": 10001
+    },
+    "allocated": {
+      "median": 6137208,
+      "max": 6137208
+    },
+    "maxTimerGapMs": {
+      "median": 501.59999999403954,
+      "max": 736.8999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 548.5,
+      "max": 777.5999999940395
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136192,
+      "max": 6136192
+    },
+    "maxTimerGapMs": {
+      "median": 517.2000000029802,
+      "max": 749.4000000059605
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "columns",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.400000005960464,
+      "max": 20.700000002980232
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 9448,
+      "max": 9448
+    },
+    "maxTimerGapMs": {
+      "median": 24.299999997019768,
+      "max": 25.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "config",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 18.099999994039536,
+      "max": 18.299999997019768
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 8072,
+      "max": 8072
+    },
+    "maxTimerGapMs": {
+      "median": 25.799999997019768,
+      "max": 26.200000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 17.5,
+      "max": 32.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 8024,
+      "max": 8024
+    },
+    "maxTimerGapMs": {
+      "median": 24.200000002980232,
+      "max": 25.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.299999997019768,
+      "max": 18.099999994039536
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 7832,
+      "max": 7832
+    },
+    "maxTimerGapMs": {
+      "median": 24.299999997019768,
+      "max": 25.400000005960464
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 16.900000005960464,
+      "max": 18.899999991059303
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 6112,
+      "max": 6112
+    },
+    "maxTimerGapMs": {
+      "median": 18.700000002980232,
+      "max": 25.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 3,
+    "elapsedMs": {
+      "median": 584.7999999970198,
+      "max": 699
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6139128,
+      "max": 6139128
+    },
+    "maxTimerGapMs": {
+      "median": 559,
+      "max": 680.5999999940395
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 453.1000000089407,
+      "max": 686.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136200,
+      "max": 6136200
+    },
+    "maxTimerGapMs": {
+      "median": 444.79999999701977,
+      "max": 679.7999999970198
+    },
+    "longTaskCount": 3
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 513.9000000059605,
+      "max": 686.6999999880791
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136552,
+      "max": 6136552
+    },
+    "maxTimerGapMs": {
+      "median": 499.70000000298023,
+      "max": 674.8999999910593
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 532,
+      "max": 674.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 6136232,
+      "max": 6136232
+    },
+    "maxTimerGapMs": {
+      "median": 508.29999999701977,
+      "max": 672.2999999970198
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 3,
+    "elapsedMs": {
+      "median": 18,
+      "max": 18.099999994039536
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 5752,
+      "max": 5752
+    },
+    "maxTimerGapMs": {
+      "median": 23.69999998807907,
+      "max": 24.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "complete-results.json",
+    "variant": "after",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 3,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 59.19999998807907,
+      "max": 70.3999999910593
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "initial",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 167.80000001192093,
+      "max": 167.80000001192093
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 2552872,
+      "max": 2552872
+    },
+    "maxTimerGapMs": {
+      "median": 105.6000000089407,
+      "max": 105.6000000089407
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 2,
+    "elapsedMs": {
+      "median": 46.69999999552965,
+      "max": 48.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 1462576,
+      "max": 2800320
+    },
+    "maxTimerGapMs": {
+      "median": 13.25000000745058,
+      "max": 13.800000011920929
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "item",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 58.30000001192093,
+      "max": 58.30000001192093
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 592560,
+      "max": 592560
+    },
+    "maxTimerGapMs": {
+      "median": 20.600000008940697,
+      "max": 20.600000008940697
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "collection",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46,
+      "max": 46
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1001,
+      "max": 1001
+    },
+    "allocated": {
+      "median": 880352,
+      "max": 880352
+    },
+    "maxTimerGapMs": {
+      "median": 13.199999988079071,
+      "max": 13.199999988079071
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.70000000298023,
+      "max": 46.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 9352,
+      "max": 9352
+    },
+    "maxTimerGapMs": {
+      "median": 11.5,
+      "max": 11.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "columns",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 45.5,
+      "max": 45.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 1992992,
+      "max": 1992992
+    },
+    "maxTimerGapMs": {
+      "median": 17.5,
+      "max": 17.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "config",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.29999999701977,
+      "max": 46.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 447992,
+      "max": 447992
+    },
+    "maxTimerGapMs": {
+      "median": 15.700000002980232,
+      "max": 15.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.6000000089407,
+      "max": 46.6000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 59864,
+      "max": 59864
+    },
+    "maxTimerGapMs": {
+      "median": 11,
+      "max": 11
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 47,
+      "max": 47
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 395832,
+      "max": 395832
+    },
+    "maxTimerGapMs": {
+      "median": 16.700000002980232,
+      "max": 16.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.70000000298023,
+      "max": 46.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 558640,
+      "max": 558640
+    },
+    "maxTimerGapMs": {
+      "median": 11.900000005960464,
+      "max": 11.900000005960464
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 30.400000005960464,
+      "max": 30.400000005960464
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": -499928,
+      "max": -499928
+    },
+    "maxTimerGapMs": {
+      "median": 15.099999994039536,
+      "max": 15.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 30.200000002980232,
+      "max": 30.200000002980232
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 10312,
+      "max": 10312
+    },
+    "maxTimerGapMs": {
+      "median": 16.600000008940697,
+      "max": 16.600000008940697
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 47.19999998807907,
+      "max": 47.19999998807907
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 16136,
+      "max": 16136
+    },
+    "maxTimerGapMs": {
+      "median": 11.700000002980232,
+      "max": 11.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 45,
+      "max": 45
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 894216,
+      "max": 894216
+    },
+    "maxTimerGapMs": {
+      "median": 11.099999994039536,
+      "max": 11.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 12.099999994039536,
+      "max": 12.099999994039536
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 6184,
+      "max": 6184
+    },
+    "maxTimerGapMs": {
+      "median": 11,
+      "max": 11
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "legacy",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 1,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 45.099999994039536,
+      "max": 45.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "initial",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 75.29999999701977,
+      "max": 75.29999999701977
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": -2831640,
+      "max": -2831640
+    },
+    "maxTimerGapMs": {
+      "median": 92.79999999701977,
+      "max": 92.79999999701977
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 2,
+    "elapsedMs": {
+      "median": 13.549999997019768,
+      "max": 14.299999997019768
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 2124,
+      "max": 750984
+    },
+    "maxTimerGapMs": {
+      "median": 10.799999997019768,
+      "max": 11
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "item",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 43.6000000089407,
+      "max": 43.6000000089407
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 2055456,
+      "max": 2055456
+    },
+    "maxTimerGapMs": {
+      "median": 20.30000001192093,
+      "max": 20.30000001192093
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "collection",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.900000005960464,
+      "max": 46.900000005960464
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1001,
+      "max": 1001
+    },
+    "allocated": {
+      "median": 12728,
+      "max": 12728
+    },
+    "maxTimerGapMs": {
+      "median": 21.19999998807907,
+      "max": 21.19999998807907
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 45.20000000298023,
+      "max": 45.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": -479464,
+      "max": -479464
+    },
+    "maxTimerGapMs": {
+      "median": 22.700000002980232,
+      "max": 22.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "columns",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.5,
+      "max": 46.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 746120,
+      "max": 746120
+    },
+    "maxTimerGapMs": {
+      "median": 11.099999994039536,
+      "max": 11.099999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "config",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 30.5,
+      "max": 30.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 489544,
+      "max": 489544
+    },
+    "maxTimerGapMs": {
+      "median": 11,
+      "max": 11
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 46.8999999910593,
+      "max": 46.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": -469720,
+      "max": -469720
+    },
+    "maxTimerGapMs": {
+      "median": 11,
+      "max": 11
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 40.70000000298023,
+      "max": 40.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": -1350648,
+      "max": -1350648
+    },
+    "maxTimerGapMs": {
+      "median": 11.299999997019768,
+      "max": 11.299999997019768
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 13.299999997019768,
+      "max": 13.299999997019768
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": -1744072,
+      "max": -1744072
+    },
+    "maxTimerGapMs": {
+      "median": 10.799999997019768,
+      "max": 10.799999997019768
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 45.900000005960464,
+      "max": 45.900000005960464
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": -1351584,
+      "max": -1351584
+    },
+    "maxTimerGapMs": {
+      "median": 16.599999994039536,
+      "max": 16.599999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 31.599999994039536,
+      "max": 31.599999994039536
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 3311792,
+      "max": 3311792
+    },
+    "maxTimerGapMs": {
+      "median": 11.699999988079071,
+      "max": 11.699999988079071
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 14.799999997019768,
+      "max": 14.799999997019768
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 3264,
+      "max": 3264
+    },
+    "maxTimerGapMs": {
+      "median": 11.399999991059303,
+      "max": 11.399999991059303
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 30.900000005960464,
+      "max": 30.900000005960464
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 1000,
+      "max": 1000
+    },
+    "allocated": {
+      "median": 10112,
+      "max": 10112
+    },
+    "maxTimerGapMs": {
+      "median": 15.399999991059303,
+      "max": 15.399999991059303
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 13.5,
+      "max": 13.5
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 4480,
+      "max": 4480
+    },
+    "maxTimerGapMs": {
+      "median": 10.700000002980232,
+      "max": 10.700000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "A",
+    "mode": "versioned",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 1,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 35.29999999701977,
+      "max": 35.29999999701977
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "initial",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 86.90000000596046,
+      "max": 86.90000000596046
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 23271216,
+      "max": 23271216
+    },
+    "maxTimerGapMs": {
+      "median": 226.40000000596046,
+      "max": 226.40000000596046
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 2,
+    "elapsedMs": {
+      "median": 160.35000000149012,
+      "max": 170.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": -14911056,
+      "max": -4780744
+    },
+    "maxTimerGapMs": {
+      "median": 94.1000000089407,
+      "max": 101.6000000089407
+    },
+    "longTaskCount": 2
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "item",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 132,
+      "max": 132
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 25068456,
+      "max": 25068456
+    },
+    "maxTimerGapMs": {
+      "median": 68.79999999701977,
+      "max": 68.79999999701977
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "collection",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 107.70000000298023,
+      "max": 107.70000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10001,
+      "max": 10001
+    },
+    "allocated": {
+      "median": -8062552,
+      "max": -8062552
+    },
+    "maxTimerGapMs": {
+      "median": 75.69999998807907,
+      "max": 75.69999998807907
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 140.40000000596046,
+      "max": 140.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 27758552,
+      "max": 27758552
+    },
+    "maxTimerGapMs": {
+      "median": 72.8999999910593,
+      "max": 72.8999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "columns",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 145.79999999701977,
+      "max": 145.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 13059800,
+      "max": 13059800
+    },
+    "maxTimerGapMs": {
+      "median": 82.79999999701977,
+      "max": 82.79999999701977
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "config",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 113.19999998807907,
+      "max": 113.19999998807907
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 3192,
+      "max": 3192
+    },
+    "maxTimerGapMs": {
+      "median": 65.09999999403954,
+      "max": 65.09999999403954
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 130,
+      "max": 130
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": -20824920,
+      "max": -20824920
+    },
+    "maxTimerGapMs": {
+      "median": 65,
+      "max": 65
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 115.5,
+      "max": 115.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 4602784,
+      "max": 4602784
+    },
+    "maxTimerGapMs": {
+      "median": 60.3999999910593,
+      "max": 60.3999999910593
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 110.29999999701977,
+      "max": 110.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": -51049144,
+      "max": -51049144
+    },
+    "maxTimerGapMs": {
+      "median": 59,
+      "max": 59
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 145.40000000596046,
+      "max": 145.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 19336928,
+      "max": 19336928
+    },
+    "maxTimerGapMs": {
+      "median": 69.5,
+      "max": 69.5
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 136.40000000596046,
+      "max": 136.40000000596046
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 37504,
+      "max": 37504
+    },
+    "maxTimerGapMs": {
+      "median": 75.19999998807907,
+      "max": 75.19999998807907
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 143.79999999701977,
+      "max": 143.79999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 9237560,
+      "max": 9237560
+    },
+    "maxTimerGapMs": {
+      "median": 86.5,
+      "max": 86.5
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 111.20000000298023,
+      "max": 111.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 13888,
+      "max": 13888
+    },
+    "maxTimerGapMs": {
+      "median": 68.5,
+      "max": 68.5
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 21,
+      "max": 21
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 10248,
+      "max": 10248
+    },
+    "maxTimerGapMs": {
+      "median": 16.5,
+      "max": 16.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "legacy",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 1,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 55,
+      "max": 55
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "initial",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 79.8999999910593,
+      "max": 79.8999999910593
+    },
+    "calls": {
+      "median": 2,
+      "max": 2
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 19501328,
+      "max": 19501328
+    },
+    "maxTimerGapMs": {
+      "median": 202.19999998807907,
+      "max": 202.19999998807907
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "primary",
+    "n": 2,
+    "elapsedMs": {
+      "median": 9.00000000745058,
+      "max": 13.900000005960464
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 4991704,
+      "max": 29429096
+    },
+    "maxTimerGapMs": {
+      "median": 11.200000002980232,
+      "max": 11.400000005960464
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "item",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 145.29999999701977,
+      "max": 145.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": -46095376,
+      "max": -46095376
+    },
+    "maxTimerGapMs": {
+      "median": 90.20000000298023,
+      "max": 90.20000000298023
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "collection",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 157,
+      "max": 157
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10001,
+      "max": 10001
+    },
+    "allocated": {
+      "median": 13358712,
+      "max": 13358712
+    },
+    "maxTimerGapMs": {
+      "median": 99.8999999910593,
+      "max": 99.8999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "replacement",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 144.09999999403954,
+      "max": 144.09999999403954
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 7668240,
+      "max": 7668240
+    },
+    "maxTimerGapMs": {
+      "median": 84,
+      "max": 84
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "columns",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 30.799999997019768,
+      "max": 30.799999997019768
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 1,
+      "max": 1
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 2552,
+      "max": 2552
+    },
+    "maxTimerGapMs": {
+      "median": 10.799999997019768,
+      "max": 10.799999997019768
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "config",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 48.29999999701977,
+      "max": 48.29999999701977
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 1,
+      "max": 1
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 75512776,
+      "max": 75512776
+    },
+    "maxTimerGapMs": {
+      "median": 10.899999991059303,
+      "max": 10.899999991059303
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "scalar",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 30.799999997019768,
+      "max": 30.799999997019768
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 42479112,
+      "max": 42479112
+    },
+    "maxTimerGapMs": {
+      "median": 10.799999997019768,
+      "max": 10.799999997019768
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "namespace",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 29.5,
+      "max": 29.5
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": -75501368,
+      "max": -75501368
+    },
+    "maxTimerGapMs": {
+      "median": 11.200000002980232,
+      "max": 11.200000002980232
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unannounced",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 14.299999997019768,
+      "max": 14.299999997019768
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 75515208,
+      "max": 75515208
+    },
+    "maxTimerGapMs": {
+      "median": 10.599999994039536,
+      "max": 10.599999994039536
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "refresh",
+    "phase": "primary",
+    "n": 1,
+    "elapsedMs": {
+      "median": 146.20000000298023,
+      "max": 146.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 13488,
+      "max": 13488
+    },
+    "maxTimerGapMs": {
+      "median": 89.70000000298023,
+      "max": 89.70000000298023
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "to-null",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 114.20000000298023,
+      "max": 114.20000000298023
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": -61776592,
+      "max": -61776592
+    },
+    "maxTimerGapMs": {
+      "median": 70.20000000298023,
+      "max": 70.20000000298023
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "null-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 162,
+      "max": 162
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 20391000,
+      "max": 20391000
+    },
+    "maxTimerGapMs": {
+      "median": 68.3999999910593,
+      "max": 68.3999999910593
+    },
+    "longTaskCount": 1
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "to-versioned",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 109.8999999910593,
+      "max": 109.8999999910593
+    },
+    "calls": {
+      "median": 1,
+      "max": 1
+    },
+    "transfers": {
+      "median": 1,
+      "max": 1
+    },
+    "adoptions": {
+      "median": 1,
+      "max": 1
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 1,
+      "max": 1
+    },
+    "visits": {
+      "median": 10000,
+      "max": 10000
+    },
+    "allocated": {
+      "median": 68431024,
+      "max": 68431024
+    },
+    "maxTimerGapMs": {
+      "median": 66.5,
+      "max": 66.5
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "unchanged",
+    "phase": "versioned-transition",
+    "n": 1,
+    "elapsedMs": {
+      "median": 13.5,
+      "max": 13.5
+    },
+    "calls": {
+      "median": 0,
+      "max": 0
+    },
+    "transfers": {
+      "median": 0,
+      "max": 0
+    },
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "columns": {
+      "median": 0,
+      "max": 0
+    },
+    "configurations": {
+      "median": 0,
+      "max": 0
+    },
+    "enumerations": {
+      "median": 0,
+      "max": 0
+    },
+    "visits": {
+      "median": 0,
+      "max": 0
+    },
+    "allocated": {
+      "median": 58280024,
+      "max": 58280024
+    },
+    "maxTimerGapMs": {
+      "median": 10.899999991059303,
+      "max": 10.899999991059303
+    },
+    "longTaskCount": 0
+  },
+  {
+    "source": "server-results.json",
+    "variant": "server",
+    "fixture": "B",
+    "mode": "versioned",
+    "action": "scroll",
+    "phase": "primary",
+    "n": 1,
+    "adoptions": {
+      "median": 0,
+      "max": 0
+    },
+    "maxTimerGapMs": {
+      "median": 43.400000005960464,
+      "max": 43.400000005960464
+    },
+    "longTaskCount": 0
+  }
+]

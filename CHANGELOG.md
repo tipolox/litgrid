@@ -2,6 +2,50 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.1.0
+
+### Blazor
+
+- Added declarative `LitGridColumn<TItem>` definitions, expression-based fields, dynamic schema updates, and preservation of user column sizing, visibility, order, and persistence preferences.
+- Synchronize rows independently from columns and configuration, avoiding dataset enumeration, serialization, transfer, and adoption on unchanged Automatic parent updates.
+- Added automatic `INotifyCollectionChanged` collection tracking and reference-counted `INotifyPropertyChanged` row tracking. Notifications are batched through the component lifecycle, including background notifications; replacement and disposal release subscriptions.
+- Added optional `DataRevision` and `RefreshDataAsync()` change signals, with failed-operation retry and serialized synchronization.
+- Fixed partial JavaScript setter failures and value-reversion retries, failed item-subscription reconciliation, and obsolete source retention during overlapping updates.
+- Restored the framework-configured Interactive Server interop timeout for synchronization, allowing a failed transport operation to release the gate and subsequent refreshes to proceed after retained-circuit reconnection.
+- Preserved TypeScript source compatibility for existing structural grid implementations and strengthened keyboard/focus regression coverage.
+
+### Breaking Blazor default and migration
+
+**`DataSyncMode.Automatic` is the new default and changes v1.0.3 behavior.** Ordinary in-place `List<T>` mutations and non-notifying row edits no longer synchronize merely because a parent rerenders. Automatic relies on source replacement, supported collection/item notifications, an optional revision change, or explicit refresh; reference equality does not prove arbitrary mutable data is unchanged.
+
+Existing applications relying on parent-update synchronization can retain that behavior with:
+
+```razor
+<DataGrid TItem="Employee" Data="@employees" DataSyncMode="DataSyncMode.Legacy" />
+```
+
+With the default null revision, Legacy preserves v1.0.3 parent-update semantics. Alternatively, replace the collection, use supported notifications, change `DataRevision`, or await `RefreshDataAsync()` after in-place edits. See [the synchronization and migration guide](docs/blazor-data-synchronization.md).
+
+The product owner deliberately approved this **breaking minor release** as a semantic-versioning exception for coordinated LitGrid v1.1.0 across the six public npm packages and Blazor NuGet. It is not fully backward compatible.
+
+### Package debugging and coordinated upgrades
+
+- npm packages provide the original sources needed by JavaScript and declaration
+  maps for debugging and type navigation without requiring the repository source tree.
+- Upgrade all LitGrid wrappers/bundles on a shared page to the coordinated 1.1.0
+  set, including the Blazor NuGet package where used. Packed Web requires core and
+  renderer at `^1.1.0`; React, Angular, and Vue require Web at `^1.1.0`. Update and
+  review consumer lockfiles, check resolved dependencies, and rebuild affected apps.
+- The first `yc-grid` registration wins. The duplicate-registration guard avoids
+  an exception but cannot replace an older constructor: Web 1.0.3 loaded first
+  leaves `updateColumnSchema` unavailable even after 1.1.0 loads. Deliver matching
+  assets and reload open pages; do not attempt to register the name twice.
+- Deploy matching application and Blazor JavaScript assets together. Use asset
+  fingerprints or cache revalidation/purges, update service-worker precaches where
+  used, and test an upgrade from a cached client. Publication does not automatically
+  update installed packages, lockfiles, deployed consumers, or browser caches.
+  See [the upgrade guide](docs/installation.md#upgrading-to-v110).
+
 ## 1.0.3
 
 ### Fixes

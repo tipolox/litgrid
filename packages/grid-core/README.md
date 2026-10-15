@@ -13,6 +13,7 @@ npm install @tipolox/litgrid-core
 - [Core engine API](https://github.com/tipolox/litgrid/blob/main/docs/api-reference.md#core-engine)
 - [Installation guide](https://github.com/tipolox/litgrid/blob/main/docs/installation.md)
 - [Repository](https://github.com/tipolox/litgrid)
+- [v1.1.0 upgrade guide](https://github.com/tipolox/litgrid/blob/main/docs/installation.md#upgrading-to-v110)
 - [Live demo](https://tipolox.com/litgrid/demo)
 
 Licensed under the [MIT License](https://github.com/tipolox/litgrid/blob/main/LICENSE).

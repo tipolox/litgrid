@@ -1,0 +1,156 @@
+@namespace B1Host
+@using BrowserHost.Performance
+@using Tipolox.LitGrid.Blazor
+@using Microsoft.JSInterop
+@using System.Diagnostics.CodeAnalysis
+@inject IJSRuntime JS
+@inject ObservedRuntime Observed
+@implements IAsyncDisposable
+
+<h1>B1 production component synchronization</h1>
+@if (show)
+{
+    @if (declarative)
+    {
+        @if (Observed.DecorateComponent)
+        {
+            <ObservedGrid Data="rows" Config="config" Height="600"
+                          AriaLabel="@label" ColumnStateStorageKey="@storageKey" @attributes="revisionParameters" @ref="grid">
+                @foreach (var column in columns)
+                {
+                    <LitGridColumn TItem="AccountRow10" @key="column.Key" Key="@column.Key" Title="@column.Header" Width="@column.Width" />
+                }
+                <ChildColumn @ref="child" />
+            </ObservedGrid>
+        }
+        else
+        {
+        <DataGrid TItem="AccountRow10" Data="rows" Config="config" Height="600"
+                  AriaLabel="@label" ColumnStateStorageKey="@storageKey" @attributes="revisionParameters" @ref="grid">
+            @foreach (var column in columns)
+            {
+                <LitGridColumn TItem="AccountRow10" @key="column.Key" Key="@column.Key" Title="@column.Header" Width="@column.Width" />
+            }
+            <ChildColumn @ref="child" />
+        </DataGrid>
+        }
+    }
+    else
+    {
+        @if (Observed.DecorateComponent)
+        {
+            <ObservedGrid Data="rows" Columns="columns" Config="config" Height="600"
+                          AriaLabel="@label" ColumnStateStorageKey="@storageKey" @attributes="revisionParameters" @ref="grid" />
+        }
+        else
+        {
+    <DataGrid TItem="AccountRow10" Data="rows" Columns="columns" Config="config" Height="600"
+              AriaLabel="@label" ColumnStateStorageKey="@storageKey" @attributes="revisionParameters" @ref="grid" />
+        }
+    }
+}
+
+@code {
+    private DataGrid<AccountRow10>? grid;
+    private ChildColumn? child;
+    private DotNetObjectReference<Fixture>? reference;
+    private ObservedRows<AccountRow10> rows = new([]);
+    private readonly List<ObservedRows<AccountRow10>> allRows = [];
+    private ObservedRows<AccountRow10> replacement = new([]);
+    private GridColumn[] columns = [];
+    private GridConfig config = new() { Selection = new() { Mode = SelectionMode.Cell } };
+    private string label = "B1 rows";
+    private string? storageKey;
+    private bool show, versioned, declarative;
+    private long revision;
+    private int completion;
+    private readonly Dictionary<string, object> revisionParameters = [];
+    private static bool SupportsRevision => typeof(DataGrid<AccountRow10>).GetProperty("DataRevision") != null;
+
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(AccountRow10))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(AccountRow6))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties, typeof(DataGrid<AccountRow10>))]
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Replace the injected runtime before the test mounts the real component.
+        if (firstRender)
+        {
+            reference = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("b1Ready", reference);
+        }
+        if (completion > 0)
+        {
+            await Task.Yield();
+            while (Observed.InFlight > 0) await Task.Delay(1);
+            await JS.InvokeVoidAsync("b1Complete", completion);
+        }
+    }
+
+    [JSInvokable] public void Prepare(int count, bool useRevision)
+    {
+        rows = new(Enumerable.Range(1, count).Select(i => new AccountRow10(i)).ToList());
+        replacement = new(Enumerable.Range(1, count).Select(i => new AccountRow10(i)).ToList());
+        allRows.Add(rows); allRows.Add(replacement);
+        columns = new[] { "id", "name", "balance", "joined", "department", "active", "account_alias", "status", "ratio", "rating" }
+            .Select(key => new GridColumn { Key = key, Header = key, Width = 130 }).ToArray();
+        versioned = useRevision; revision = 1;
+        UpdateRevision();
+    }
+
+    private void UpdateRevision()
+    {
+        if (SupportsRevision) revisionParameters["DataRevision"] = versioned ? revision : null!;
+    }
+
+    [JSInvokable] public void UseDeclarative() => declarative = true;
+    [JSInvokable] public Task ChangeChild(string title) => child!.ChangeTitle(title);
+    [JSInvokable] public void DelayNextSync() => Observed.DelayNextSync = true;
+    [JSInvokable] public async Task FailRefresh()
+    {
+        try
+        {
+            await (ValueTask)typeof(DataGrid<AccountRow10>).GetMethod("RefreshDataAsync")!.Invoke(grid, null)!;
+            throw new InvalidOperationException("Expected failure did not propagate");
+        }
+        catch (JSException exception) when (exception.Message.Contains("B1 injected failure")) { }
+    }
+
+    [JSInvokable] public async Task Act(string action, int token)
+    {
+        completion = token;
+        switch (action)
+        {
+            case "initial": show = true; break;
+            case "unchanged": break;
+            case "item": rows.Items[0].Name += " edited"; revision++; break;
+            case "collection": rows.Items.Add(new AccountRow10(rows.Items.Count + 1)); revision++; break;
+            case "replacement": rows = replacement; break;
+            case "columns": columns[1].Header += " changed"; break;
+            case "config": config.Selection!.Mode = config.Selection.Mode == SelectionMode.Cell ? SelectionMode.MultiCell : SelectionMode.Cell; break;
+            case "scalar": label += " updated"; break;
+            case "namespace": storageKey = storageKey == "b1-a" ? "b1-b" : "b1-a"; break;
+            case "to-null": versioned = false; break;
+            case "to-versioned": versioned = true; break;
+            case "unannounced": rows.Items[0].Name += " unannounced"; break;
+            case "refresh":
+                if (SupportsRevision)
+                {
+                    await (ValueTask)typeof(DataGrid<AccountRow10>).GetMethod("RefreshDataAsync")!.Invoke(grid, null)!;
+                    // The API itself completes synchronization. A separate parent
+                    // rerender would correctly trigger another transfer in legacy mode.
+                    await JS.InvokeVoidAsync("b1Complete", completion);
+                    return;
+                }
+                break;
+            case "unmount": show = false; break;
+            default: throw new ArgumentException(action);
+        }
+        UpdateRevision(); StateHasChanged();
+    }
+
+    [JSInvokable] public object Counters() => new { calls = Observed.Calls, transfers = Observed.Transfers,
+        columns = Observed.Columns, configurations = Observed.Configurations,
+        enumerations = allRows.Sum(source => source.Enumerations), visits = allRows.Sum(source => source.Visits),
+        allocated = GC.GetAllocatedBytesForCurrentThread(), supportsRevision = SupportsRevision };
+    public ValueTask DisposeAsync() { reference?.Dispose(); return ValueTask.CompletedTask; }
+}

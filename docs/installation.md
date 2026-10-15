@@ -124,6 +124,40 @@ Add the component namespace to `_Imports.razor` or directly in your Razor compon
 @using Tipolox.LitGrid.Blazor
 ```
 
+## Upgrading to v1.1.0
+
+LitGrid v1.1.0 is a coordinated release of all six public npm packages and
+`Tipolox.LitGrid.Blazor`. Upgrade every LitGrid wrapper used by an application
+together, including independently built bundles or microfrontends on the same page.
+For Blazor, review the [breaking synchronization default and migration options](blazor-data-synchronization.md):
+use supported notifications, replacement, `DataRevision`, `RefreshDataAsync()`, or
+`DataSyncMode.Legacy` for applications relying on v1.0.3 parent-update behavior.
+
+- Update the installed wrapper(s) to 1.1.0 and regenerate the consumer lockfile.
+  Web requires core and renderer at `^1.1.0`; React, Angular, and Vue require Web
+  at `^1.1.0`. Check the resolved graph with `pnpm list --depth Infinity` or
+  `npm ls` and remove overrides/pins that keep older internal LitGrid packages.
+  Review and commit the application lockfile, then rebuild every affected bundle.
+  Update Blazor's NuGet reference to 1.1.0 and restore/rebuild its static assets.
+- `yc-grid` is shared by all wrappers. Its first registration wins. LitGrid's
+  registration guard avoids a duplicate `customElements.define` exception, but
+  does not replace an existing constructor or establish version compatibility.
+  If Web 1.0.3 registers first, loading 1.1.0 leaves that older constructor active
+  and the new `updateColumnSchema` API unavailable. Do not remove the guard or try
+  to register the same name again; deliver matching versions and reload the page.
+- Deploy matching application bundles and Blazor static assets together. Use
+  fingerprinted asset URLs where supported; for stable URLs, revalidate or purge
+  stale CDN/browser entries. Update service-worker precache manifests and retire
+  old caches through the application's normal update flow. Check that delivered
+  JavaScript matches the new build, then reload open pages so registration starts
+  with the coordinated assets. Verify an upgrade with a previously cached client,
+  as well as a fresh installation, before rollout.
+
+Publishing coordinated packages does not update consumer lockfiles, deployed
+assets, caches, or custom elements already registered in an open page. The
+coordinated 1.1.0 bundles were tested together; arbitrary mixed versions are not
+guaranteed compatible.
+
 ## Local workspace development
 
 Clone the repository, install its workspace dependencies, then start the

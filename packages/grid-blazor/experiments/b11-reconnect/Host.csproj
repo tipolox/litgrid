@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Tipolox.LitGrid.Blazor.csproj" />
+    <Compile Include="../b11-automatic/Models.cs" Link="Models.cs" />
+    <Compile Include="../b1-synchronization/ObservedRuntime.cs" Link="ObservedRuntime.cs" />
+    <Content Include="../b11-automatic/Fixture.razor" Link="B11/Fixture.razor" />
+  </ItemGroup>
+</Project>

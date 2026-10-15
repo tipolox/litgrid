@@ -1,0 +1,49 @@
+@using Microsoft.AspNetCore.Components
+@using Tipolox.LitGrid.Blazor
+@namespace Tipolox.LitGrid.Blazor.Tests
+
+@if (Declarative)
+{
+    <DataGrid TItem="Employee" Data="@Items" DataRevision="@Revision" Columns="@Programmatic" Config="@Configuration" ColumnStateStorageKey="@StorageKey" @ref="Grid">
+        @foreach (var spec in Specs)
+        {
+            <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
+                           Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" />
+        }
+        @if (Nested)
+        {
+            <DataGrid TItem="Employee" Data="@Items">
+                <LitGridColumn Field="@(e => e.Id)" />
+            </DataGrid>
+        }
+        @if (SelfUpdating)
+        {
+            <SelfUpdatingColumn @ref="ChildColumn" />
+        }
+        @if (MismatchedNested)
+        {
+            <DataGrid TItem="string" Data="@(new[] { "row" })">
+                <LitGridColumn TItem="Employee" Field="@(e => e.Id)" />
+            </DataGrid>
+        }
+    </DataGrid>
+}
+else
+{
+    <DataGrid TItem="Employee" Data="@Items" DataRevision="@Revision" Columns="@Programmatic" Config="@Configuration" ColumnStateStorageKey="@StorageKey" @ref="Grid" />
+}
+
+@code {
+    [Parameter] public bool Declarative { get; set; } = true;
+    [Parameter] public long? Revision { get; set; }
+    [Parameter] public GridConfig Configuration { get; set; } = new();
+    [Parameter] public string? StorageKey { get; set; }
+    [Parameter] public bool Nested { get; set; }
+    [Parameter] public bool SelfUpdating { get; set; }
+    [Parameter] public bool MismatchedNested { get; set; }
+    [Parameter] public IReadOnlyList<ColumnSpec> Specs { get; set; } = [];
+    [Parameter] public IReadOnlyList<GridColumn> Programmatic { get; set; } = [];
+    [Parameter] public List<Employee> Items { get; set; } = [new() { Id = 1, Name = "Ada" }];
+    public DataGrid<Employee>? Grid { get; private set; }
+    public SelfUpdatingColumn? ChildColumn { get; private set; }
+}

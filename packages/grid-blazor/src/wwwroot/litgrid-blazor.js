@@ -1454,6 +1454,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.scrollbarWidth = 0;
 		this.columnDefs = [];
 		this.sourceColumnDefs = [];
+		this._inferColumns = true;
 		this.columnWidths = /* @__PURE__ */ new Map();
 		this.hiddenColumnKeys = /* @__PURE__ */ new Set();
 		this._columnStateStorageKey = null;
@@ -1532,16 +1533,7 @@ var DataGrid = class DataGrid extends i$2 {
 			this.requestUpdate();
 		};
 		this.stopColumnReorder = () => {
-			const state = this.columnReorderState;
-			if (!state) return;
-			this.columnReorderState = null;
-			window.removeEventListener("pointermove", this.handleColumnReorder);
-			window.removeEventListener("pointerup", this.stopColumnReorder);
-			window.removeEventListener("pointercancel", this.stopColumnReorder);
-			this.removeColumnDragPreview();
-			if (state.hasMoved) this.stopBodyResize();
-			if (state.hasMoved && state.sourceIndex !== state.targetIndex) this.moveColumn(state.columnKey, state.targetIndex);
-			else this.requestUpdate();
+			this.finishColumnReorder();
 		};
 		this.handleColumnResize = (event) => {
 			if (!this.columnResizeState) return;
@@ -1550,12 +1542,7 @@ var DataGrid = class DataGrid extends i$2 {
 			this.requestUpdate();
 		};
 		this.stopColumnResize = () => {
-			if (!this.columnResizeState) return;
-			this.columnResizeState = null;
-			this.commitColumnState("resize");
-			this.stopBodyResize();
-			window.removeEventListener("pointermove", this.handleColumnResize);
-			window.removeEventListener("pointerup", this.stopColumnResize);
+			this.finishColumnResize();
 		};
 		this.handleRowResize = (event) => {
 			if (!this.rowResizeState) return;
@@ -2194,7 +2181,7 @@ var DataGrid = class DataGrid extends i$2 {
 		}
 	}
 	getResolvedColumns() {
-		if (this.columnDefs.length > 0) return this.columnDefs;
+		if (this.columnDefs.length > 0 || !this._inferColumns) return this.columnDefs;
 		const firstRow = this.engine.getRows()[0];
 		if (firstRow && typeof firstRow === "object" && !Array.isArray(firstRow)) return Object.keys(firstRow).map((key) => ({
 			key,
@@ -2403,7 +2390,7 @@ var DataGrid = class DataGrid extends i$2 {
 			return null;
 		}
 	}
-	restorePersistedColumnState() {
+	restorePersistedColumnState(notify = true) {
 		if (!this._columnStateStorageKey || this.sourceColumnDefs.length === 0) return;
 		const storage = this.getColumnStateStorage();
 		if (!storage) return;
@@ -2416,7 +2403,7 @@ var DataGrid = class DataGrid extends i$2 {
 			this.hiddenColumnKeys = resolvedState.hiddenKeys;
 			this.activeCell = null;
 			this.requestUpdate();
-			this.dispatchColumnStateChange("restore");
+			if (notify) this.dispatchColumnStateChange("restore");
 		} catch {}
 	}
 	persistColumnState() {
@@ -2951,6 +2938,18 @@ var DataGrid = class DataGrid extends i$2 {
 		this.columnDragPreview?.remove();
 		this.columnDragPreview = null;
 	}
+	finishColumnReorder(commit = true) {
+		const state = this.columnReorderState;
+		if (!state) return;
+		this.columnReorderState = null;
+		window.removeEventListener("pointermove", this.handleColumnReorder);
+		window.removeEventListener("pointerup", this.stopColumnReorder);
+		window.removeEventListener("pointercancel", this.stopColumnReorder);
+		this.removeColumnDragPreview();
+		if (state.hasMoved) this.stopBodyResize();
+		if (commit && state.hasMoved && state.sourceIndex !== state.targetIndex) this.moveColumn(state.columnKey, state.targetIndex);
+		else this.requestUpdate();
+	}
 	getGridCellId(rowIndex, columnIndex) {
 		return `${this.gridId}-cell-${rowIndex}-${columnIndex}`;
 	}
@@ -2989,6 +2988,14 @@ var DataGrid = class DataGrid extends i$2 {
 		this.startBodyResize("col-resize");
 		window.addEventListener("pointermove", this.handleColumnResize);
 		window.addEventListener("pointerup", this.stopColumnResize);
+	}
+	finishColumnResize(commit = true) {
+		if (!this.columnResizeState) return;
+		this.columnResizeState = null;
+		if (commit) this.commitColumnState("resize");
+		this.stopBodyResize();
+		window.removeEventListener("pointermove", this.handleColumnResize);
+		window.removeEventListener("pointerup", this.stopColumnResize);
 	}
 	startRowResize(event, rowIndex) {
 		event.preventDefault();
@@ -3394,6 +3401,58 @@ var DataGrid = class DataGrid extends i$2 {
 		}
 		this.requestUpdate();
 	}
+	get inferColumns() {
+		return this._inferColumns;
+	}
+	set inferColumns(value) {
+		if (this._inferColumns === value) return;
+		this._inferColumns = value;
+		this.requestUpdate();
+	}
+	/** Reconcile an explicit schema, optionally switching its persistence namespace atomically. */
+	updateColumnSchema(value, applyOrder = false, storageKey = this._columnStateStorageKey) {
+		const columns = value.map((column) => ({ ...column }));
+		const nextByKey = new Map(columns.map((column) => [column.key, column]));
+		if (nextByKey.size !== columns.length) throw new Error("Duplicate column schema keys.");
+		const previousByKey = new Map(this.sourceColumnDefs.map((column) => [column.key, column]));
+		const activeCell = this.activeCell;
+		const activeColumnKey = activeCell ? this.getVisibleColumns()[activeCell.columnIndex]?.key : void 0;
+		const nextStorageKey = typeof storageKey === "string" && storageKey.trim() ? storageKey : null;
+		const storageChanged = nextStorageKey !== this._columnStateStorageKey;
+		this.finishColumnResize(false);
+		this.finishColumnReorder(false);
+		if (storageChanged) {
+			this._columnStateStorageKey = nextStorageKey;
+			this.sourceColumnDefs = columns;
+			this.columnDefs = [...columns];
+			this.columnWidths.clear();
+			this.hiddenColumnKeys = new Set(columns.filter((column) => column.hidden).map((column) => column.key));
+			this.restorePersistedColumnState(false);
+		} else {
+			for (const key of this.columnWidths.keys()) if (!nextByKey.has(key)) this.columnWidths.delete(key);
+			for (const key of this.hiddenColumnKeys) if (!nextByKey.has(key)) this.hiddenColumnKeys.delete(key);
+			for (const column of columns) {
+				const previous = previousByKey.get(column.key);
+				if (!previous || previous.width !== column.width) this.columnWidths.delete(column.key);
+				if (!previous || previous.hidden !== column.hidden) if (column.hidden) this.hiddenColumnKeys.add(column.key);
+				else this.hiddenColumnKeys.delete(column.key);
+			}
+			const retained = this.columnDefs.filter((column) => nextByKey.has(column.key)).map((column) => nextByKey.get(column.key));
+			const retainedKeys = new Set(retained.map((column) => column.key));
+			this.columnDefs = applyOrder ? columns : [...retained, ...columns.filter((column) => !retainedKeys.has(column.key))];
+			this.sourceColumnDefs = columns;
+			this.persistColumnState();
+		}
+		this.clearBestFitWidths();
+		if (activeCell) {
+			const columnIndex = this.getVisibleColumns().findIndex((column) => column.key === activeColumnKey);
+			this.activeCell = columnIndex < 0 ? null : {
+				...activeCell,
+				columnIndex
+			};
+		}
+		this.requestUpdate();
+	}
 	set columns(value) {
 		const activeCell = this.activeCell;
 		this.sourceColumnDefs = Array.isArray(value) ? [...value] : [];
@@ -3784,39 +3843,111 @@ if (!customElements.get("yc-grid")) customElements.define("yc-grid", DataGrid);
 //#endregion
 //#region src/gridBindings.ts
 var synchronizedInputs = /* @__PURE__ */ new WeakMap();
+function supportsDeclarations(grid) {
+	return typeof grid.inferColumns === "boolean" && typeof grid.updateColumnSchema === "function";
+}
+function captureValue(key, value) {
+	if (key === "columns") return value.map((column) => ({ ...column }));
+	if (key !== "config" || !value) return value;
+	const config = value;
+	return {
+		...config,
+		selection: config.selection && { ...config.selection },
+		rowHeader: config.rowHeader && { ...config.rowHeader },
+		pagination: config.pagination && { ...config.pagination }
+	};
+}
 function syncGridInputs(grid, inputs) {
-	grid.data = inputs.data;
-	grid.columns = inputs.columns;
-	const { data: _, columns: __, ...scalars } = inputs;
-	const values = {
-		...scalars,
-		columnStateStorageKey: inputs.columnStateStorageKey ?? null
+	const state = synchronizedInputs.get(grid) ?? {
+		comparisons: {},
+		values: {},
+		uncertain: /* @__PURE__ */ new Set()
 	};
-	const previous = synchronizedInputs.get(grid) ?? {};
-	const propertyNames = {
-		height: "viewportHeight",
-		rowHeight: "virtualRowHeight",
-		overscan: "overscanCount",
-		columnOverscan: "columnOverscanCount"
+	synchronizedInputs.set(grid, state);
+	const effective = {
+		...Object.fromEntries([...state.uncertain].filter((key) => key in state.values && !(key in inputs)).map((key) => [key, state.values[key]])),
+		...inputs
 	};
-	for (const [key, input] of Object.entries(values)) {
-		const value = key === "columnStateStorageKey" ? input ?? null : input;
-		const config = key === "config" ? input : void 0;
-		const comparison = config ? JSON.stringify([
-			config.selection?.mode ?? "none",
-			config.selection?.checkboxes ?? false,
-			config.rowHeader?.enabled ?? false,
-			config.rowHeader?.width ?? 56,
-			config.pagination?.enabled ?? false,
-			Number.isFinite(config.pagination?.pageSize) && config.pagination.pageSize > 0 ? Math.max(1, Math.floor(config.pagination.pageSize)) : 50,
-			Number.isFinite(config.pagination?.pageIndex) && config.pagination.pageIndex >= 0 ? Math.floor(config.pagination.pageIndex) : 0
-		]) : value;
-		if (!(key in previous) || previous[key] !== comparison) {
-			Reflect.set(grid, propertyNames[key] ?? key, value);
-			previous[key] = comparison;
+	const previous = { ...state.comparisons };
+	const captured = { ...state.values };
+	const touched = /* @__PURE__ */ new Set();
+	try {
+		const declarative = effective.declarativeColumns ?? previous.declarativeColumns === true;
+		const extended = supportsDeclarations(grid) ? grid : void 0;
+		if (declarative && !extended) throw new Error("LitGrid declarative columns require inferColumns and updateColumnSchema support.");
+		if (effective.data !== void 0) {
+			touched.add("data");
+			grid.data = effective.data;
+			captured.data = effective.data;
 		}
+		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
+			touched.add("declarativeColumns");
+			extended.inferColumns = !declarative;
+		}
+		const keyInput = "columnStateStorageKey" in effective ? effective.columnStateStorageKey : previous.columnStateStorageKey;
+		const storageKey = typeof keyInput === "string" && keyInput.trim() ? keyInput : null;
+		if (declarative && extended) {
+			const columns = effective.columns ?? captured.columns;
+			if (columns && (effective.columns !== void 0 || state.uncertain.has("columns") || state.uncertain.has("columnStateStorageKey") || grid.columnStateStorageKey !== storageKey)) {
+				touched.add("columns");
+				touched.add("columnStateStorageKey");
+				const applyOrder = effective.columnOrderChanged === true || state.uncertain.has("columnOrderChanged");
+				if (applyOrder) touched.add("columnOrderChanged");
+				const snapshot = columns.map((column) => ({ ...column }));
+				extended.updateColumnSchema(columns, applyOrder, storageKey);
+				captured.columns = snapshot;
+			}
+		} else if (effective.columns !== void 0) {
+			touched.add("columns");
+			const snapshot = effective.columns.map((column) => ({ ...column }));
+			grid.columns = effective.columns;
+			captured.columns = snapshot;
+		}
+		previous.declarativeColumns = declarative;
+		captured.declarativeColumns = declarative;
+		captured.columnStateStorageKey = storageKey;
+		const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, ...scalars } = effective;
+		const values = {
+			...scalars,
+			columnStateStorageKey: storageKey
+		};
+		const propertyNames = {
+			height: "viewportHeight",
+			rowHeight: "virtualRowHeight",
+			overscan: "overscanCount",
+			columnOverscan: "columnOverscanCount"
+		};
+		for (const [key, input] of Object.entries(values)) {
+			if (key === "columnStateStorageKey" && declarative) {
+				previous[key] = storageKey;
+				continue;
+			}
+			const value = key === "columnStateStorageKey" ? input ?? null : input;
+			const config = key === "config" ? input : void 0;
+			const comparison = config ? JSON.stringify([
+				config.selection?.mode ?? "none",
+				config.selection?.checkboxes ?? false,
+				config.rowHeader?.enabled ?? false,
+				config.rowHeader?.width ?? 56,
+				config.pagination?.enabled ?? false,
+				Number.isFinite(config.pagination?.pageSize) && config.pagination.pageSize > 0 ? Math.max(1, Math.floor(config.pagination.pageSize)) : 50,
+				Number.isFinite(config.pagination?.pageIndex) && config.pagination.pageIndex >= 0 ? Math.floor(config.pagination.pageIndex) : 0
+			]) : value;
+			if (!(key in previous) || previous[key] !== comparison || state.uncertain.has(key)) {
+				touched.add(key);
+				if (!Reflect.set(grid, propertyNames[key] ?? key, value)) throw new TypeError("LitGrid could not set " + key + ".");
+				previous[key] = comparison;
+			}
+			captured[key] = captureValue(key, value);
+		}
+		state.comparisons = previous;
+		state.values = captured;
+		for (const key of touched) state.uncertain.delete(key);
+		if (!declarative && touched.has("columns")) state.uncertain.delete("columnOrderChanged");
+	} catch (error) {
+		for (const key of touched) state.uncertain.add(key);
+		throw error;
 	}
-	synchronizedInputs.set(grid, previous);
 }
 //#endregion
 //#region src/index.ts
@@ -3828,6 +3959,7 @@ function requireGrid(element) {
 function initGrid(element, dotNetHelper, inputs) {
 	const grid = requireGrid(element);
 	syncGridInputs(grid, inputs);
+	disposeGrid(element);
 	const onStateChange = (event) => {
 		const detail = event.detail;
 		dotNetHelper.invokeMethodAsync("HandleColumnStateChange", detail);

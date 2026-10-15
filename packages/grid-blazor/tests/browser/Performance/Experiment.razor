@@ -1,0 +1,205 @@
+@using System.Diagnostics
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime JS
+
+<main>
+    <h1>LitGrid isolated ingestion experiment</h1>
+    <label>Workload <select id="workload" @bind="workload">
+        <option>A</option><option>B</option><option>C</option><option>D</option>
+    </select></label>
+    <button id="baseline" disabled="@busy" @onclick="() => Run(false)">Original interop</button>
+    <button id="prototype" disabled="@busy" @onclick="() => Run(true)">Cooperative byte[]</button>
+    <button id="cancel-transfer" @onclick="Cancel">Cancel</button>
+    <button id="compatibility" disabled="@busy" @onclick="Compatibility">Compatibility tests</button>
+    <button id="dispatch-control" disabled="@busy" @onclick="DispatchControl">Dispatch control</button>
+    <p id="transfer-status" role="status" aria-live="polite">Initializing</p>
+    <yc-grid @ref="element"></yc-grid>
+    <pre id="experiment-result"></pre>
+</main>
+
+@code {
+    private ElementReference element;
+    private IJSObjectReference module = default!;
+    private readonly JsonSerializerOptions options = CooperativeTransfer.InteropOptions();
+    private string workload = "A";
+    private bool busy;
+    private CancellationTokenSource? cancellation;
+    private readonly Dictionary<string, int> runs = [];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        module = await JS.InvokeAsync<IJSObjectReference>("import", "./performance-prototype.js");
+        await module.InvokeVoidAsync("initialize", element);
+    }
+
+    private async Task Cancel()
+    {
+        cancellation?.Cancel();
+        await module.InvokeVoidAsync("cancelTransfer");
+    }
+
+    private async Task Run(bool prototype)
+    {
+        busy = true;
+        cancellation = new();
+        try
+        {
+            switch (workload)
+            {
+                case "A": await Measure(Enumerable.Range(1, 1000).Select(i => new AccountRow10(i)).ToArray(), prototype); break;
+                case "B": await Measure(Enumerable.Range(1, 10000).Select(i => new AccountRow10(i)).ToArray(), prototype); break;
+                case "C": await Measure(Enumerable.Range(1, 30000).Select(i => new AccountRow6(i)).ToArray(), prototype); break;
+                case "D": await Measure(Enumerable.Range(1, 30000).Select(i => new AccountRow120(i)).ToArray(), prototype); break;
+            }
+        }
+        catch (Exception ex)
+        {
+            await module.InvokeVoidAsync("saveResult", new { workload, mode = prototype ? "prototype" : "legacy", error = ex.ToString() });
+        }
+        finally { cancellation.Dispose(); cancellation = null; busy = false; }
+    }
+
+    private async Task Measure<T>(T[] source, bool prototype)
+    {
+        // Keys come from the exact serializer, so attributes/naming are respected.
+        using var first = JsonDocument.Parse(JsonSerializer.SerializeToUtf8Bytes(source[0], options));
+        var keys = first.RootElement.EnumerateObject().Select(p => p.Name).ToArray();
+        await module.InvokeVoidAsync("prepare", (object)keys);
+        var mode = prototype ? "prototype" : "legacy";
+        var key = workload + mode;
+        var run = runs.GetValueOrDefault(key) + 1;
+        runs[key] = run;
+        await module.InvokeVoidAsync("startObservation", mode);
+        object? managed;
+        bool cancelled = false;
+        if (prototype)
+        {
+            try { managed = await CooperativeTransfer.SendAsync(module, source, options, cancellation!.Token); }
+            catch (OperationCanceledException) { cancelled = true; managed = null; }
+        }
+        else
+        {
+            var allocation = GC.GetAllocatedBytesForCurrentThread();
+            var elapsed = Stopwatch.StartNew();
+            // Same ordinary enumerable serialization and shipped adapter as the production wrapper.
+            await module.InvokeVoidAsync("acceptLegacy", new Dictionary<string, object?> { ["data"] = source });
+            managed = new { interopAndAdoptionElapsedMs = elapsed.Elapsed.TotalMilliseconds,
+                managedAllocatedBytes = GC.GetAllocatedBytesForCurrentThread() - allocation };
+        }
+        var browser = await module.InvokeAsync<JsonElement>("finishObservation");
+        object? diagnostic = null;
+        if (!prototype)
+        {
+            // Independent attribution probe, outside measured ingestion. It is already warmed.
+            await module.InvokeVoidAsync("startObservation", "diagnostic");
+            var allocation = GC.GetAllocatedBytesForCurrentThread();
+            var watch = Stopwatch.StartNew();
+            long checksum = 0;
+            foreach (var item in (IEnumerable<T>)source) { GC.KeepAlive(item); checksum++; }
+            var enumerationMs = watch.Elapsed.TotalMilliseconds;
+            var enumerationAllocation = GC.GetAllocatedBytesForCurrentThread() - allocation;
+            allocation = GC.GetAllocatedBytesForCurrentThread();
+            watch.Restart();
+            var bytes = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object?> { ["data"] = source }, options);
+            var serializationMs = watch.Elapsed.TotalMilliseconds;
+            var serializationAllocation = GC.GetAllocatedBytesForCurrentThread() - allocation;
+            var probeBrowser = await module.InvokeAsync<JsonElement>("finishObservation");
+            diagnostic = new { enumerationMs, enumerationAllocation, checksum,
+                serializationMs, serializationAllocation, payloadBytes = bytes.Length, browser = probeBrowser };
+        }
+        await module.InvokeVoidAsync("saveResult", new { workload, mode, run,
+            rows = source.Length, properties = keys.Length, cancelled, managed, browser, diagnostic });
+    }
+
+    private async Task Compatibility()
+    {
+        busy = true;
+        var checks = new List<object>();
+        try
+        {
+            await Check("attributes, numeric enum, dates, nulls, Unicode", new[] { new AccountRow10(4), new AccountRow10(5) });
+            await Check("nested, dictionary, custom value converter, string enum", new[] { new NestedRow() });
+            await Check<Party>("declared polymorphism", new Party[] { new Customer { Id = 7 } });
+            await Check("lazy IEnumerable", LazyRows());
+            var custom = new CustomCollection { new(1) };
+            try { CooperativeTransfer.ValidateCollection(custom, options); throw new Exception("Collection converter was accepted"); }
+            catch (NotSupportedException) { checks.Add(new { name = "custom collection converter rejected", passed = true }); }
+            var references = CooperativeTransfer.InteropOptions();
+            references.ReferenceHandler = ReferenceHandler.Preserve;
+            try { CooperativeTransfer.ValidateCollection(new[] { new AccountRow6(1) }, references); throw new Exception("References were accepted"); }
+            catch (NotSupportedException) { checks.Add(new { name = "reference preservation rejected", passed = true }); }
+            await Failure("throwing lazy enumerable releases staging", ThrowingRows());
+            await Failure("oversized row releases staging", new[] { new AccountRow6(1) { Name = new string('x', CooperativeTransfer.MaximumRowBytes + 1) } });
+            await module.InvokeVoidAsync("saveResult", new { mode = "compatibility", checks });
+        }
+        catch (Exception ex) { await module.InvokeVoidAsync("saveResult", new { mode = "compatibility", checks, error = ex.ToString() }); }
+        finally { busy = false; }
+
+        async Task Check<T>(string name, IEnumerable<T> source)
+        {
+            await module.InvokeVoidAsync("prepare", (object)new[] { "id" });
+            await module.InvokeVoidAsync("captureLegacy", (object)source);
+            await module.InvokeVoidAsync("startObservation", "compatibility");
+            await CooperativeTransfer.SendAsync(module, source, options);
+            var equal = await module.InvokeAsync<bool>("compareAdopted");
+            await module.InvokeVoidAsync("finishObservation");
+            if (!equal) throw new Exception($"Mismatch: {name}");
+            checks.Add(new { name, passed = true });
+        }
+
+        async Task Failure<T>(string name, IEnumerable<T> source)
+        {
+            await module.InvokeVoidAsync("prepare", (object)new[] { "id" });
+            await module.InvokeVoidAsync("startObservation", "failure");
+            bool rejected = false;
+            try { await CooperativeTransfer.SendAsync(module, source, options); }
+            catch (Exception ex) when (ex is InvalidOperationException or NotSupportedException) { rejected = true; }
+            var state = await module.InvokeAsync<JsonElement>("failureState");
+            await module.InvokeVoidAsync("finishObservation");
+            if (!rejected || state.GetProperty("visible").GetInt32() != 1 || state.GetProperty("staged").GetInt32() != 0)
+                throw new Exception($"Failure cleanup mismatch: {name}");
+            checks.Add(new { name, passed = true });
+        }
+    }
+
+    private async Task DispatchControl()
+    {
+        busy = true;
+        try
+        {
+            var samples = new List<object>();
+            foreach (var size in new[] { 0, CooperativeTransfer.TargetBytes })
+            {
+                var bytes = new byte[size];
+                // Warm control dispatch, then measure without parsing, adoption or browser yields.
+                await module.InvokeAsync<int>("dispatchControl", bytes);
+                var durations = new List<double>();
+                var allocation = GC.GetAllocatedBytesForCurrentThread();
+                for (int i = 0; i < 30; i++)
+                {
+                    var timer = Stopwatch.StartNew();
+                    var received = await module.InvokeAsync<int>("dispatchControl", bytes);
+                    if (received != size) throw new Exception("Byte[] transport control mismatch");
+                    durations.Add(timer.Elapsed.TotalMilliseconds);
+                }
+                samples.Add(new { bytes = size, durationsMs = durations,
+                    managedAllocatedBytes = GC.GetAllocatedBytesForCurrentThread() - allocation });
+            }
+            await module.InvokeVoidAsync("saveResult", new { mode = "dispatch-control", samples });
+        }
+        catch (Exception ex) { await module.InvokeVoidAsync("saveResult", new { mode = "dispatch-control", error = ex.ToString() }); }
+        finally { busy = false; }
+    }
+
+    private static IEnumerable<AccountRow6> LazyRows() { for (int i = 0; i < 257; i++) yield return new(i); }
+    private static IEnumerable<AccountRow6> ThrowingRows()
+    {
+        for (int i = 0; i < 130; i++) yield return new(i);
+        throw new InvalidOperationException("Expected lazy enumeration failure");
+    }
+}

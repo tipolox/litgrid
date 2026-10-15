@@ -107,7 +107,7 @@ describe('Blazor Grid Interop', () => {
     const invokeMethodAsync = vi.fn().mockResolvedValue(undefined)
     const dotNetHelper: DotNetHelper = { invokeMethodAsync }
 
-    initGrid(element, dotNetHelper, {
+    const inputs: Parameters<typeof initGrid>[2] = {
       data: [],
       columns: [],
       config: {},
@@ -122,7 +122,10 @@ describe('Blazor Grid Interop', () => {
       bestFitSampleSize: 10,
       quickSearchDebounceThreshold: 10000,
       quickSearchDebounceMs: 150
-    })
+    }
+    initGrid(element, dotNetHelper, inputs)
+    // Server may lose the acknowledgment after initGrid has already applied.
+    initGrid(element, dotNetHelper, inputs)
 
     const stateDetail: ColumnStateChangeDetail = {
       reason: 'resize',
@@ -147,6 +150,7 @@ describe('Blazor Grid Interop', () => {
         expect(invokeMethodAsync).toHaveBeenCalledWith('HandleColumnStateChange', stateDetail)
     expect(invokeMethodAsync).toHaveBeenCalledWith('HandleColumnReorder', reorderDetail)
     expect(invokeMethodAsync).toHaveBeenCalledWith('HandleColumnVisibilityChange', visibilityDetail)
+    expect(invokeMethodAsync).toHaveBeenCalledTimes(3)
 
     disposeGrid(element)
 

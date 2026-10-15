@@ -1,0 +1,22 @@
+{
+  "assets": [
+    {
+      "name": "litgrid-blazor.js",
+      "sha256": "d0d81c3ca46a2034307016ab2c79b60308cbb41168c8c28c120c6a54a9727fa9",
+      "bytes": 150957,
+      "wasmMatches": true,
+      "serverMatches": true,
+      "regenerated": true
+    },
+    {
+      "name": "litgrid-blazor.js.map",
+      "sha256": "04c4733aef1388bd6de7344b99b4e0c0360b4e563dfb4a5e186819f755fa8af8",
+      "bytes": 271829,
+      "wasmMatches": true,
+      "serverMatches": true,
+      "regenerated": true
+    }
+  ],
+  "sourceMapMatchesSource": true,
+  "publicCapabilitiesOptional": true
+}

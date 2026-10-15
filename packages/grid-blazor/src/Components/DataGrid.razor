@@ -1,7 +1,11 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.JSInterop
 @typeparam TItem
+@attribute [CascadingTypeParameter(nameof(TItem))]
 @implements IAsyncDisposable
 @namespace Tipolox.LitGrid.Blazor
 
 <yc-grid @ref="elementRef"></yc-grid>
+<CascadingValue Value="columnRegistry" IsFixed="true">
+    @ChildContent
+</CascadingValue>

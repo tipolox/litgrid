@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "scenario": "scalar/config reversion",
+      "passed": true
+    },
+    {
+      "scenario": "omitted uncertain fields",
+      "passed": true
+    },
+    {
+      "scenario": "inference reversion",
+      "passed": true
+    },
+    {
+      "scenario": "schema omission",
+      "passed": true
+    },
+    {
+      "scenario": "persistence reversion",
+      "passed": true
+    },
+    {
+      "scenario": "explicit null namespace",
+      "passed": true
+    },
+    {
+      "scenario": "latest programmatic schema",
+      "passed": true
+    }
+  ],
+  "passed": 7,
+  "failed": 0
+}

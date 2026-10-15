@@ -62,6 +62,10 @@ the [Installation Guide](docs/installation.md).
 
 React, Angular, and Vue wrappers include the Web Component dependency, so you only need to install the framework package. The Blazor package bundles its static assets and requires no Node.js setup.
 
+For v1.1.0, review the [upgrade guide](docs/installation.md#upgrading-to-v110)
+for Blazor's breaking synchronization default and coordinated package/cache updates,
+especially when multiple LitGrid wrappers share a page.
+
 ### Use the Web Component
 
 Import the package once to register the `yc-grid` custom element, then assign

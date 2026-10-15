@@ -1,0 +1,19 @@
+@namespace SerializationInvestigation
+@using System.Text.Json
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+
+<h1>Isolated managed serializer investigation</h1>
+<p id="status">Initializing</p>
+
+@code {
+    [JSInvokable]
+    public static string Run(string fixture, string mode, int count, int repetition)
+        => JsonSerializer.Serialize(Probe.Run(fixture, mode, count, repetition));
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await JS.InvokeVoidAsync("probeReady", DotNetObjectReference.Create(this));
+    }
+}

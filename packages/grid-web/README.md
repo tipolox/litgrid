@@ -42,6 +42,7 @@ grid.viewportHeight = 400
 
 - [Live demo](https://tipolox.com/litgrid/demo)
 - [Repository](https://github.com/tipolox/litgrid)
+- [v1.1.0 upgrade guide](https://github.com/tipolox/litgrid/blob/main/docs/installation.md#upgrading-to-v110)
 - [Web Component guide](https://github.com/tipolox/litgrid/blob/main/docs/vanilla-js-guide.md)
 - [API reference](https://github.com/tipolox/litgrid/blob/main/docs/api-reference.md)
 

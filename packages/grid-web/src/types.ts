@@ -62,6 +62,10 @@ export type DataGridElement = HTMLElement & {
   quickSearchDebounceThreshold: number
   quickSearchDebounceMs: number
   columnStateStorageKey: string | null
+  /** Additive capability; production DataGrid always implements it. */
+  inferColumns?: boolean
+  /** Additive capability; older structural implementations may omit it. */
+  updateColumnSchema?: (columns: GridColumn[], applyOrder?: boolean, storageKey?: string | null) => void
   getRowHeight: (rowIndex: number) => number
   getColumnWidth: (column: GridColumn) => number
   setRowHeight: (rowIndex: number, height: number) => void

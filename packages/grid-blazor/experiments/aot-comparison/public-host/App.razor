@@ -1,0 +1,45 @@
+@namespace PublicComponentHost
+@using BrowserHost.Performance
+@using Tipolox.LitGrid.Blazor
+@using Microsoft.JSInterop
+@using System.Diagnostics.CodeAnalysis
+@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JS
+
+<h1>Unchanged public LitGrid component: matched published hosts</h1>
+<DataGrid TItem="AccountRow10" Data="rows" Columns="columns" Height="600" />
+
+@code {
+    private AccountRow10[] rows = [new(0)];
+    private readonly Dictionary<int, AccountRow10[]> sources = [];
+    private int pendingCount;
+    private readonly GridColumn[] columns = new[] { "id", "name", "balance", "joined", "department", "active", "account_alias", "status", "ratio", "rating" }
+        .Select(key => new GridColumn { Key = key, Header = key }).ToArray();
+
+    // Explicit preservation makes the benchmark's published reflection contract stable.
+    // This is test-host trimming setup, not a production change or custom serializer.
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(AccountRow10))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(AccountRow6))]
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await JS.InvokeVoidAsync("componentReady", DotNetObjectReference.Create(this));
+    }
+
+    [JSInvokable]
+    public void Prepare(int count)
+    {
+        if (!sources.ContainsKey(count)) sources[count] = Enumerable.Range(1, count).Select(i => new AccountRow10(i)).ToArray();
+        pendingCount = count;
+    }
+
+    [JSInvokable]
+    public void Load()
+    {
+        rows = sources[pendingCount];
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public object Counters() => new { allocated = GC.GetAllocatedBytesForCurrentThread(),
+        collections = Enumerable.Range(0, 3).Select(GC.CollectionCount).ToArray() };
+}

@@ -1,0 +1,14 @@
+[
+    {
+        "Path":  "D:\\Work\\litgrid-clean\\packages\\grid-blazor\\src\\gridBindings.ts",
+        "Hash":  "066B9455C08EB41319C5E0DD3B918B6D36021615BC7DCF991DD9A03979F29ECC"
+    },
+    {
+        "Path":  "D:\\Work\\litgrid-clean\\packages\\grid-blazor\\src\\Components\\DataChangeTracker.cs",
+        "Hash":  "2A5E9435F6F5668B0D387B9B252C57FB4EEA6ACD38D3C81750169BF1D1C69357"
+    },
+    {
+        "Path":  "D:\\Work\\litgrid-clean\\packages\\grid-blazor\\src\\Components\\DataGrid.razor.cs",
+        "Hash":  "C69CA491087A1BFE921A2C55EC2E911F639E789788032AD9ED4ADED6D35642CD"
+    }
+]

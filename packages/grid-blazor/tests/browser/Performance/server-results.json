@@ -1,0 +1,823 @@
+{
+  "environment": {
+    "dateUtc": "2026-10-13T05:59:14.849Z",
+    "browser": "156.0.8078.4",
+    "node": "v22.14.0",
+    "platform": "win32",
+    "build": "Release net8.0 Blazor Server, loopback",
+    "viewport": "1280x900 headless Chromium",
+    "batches": {
+      "targetBytes": 65536,
+      "maxRows": 128,
+      "maxRowBytes": 1048576,
+      "targetSliceMs": 8
+    }
+  },
+  "results": [
+    {
+      "workload": "A",
+      "mode": "legacy",
+      "run": 1,
+      "rows": 1000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "interopAndAdoptionElapsedMs": 87.186,
+        "managedAllocatedBytes": 1223904
+      },
+      "browser": {
+        "label": "legacy",
+        "parseMs": 6.9000000059604645,
+        "decodeMs": 0,
+        "parseCalls": 1,
+        "maximumParseMs": 6.9000000059604645,
+        "adoptionMs": 0.20000000298023224,
+        "deferredRenderMs": 44,
+        "maxTimerGapMs": 58,
+        "timerTicks": 12,
+        "longTasks": [],
+        "heapBefore": 4163870,
+        "heapPeak": 6357780,
+        "bytesReceived": 0,
+        "batches": 0,
+        "partialVisibility": false,
+        "progressFrames": 0,
+        "transport": null,
+        "cdpBefore": {
+          "taskDurationSeconds": 0.276174,
+          "scriptDurationSeconds": 0.066583,
+          "jsHeapUsedBytes": 3793144,
+          "jsHeapTotalBytes": 6144000,
+          "backingStorageBytes": 376406,
+          "embedderHeapUsedBytes": 2341016
+        },
+        "endpointReachedMs": 34.30000001192093,
+        "adoptedRows": 1000,
+        "operationElapsedMs": 101.1000000089407,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.356379,
+          "scriptDurationSeconds": 0.075966,
+          "jsHeapUsedBytes": 4280360,
+          "jsHeapTotalBytes": 8503296,
+          "backingStorageBytes": 1126335,
+          "embedderHeapUsedBytes": 3536504
+        },
+        "heapAfter": 5411279,
+        "visibleRowsAtEnd": 1000
+      },
+      "diagnostic": {
+        "enumerationMs": 0.2417,
+        "enumerationAllocation": 72,
+        "checksum": 1000,
+        "serializationMs": 6.5716,
+        "serializationAllocation": 286400,
+        "payloadBytes": 250449,
+        "browser": {
+          "label": "diagnostic",
+          "parseMs": 0,
+          "decodeMs": 0,
+          "parseCalls": 0,
+          "maximumParseMs": 0,
+          "adoptionMs": 0,
+          "deferredRenderMs": 0,
+          "maxTimerGapMs": 10.899999991059303,
+          "timerTicks": 8,
+          "longTasks": [],
+          "heapBefore": 5411279,
+          "heapPeak": 5445745,
+          "bytesReceived": 0,
+          "batches": 0,
+          "partialVisibility": false,
+          "progressFrames": 0,
+          "transport": null,
+          "cdpBefore": {
+            "taskDurationSeconds": 0.359632,
+            "scriptDurationSeconds": 0.077035,
+            "jsHeapUsedBytes": 4294012,
+            "jsHeapTotalBytes": 8503296,
+            "backingStorageBytes": 1130122,
+            "embedderHeapUsedBytes": 3536504
+          },
+          "operationElapsedMs": 13.5,
+          "cdpAfter": {
+            "taskDurationSeconds": 0.362528,
+            "scriptDurationSeconds": 0.077654,
+            "jsHeapUsedBytes": 4311236,
+            "jsHeapTotalBytes": 8503296,
+            "backingStorageBytes": 1130301,
+            "embedderHeapUsedBytes": 3536504
+          },
+          "heapAfter": 5445745,
+          "visibleRowsAtEnd": 1000
+        }
+      }
+    },
+    {
+      "workload": "A",
+      "mode": "legacy",
+      "run": 2,
+      "rows": 1000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "interopAndAdoptionElapsedMs": 26.7967,
+        "managedAllocatedBytes": -332320
+      },
+      "browser": {
+        "label": "legacy",
+        "parseMs": 6.100000008940697,
+        "decodeMs": 0,
+        "parseCalls": 1,
+        "maximumParseMs": 6.100000008940697,
+        "adoptionMs": 0.09999999403953552,
+        "deferredRenderMs": 10.600000008940697,
+        "maxTimerGapMs": 21.099999994039536,
+        "timerTicks": 10,
+        "longTasks": [],
+        "heapBefore": 5698020,
+        "heapPeak": 5959478,
+        "bytesReceived": 0,
+        "batches": 0,
+        "partialVisibility": false,
+        "progressFrames": 0,
+        "transport": null,
+        "cdpBefore": {
+          "taskDurationSeconds": 0.393724,
+          "scriptDurationSeconds": 0.081629,
+          "jsHeapUsedBytes": 4556156,
+          "jsHeapTotalBytes": 8503296,
+          "backingStorageBytes": 1143108,
+          "embedderHeapUsedBytes": 3473936
+        },
+        "endpointReachedMs": 21,
+        "adoptedRows": 1000,
+        "operationElapsedMs": 35.3999999910593,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.416536,
+          "scriptDurationSeconds": 0.088564,
+          "jsHeapUsedBytes": 4570968,
+          "jsHeapTotalBytes": 9814016,
+          "backingStorageBytes": 1384522,
+          "embedderHeapUsedBytes": 4762536
+        },
+        "heapAfter": 5959478,
+        "visibleRowsAtEnd": 1000
+      },
+      "diagnostic": {
+        "enumerationMs": 0.1092,
+        "enumerationAllocation": 72,
+        "checksum": 1000,
+        "serializationMs": 5.612,
+        "serializationAllocation": 251008,
+        "payloadBytes": 250449,
+        "browser": {
+          "label": "diagnostic",
+          "parseMs": 0,
+          "decodeMs": 0,
+          "parseCalls": 0,
+          "maximumParseMs": 0,
+          "adoptionMs": 0,
+          "deferredRenderMs": 0,
+          "maxTimerGapMs": 10.799999997019768,
+          "timerTicks": 8,
+          "longTasks": [],
+          "heapBefore": 5959478,
+          "heapPeak": 5990352,
+          "bytesReceived": 0,
+          "batches": 0,
+          "partialVisibility": false,
+          "progressFrames": 0,
+          "transport": null,
+          "cdpBefore": {
+            "taskDurationSeconds": 0.420803,
+            "scriptDurationSeconds": 0.089905,
+            "jsHeapUsedBytes": 4589272,
+            "jsHeapTotalBytes": 9814016,
+            "backingStorageBytes": 1388359,
+            "embedderHeapUsedBytes": 4762536
+          },
+          "operationElapsedMs": 12.899999991059303,
+          "cdpAfter": {
+            "taskDurationSeconds": 0.422039,
+            "scriptDurationSeconds": 0.090163,
+            "jsHeapUsedBytes": 4598252,
+            "jsHeapTotalBytes": 9814016,
+            "backingStorageBytes": 1388540,
+            "embedderHeapUsedBytes": 4762536
+          },
+          "heapAfter": 5990352,
+          "visibleRowsAtEnd": 1000
+        }
+      }
+    },
+    {
+      "workload": "A",
+      "mode": "prototype",
+      "run": 1,
+      "rows": 1000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "rows": 1000,
+        "batches": 8,
+        "maximumBatchBytes": 32208,
+        "payloadBytes": 250447,
+        "managedAllocatedBytes": 290696,
+        "totalManagedAllocatedBytes": -1456768,
+        "enumerationMs": 0.12160000000000157,
+        "encodingMs": 9.295300000000031,
+        "interopAwaitMs": 62.722899999999996,
+        "elapsedMs": 125.0009
+      },
+      "browser": {
+        "label": "prototype",
+        "parseMs": 1.2000000029802322,
+        "decodeMs": 0.19999998807907104,
+        "parseCalls": 8,
+        "maximumParseMs": 0.20000000298023224,
+        "adoptionMs": 0.20000000298023224,
+        "deferredRenderMs": 40.20000000298023,
+        "maxTimerGapMs": 41.5,
+        "timerTicks": 16,
+        "longTasks": [],
+        "heapBefore": 4168107,
+        "heapPeak": 5862379,
+        "bytesReceived": 250447,
+        "batches": 8,
+        "partialVisibility": false,
+        "progressFrames": 8,
+        "transport": "Uint8Array",
+        "cdpBefore": {
+          "taskDurationSeconds": 0.276562,
+          "scriptDurationSeconds": 0.061741,
+          "jsHeapUsedBytes": 3797376,
+          "jsHeapTotalBytes": 5881856,
+          "backingStorageBytes": 376411,
+          "embedderHeapUsedBytes": 2338008
+        },
+        "adoptedRows": 1000,
+        "operationElapsedMs": 138.5,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.369196,
+          "scriptDurationSeconds": 0.095771,
+          "jsHeapUsedBytes": 4727064,
+          "jsHeapTotalBytes": 7192576,
+          "backingStorageBytes": 1131107,
+          "embedderHeapUsedBytes": 3535032
+        },
+        "heapAfter": 5862379,
+        "visibleRowsAtEnd": 1000
+      },
+      "diagnostic": null
+    },
+    {
+      "workload": "A",
+      "mode": "prototype",
+      "run": 2,
+      "rows": 1000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "rows": 1000,
+        "batches": 8,
+        "maximumBatchBytes": 32208,
+        "payloadBytes": 250447,
+        "managedAllocatedBytes": 290696,
+        "totalManagedAllocatedBytes": 192016,
+        "enumerationMs": 0.07280000000000066,
+        "encodingMs": 12.523499999999983,
+        "interopAwaitMs": 24.076,
+        "elapsedMs": 62.9777
+      },
+      "browser": {
+        "label": "prototype",
+        "parseMs": 1.199999988079071,
+        "decodeMs": 0.4000000059604645,
+        "parseCalls": 8,
+        "maximumParseMs": 0.20000000298023224,
+        "adoptionMs": 0.20000000298023224,
+        "deferredRenderMs": 19.200000002980232,
+        "maxTimerGapMs": 17.200000002980232,
+        "timerTicks": 14,
+        "longTasks": [],
+        "heapBefore": 6081083,
+        "heapPeak": 6081083,
+        "bytesReceived": 250447,
+        "batches": 8,
+        "partialVisibility": false,
+        "progressFrames": 8,
+        "transport": "Uint8Array",
+        "cdpBefore": {
+          "taskDurationSeconds": 0.405563,
+          "scriptDurationSeconds": 0.09961,
+          "jsHeapUsedBytes": 4940176,
+          "jsHeapTotalBytes": 7192576,
+          "backingStorageBytes": 1142151,
+          "embedderHeapUsedBytes": 3423376
+        },
+        "adoptedRows": 1000,
+        "operationElapsedMs": 70.20000000298023,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.438707,
+          "scriptDurationSeconds": 0.105701,
+          "jsHeapUsedBytes": 4804956,
+          "jsHeapTotalBytes": 8241152,
+          "backingStorageBytes": 1257707,
+          "embedderHeapUsedBytes": 4751048
+        },
+        "heapAfter": 6066203,
+        "visibleRowsAtEnd": 1000
+      },
+      "diagnostic": null
+    },
+    {
+      "workload": "B",
+      "mode": "legacy",
+      "run": 1,
+      "rows": 10000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "interopAndAdoptionElapsedMs": 225.4074,
+        "managedAllocatedBytes": 24231480
+      },
+      "browser": {
+        "label": "legacy",
+        "parseMs": 57.29999999701977,
+        "decodeMs": 0,
+        "parseCalls": 1,
+        "maximumParseMs": 57.29999999701977,
+        "adoptionMs": 0.19999998807907104,
+        "deferredRenderMs": 52.6000000089407,
+        "maxTimerGapMs": 120.90000000596046,
+        "timerTicks": 21,
+        "longTasks": [
+          104
+        ],
+        "heapBefore": 4151295,
+        "heapPeak": 17476394,
+        "bytesReceived": 0,
+        "batches": 0,
+        "partialVisibility": false,
+        "progressFrames": 0,
+        "transport": null,
+        "cdpBefore": {
+          "taskDurationSeconds": 0.242608,
+          "scriptDurationSeconds": 0.055304,
+          "jsHeapUsedBytes": 3780564,
+          "jsHeapTotalBytes": 6144000,
+          "backingStorageBytes": 376411,
+          "embedderHeapUsedBytes": 2245864
+        },
+        "endpointReachedMs": 158.3999999910593,
+        "adoptedRows": 10000,
+        "operationElapsedMs": 235,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.395086,
+          "scriptDurationSeconds": 0.117333,
+          "jsHeapUsedBytes": 6482232,
+          "jsHeapTotalBytes": 15319040,
+          "backingStorageBytes": 8008638,
+          "embedderHeapUsedBytes": 3533256
+        },
+        "heapAfter": 14495434,
+        "visibleRowsAtEnd": 10000
+      },
+      "diagnostic": {
+        "enumerationMs": 11.1723,
+        "enumerationAllocation": 72,
+        "checksum": 10000,
+        "serializationMs": 50.0198,
+        "serializationAllocation": 10835216,
+        "payloadBytes": 2544189,
+        "browser": {
+          "label": "diagnostic",
+          "parseMs": 0,
+          "decodeMs": 0,
+          "parseCalls": 0,
+          "maximumParseMs": 0,
+          "adoptionMs": 0,
+          "deferredRenderMs": 0,
+          "maxTimerGapMs": 11.5,
+          "timerTicks": 14,
+          "longTasks": [],
+          "heapBefore": 14495434,
+          "heapPeak": 14529548,
+          "bytesReceived": 0,
+          "batches": 0,
+          "partialVisibility": false,
+          "progressFrames": 0,
+          "transport": null,
+          "cdpBefore": {
+            "taskDurationSeconds": 0.400698,
+            "scriptDurationSeconds": 0.118692,
+            "jsHeapUsedBytes": 6495268,
+            "jsHeapTotalBytes": 15319040,
+            "backingStorageBytes": 8012469,
+            "embedderHeapUsedBytes": 3533256
+          },
+          "operationElapsedMs": 67.8999999910593,
+          "cdpAfter": {
+            "taskDurationSeconds": 0.405022,
+            "scriptDurationSeconds": 0.119659,
+            "jsHeapUsedBytes": 6512876,
+            "jsHeapTotalBytes": 15319040,
+            "backingStorageBytes": 8012648,
+            "embedderHeapUsedBytes": 3533256
+          },
+          "heapAfter": 14529548,
+          "visibleRowsAtEnd": 10000
+        }
+      }
+    },
+    {
+      "workload": "B",
+      "mode": "legacy",
+      "run": 2,
+      "rows": 10000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "interopAndAdoptionElapsedMs": 202.9153,
+        "managedAllocatedBytes": 13184992
+      },
+      "browser": {
+        "label": "legacy",
+        "parseMs": 47.6000000089407,
+        "decodeMs": 0,
+        "parseCalls": 1,
+        "maximumParseMs": 47.6000000089407,
+        "adoptionMs": 0.09999999403953552,
+        "deferredRenderMs": 23.700000002980232,
+        "maxTimerGapMs": 89.29999999701977,
+        "timerTicks": 24,
+        "longTasks": [
+          67
+        ],
+        "heapBefore": 14781295,
+        "heapPeak": 25168039,
+        "bytesReceived": 0,
+        "batches": 0,
+        "partialVisibility": false,
+        "progressFrames": 0,
+        "transport": null,
+        "cdpBefore": {
+          "taskDurationSeconds": 0.441781,
+          "scriptDurationSeconds": 0.124117,
+          "jsHeapUsedBytes": 6756976,
+          "jsHeapTotalBytes": 15319040,
+          "backingStorageBytes": 8025563,
+          "embedderHeapUsedBytes": 3471632
+        },
+        "endpointReachedMs": 186,
+        "adoptedRows": 10000,
+        "operationElapsedMs": 211.19999998807907,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.539299,
+          "scriptDurationSeconds": 0.177152,
+          "jsHeapUsedBytes": 12058468,
+          "jsHeapTotalBytes": 18464768,
+          "backingStorageBytes": 13105763,
+          "embedderHeapUsedBytes": 4761984
+        },
+        "heapAfter": 25168039,
+        "visibleRowsAtEnd": 10000
+      },
+      "diagnostic": {
+        "enumerationMs": 0.1212,
+        "enumerationAllocation": 72,
+        "checksum": 10000,
+        "serializationMs": 46.0853,
+        "serializationAllocation": 2544744,
+        "payloadBytes": 2544189,
+        "browser": {
+          "label": "diagnostic",
+          "parseMs": 0,
+          "decodeMs": 0,
+          "parseCalls": 0,
+          "maximumParseMs": 0,
+          "adoptionMs": 0,
+          "deferredRenderMs": 0,
+          "maxTimerGapMs": 11.099999994039536,
+          "timerTicks": 12,
+          "longTasks": [],
+          "heapBefore": 25168039,
+          "heapPeak": 25199465,
+          "bytesReceived": 0,
+          "batches": 0,
+          "partialVisibility": false,
+          "progressFrames": 0,
+          "transport": null,
+          "cdpBefore": {
+            "taskDurationSeconds": 0.543642,
+            "scriptDurationSeconds": 0.178306,
+            "jsHeapUsedBytes": 12076652,
+            "jsHeapTotalBytes": 18464768,
+            "backingStorageBytes": 13109644,
+            "embedderHeapUsedBytes": 4761984
+          },
+          "operationElapsedMs": 52.5,
+          "cdpAfter": {
+            "taskDurationSeconds": 0.547179,
+            "scriptDurationSeconds": 0.179011,
+            "jsHeapUsedBytes": 12085964,
+            "jsHeapTotalBytes": 18464768,
+            "backingStorageBytes": 13109825,
+            "embedderHeapUsedBytes": 4761984
+          },
+          "heapAfter": 25199465,
+          "visibleRowsAtEnd": 10000
+        }
+      }
+    },
+    {
+      "workload": "B",
+      "mode": "prototype",
+      "run": 1,
+      "rows": 10000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "rows": 10000,
+        "batches": 79,
+        "maximumBatchBytes": 32772,
+        "payloadBytes": 2544258,
+        "managedAllocatedBytes": 2946456,
+        "totalManagedAllocatedBytes": -8229512,
+        "enumerationMs": 0.8524999999999361,
+        "encodingMs": 71.59089999999941,
+        "interopAwaitMs": 261.51349999999996,
+        "elapsedMs": 394.9681
+      },
+      "browser": {
+        "label": "prototype",
+        "parseMs": 12.700000077486038,
+        "decodeMs": 2.2999999821186066,
+        "parseCalls": 79,
+        "maximumParseMs": 0.5,
+        "adoptionMs": 0.29999999701976776,
+        "deferredRenderMs": 47.400000005960464,
+        "maxTimerGapMs": 56.30000001192093,
+        "timerTicks": 42,
+        "longTasks": [],
+        "heapBefore": 4144697,
+        "heapPeak": 13408827,
+        "bytesReceived": 2544258,
+        "batches": 79,
+        "partialVisibility": false,
+        "progressFrames": 79,
+        "transport": "Uint8Array",
+        "cdpBefore": {
+          "taskDurationSeconds": 0.278842,
+          "scriptDurationSeconds": 0.061402,
+          "jsHeapUsedBytes": 3773956,
+          "jsHeapTotalBytes": 6406144,
+          "backingStorageBytes": 376421,
+          "embedderHeapUsedBytes": 2243936
+        },
+        "adoptedRows": 10000,
+        "operationElapsedMs": 410.90000000596046,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.491149,
+          "scriptDurationSeconds": 0.141628,
+          "jsHeapUsedBytes": 6971784,
+          "jsHeapTotalBytes": 10600448,
+          "backingStorageBytes": 6432719,
+          "embedderHeapUsedBytes": 3659984
+        },
+        "heapAfter": 13408827,
+        "visibleRowsAtEnd": 10000
+      },
+      "diagnostic": null
+    },
+    {
+      "workload": "B",
+      "mode": "prototype",
+      "run": 2,
+      "rows": 10000,
+      "properties": 10,
+      "cancelled": false,
+      "managed": {
+        "rows": 10000,
+        "batches": 79,
+        "maximumBatchBytes": 32772,
+        "payloadBytes": 2544258,
+        "managedAllocatedBytes": 2946456,
+        "totalManagedAllocatedBytes": 20373808,
+        "enumerationMs": 0.9679999999999523,
+        "encodingMs": 64.75099999999817,
+        "interopAwaitMs": 196.77530000000004,
+        "elapsedMs": 291.0361
+      },
+      "browser": {
+        "label": "prototype",
+        "parseMs": 10.599999979138374,
+        "decodeMs": 2.2999999672174454,
+        "parseCalls": 79,
+        "maximumParseMs": 0.5999999940395355,
+        "adoptionMs": 0.19999998807907104,
+        "deferredRenderMs": 16.80000001192093,
+        "maxTimerGapMs": 22.900000005960464,
+        "timerTicks": 36,
+        "longTasks": [],
+        "heapBefore": 13627412,
+        "heapPeak": 17888370,
+        "bytesReceived": 2544258,
+        "batches": 79,
+        "partialVisibility": false,
+        "progressFrames": 79,
+        "transport": "Uint8Array",
+        "cdpBefore": {
+          "taskDurationSeconds": 0.530014,
+          "scriptDurationSeconds": 0.145737,
+          "jsHeapUsedBytes": 7184748,
+          "jsHeapTotalBytes": 10600448,
+          "backingStorageBytes": 6443908,
+          "embedderHeapUsedBytes": 3548608
+        },
+        "adoptedRows": 10000,
+        "operationElapsedMs": 298.59999999403954,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.65212,
+          "scriptDurationSeconds": 0.187959,
+          "jsHeapUsedBytes": 9347392,
+          "jsHeapTotalBytes": 15319040,
+          "backingStorageBytes": 8537590,
+          "embedderHeapUsedBytes": 5107496
+        },
+        "heapAfter": 17888370,
+        "visibleRowsAtEnd": 10000
+      },
+      "diagnostic": null
+    },
+    {
+      "mode": "dispatch-control",
+      "samples": [
+        {
+          "bytes": 0,
+          "durationsMs": [
+            1.8062,
+            2.3423,
+            1.4335,
+            4.5402,
+            1.5699,
+            1.3955,
+            1.6517,
+            1.6075,
+            1.4181,
+            1.7688,
+            1.4263,
+            1.462,
+            3.5728,
+            2.1128,
+            1.472,
+            1.8179,
+            1.3103,
+            1.8212,
+            1.4318,
+            1.9406,
+            1.5001,
+            2.3614,
+            2.1156,
+            1.343,
+            1.6052,
+            1.3815,
+            1.6588,
+            1.4046,
+            1.9322,
+            1.4031
+          ],
+          "managedAllocatedBytes": -1542120
+        },
+        {
+          "bytes": 65536,
+          "durationsMs": [
+            3.152,
+            2.8255,
+            2.8326,
+            3.4807,
+            3.2041,
+            3.4123,
+            4.3446,
+            4.4438,
+            5.2132,
+            3.0228,
+            3.294,
+            3.642,
+            3.8399,
+            3.9921,
+            2.8846,
+            3.3956,
+            2.9615,
+            5.1048,
+            2.7148,
+            3.3989,
+            2.3951,
+            2.3413,
+            3.1856,
+            4.1578,
+            7.22,
+            2.8898,
+            3.729,
+            2.6583,
+            3.0488,
+            2.8943
+          ],
+          "managedAllocatedBytes": -9191504
+        }
+      ]
+    },
+    {
+      "mode": "compatibility",
+      "checks": [
+        {
+          "name": "attributes, numeric enum, dates, nulls, Unicode",
+          "passed": true
+        },
+        {
+          "name": "nested, dictionary, custom value converter, string enum",
+          "passed": true
+        },
+        {
+          "name": "declared polymorphism",
+          "passed": true
+        },
+        {
+          "name": "lazy IEnumerable",
+          "passed": true
+        },
+        {
+          "name": "custom collection converter rejected",
+          "passed": true
+        },
+        {
+          "name": "reference preservation rejected",
+          "passed": true
+        },
+        {
+          "name": "throwing lazy enumerable releases staging",
+          "passed": true
+        },
+        {
+          "name": "oversized row releases staging",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "workload": "C",
+      "mode": "prototype",
+      "run": 1,
+      "rows": 30000,
+      "properties": 6,
+      "cancelled": true,
+      "managed": null,
+      "browser": {
+        "label": "prototype",
+        "parseMs": 1.5999999791383743,
+        "decodeMs": 0.4999999850988388,
+        "parseCalls": 20,
+        "maximumParseMs": 0.19999998807907104,
+        "adoptionMs": 0,
+        "deferredRenderMs": 0,
+        "maxTimerGapMs": 14.200000002980232,
+        "timerTicks": 14,
+        "longTasks": [],
+        "heapBefore": 9192057,
+        "heapPeak": 9192057,
+        "bytesReceived": 402580,
+        "batches": 20,
+        "partialVisibility": false,
+        "progressFrames": 20,
+        "transport": "Uint8Array",
+        "cdpBefore": {
+          "taskDurationSeconds": 0.511232,
+          "scriptDurationSeconds": 0.140264,
+          "jsHeapUsedBytes": 5292672,
+          "jsHeapTotalBytes": 7192576,
+          "backingStorageBytes": 3900661,
+          "embedderHeapUsedBytes": 2867264
+        },
+        "operationElapsedMs": 72.5,
+        "cdpAfter": {
+          "taskDurationSeconds": 0.548516,
+          "scriptDurationSeconds": 0.151656,
+          "jsHeapUsedBytes": 4804140,
+          "jsHeapTotalBytes": 7979008,
+          "backingStorageBytes": 3622508,
+          "embedderHeapUsedBytes": 2954776
+        },
+        "heapAfter": 8430232,
+        "visibleRowsAtEnd": 1
+      },
+      "diagnostic": null,
+      "cancelClickToCompletionMs": 140.75290000000132,
+      "cleanupState": {
+        "visible": 1,
+        "staged": 0,
+        "cancelled": true
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,120 @@
+@namespace B11Host
+@using Tipolox.LitGrid.Blazor
+@using B1Host
+@using Microsoft.JSInterop
+@using System.Diagnostics.CodeAnalysis
+@inject IJSRuntime JS
+@inject ObservedRuntime Observed
+@implements IAsyncDisposable
+
+<h1>B1.1 automatic synchronization validation</h1>
+@if (show)
+{
+    <ObservedGrid @ref="grid" Data="source" DataRevision="revision" DataSyncMode="mode" Columns="columns" Height="600" />
+    @if (second) { <ObservedGrid @ref="otherGrid" Data="source" Columns="columns" Height="300" /> }
+}
+@code {
+    private ObservedGrid? grid, otherGrid;
+    private DotNetObjectReference<Fixture>? reference;
+    private IEnumerable<Row> source = Array.Empty<Row>();
+    private List<Row> rows = [];
+    private readonly List<Row> retired = [];
+    private readonly List<ICounted> counters = [];
+    private GridColumn[] columns = [];
+    private bool show, second, observable;
+    private long? revision;
+    private DataSyncMode mode;
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(Row))]
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) { reference = DotNetObjectReference.Create(this); await JS.InvokeVoidAsync("b11Ready", reference); }
+    }
+    [JSInvokable] public void Prepare(int count, bool useObservable, bool legacy)
+    {
+        rows = Enumerable.Range(1, count).Select(id => new Row(id)).ToList();
+        observable = useObservable;
+        source = useObservable ? new CountedObservable(rows) : new CountedList(rows);
+        counters.Add((ICounted)source);
+        mode = legacy ? DataSyncMode.Legacy : DataSyncMode.Automatic;
+        columns = new[] { "id", "name", "balance", "joined", "department", "active", "alias", "status", "ratio", "rating" }
+            .Select(key => new GridColumn { Key = key, Header = key, Width = 120 }).ToArray();
+    }
+    [JSInvokable] public async Task Act(string action)
+    {
+        switch (action)
+        {
+            case "initial": show = true; StateHasChanged(); break;
+            case "unchanged": StateHasChanged(); break;
+            case "replacement":
+                retired.AddRange(rows); rows = rows.Select(row => new Row(row.Id)).ToList();
+                source = observable ? new CountedObservable(rows) : new CountedList(rows);
+                counters.Add((ICounted)source); StateHasChanged(); break;
+            case "collection": ((CountedObservable)source).Add(new Row(rows.Count + 1)); break;
+            case "item": rows[0].Name += " changed"; break;
+            case "refresh": await grid!.RefreshDataAsync(); break;
+            case "burst": for (var i = 0; i < 100; i++) rows[i % rows.Count].Name = "burst " + i; break;
+            case "collection-burst": for (var i = 0; i < 100; i++) ((CountedObservable)source).Add(new Row(20000 + i)); break;
+            case "revision": revision = (revision ?? 0) + 1; StateHasChanged(); break;
+            case "revision-null": revision = null; StateHasChanged(); break;
+            case "remove": ((CountedObservable)source).RemoveAt(0); break;
+            case "replace-item": ((CountedObservable)source)[0] = new Row(999); break;
+            case "move": ((CountedObservable)source).Move(0, 1); break;
+            case "reset": ((CountedObservable)source).Clear(); break;
+            case "duplicates":
+                var duplicate = rows[0]; ((CountedObservable)source).Add(duplicate); ((CountedObservable)source).Add(duplicate); break;
+            case "remove-duplicate": ((CountedObservable)source).Remove(rows[0]); break;
+            case "retired": foreach (var row in retired) row.Name = "obsolete"; break;
+            case "second": second = true; StateHasChanged(); break;
+            case "background": await Task.Run(() => rows[0].Name = "background"); break;
+            case "delay": Observed.DelayNextSync = true; break;
+            case "dispose":
+                await grid!.DisposeAsync(); if (otherGrid != null) await otherGrid.DisposeAsync();
+                show = false; StateHasChanged(); break;
+            case "post-dispose": rows[0].Name = "disposed"; if (observable) ((CountedObservable)source).Add(new Row(88)); break;
+            default: throw new ArgumentException(action);
+        }
+    }
+    [JSInvokable] public object Stats() => new {
+        Observed.Calls, Observed.Transfers, Observed.InFlight,
+        Enumerations = counters.Sum(c => c.Enumerations), Visits = counters.Sum(c => c.Visits),
+        Subscribers = rows.Sum(r => r.Subscribers), RetiredSubscribers = retired.Sum(r => r.Subscribers),
+        ManagedLive = GC.GetTotalMemory(false), Allocated = GC.GetTotalAllocatedBytes(),
+        First = rows.FirstOrDefault()?.Name
+    };
+    [JSInvokable] public object Progress() => new { Observed.Transfers, Observed.InFlight };
+    [JSInvokable] public async Task<bool> FailRefresh()
+    {
+        try { await grid!.RefreshDataAsync(); return false; }
+        catch (JSException exception) when (exception.Message.Contains("B11 injected failure")) { return true; }
+    }
+    [JSInvokable] public long Collect() => GC.GetTotalMemory(true);
+    // Isolated diagnostic of the actual production tracker, without JS/grid storage.
+    // Reflection is confined to this experiment and preserved explicitly for trimming.
+    [DynamicDependency(DynamicallyAccessedMemberTypes.NonPublicFields, typeof(DataGrid<Row>))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Tipolox.LitGrid.Blazor.DataChangeTracker`1", "Tipolox.LitGrid.Blazor")]
+    [JSInvokable] public object TrackerBench(int count)
+    {
+        var data = new CountedObservable(Enumerable.Range(1, count).Select(id => new Row(id)));
+        var type = typeof(DataGrid<Row>).GetField("dataChanges", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.FieldType;
+        var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public;
+        var set = type.GetMethod("SetSource", flags)!;
+        var reconcile = type.GetMethod("Reconcile", flags)!;
+        var dispose = type.GetMethod("Dispose", flags)!;
+        var before = GC.GetTotalMemory(true);
+        var allocatedBefore = GC.GetAllocatedBytesForCurrentThread();
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        var tracker = Activator.CreateInstance(type, flags, null, new object[] { (Action)(() => { }) }, null)!;
+        set.Invoke(tracker, new object[] { data }); reconcile.Invoke(tracker, new object[] { false });
+        watch.Stop(); var setupMs = watch.Elapsed.TotalMilliseconds;
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - allocatedBefore;
+        var retained = GC.GetTotalMemory(true) - before;
+        var subscriptions = data.Sum(row => row.Subscribers);
+        watch.Restart(); dispose.Invoke(tracker, null); watch.Stop();
+        var disposalMs = watch.Elapsed.TotalMilliseconds;
+        var afterDispose = GC.GetTotalMemory(true) - before;
+        var remaining = data.Sum(row => row.Subscribers);
+        GC.KeepAlive(tracker); GC.KeepAlive(data);
+        return new { count, setupMs, disposalMs, allocated, retained, afterDispose, subscriptions, remaining };
+    }
+    public async ValueTask DisposeAsync() { if (grid != null) await grid.DisposeAsync(); if (otherGrid != null) await otherGrid.DisposeAsync(); reference?.Dispose(); }
+}

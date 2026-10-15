@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "scenario": "scalar/config reversion",
+      "passed": false,
+      "error": "ariaLabel=Changed"
+    },
+    {
+      "scenario": "omitted uncertain fields",
+      "passed": false,
+      "error": "ariaLabel=Changed"
+    },
+    {
+      "scenario": "inference reversion",
+      "passed": false,
+      "error": "inference did not recover"
+    },
+    {
+      "scenario": "schema omission",
+      "passed": false,
+      "error": "schema did not recover"
+    },
+    {
+      "scenario": "persistence reversion",
+      "passed": false,
+      "error": "configuration did not recover"
+    },
+    {
+      "scenario": "explicit null namespace",
+      "passed": false,
+      "error": "configuration did not recover"
+    }
+  ],
+  "passed": 0,
+  "failed": 6
+}
