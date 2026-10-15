@@ -266,11 +266,11 @@ Examples](vue-examples.md) for setup and copyable patterns.
 
 `DataGrid<TItem>` is a strongly-typed Blazor wrapper component. It is distributed via the NuGet package `Tipolox.LitGrid.Blazor` and embeds static assets requiring no Node.js setup on the client.
 
-**Migration warning for the approved v1.1.0 release:** the new `Automatic` data
+**Migration warning for the planned coordinated v1.1.0 release:** the new `Automatic` data
 default is a breaking Blazor behavior change accepted by the product owner as
 a deliberate semantic-versioning exception. Existing mutation-on-parent-update
 apps can select `DataSyncMode.Legacy`; see the [migration contract](blazor-data-synchronization.md).
-Checkout package versions remain 1.0.3 until release preparation is authorized.
+The version strategy is approved; public publication is not authorized.
 
 ### Parameters
 

@@ -196,8 +196,8 @@ No additional overlapping performance flags are introduced.
 mutate plain lists/rows and rely on parent rerenders must select Legacy, replace
 the source, emit supported notifications, increment a revision, or refresh.
 The compatibility switch does not make the default change semver-compatible.
-The approved target is coordinated **LitGrid v1.1.0** across all six public npm
-packages and Blazor NuGet. The default changed to remove full-dataset work from
+The planned coordinated v1.1.0 release spans all six public npm
+packages and Blazor NuGet. Public publication is not authorized. The default changed to remove full-dataset work from
 ordinary unchanged parent updates without requiring a performance flag or revision.
 The product owner explicitly accepts the breaking Blazor behavior in this minor
 release; this is a deliberate semantic-versioning exception, not a claim of full
