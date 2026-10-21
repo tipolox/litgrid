@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.compatibility.json",
+  "compilerOptions": { "moduleResolution": "Bundler" },
+  "include": ["columnControls.typecheck.ts", "../../grid-react/src/jsx-elements.d.ts"]
+}

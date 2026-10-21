@@ -32,6 +32,8 @@ type GridColumn = {
   header?: string
   width?: number | string
   hidden?: boolean
+  sortable?: boolean
+  filterable?: boolean
   accessor?: (row: unknown, rowIndex: number) => unknown
   render?: (value: unknown, row: unknown, rowIndex: number) => unknown
 }
@@ -40,6 +42,26 @@ type GridColumn = {
 `key` identifies a column for state, filtering, selection, and ordering. `accessor` derives the underlying value; without one, object-row values are read using `key`. `render` controls visual output but does not change filtering or clipboard values. It may return a string, number, or Lit `TemplateResult`. React JSX is not a supported renderer result because rendering occurs in the Web Component.
 
 `width` accepts a number of pixels or a CSS width string. Explicit numeric widths set through the sizing API are normalized to at least `64px`.
+
+`sortable` and `filterable` default to enabled (`true` or omitted). Explicit `false` removes the corresponding local header-menu controls, including Clear Sort or Clear Filter. Other actions (Columns, Best Fit, quick-search toggle), keyboard activation and Escape focus restoration remain available. These are UI capabilities, not query authorization or engine policies: `setFilter`/`clearFilter`, core `sortBy`/`clearSort`, and quick search keep their existing behavior. Quick search is text matching across supplied data, not an exact monetary numeric comparison.
+
+Changing either flag through `columns` (including reassignment of a mutated array) or `updateColumnSchema` retains active sort/filter state, row order and active indicators. An open menu closes and restores focus when its capabilities change or its column is removed, renamed or hidden. If its trigger disappears, focus moves to an existing column action button or the Columns button. **Clear existing queries before disabling monetary controls**: use Clear Sort before changing `sortable`, and `clearFilter(key)` before changing `filterable`. The core engine can also clear sorting directly. Re-enabling restores controls and their current filter values. Persisted column state contains only order, width and visibility; it never overrides these schema flags.
+
+For monetary decimal strings, configure both flags before interaction. Source strings, display renderers, clipboard precision and engine comparison behavior are unchanged. Generic string ordering is lexical (`"10.00"` precedes `"2.00"`); disabling controls supplies no decimal comparator, rounding, arithmetic or server query delegation. Use authoritative server queries for money; external/manual querying and server pagination are tracked in [#35](https://github.com/tipolox/litgrid/issues/35).
+
+```ts
+// Billing: preserve exact amount strings and suppress both local controls.
+const billingColumns: GridColumn[] = [
+  { key: 'description' },
+  { key: 'amount', sortable: false, filterable: false }
+]
+// Server-ordered report: keep text filtering, suppress local ordering.
+const reportColumns: GridColumn[] = [{ key: 'reference', sortable: false }]
+// Ordinary text: keep sorting, suppress the column filter UI.
+const nameColumns: GridColumn[] = [{ key: 'name', filterable: false }]
+```
+
+React, Vue and Angular accept these same `GridColumn` objects without wrapper-specific options. Blazor object columns expose nullable `Sortable`/`Filterable`; declarative columns accept `Sortable="false" Filterable="false"` on `LitGridColumn<TItem>`. Null/omitted values preserve existing defaults. These flags require no locale or value validation: only explicit `false` opts out, and neither flag changes invariant values or locale display.
 
 ### `GridConfig`
 

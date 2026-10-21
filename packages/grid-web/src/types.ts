@@ -24,6 +24,10 @@ export type GridColumn = {
   header?: string
   width?: number | string
   hidden?: boolean
+  /** Show local sorting actions in the header menu. Defaults to true; does not change query state or imperative APIs. */
+  sortable?: boolean
+  /** Show local column filtering controls. Defaults to true; does not affect quick search or imperative APIs. */
+  filterable?: boolean
   accessor?: (row: unknown, rowIndex: number) => unknown
   render?: (value: unknown, row: unknown, rowIndex: number) => unknown
 }

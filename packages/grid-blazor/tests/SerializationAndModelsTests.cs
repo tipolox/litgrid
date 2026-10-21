@@ -5,6 +5,19 @@ namespace Tipolox.LitGrid.Blazor.Tests;
 
 public class SerializationAndModelsTests
 {
+    [Theory]
+    [InlineData(null)]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void ColumnControlsRoundTripWithoutChangingDefaults(bool? enabled)
+    {
+        var json = JsonSerializer.Serialize(new GridColumn { Key = "amount", Sortable = enabled, Filterable = enabled });
+        var column = JsonSerializer.Deserialize<GridColumn>(json)!;
+        Assert.Equal(enabled, column.Sortable);
+        Assert.Equal(enabled, column.Filterable);
+        Assert.Equal(enabled.HasValue, json.Contains("\"sortable\""));
+        Assert.Equal(enabled.HasValue, json.Contains("\"filterable\""));
+    }
     [Fact]
     public void GridColumn_SerializesToJsonExpectedly()
     {

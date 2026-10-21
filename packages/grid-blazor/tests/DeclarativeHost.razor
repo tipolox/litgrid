@@ -8,7 +8,8 @@
         @foreach (var spec in Specs)
         {
             <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
-                           Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" />
+                           Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order"
+                           Sortable="@spec.Sortable" Filterable="@spec.Filterable" />
         }
         @if (Nested)
         {

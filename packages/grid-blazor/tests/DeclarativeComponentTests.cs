@@ -12,7 +12,8 @@ using Xunit;
 namespace Tipolox.LitGrid.Blazor.Tests;
 
 public record ColumnSpec(string Id, Expression<Func<Employee, object?>>? Field = null,
-    string? Key = null, string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null);
+    string? Key = null, string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null,
+    bool? Sortable = null, bool? Filterable = null);
 
 // Exercise the public Renderer lifecycle; no private render-tree inspection or fake
 // calls to child lifecycle methods. The Razor fixture also compiles generic cascading.
@@ -90,6 +91,50 @@ internal sealed class RecordingLogger : ILogger<DataGrid<Employee>>
 
 public class DeclarativeComponentTests
 {
+    [Fact]
+    public async Task ColumnControlChangesReachInteropWithoutLosingNullableDefaults()
+    {
+        var (renderer, interop, root) = Setup();
+        await using (renderer)
+        {
+            foreach (bool? enabled in new bool?[] { null, false, true })
+            {
+                await renderer.Render(root, ("Specs", new[] { new ColumnSpec("name", e => e.Name, Sortable: enabled, Filterable: enabled) }));
+                await renderer.Drain();
+                var column = interop.Syncs.Last().GetProperty("columns")[0];
+                Assert.Equal(enabled.HasValue, column.TryGetProperty("sortable", out var sortable));
+                Assert.Equal(enabled.HasValue, column.TryGetProperty("filterable", out var filterable));
+                if (enabled.HasValue)
+                {
+                    Assert.Equal(enabled.Value, sortable.GetBoolean());
+                    Assert.Equal(enabled.Value, filterable.GetBoolean());
+                }
+            }
+            Assert.Empty(renderer.Errors);
+        }
+    }
+
+    [Fact]
+    public async Task ProgrammaticColumnControlMutationsReachInterop()
+    {
+        var (renderer, interop, root) = Setup();
+        await using (renderer)
+        {
+            var column = new GridColumn { Key = "amount", Sortable = false, Filterable = false };
+            var columns = new[] { column };
+            foreach (var enabled in new[] { false, true })
+            {
+                column.Sortable = enabled;
+                column.Filterable = enabled;
+                await renderer.Render(root, ("Declarative", false), ("Programmatic", columns));
+                await renderer.Drain();
+                var json = interop.Syncs.Last().GetProperty("columns")[0];
+                Assert.Equal(enabled, json.GetProperty("sortable").GetBoolean());
+                Assert.Equal(enabled, json.GetProperty("filterable").GetBoolean());
+            }
+            Assert.Empty(renderer.Errors);
+        }
+    }
     private static (TestRenderer Renderer, RecordingInterop Interop, int Root) Setup(DeclarativeHost? host = null, RecordingLogger? logger = null)
     {
         var interop = new RecordingInterop();
