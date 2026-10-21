@@ -130,7 +130,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     onSelectionChange,
     onColumnReorder,
     onColumnVisibilityChange
-  },
+  }: DataGridProps,
   forwardedRef
 ) {
   const gridRef = useRef<DataGridElement | null>(null)
@@ -143,10 +143,10 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   useImperativeHandle(
     forwardedRef,
     () => ({
-      setExternalState: state => requireGridElement().setExternalState!(state),
+      setExternalState: (state: GridExternalState) => requireGridElement().setExternalState!(state),
       getQuery: () => requireGridElement().getQuery!(),
       refreshQuery: () => requireGridElement().refreshQuery!(),
-      sortBy: (key, direction) => requireGridElement().sortBy!(key, direction),
+      sortBy: (key: string, direction: SortDirection) => requireGridElement().sortBy!(key, direction),
       clearSort: () => requireGridElement().clearSort!(),
       get gridElement() {
         return gridRef.current

@@ -65,6 +65,12 @@ React, Vue and Angular accept these same `GridColumn` objects without wrapper-sp
 
 ### `GridConfig`
 
+`queryMode?: 'local' | 'external'` is an additive opt-in server-query contract.
+Local remains the default. See [external queries](external-query.md) for atomic
+`externalState`, typed `query-change` / `onQueryChange`, request identity, truthful
+known/unknown totals, loading/error states and imperative methods. These proposed
+v1.2.0 capabilities do not change the published package version.
+
 ```ts
 type SelectionMode = 'none' | 'row' | 'multi-row' | 'cell' | 'multi-cell'
 

@@ -89,4 +89,85 @@ The BFF must authorize every request and recheck before returning sensitive data
 Never put authorization decisions in grid filters or selection. Selection only
 references supplied displayed rows; `rowKey` and `scopeKey` retain #36 semantics.
 
-Examples and verification evidence accompany the implementation below.
+## React and Next.js example
+
+In a Next.js client boundary, load the adapter on the client (its registration
+uses browser custom-element globals):
+
+```tsx
+'use client'
+import dynamic from 'next/dynamic'
+import type { GridQueryChangeDetail } from '@tipolox/litgrid-react'
+const DataGrid = dynamic(
+  () => import('@tipolox/litgrid-react').then(module => module.DataGrid),
+  { ssr: false }
+)
+```
+
+The following is the query handler portion of a client component. Initialize
+`externalState` from an authorized initial response, with `requestId: 1` and a
+full query. Fetch that first response in application code; controlled initialization
+does not emit an intent. Here `currentScope` is an application-owned ref; scope
+includes tenant/account/site and changes invalidate `active` and abort work.
+
+```tsx
+const onQueryChange = async ({ requestId, query }: GridQueryChangeDetail) => {
+  active.current?.controller.abort()
+  const controller = new AbortController()
+  const scope = currentScope.current
+  const attempt = { requestId, scope, controller }
+  active.current = attempt
+  const stillCurrent = () => active.current === attempt &&
+    currentScope.current === scope && !controller.signal.aborted
+  try {
+    const response = await fetch('/api/property-query', {
+      method: 'POST', cache: 'no-store', signal: controller.signal,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, scope })
+    })
+    if (!response.ok) throw new Error('Unable to load properties.')
+    const result = await response.json() // validate the BFF response at this boundary
+    if (!stillCurrent()) return
+    setExternalState({ requestId, query, rows: result.rows, total: result.total })
+  } catch (error) {
+    if (!stillCurrent()) return
+    setExternalState({ requestId, query, rows: [],
+      total: { kind: 'unknown', hasMore: false }, error: 'Unable to load properties.' })
+  }
+}
+
+return <DataGrid data={[]} config={{ queryMode: 'external',
+  selection: { mode: 'row', rowKey: 'id', scopeKey } }}
+  columns={[{ key: 'name' }, { key: 'amount' }]}
+  externalState={externalState} onQueryChange={onQueryChange} />
+```
+
+The BFF must derive/authorize scope from the authenticated session, allowlist
+query fields/operators, perform exact decimal comparisons, and recheck access
+after async operations. Client scope input is not authorization. Abort and clear
+`active` on unmount. On scope changes, also clear detail/selection application
+state; either remount the grid with `key={scopeKey}` and a fresh scoped initial
+state, or keep IDs monotonic and establish the new scope with a greater ID after
+the configuration transition. A component remount creates a new request-ID space,
+so the consumer guard remains mandatory.
+
+Web Component applications use the same `externalState` property and
+`addEventListener('query-change', event => handle(event.detail))`.
+`setExternalState` returns false for stale, duplicate, or query-mismatched results;
+it throws `TypeError` for malformed current/new states. Unknown forward page jumps
+are limited to the next page with `hasMore`; Previous can return to an earlier
+index. Known totals allow direct page requests within the exact bounds.
+
+Vue uses `:external-state` / `@query-change`; Angular uses `[externalState]` /
+`(queryChange)`. Their instances expose the query methods listed above. Blazor
+uses `ExternalState="..."`, `Config.QueryMode = "external"`, and `OnQueryChange`;
+models are `GridExternalState<TItem>`, `GridQuery`, `GridExternalTotal`, and
+`GridQueryChangeDetail`. Use `GetQueryAsync`, `SetExternalStateAsync`,
+`RefreshQueryAsync`, `SortByAsync` and `ClearSortAsync` for imperative coordination.
+The Blazor `TotalRows`/`TotalPages` unknown sentinel is also -1, with nullable
+`TotalKnown`/`HasMore` populated for external results. Blazor request IDs must fit
+JavaScript's safe integer range. Mutating an existing external-state instance is
+unsupported; replace it, including its rows when refreshing.
+
+See [validation evidence](external-query-validation.md) for browser, framework,
+typecheck and performance results. This proposed API has not been released.

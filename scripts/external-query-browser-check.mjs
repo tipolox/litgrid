@@ -83,6 +83,8 @@ try {
     await page.evaluate(async path => { window.baselineGrid = (await import(/* @vite-ignore */ path)).DataGrid }, `${relative}/packages/grid-web/src/components/DataGrid.ts`)
     for (const count of [30_000, 100_000]) for (let repetition = 0; repetition < 3; repetition++) {
       for (const variant of repetition % 2 ? ['feature', 'main'] : ['main', 'feature']) {
+        // Reduce cross-sample garbage from previously detached virtualized grids.
+        await page.requestGC()
         measurements.push(await page.evaluate(async ({ count, variant, repetition }) => {
           window.grid.remove()
           const Grid = variant === 'main' ? window.baselineGrid : window.featureGrid
