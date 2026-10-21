@@ -140,19 +140,19 @@ describe('React DataGrid component and events', () => {
     const grid = instance!.gridElement!
 
     const stateDetail: ColumnStateChangeDetail = {
-      state: { version: 1, order: ['id'], widths: {}, hidden: [] },
-      source: 'reorder'
+      state: { version: 1, columns: [{ key: 'id', visible: true }] },
+      reason: 'reorder'
     }
     const reorderDetail: ColumnReorderDetail = {
       columnKey: 'id',
-      fromIndex: 1,
-      toIndex: 0,
-      order: ['id']
+      previousIndex: 1,
+      currentIndex: 0,
+      columnOrder: ['id']
     }
     const visibilityDetail: ColumnVisibilityChangeDetail = {
       columnKey: 'id',
       visible: false,
-      visibleKeys: []
+      visibleColumnKeys: []
     }
 
     grid.dispatchEvent(new CustomEvent('column-state-change', { detail: stateDetail }))
@@ -196,7 +196,7 @@ describe('React DataGrid component and events', () => {
     const isColumnVisible = vi.fn(() => true)
     const getVisibleColumnKeys = vi.fn(() => ['col1'])
     const resetColumnVisibility = vi.fn()
-    const state: GridColumnState = { version: 1, order: ['col1'], widths: {}, hidden: [] }
+    const state: GridColumnState = { version: 1, columns: [{ key: 'col1', visible: true }] }
     const getColumnState = vi.fn(() => state)
     const setColumnState = vi.fn()
     const resetColumnState = vi.fn()
@@ -213,13 +213,13 @@ describe('React DataGrid component and events', () => {
     const getFilters = vi.fn(() => [filter])
     const setPage = vi.fn()
     const setPageSize = vi.fn()
-    const pagination: GridPaginationState = { pageIndex: 0, pageSize: 25, totalPages: 1 }
+    const pagination: GridPaginationState = { enabled: true, pageIndex: 0, pageSize: 25, totalRows: 25, pageCount: 1 }
     const getPagination = vi.fn(() => pagination)
     const getTotalRowCount = vi.fn(() => 100)
     const selectRow = vi.fn()
     const selectAllRows = vi.fn()
     const clearSelection = vi.fn()
-    const selection: GridSelection = { mode: 'row', selectedRowIndexes: [0], selectedCellKeys: [] }
+    const selection: GridSelection = { mode: 'row', rowIndex: 0, columnKey: null, anchorRowIndex: 0, rowIndexes: new Set([0]), cells: new Set() }
     const getSelection = vi.fn(() => selection)
     const isRowSelected = vi.fn(() => true)
     const isCellSelected = vi.fn(() => false)

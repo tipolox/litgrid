@@ -1,0 +1,50 @@
+{
+  "browser": "156.0.8078.4",
+  "correctness": "PASS",
+  "debounce": {
+    "rapidTyping": "PASS",
+    "finalIntentOnly": "PASS",
+    "zeroDelay": "PASS",
+    "clearCancellation": "PASS",
+    "disconnectCleanup": "PASS",
+    "focus": "PASS",
+    "requestIds": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "localThreshold": "PASS"
+  },
+  "measurements": [],
+  "external": [
+    {
+      "totalRows": 352,
+      "loadedRows": 20,
+      "medianMs": 0.6999999955296516,
+      "p95Ms": 4.200000002980232,
+      "mountedRows": 13
+    },
+    {
+      "totalRows": 30000,
+      "loadedRows": 20,
+      "medianMs": 0.8999999985098839,
+      "p95Ms": 2.2999999970197678,
+      "mountedRows": 13
+    },
+    {
+      "totalRows": 100000,
+      "loadedRows": 20,
+      "medianMs": 0.6000000014901161,
+      "p95Ms": 2.7000000029802322,
+      "mountedRows": 13
+    },
+    {
+      "totalRows": 1000000000,
+      "loadedRows": 20,
+      "medianMs": 0.4000000059604645,
+      "p95Ms": 1.4000000059604645,
+      "mountedRows": 13
+    }
+  ]
+}

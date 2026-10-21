@@ -36,6 +36,8 @@ jobs:
           dotnet-version: '8.0.x'
 
       - run: pnpm install --frozen-lockfile
+      - name: Typecheck public API and adapter contracts (root baseline tracked in issue 31)
+        run: node scripts/typecheck-contracts.mjs
       - run: pnpm test
       - run: pnpm run build
       - run: dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release

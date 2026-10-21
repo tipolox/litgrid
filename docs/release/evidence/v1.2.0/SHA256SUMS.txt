@@ -1,0 +1,7 @@
+843b556588e8244e273aea13a0edac81db302ebb20a8ba20edd45c795d722d99  npm/tipolox-litgrid-angular-1.2.0.tgz
+f687fd588956b4f684452a72a4a967e5c143516326d60e53fdbc45b43eac112e  npm/tipolox-litgrid-core-1.2.0.tgz
+c767b3f6e1765014b44437c95d3ac88a1abe3b11c6155ade95a4d1abb96154c6  npm/tipolox-litgrid-react-1.2.0.tgz
+636f9a4f89d856e5574b8a39f464dda61c62b6d86a55d23b4c98bcf7334a77ea  npm/tipolox-litgrid-renderer-1.2.0.tgz
+4319850477f91bfc8891c62dc4f459cb90310baf79e0bb553ff821313203dee4  npm/tipolox-litgrid-vue-1.2.0.tgz
+3fed7bdcb64e24e87538c4443f75c526fd544697e147af9c260173ac1887586c  npm/tipolox-litgrid-web-1.2.0.tgz
+f3a618c627f1f537ec315893c9fc859169883e29857a519c8dfd0897d71265db  nuget/Tipolox.LitGrid.Blazor.1.2.0.nupkg

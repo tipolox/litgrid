@@ -1,0 +1,12 @@
+
+> tipoloX@1.1.0 test D:\Work\litgrid-p0\.private\v120-integrated-20261021
+> vitest run
+
+
+ RUN  v4.1.10 D:/Work/litgrid-p0/.private/v120-integrated-20261021
+
+
+ Test Files  42 passed (42)
+      Tests  322 passed (322)
+   Start at  19:30:14
+   Duration  119.40s (transform 12.61s, setup 0ms, import 62.87s, tests 53.60s, environment 629.47s)

@@ -1,0 +1,13 @@
+
+> tipoloX@1.2.0 test <workspace>\.private\v120-candidate
+> vitest run
+
+
+ RUN  v4.1.10 <workspace>/.private/v120-candidate
+
+
+ Test Files  41 passed (41)
+      Tests  313 passed (313)
+   Start at  16:19:23
+   Duration  64.28s (transform 6.39s, setup 0ms, import 30.89s, tests 45.34s, environment 261.44s)
+

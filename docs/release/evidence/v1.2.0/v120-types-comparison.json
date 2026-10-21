@@ -1,0 +1,1754 @@
+{
+  "base": "206192e999a38c6b944944eabe2724ef4e9f8cef",
+  "typescript": "6.0.3",
+  "description": "Source roots exclude build outputs; same installed dependency tree and compiler for original and corrected fixture comparison.",
+  "cases": {
+    "original": [
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useState'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'main' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'header' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'h2' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'h2' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'nav' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'nav' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'header' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'main' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useCallback'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useState'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'h3' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'h3' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'span' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'span' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/_debug_node-chunk.d.ts",
+        "code": 2307,
+        "message": "Cannot find module '@angular/core/primitives/di' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts",
+        "code": 2307,
+        "message": "Cannot find module '@angular/core/primitives/signals' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-signals.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts",
+        "code": 2882,
+        "message": "Cannot find module or type declarations for side-effect import of '@angular/core/primitives/di'.   There are types at '<workspace>/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'Component'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'Component'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'ReactNode'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'ReactNode'."
+      },
+      {
+        "file": "node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/expect/dist/index.d.ts",
+        "code": 2307,
+        "message": "Cannot find module '@vitest/utils/display' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/utils/dist/display.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/index.d.ts",
+        "code": 2882,
+        "message": "Cannot find module or type declarations for side-effect import of 'vite/module-runner'.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/index.d.ts",
+        "code": 2882,
+        "message": "Cannot find module or type declarations for side-effect import of 'vite/module-runner'.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'title' does not exist in type 'GridColumn'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'totalPages' does not exist in type 'GridPaginationState'."
+      },
+      {
+        "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'selectedRowIndexes' does not exist in type 'GridSelection'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "code": 2683,
+        "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+      },
+      {
+        "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "code": 2683,
+        "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+      },
+      {
+        "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'StrictMode'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.navigationUpdates.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.selectionChange.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'totalPages' does not exist in type 'GridPaginationState'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'selectedRowIndexes' does not exist in type 'GridSelection'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'forwardRef'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useImperativeHandle'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useLayoutEffect'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 7006,
+        "message": "Parameter 'forwardedRef' implicitly has an 'any' type."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 7006,
+        "message": "Parameter 'key' implicitly has an 'any' type."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 7006,
+        "message": "Parameter 'intent' implicitly has an 'any' type."
+      },
+      {
+        "file": "packages/grid-react/src/jsx-elements.d.ts",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'DetailedHTMLProps'."
+      },
+      {
+        "file": "packages/grid-react/src/jsx-elements.d.ts",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'HTMLAttributes'."
+      },
+      {
+        "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'gridElement' does not exist on type 'never'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2353,
+        "message": "Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'gridElement' does not exist on type 'never'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'setQuickSearch' does not exist on type 'never'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'setColumnWidth' does not exist on type 'never'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'getTotalRowCount' does not exist on type 'never'."
+      },
+      {
+        "file": "packages/grid-vue/src/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'copySelectedRows' does not exist on type 'never'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.clipboard.test.ts",
+        "code": 2790,
+        "message": "The operand of a 'delete' operator must be optional."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      }
+    ],
+    "corrected": [
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useState'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'main' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'header' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'h2' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'h2' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'nav' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'nav' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'button' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'header' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/App.tsx",
+        "code": 2339,
+        "message": "Property 'main' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useCallback'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useState'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ColumnStateDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/CustomRendererDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'h3' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'h3' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'span' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'span' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'a' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'div' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/ExamplesDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/LargeDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/PaginationDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'p' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "apps/playground/src/SmallDatasetDemo.tsx",
+        "code": 2339,
+        "message": "Property 'section' does not exist on type 'JSX.IntrinsicElements'."
+      },
+      {
+        "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/_debug_node-chunk.d.ts",
+        "code": 2307,
+        "message": "Cannot find module '@angular/core/primitives/di' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts",
+        "code": 2307,
+        "message": "Cannot find module '@angular/core/primitives/signals' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-signals.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts",
+        "code": 2882,
+        "message": "Cannot find module or type declarations for side-effect import of '@angular/core/primitives/di'.   There are types at '<workspace>/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'Component'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'Component'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'ReactNode'."
+      },
+      {
+        "file": "node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts",
+        "code": 2694,
+        "message": "Namespace '\"react\"' has no exported member 'ReactNode'."
+      },
+      {
+        "file": "node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/expect/dist/index.d.ts",
+        "code": 2307,
+        "message": "Cannot find module '@vitest/utils/display' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/utils/dist/display.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/index.d.ts",
+        "code": 2882,
+        "message": "Cannot find module or type declarations for side-effect import of 'vite/module-runner'.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts",
+        "code": 2307,
+        "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/index.d.ts",
+        "code": 2882,
+        "message": "Cannot find module or type declarations for side-effect import of 'vite/module-runner'.   There are types at '<workspace>/node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "code": 2683,
+        "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+      },
+      {
+        "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "code": 2683,
+        "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+      },
+      {
+        "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'StrictMode'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.navigationUpdates.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.selectionChange.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.test.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'act'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'forwardRef'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useImperativeHandle'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'useLayoutEffect'."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 7006,
+        "message": "Parameter 'forwardedRef' implicitly has an 'any' type."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 7006,
+        "message": "Parameter 'key' implicitly has an 'any' type."
+      },
+      {
+        "file": "packages/grid-react/src/DataGrid.tsx",
+        "code": 7006,
+        "message": "Parameter 'intent' implicitly has an 'any' type."
+      },
+      {
+        "file": "packages/grid-react/src/jsx-elements.d.ts",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'DetailedHTMLProps'."
+      },
+      {
+        "file": "packages/grid-react/src/jsx-elements.d.ts",
+        "code": 2305,
+        "message": "Module '\"react\"' has no exported member 'HTMLAttributes'."
+      },
+      {
+        "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.clipboard.test.ts",
+        "code": 2790,
+        "message": "The operand of a 'delete' operator must be optional."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      }
+    ],
+    "realReactBundler": [
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.data' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "code": 18048,
+        "message": "'inputs.columns' is possibly 'undefined'."
+      },
+      {
+        "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "code": 2683,
+        "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+      },
+      {
+        "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "code": 2683,
+        "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+      },
+      {
+        "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "code": 2345,
+        "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.clipboard.test.ts",
+        "code": 2790,
+        "message": "The operand of a 'delete' operator must be optional."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2339,
+        "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.test.ts",
+        "code": 2341,
+        "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      },
+      {
+        "file": "scripts/embed-sourcemap-sources.test.ts",
+        "code": 2591,
+        "message": "Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+      }
+    ]
+  },
+  "added": []
+}

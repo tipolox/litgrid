@@ -1,0 +1,23 @@
+import { createRef } from 'react'
+import { DataGrid, type DataGridRef, type DataGridProps, type GridExternalState } from '@tipolox/litgrid-react'
+import type { DataGridInstance, DataGridProps as VueProps } from '@tipolox/litgrid-vue'
+import type { DataGridComponent } from '@tipolox/litgrid-angular'
+import { createGridEngine } from '@tipolox/litgrid-core'
+import { createVirtualizer } from '@tipolox/litgrid-renderer'
+import type { DataGridElement } from '@tipolox/litgrid-web'
+const state: GridExternalState = { requestId: 1, query: {search:'',filters:[{columnKey:'amount',operator:'equals',value:'9007199254740993.01'}],sort:{columnKey:null,direction:null},pageIndex:0,pageSize:20}, rows:[{id:'unit-a',amount:'9007199254740993.01'}], total:{kind:'unknown',hasMore:true} }
+const config = { queryMode:'external' as const,selection:{mode:'row' as const,rowKey:'id',scopeKey:'fictional/account-a'} }
+const props: DataGridProps = {data:[],config,externalState:state,columns:[{key:'amount',sortable:false,filterable:false}],onQueryChange:d=>{ const id:number=d.requestId;void id;
+ // @ts-expect-error query snapshots are readonly
+ d.query.filters.push({columnKey:'x',operator:'equals',value:'x'})
+}}
+const vue: VueProps = props
+const ref = createRef<DataGridRef>()
+export const element = <DataGrid {...props} ref={ref}/>
+export function contracts(web:DataGridElement,react:DataGridRef,vue:DataGridInstance,angular:DataGridComponent){
+ for(const grid of [react,vue,angular]){grid.setExternalState(state);grid.refreshQuery();grid.selectRowByKey('unit-a');grid.sortBy('amount','asc');const id:number=grid.getQuery().requestId;void id}
+ // Web capabilities are optional on the legacy-compatible structural element
+ // type, and mandatory on the actual implementation and adapter refs.
+ if(web.getQuery && web.setExternalState){web.setExternalState(state);const id:number=web.getQuery().requestId;void id}
+}
+void [vue,createGridEngine,createVirtualizer]

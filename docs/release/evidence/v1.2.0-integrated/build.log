@@ -1,0 +1,92 @@
+
+> tipoloX@1.1.0 build D:\Work\litgrid-p0\.private\v120-integrated-20261021
+> pnpm -r build
+
+Scope: 8 of 9 workspace projects
+packages/grid-core prebuild$ node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')"
+packages/grid-renderer prebuild$ node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')"
+packages/grid-renderer prebuild: Done
+packages/grid-renderer build$ tsc -p tsconfig.build.json
+packages/grid-core prebuild: Done
+packages/grid-core build$ tsc -p tsconfig.build.json
+packages/grid-renderer build: Done
+packages/grid-core build: Done
+packages/grid-web prebuild$ node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')"
+packages/grid-web prebuild: Done
+packages/grid-web build$ tsc -p tsconfig.build.json
+packages/grid-web build: Done
+packages/grid-angular build$ ngc -p tsconfig.lib.json && ng-packagr -p ng-package.json -c tsconfig.packagr.json && node -e "const fs=require('node:fs'); const p='../../dist/grid-angular/package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); const webPkg=JSON.parse(fs.readFileSync('../grid-web/package.json','utf8')); if(pkg.dependencies && pkg.dependencies['@tipolox/litgrid-web'] && pkg.dependencies['@tipolox/litgrid-web'].startsWith('workspace:')) { pkg.dependencies['@tipolox/litgrid-web'] = '^' + webPkg.version; } fs.writeFileSync(p, JSON.stringify(pkg, null, 2) + '\n'); fs.copyFileSync('../../LICENSE','../../dist/grid-angular/LICENSE');" && node ../../scripts/embed-sourcemap-sources.mjs ../../dist/grid-angular
+packages/grid-blazor build$ vite build
+packages/grid-react prebuild$ node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')"
+packages/grid-vue prebuild$ node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); fs.copyFileSync('../../LICENSE','dist/LICENSE')"
+packages/grid-react prebuild: Done
+packages/grid-react build$ tsc -p tsconfig.build.json
+packages/grid-vue prebuild: Done
+packages/grid-vue build$ tsc -p tsconfig.json
+packages/grid-blazor build: vite v8.0.8 building client environment for production...
+packages/grid-blazor build: [2K
+packages/grid-blazor build: transforming...✓ 40 modules transformed.
+packages/grid-blazor build: rendering chunks...
+packages/grid-blazor build: computing gzip size...
+packages/grid-blazor build: src/wwwroot/litgrid-blazor.js  176.31 kB │ gzip: 38.68 kB │ map: 320.43 kB
+packages/grid-blazor build: ✓ built in 672ms
+packages/grid-blazor build: Done
+packages/grid-react build: Done
+packages/grid-vue build: Done
+packages/grid-angular build: Building Angular Package
+packages/grid-angular build: [debug] Found primary entry point: @tipolox/litgrid-angular
+packages/grid-angular build: [debug] Initializing tsconfig for @tipolox/litgrid-angular
+packages/grid-angular build: [debug] Analysing sources for @tipolox/litgrid-angular
+packages/grid-angular build: [debug] tsc program structure is reused: No old program
+packages/grid-angular build: ------------------------------------------------------------------------------
+packages/grid-angular build: Building entry point '@tipolox/litgrid-angular'
+packages/grid-angular build: ------------------------------------------------------------------------------
+packages/grid-angular build: - Compiling with Angular sources in partial compilation mode.
+packages/grid-angular build: Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+packages/grid-angular build:   npx update-browserslist-db@latest
+packages/grid-angular build:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+packages/grid-angular build: √ Compiling with Angular sources in partial compilation mode.
+packages/grid-angular build: [debug] [readCacheError]: Error: ENOENT: no such file or directory, open 'D:\Work\litgrid-p0\.private\v120-integrated-20261021\packages\grid-angular\node_modules\.cache\ng-packagr\574b3bf4431665c4f399b103f63dedbb5dc1541d1f7ad54783ca318715f56ec3.json'
+packages/grid-angular build: [debug] rollup using native version.
+packages/grid-angular build: [debug] rollup using native version.
+packages/grid-angular build: [debug] rollup (v4.62.4) D:\Work\litgrid-p0\.private\v120-integrated-20261021\dist\grid-angular\tmp-esm2022\tipolox-litgrid-angular.js to D:\Work\litgrid-p0\.private\v120-integrated-20261021\dist\grid-angular\fesm2022
+packages/grid-angular build: [debug] rollup (v4.62.4) D:\Work\litgrid-p0\.private\v120-integrated-20261021\dist\grid-angular\tmp-typings\tipolox-litgrid-angular.d.ts to D:\Work\litgrid-p0\.private\v120-integrated-20261021\dist\grid-angular\types
+packages/grid-angular build: [debug] [readCacheError]: Error: ENOENT: no such file or directory, open 'D:\Work\litgrid-p0\.private\v120-integrated-20261021\packages\grid-angular\node_modules\.cache\ng-packagr\574b3bf4431665c4f399b103f63dedbb5dc1541d1f7ad54783ca318715f56ec3.json'
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-esm2022/tipolox-litgrid-angular.js
+packages/grid-angular build: [debug] [readCacheError]: Error: ENOENT: no such file or directory, open 'D:\Work\litgrid-p0\.private\v120-integrated-20261021\packages\grid-angular\node_modules\.cache\ng-packagr\574b3bf4431665c4f399b103f63dedbb5dc1541d1f7ad54783ca318715f56ec3.json'
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-typings/tipolox-litgrid-angular.d.ts
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-typings/index.d.ts
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-typings/DataGridComponent.d.ts
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-esm2022/index.js
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-esm2022/DataGridComponent.js
+packages/grid-angular build: [debug] file-loader D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular/tmp-esm2022/gridBindings.js
+packages/grid-angular build: √ Generating FESM and DTS bundles
+packages/grid-angular build: - Copying assets
+packages/grid-angular build: √ Copying assets
+packages/grid-angular build: - Writing package manifest
+packages/grid-angular build: [debug] Writing package.json
+packages/grid-angular build: [debug] Dependency @tipolox/litgrid-web is allowed in 'dependencies'
+packages/grid-angular build: [debug] Dependency tslib is allowed in 'dependencies'
+packages/grid-angular build: i Removing scripts section in package.json as it's considered a potential security vulnerability.
+packages/grid-angular build: i Removing devDependencies section in package.json.
+packages/grid-angular build: √ Writing package manifest
+packages/grid-angular build: √ Built @tipolox/litgrid-angular
+packages/grid-angular build: ------------------------------------------------------------------------------
+packages/grid-angular build: Built Angular Package
+packages/grid-angular build: - from: D:/Work/litgrid-p0/.private/v120-integrated-20261021/packages/grid-angular
+packages/grid-angular build: - to:   D:/Work/litgrid-p0/.private/v120-integrated-20261021/dist/grid-angular
+packages/grid-angular build: ------------------------------------------------------------------------------
+packages/grid-angular build: Build at: 2026-10-21T11:33:34.487Z - Time: 12193ms
+packages/grid-angular build: Embedded original sources in 2 source maps.
+packages/grid-angular build: Done
+apps/playground build$ vite build
+apps/playground build: vite v8.0.8 building client environment for production...
+apps/playground build: [2K
+apps/playground build: transforming...✓ 60 modules transformed.
+apps/playground build: rendering chunks...
+apps/playground build: computing gzip size...
+apps/playground build: dist/index.html                   0.47 kB │ gzip:  0.30 kB
+apps/playground build: dist/assets/index-DTX6i1aT.css    4.30 kB │ gzip:  1.38 kB
+apps/playground build: dist/assets/index-DLxseEAM.js   311.87 kB │ gzip: 90.94 kB
+apps/playground build: ✓ built in 1.21s
+apps/playground build: Done

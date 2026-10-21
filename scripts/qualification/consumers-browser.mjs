@@ -1,0 +1,96 @@
+import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { execFileSync } from 'node:child_process'
+const [playwright, output, nextUrl='http://127.0.0.1:5201', blazorUrl='http://127.0.0.1:5207'] = process.argv.slice(2)
+const {chromium}=await import(pathToFileURL(path.join(playwright,'index.mjs')))
+const browser=await chromium.launch({headless:true})
+let page
+const errors=[],consoleErrors=[]
+try {
+ page=await browser.newPage({viewport:{width:1280,height:900}})
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text())})
+ await page.goto(nextUrl)
+ await page.waitForFunction(()=>window.qualification?.ref.current?.gridElement)
+ const grid=page.locator('yc-grid')
+ await grid.getByText('9007199254740993.01',{exact:true}).waitFor()
+ await grid.getByRole('button',{name:'Next',exact:true}).focus();await page.keyboard.press('Enter')
+ await page.waitForFunction(()=>window.qualification.calls.length===1 && !window.qualification.state.loading)
+ assert.equal(await page.evaluate(()=>window.qualification.state.query.pageIndex),1)
+ // The UI opt-outs apply to menus; the application may explicitly delegate
+ // decimal-string filter values to its server without numeric coercion.
+ await grid.locator('[data-column-key="amount"] .header-action-button').click()
+ assert.equal(await grid.getByRole('button',{name:'Sort Asc',exact:true}).count(),0)
+ assert.equal(await grid.getByRole('button',{name:'Filter',exact:true}).count(),0)
+ await page.keyboard.press('Escape')
+ await page.evaluate(()=>window.qualification.ref.current.setFilter({columnKey:'amount',operator:'greaterThan',value:'9007199254740993.00'}))
+ await page.waitForFunction(()=>!window.qualification.state.loading && window.qualification.state.query.filters.length===1)
+ assert.equal(await page.evaluate(()=>window.qualification.state.query.filters[0].value),'9007199254740993.00')
+ await page.evaluate(()=>window.qualification.ref.current.sortBy('name','asc'))
+ await page.waitForFunction(()=>!window.qualification.state.loading && window.qualification.state.query.sort.direction==='asc')
+ await grid.locator('[data-column-key="name"] .header-action-button').click()
+ await grid.getByRole('button',{name:'Show Quick Search',exact:true}).click()
+ const search=grid.getByRole('textbox',{name:'Quick search'})
+ await search.fill('slow');await page.waitForFunction(()=>window.qualification.calls.at(-1)?.search==='slow')
+ await page.waitForFunction(()=>document.querySelector('yc-grid').shadowRoot.querySelector('.shell')?.getAttribute('aria-busy')==='true')
+ await grid.getByRole('status').filter({hasText:'Loading results.'}).waitFor()
+ await search.fill('fast');await page.waitForFunction(()=>window.qualification.calls.at(-1)?.search==='fast' && !window.qualification.state.loading)
+ await page.waitForTimeout(400)
+ assert.ok(await grid.getByText('account-a/site-a fast unit-a',{exact:true}).isVisible())
+ assert.equal(await search.evaluate(e=>e.getRootNode().activeElement===e),true)
+ await page.evaluate(()=>window.qualification.ref.current.selectRowByKey('unit-a'))
+ assert.deepEqual(await page.evaluate(()=>window.qualification.ref.current.getSelectionSnapshot().rows.map(r=>r.key)),['unit-a'])
+ await search.fill('slow');await page.waitForFunction(()=>window.qualification.calls.at(-1)?.search==='slow')
+ await page.evaluate(()=>{window.qualification.switchScope('account-b/site-b')})
+ await page.waitForFunction(()=>window.qualification.scope==='account-b/site-b' && window.qualification.state.rows[0]?.name==='account-b/site-b Alpha')
+ await page.waitForTimeout(400)
+ assert.deepEqual(await page.evaluate(()=>window.qualification.ref.current.getSelectionSnapshot().rows),[])
+ await grid.getByText('account-b/site-b Alpha',{exact:true}).waitFor()
+ const first=grid.locator('.cell[data-row-index="0"][data-column-index="0"]')
+ await first.focus();await page.keyboard.press('Enter');await page.keyboard.press('ArrowDown');await page.keyboard.press('Control+Space')
+ assert.equal((await page.evaluate(()=>window.qualification.ref.current.getSelectionSnapshot().rows)).length,2)
+ await page.evaluate(()=>window.qualification.ref.current.setQuickSearch('error'))
+ await grid.getByRole('alert').filter({hasText:'Fictional service unavailable'}).waitFor()
+ assert.equal(await grid.locator('.shell').getAttribute('aria-busy'),'false')
+ await page.evaluate(()=>window.qualification.ref.current.setQuickSearch('empty'))
+ await page.waitForFunction(()=>!window.qualification.state.loading && window.qualification.state.total.totalRows===0)
+ await grid.getByRole('status').filter({hasText:'No results.'}).waitFor()
+ await page.evaluate(()=>{const ref=window.qualification.ref.current;const current=ref.getQuery();ref.setExternalState({...current,requestId:current.requestId+1,query:{...current.query,pageIndex:99},rows:[],total:{kind:'known',totalRows:1}})})
+ await grid.getByRole('status').filter({hasText:'Requested page is out of range.'}).waitFor()
+ assert.equal(await grid.getByRole('button',{name:'Previous',exact:true}).isEnabled(),true)
+ assert.equal(await grid.getByRole('button',{name:'Next',exact:true}).isDisabled(),true)
+ await page.evaluate(()=>{const ref=window.qualification.ref.current;const current=ref.getQuery();ref.setExternalState({...current,requestId:current.requestId+1,query:{...current.query,pageIndex:2},rows:[],total:{kind:'unknown',hasMore:true}})})
+ await grid.getByText('Total unknown',{exact:true}).waitFor()
+ assert.equal(await page.evaluate(()=>window.qualification.ref.current.getTotalRowCount()),-1)
+ assert.equal(await grid.getByRole('button',{name:'Next',exact:true}).isEnabled(),true)
+ // Repeated React rendering and mount/unmount after pending requests.
+ const cdp=await page.context().newCDPSession(page);await cdp.send('Performance.enable');await cdp.send('HeapProfiler.collectGarbage')
+ const memory=async()=>(await cdp.send('Performance.getMetrics')).metrics.find(m=>m.name==='JSHeapUsedSize').value
+ const heapBefore=await memory(),renderMs=[]
+ for(let i=0;i<50;i++){const start=performance.now();await page.getByRole('button',{name:'Rerender',exact:true}).click();renderMs.push(performance.now()-start)}
+ const beforeCalls=await page.evaluate(()=>window.qualification.calls.length)
+ await page.evaluate(()=>window.qualification.ref.current.setQuickSearch('slow'))
+ await page.getByRole('button',{name:'Toggle grid',exact:true}).click();await page.waitForTimeout(400)
+ assert.equal(await grid.count(),0)
+ await page.getByRole('button',{name:'Toggle grid',exact:true}).click();await page.waitForFunction(()=>window.qualification.ref.current?.gridElement)
+ await cdp.send('HeapProfiler.collectGarbage');const heapAfter=await memory()
+ assert.deepEqual(errors,[]);assert.deepEqual(consoleErrors,[])
+ const next={result:'PASS',url:nextUrl,requestCount:beforeCalls,hydrationErrors:errors,consoleErrors,renderMs,heapBefore,heapAfter,notes:'50 browser-driven rerenders include Playwright/React/browser scheduling; GC snapshots are observations, not a leak proof.'}
+ await page.goto(blazorUrl)
+ await page.getByText('9007199254740993.01',{exact:true}).waitFor()
+ await page.getByRole('button',{name:'Next',exact:true}).focus();await page.keyboard.press('Enter')
+ await page.getByText('Fictional page 2',{exact:true}).waitFor()
+ assert.equal(await page.locator('#requests').textContent(),'1')
+ await page.locator('yc-grid [data-column-key="amount"] .header-action-button').click()
+ assert.equal(await page.getByRole('button',{name:'Sort Asc',exact:true}).count(),0)
+ await page.keyboard.press('Escape')
+ assert.deepEqual(errors,[])
+ fs.writeFileSync(output,JSON.stringify({node:process.version,browser:browser.version(),next,blazor:{result:'PASS',target:'net8.0',runtime:await page.locator('#runtime').textContent(),sdk:execFileSync('dotnet',['--version'],{encoding:'utf8'}).trim(),roundtrip:'Keyboard Next -> .NET callback -> external state -> rendered page 2',errors}},null,2))
+ console.log('PASS packaged Next/React and Blazor browser roundtrips')
+}catch(error){
+ let snapshot
+ try { snapshot=await page.evaluate(()=>({body:document.body.innerText.slice(0,1000),state:window.qualification?.state,calls:window.qualification?.calls,scope:window.qualification?.scope,query:window.qualification?.ref.current?.getQuery(),rows:[...document.querySelector('yc-grid')?.shadowRoot?.querySelectorAll('.cell')??[]].map(x=>x.textContent)})) }
+ catch(snapshotError){snapshot={url:page?.url(),error:String(snapshotError)}}
+ fs.writeFileSync(output+'.failure.json',JSON.stringify({error:String(error),errors,consoleErrors,snapshot},null,2));throw error
+}finally{await browser.close()}

@@ -1,0 +1,32 @@
+7:37:06 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+7:37:07 PM [vite] (client) [optimizer] scanning dependencies...
+7:37:10 PM [vite] (client) [optimizer] bundling dependencies...
+{
+  "source": "feature",
+  "correctness": "passed",
+  "browser": "156.0.8078.4",
+  "benchmarks": [
+    {
+      "disabled": false,
+      "rows": 100000,
+      "columns": 80,
+      "initialMs": 69.89999999850988,
+      "scrollMedianMs": 70.39999999850988,
+      "scrollP95Ms": 199.39999999850988,
+      "updateMedianMs": 40.30000000447035,
+      "updateP95Ms": 86.59999999403954,
+      "maxCells": 392
+    },
+    {
+      "disabled": true,
+      "rows": 100000,
+      "columns": 80,
+      "initialMs": 57.20000000298023,
+      "scrollMedianMs": 73.10000000149012,
+      "scrollP95Ms": 192.29999999701977,
+      "updateMedianMs": 41.5,
+      "updateP95Ms": 70.59999999403954,
+      "maxCells": 392
+    }
+  ]
+}

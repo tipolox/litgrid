@@ -1,0 +1,410 @@
+[
+  {
+    "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/_debug_node-chunk.d.ts",
+    "line": 12,
+    "code": 2307,
+    "message": "Cannot find module '@angular/core/primitives/di' or its corresponding type declarations.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts",
+    "line": 18,
+    "code": 2307,
+    "message": "Cannot find module '@angular/core/primitives/signals' or its corresponding type declarations.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-signals.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts",
+    "line": 22,
+    "code": 2882,
+    "message": "Cannot find module or type declarations for side-effect import of '@angular/core/primitives/di'.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/expect/dist/index.d.ts",
+    "line": 6,
+    "code": 2307,
+    "message": "Cannot find module '@vitest/utils/display' or its corresponding type declarations.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/utils/dist/display.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts",
+    "line": 1,
+    "code": 2307,
+    "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts",
+    "line": 3,
+    "code": 2307,
+    "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts",
+    "line": 2,
+    "code": 2307,
+    "message": "Cannot find module 'vite/module-runner' or its corresponding type declarations.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/index.d.ts",
+    "line": 31,
+    "code": 2882,
+    "message": "Cannot find module or type declarations for side-effect import of 'vite/module-runner'.   There are types at '<workspace>/.private/v120-candidate/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 171,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'title' does not exist in type 'GridColumn'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 196,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 201,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 208,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 242,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 312,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'totalPages' does not exist in type 'GridPaginationState'."
+  },
+  {
+    "file": "packages/grid-angular/src/DataGridComponent.test.ts",
+    "line": 313,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'selectedRowIndexes' does not exist in type 'GridSelection'."
+  },
+  {
+    "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "line": 73,
+    "code": 18048,
+    "message": "'inputs.data' is possibly 'undefined'."
+  },
+  {
+    "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "line": 74,
+    "code": 18048,
+    "message": "'inputs.data' is possibly 'undefined'."
+  },
+  {
+    "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "line": 75,
+    "code": 18048,
+    "message": "'inputs.columns' is possibly 'undefined'."
+  },
+  {
+    "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "line": 76,
+    "code": 18048,
+    "message": "'inputs.columns' is possibly 'undefined'."
+  },
+  {
+    "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "line": 84,
+    "code": 18048,
+    "message": "'inputs.data' is possibly 'undefined'."
+  },
+  {
+    "file": "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "line": 85,
+    "code": 18048,
+    "message": "'inputs.columns' is possibly 'undefined'."
+  },
+  {
+    "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+    "line": 22,
+    "code": 2683,
+    "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+  },
+  {
+    "file": "packages/grid-blazor/src/partialFailureRetry.test.ts",
+    "line": 90,
+    "code": 2683,
+    "message": "'this' implicitly has type 'any' because it does not have a type annotation."
+  },
+  {
+    "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+    "line": 20,
+    "code": 2345,
+    "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+  },
+  {
+    "file": "packages/grid-core/src/core/GridEngine.bench.ts",
+    "line": 27,
+    "code": 2345,
+    "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+  },
+  {
+    "file": "packages/grid-react/src/DataGrid.test.tsx",
+    "line": 143,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+  },
+  {
+    "file": "packages/grid-react/src/DataGrid.test.tsx",
+    "line": 148,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'."
+  },
+  {
+    "file": "packages/grid-react/src/DataGrid.test.tsx",
+    "line": 155,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'."
+  },
+  {
+    "file": "packages/grid-react/src/DataGrid.test.tsx",
+    "line": 199,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+  },
+  {
+    "file": "packages/grid-react/src/DataGrid.test.tsx",
+    "line": 216,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'totalPages' does not exist in type 'GridPaginationState'."
+  },
+  {
+    "file": "packages/grid-react/src/DataGrid.test.tsx",
+    "line": 222,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'selectedRowIndexes' does not exist in type 'GridSelection'."
+  },
+  {
+    "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+    "line": 9,
+    "code": 2345,
+    "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+  },
+  {
+    "file": "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+    "line": 19,
+    "code": 2345,
+    "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+  },
+  {
+    "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+    "line": 23,
+    "code": 2345,
+    "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+  },
+  {
+    "file": "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+    "line": 29,
+    "code": 2345,
+    "message": "Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.   Type 'number' is not assignable to type 'void | Promise<void>'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 83,
+    "code": 2339,
+    "message": "Property 'gridElement' does not exist on type 'never'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 85,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 89,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 92,
+    "code": 2353,
+    "message": "Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 110,
+    "code": 2339,
+    "message": "Property 'gridElement' does not exist on type 'never'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 117,
+    "code": 2339,
+    "message": "Property 'setQuickSearch' does not exist on type 'never'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 118,
+    "code": 2339,
+    "message": "Property 'setColumnWidth' does not exist on type 'never'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 119,
+    "code": 2339,
+    "message": "Property 'getTotalRowCount' does not exist on type 'never'."
+  },
+  {
+    "file": "packages/grid-vue/src/DataGrid.test.ts",
+    "line": 120,
+    "code": 2339,
+    "message": "Property 'copySelectedRows' does not exist on type 'never'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "line": 51,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "line": 108,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "line": 140,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "line": 167,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "line": 185,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "line": 219,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.clipboard.test.ts",
+    "line": 8,
+    "code": 2790,
+    "message": "The operand of a 'delete' operator must be optional."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+    "line": 44,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+    "line": 59,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+    "line": 74,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+    "line": 85,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 611,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 621,
+    "code": 2339,
+    "message": "Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.   Property 'activeElement' does not exist on type 'DocumentFragment'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 964,
+    "code": 2341,
+    "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 965,
+    "code": 2341,
+    "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 970,
+    "code": 2341,
+    "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 974,
+    "code": 2341,
+    "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+  },
+  {
+    "file": "packages/grid-web/src/components/DataGrid.test.ts",
+    "line": 978,
+    "code": 2341,
+    "message": "Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'."
+  },
+  {
+    "file": "scripts/embed-sourcemap-sources.test.ts",
+    "line": 1,
+    "code": 2591,
+    "message": "Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+  },
+  {
+    "file": "scripts/embed-sourcemap-sources.test.ts",
+    "line": 2,
+    "code": 2591,
+    "message": "Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+  },
+  {
+    "file": "scripts/embed-sourcemap-sources.test.ts",
+    "line": 3,
+    "code": 2591,
+    "message": "Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+  },
+  {
+    "file": "scripts/embed-sourcemap-sources.test.ts",
+    "line": 4,
+    "code": 2591,
+    "message": "Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+  },
+  {
+    "file": "scripts/embed-sourcemap-sources.test.ts",
+    "line": 5,
+    "code": 2591,
+    "message": "Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+  },
+  {
+    "file": "scripts/embed-sourcemap-sources.test.ts",
+    "line": 18,
+    "code": 2591,
+    "message": "Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+  }
+]

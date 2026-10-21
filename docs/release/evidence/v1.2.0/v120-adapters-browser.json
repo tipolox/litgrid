@@ -1,0 +1,6 @@
+{
+  "browser": "156.0.8078.4",
+  "vue": "PASS real Vue createApp mount, query/selection events, decimal strings, unmount cleanup",
+  "angular": "PASS real Angular bootstrapApplication, inputs, query/selection events, decimal strings, destroy cleanup",
+  "errors": []
+}
