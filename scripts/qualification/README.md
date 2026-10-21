@@ -1,34 +1,60 @@
-# Reproducing v1.2.0 qualification
+# Reproducing integrated v1.2.0 qualification
 
-Read [the qualification report](../../docs/release/v1.2.0-qualification.md) for baselines, limitations and the current NO-GO. These scripts use fictional rows and local candidate packages. They never create tags or publish packages. Do not invoke the release workflow or registry publication while reproducing qualification.
+Read [the current report](../../docs/release/v1.2.0-qualification.md). Preserve pre-optimization evidence in `docs/release/evidence/v1.2.0`; refreshed evidence goes in `docs/release/evidence/v1.2.0-integrated`.
 
-Use Node satisfying the selected Angular version's engine requirement, pnpm 10.33.0, a .NET 8 SDK where available, and separately installed Playwright/Chromium. Windows PowerShell should use `pnpm.cmd` / `npm.cmd` if unsigned script launchers are blocked. Git ownership checks may require running the authorized Git commands in the user's normal security context; do not edit global ownership policy as part of these scripts.
+Use a fresh checkout containing main `dc065d58ca2a7c6b0d99b0676750cfeac7b7800b` plus PR #41's qualification infrastructure, and historical v1.1.0 `b8fe0987c6acd74e76e772ce0e27bdddcf20e750`. Preserve other worktrees. Install frozen dependencies. **Keep package versions unchanged at 1.1.0.** Do not run the version setter, create tags, dispatch release workflows, publish packages or deploy.
 
-Create fresh detached checkouts of `206192e999a38c6b944944eabe2724ef4e9f8cef` and `b8fe0987c6acd74e76e772ce0e27bdddcf20e750` in ignored disposable directories. Preserve existing worktrees. Apply only the reviewed qualification fixture/harness changes to the candidate. Install both with `pnpm install --frozen-lockfile`. In the candidate run all tests and standard builds, then the explicit Blazor Release tests/build recorded in the report. Run `node scripts/typecheck-contracts.mjs` from the reviewed qualification tree with its frozen dependencies.
+This refresh uses Node **22.22.3**, pnpm 10.33.0, TypeScript 6.0.3 and Chromium 156.0.8078.4. Node satisfies Angular 22.1.3's `^22.22.3 || ^24.15.0 || >=26` engine. Windows `npm.cmd`/`pnpm.cmd` can pin an older sibling node.exe; invoke package-manager JavaScript CLI entry points through the selected Node executable when necessary. Record the actual runtime and use `npm install --engine-strict` in fresh consumers.
 
-In the **disposable candidate only**, run `node scripts/set-version.mjs 1.2.0`, then rebuild. Pack core, renderer, web, React and Vue using `pnpm --dir packages/<package> pack --pack-destination <absolute-npm-artifact-directory>`. Pack Angular from `dist/grid-angular`. Run `dotnet pack packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release --output <absolute-nuget-artifact-directory>`. Validate with `node scripts/validate-release-artifacts.mjs 1.2.0 <artifact-root>`, whose children are `npm` and `nuget`. No tracked qualification versions should change.
+## Performance
 
-From the repository root, with paths adjusted to your local tool installation:
-
-```text
-node scripts/qualification/prepare-consumer.mjs .private/v120-consumer .private/v120-artifacts/npm
-```
-
-In that fresh consumer run `npm install --no-audit --no-fund`, `node node_modules/typescript/bin/tsc -p tsconfig.api.json`, and `npm run build`. Start production Next on port 5204 with `node node_modules/next/dist/bin/next start -p 5204`. For StrictMode start `next dev -p 5206` and use its declared `http://localhost:5206` origin. Do not inherit repository source aliases: the preparation script sets an isolated Turbopack root and jsconfig.
-
-Prepare a fresh .NET consumer with `node scripts/qualification/prepare-blazor-consumer.mjs .private/v120-blazor-consumer .private/v120-artifacts/nuget`. From its `publish` directory run `dotnet <generated-project-name>.dll --urls http://127.0.0.1:5207`. This serves local production static assets, not build-only production output without static-asset activation.
+Arguments are absolute paths: `<candidate>` is the fresh integrated checkout, `<v110>` the historical checkout, `<playwright>` the external Playwright package directory. Run one harness at a time with tests/builds/servers stopped. The default keyed workload remains #41's original; optional `legacy` omits rowKey on both versions. Historical v1.1.0 ignores rowKey, so its keyed-configured result has index selection rather than equivalent identity guarantees.
 
 ```text
-node scripts/qualification/consumers-browser.mjs <playwright-directory> <result.json> http://127.0.0.1:5204 http://127.0.0.1:5207
-node scripts/qualification/consumers-browser.mjs <playwright-directory> <strict-result.json> http://localhost:5206 http://127.0.0.1:5207
-node scripts/qualification/adapters-browser.mjs .private/v120-consumer <playwright-directory> <adapters-result.json>
-node scripts/qualification/selection-browser.mjs .private/v120-candidate <playwright-directory>
-node scripts/qualification/performance.mjs .private/v120-candidate .private/v110-baseline <playwright-directory> <performance-result.json>
-node scripts/qualification/react-performance.mjs .private/v120-candidate .private/v110-baseline <playwright-directory> <react-performance-result.json>
+node scripts/qualification/performance.mjs <candidate> <v110> <playwright> <evidence>/keyed-1.json
+node scripts/qualification/performance.mjs <candidate> <v110> <playwright> <evidence>/keyed-2.json
+node scripts/qualification/performance.mjs <candidate> <v110> <playwright> <evidence>/keyed-3.json
+node scripts/qualification/performance.mjs <candidate> <v110> <playwright> <evidence>/legacy-1.json legacy
+node scripts/qualification/performance.mjs <candidate> <v110> <playwright> <evidence>/legacy-2.json legacy
+node scripts/qualification/performance.mjs <candidate> <v110> <playwright> <evidence>/legacy-3.json legacy
+node scripts/qualification/react-performance.mjs <candidate> <v110> <playwright> <evidence>/react-1.json
+node scripts/qualification/react-performance.mjs <candidate> <v110> <playwright> <evidence>/react-2.json
+node scripts/qualification/react-performance.mjs <candidate> <v110> <playwright> <evidence>/react-3.json
+node scripts/qualification/integrated-allocations.mjs <candidate> <v110> <playwright> <evidence>/allocations.json
+node scripts/qualification/integrated-interaction.mjs <candidate> <v110> <playwright> <evidence>/first-click.json
+node scripts/qualification/integrated-external.mjs <candidate> <playwright> <evidence>/external-keyed.json
+node scripts/qualification/summarize-integrated.mjs <evidence>
 ```
 
-The external-query browser harness takes a Playwright **module file URL** as its first argument. The monetary harness uses `LITGRID_PLAYWRIGHT_MODULE=<playwright-directory>`. Run those from the candidate root; see their file headers. Stop other test/compiler workloads before performance sampling, alternate runs on identical equipment and preserve raw samples. The performance harness includes keyed/unkeyed core controls and CPU profile summaries, without changing source algorithms.
+Three alternating 20-sample adoption runs give n=60/version/workload. First ten samples/run/workload/version force GC; the next ten use natural GC. Fixture allocation/imports are outside adoption timers; presentation/scroll/selection/heap are separate observations. React gives n=150 updates/version/case. First-click has n=20/version/workload. External gives n=150 per declared total/key mode with changing identities and GC before each 50-commit batch. Allocation/GC profiling is separate, n=30 per case. Raw JSON is compacted without dropping values; tables retain full ranges and nearest-rank p50/p95.
 
-`node scripts/qualification/type-audit.mjs <output.json>` compares original and corrected fixtures under the same installed compiler/dependencies. It intentionally reports the broad root failures. Run actual `pnpm exec tsc --noEmit --pretty false` separately and preserve its nonzero exit and raw output. The consumer API fixture is a template copied into the isolated consumer, where it is compiled against installed declarations; it is not a source-import test.
+Remove only the generated `react-performance-fixture.js` and `react-performance.html` from the candidate after sampling. Vite development optimizer/late-update warnings can occur; page errors are checked independently. Frame waits are not pure CPU or compositor paint measurements.
 
-`collect-evidence.mjs` and `summarize-performance.mjs` collect the run's named `.private/v120-*` files into the documented evidence directory; they support Windows UTF-16 command logs. They do not assert that missing checks passed. Review every result and the exact artifact hashes. A successful browser/DOM run is not a screen-reader smoke test or a WCAG claim.
+## Tests, types and packages
+
+In the fresh candidate run frozen install, `node scripts/typecheck-contracts.mjs`, all four `packages/grid-web/tests/tsconfig.{compatibility,columnControls,selection,externalQuery}.json` checks, `pnpm test`, `pnpm build`, and Blazor Release tests/build. Record actual broad `tsc --noEmit --pretty false` exit codes/diagnostics before and after builds. `type-audit.mjs` compares old/corrected fixtures under the same compiler; it does not make the root check green.
+
+Pack core/renderer/web/React/Vue from `packages/grid-*`, Angular from `dist/grid-angular`, and NuGet from the Blazor project into a fresh ignored artifact directory. Validate with `node scripts/validate-release-artifacts.mjs 1.1.0 <artifact-root>`. Generate and verify SHA-256 values. These are local unchanged-version archives, not registry publication.
+
+```text
+node scripts/qualification/prepare-consumer.mjs <fresh-consumer> <artifact-root>/npm
+```
+
+The preparer infers the unchanged archive version. Run supported-Node `npm install --engine-strict --no-audit --no-fund`, strict `tsc -p tsconfig.api.json`, inspect `npm ls`, then `next build` in that consumer. Start production Next on 5314 and development StrictMode on 5316. Next has an isolated Turbopack root; source aliases must not replace installed packages.
+
+```text
+node scripts/qualification/prepare-blazor-consumer.mjs <fresh-blazor> <artifact-root>/nuget
+```
+
+The Blazor preparer infers the local archive version, uses a fresh per-consumer NuGet cache, and maps Tipolox.LitGrid.Blazor exclusively to the local feed. This prevents an older globally cached 1.1.0 package from substituting for the candidate. `dotnet publish` creates local runnable output only. Serve its DLL from the generated publish directory on 5317. The manifest records paths/version; compare installed static JS with the archive and candidate build.
+
+```text
+node scripts/qualification/consumers-browser.mjs <playwright> <production-result.json> http://127.0.0.1:5314 http://127.0.0.1:5317
+node scripts/qualification/consumers-browser.mjs <playwright> <strict-result.json> http://localhost:5316 http://127.0.0.1:5317
+node scripts/qualification/adapters-browser.mjs <fresh-consumer> <playwright> <adapters-result.json>
+node scripts/qualification/selection-browser.mjs <candidate> <playwright>
+```
+
+Run the monetary browser harness with `LITGRID_PLAYWRIGHT_MODULE=<playwright>`; external-query takes a Playwright module file URL. Stop only servers started for this qualification. Keyboard/DOM/ARIA checks do not verify spoken screen-reader output or establish WCAG certification. Budgets need separate founder approval and independent review; fitting post-hoc thresholds is not release approval.
+
+`node scripts/qualification/propose-budget.mjs <evidence>` reproduces the descriptive proposed-threshold comparisons. It does not enforce an approved release budget or constitute founder approval.

@@ -1,0 +1,17 @@
+node : node:internal/modules/run_main:123
+At line:2 char:1274
++ ... skDev.Id)"; node scripts/qualification/consumers-browser.mjs D:/Work/ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:123:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+    triggerUncaughtException(
+    ^
+
+page.evaluate: Execution context was destroyed, most likely because of a navigation
+    at D:\Work\litgrid-p0\scripts\qualification\consumers-browser.mjs:92:119 {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v22.22.3

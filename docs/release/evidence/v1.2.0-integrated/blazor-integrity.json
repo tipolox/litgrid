@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "version": "1.1.0",
+  "archiveEntry": "staticwebassets/litgrid-blazor.js",
+  "archiveAssetSha256": "f0a4acd0f5a165687a3a93172a1aeb32e497afaf880ee680fabed3733faefdc3",
+  "hashes": {
+    "integrated_build": "f0a4acd0f5a165687a3a93172a1aeb32e497afaf880ee680fabed3733faefdc3",
+    "isolated_installed_nuget": "f0a4acd0f5a165687a3a93172a1aeb32e497afaf880ee680fabed3733faefdc3",
+    "published_local_asset": "f0a4acd0f5a165687a3a93172a1aeb32e497afaf880ee680fabed3733faefdc3",
+    "qualification_git_blob": "f0a4acd0f5a165687a3a93172a1aeb32e497afaf880ee680fabed3733faefdc3"
+  },
+  "checkoutNote": "Git working-tree CRLF normalized when comparing checkout text with the LF Git blob. Archive/cache/published asset bytes match exactly.",
+  "note": "Fresh per-consumer cache; exact package-source mapping selects the local archive.",
+  "servedAssetSha256": "f0a4acd0f5a165687a3a93172a1aeb32e497afaf880ee680fabed3733faefdc3"
+}

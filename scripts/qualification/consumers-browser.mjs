@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { execFileSync } from 'node:child_process'
 const [playwright, output, nextUrl='http://127.0.0.1:5201', blazorUrl='http://127.0.0.1:5207'] = process.argv.slice(2)
 const {chromium}=await import(pathToFileURL(path.join(playwright,'index.mjs')))
 const browser=await chromium.launch({headless:true})
@@ -85,8 +86,11 @@ try {
  assert.equal(await page.getByRole('button',{name:'Sort Asc',exact:true}).count(),0)
  await page.keyboard.press('Escape')
  assert.deepEqual(errors,[])
- fs.writeFileSync(output,JSON.stringify({browser:browser.version(),next,blazor:{result:'PASS',target:'net8.0',runtime:'8.0.12',sdk:'10.0.402',roundtrip:'Keyboard Next -> .NET callback -> external state -> rendered page 2',errors}},null,2))
+ fs.writeFileSync(output,JSON.stringify({node:process.version,browser:browser.version(),next,blazor:{result:'PASS',target:'net8.0',runtime:await page.locator('#runtime').textContent(),sdk:execFileSync('dotnet',['--version'],{encoding:'utf8'}).trim(),roundtrip:'Keyboard Next -> .NET callback -> external state -> rendered page 2',errors}},null,2))
  console.log('PASS packaged Next/React and Blazor browser roundtrips')
 }catch(error){
- fs.writeFileSync(output+'.failure.json',JSON.stringify({error:String(error),errors,consoleErrors,snapshot:await page.evaluate(()=>({body:document.body.innerText.slice(0,1000),state:window.qualification?.state,calls:window.qualification?.calls,scope:window.qualification?.scope,query:window.qualification?.ref.current?.getQuery(),rows:[...document.querySelector('yc-grid')?.shadowRoot?.querySelectorAll('.cell')??[]].map(x=>x.textContent)}))},null,2));throw error
+ let snapshot
+ try { snapshot=await page.evaluate(()=>({body:document.body.innerText.slice(0,1000),state:window.qualification?.state,calls:window.qualification?.calls,scope:window.qualification?.scope,query:window.qualification?.ref.current?.getQuery(),rows:[...document.querySelector('yc-grid')?.shadowRoot?.querySelectorAll('.cell')??[]].map(x=>x.textContent)})) }
+ catch(snapshotError){snapshot={url:page?.url(),error:String(snapshotError)}}
+ fs.writeFileSync(output+'.failure.json',JSON.stringify({error:String(error),errors,consoleErrors,snapshot},null,2));throw error
 }finally{await browser.close()}

@@ -1,0 +1,304 @@
+{
+  "status": "PROPOSED ONLY — founder approval absent",
+  "performanceVerdict": "INCONCLUSIVE pending an accepted workload budget and independent review",
+  "scope": "Same fixed Windows/Chromium fixture, 1280x900, 30k/100k local rows, 120/200 columns, exact GC/sampling protocol in report. Not a universal production SLA.",
+  "warning": "Thresholds were proposed after viewing this evidence. Within-proposal observations are descriptive, not an approved budget PASS. Obtain owner decision and validate prospectively during release preparation.",
+  "checks": [
+    {
+      "metric": "adoption p50",
+      "scope": "keyed/30000/120",
+      "observed": 16.399999998509884,
+      "proposedLimit": 20,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p95",
+      "scope": "keyed/30000/120",
+      "observed": 29.69999999552965,
+      "proposedLimit": 35,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p50",
+      "scope": "keyed/30000/200",
+      "observed": 16.700000002980232,
+      "proposedLimit": 20,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p95",
+      "scope": "keyed/30000/200",
+      "observed": 27.399999998509884,
+      "proposedLimit": 35,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p50",
+      "scope": "keyed/100000/120",
+      "observed": 38.399999998509884,
+      "proposedLimit": 45,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p95",
+      "scope": "keyed/100000/120",
+      "observed": 57.899999998509884,
+      "proposedLimit": 75,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p50",
+      "scope": "keyed/100000/200",
+      "observed": 37.70000000298023,
+      "proposedLimit": 45,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "adoption p95",
+      "scope": "keyed/100000/200",
+      "observed": 66.20000000298023,
+      "proposedLimit": 75,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "legacy adoption p95",
+      "scope": "legacy/30000/120",
+      "observed": 20.30000000447035,
+      "proposedLimit": 27.19999999552965,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "legacy adoption p95",
+      "scope": "legacy/30000/200",
+      "observed": 18.899999998509884,
+      "proposedLimit": 22.299999997019768,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "legacy adoption p95",
+      "scope": "legacy/100000/120",
+      "observed": 26.599999994039536,
+      "proposedLimit": 29.100000001490116,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "legacy adoption p95",
+      "scope": "legacy/100000/200",
+      "observed": 21.600000001490116,
+      "proposedLimit": 28.100000001490116,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React update incl. two frames p95",
+      "scope": "30000/fresh=false",
+      "observed": 34.600000001490116,
+      "proposedLimit": 40,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React render p95",
+      "scope": "30000/fresh=false",
+      "observed": 0.5999999940395355,
+      "proposedLimit": 1,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React update incl. two frames p95",
+      "scope": "30000/fresh=true",
+      "observed": 34.600000001490116,
+      "proposedLimit": 40,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React render p95",
+      "scope": "30000/fresh=true",
+      "observed": 0.5,
+      "proposedLimit": 1,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React update incl. two frames p95",
+      "scope": "100000/fresh=false",
+      "observed": 34.5,
+      "proposedLimit": 40,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React render p95",
+      "scope": "100000/fresh=false",
+      "observed": 0.30000000447034836,
+      "proposedLimit": 1,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React update incl. two frames p95",
+      "scope": "100000/fresh=true",
+      "observed": 34.600000001490116,
+      "proposedLimit": 40,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "React render p95",
+      "scope": "100000/fresh=true",
+      "observed": 0.30000000447034836,
+      "proposedLimit": 1,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click dispatch p95",
+      "scope": "30000/120",
+      "observed": 1.2999999970197678,
+      "proposedLimit": 2,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click through Lit update p95",
+      "scope": "30000/120",
+      "observed": 10.299999997019768,
+      "proposedLimit": 16.7,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click dispatch p95",
+      "scope": "30000/200",
+      "observed": 0.5,
+      "proposedLimit": 2,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click through Lit update p95",
+      "scope": "30000/200",
+      "observed": 11.200000002980232,
+      "proposedLimit": 16.7,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click dispatch p95",
+      "scope": "100000/120",
+      "observed": 0.3999999985098839,
+      "proposedLimit": 2,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click through Lit update p95",
+      "scope": "100000/120",
+      "observed": 11.700000002980232,
+      "proposedLimit": 16.7,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click dispatch p95",
+      "scope": "100000/200",
+      "observed": 0.3999999985098839,
+      "proposedLimit": 2,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "first click through Lit update p95",
+      "scope": "100000/200",
+      "observed": 13.200000002980232,
+      "proposedLimit": 16.7,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "20-row external commit p95",
+      "scope": "total=352",
+      "observed": 3.0999999940395355,
+      "proposedLimit": 5,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "external identity reads max",
+      "scope": "total=352",
+      "observed": 20,
+      "proposedLimit": 24,
+      "unit": "reads",
+      "withinProposal": true
+    },
+    {
+      "metric": "20-row external commit p95",
+      "scope": "total=30000",
+      "observed": 3.5,
+      "proposedLimit": 5,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "external identity reads max",
+      "scope": "total=30000",
+      "observed": 20,
+      "proposedLimit": 24,
+      "unit": "reads",
+      "withinProposal": true
+    },
+    {
+      "metric": "20-row external commit p95",
+      "scope": "total=100000",
+      "observed": 3.2000000029802322,
+      "proposedLimit": 5,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "external identity reads max",
+      "scope": "total=100000",
+      "observed": 20,
+      "proposedLimit": 24,
+      "unit": "reads",
+      "withinProposal": true
+    },
+    {
+      "metric": "20-row external commit p95",
+      "scope": "total=1000000000",
+      "observed": 2.6999999955296516,
+      "proposedLimit": 5,
+      "unit": "ms",
+      "withinProposal": true
+    },
+    {
+      "metric": "external identity reads max",
+      "scope": "total=1000000000",
+      "observed": 20,
+      "proposedLimit": 24,
+      "unit": "reads",
+      "withinProposal": true
+    },
+    {
+      "metric": "100k core keyed cold setData p95",
+      "scope": "100000",
+      "observed": 34.5,
+      "proposedLimit": 45,
+      "unit": "ms",
+      "withinProposal": true
+    }
+  ]
+}

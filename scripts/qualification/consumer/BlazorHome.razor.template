@@ -3,6 +3,7 @@
 @using Tipolox.LitGrid.Blazor
 <h1>Fictional Blazor properties</h1>
 <output id="requests">@requests</output>
+<output id="runtime">@Environment.Version</output>
 <DataGrid TItem="Row" Columns="columns" Config="config" ExternalState="state" OnQueryChange="QueryChanged" />
 @code {
     public record Row(string id, string name, string amount);
