@@ -665,7 +665,9 @@ function normalizeConfig(config = {}) {
 	return {
 		selection: {
 			mode: config.selection?.mode ?? "none",
-			checkboxes: config.selection?.checkboxes ?? false
+			checkboxes: config.selection?.checkboxes ?? false,
+			rowKey: config.selection?.rowKey,
+			scopeKey: config.selection?.scopeKey
 		},
 		rowHeader: {
 			enabled: config.rowHeader?.enabled ?? false,
@@ -863,10 +865,107 @@ function paginateData(data, pagination) {
 	return data.slice(start, start + pagination.pageSize);
 }
 //#endregion
+//#region ../grid-core/dist/features/selection/selectionCoordination.js
+function readKey(row, property) {
+	const key = row != null && typeof row === "object" ? Reflect.get(row, property) : null;
+	return typeof key === "string" || typeof key === "number" && Number.isFinite(key) ? key : null;
+}
+/** Indexes are rebuilt on data/view transitions, never on individual clicks. */
+function createSelectionCoordination(state) {
+	let uniqueKeys = /* @__PURE__ */ new Set();
+	let displayedKeys = /* @__PURE__ */ new Map();
+	const listeners = /* @__PURE__ */ new Set();
+	function keyAt(rowIndex) {
+		const property = state.config.selection.rowKey;
+		if (property === void 0) return null;
+		const key = readKey(state.data[rowIndex], property);
+		return key !== null && uniqueKeys.has(key) ? key : null;
+	}
+	function snapshot() {
+		const selection = state.selection;
+		const indexes = new Set(selection.rowIndexes);
+		for (const cell of selection.cells) indexes.add(Number(cell.slice(0, cell.indexOf(":"))));
+		return Object.freeze({
+			scopeKey: state.config.selection.scopeKey,
+			mode: selection.mode,
+			rowIndex: selection.rowIndex,
+			columnKey: selection.columnKey,
+			anchorRowIndex: selection.anchorRowIndex,
+			rowIndexes: Object.freeze([...selection.rowIndexes]),
+			cells: Object.freeze([...selection.cells]),
+			rows: Object.freeze([...indexes].filter((index) => Number.isInteger(index) && index >= 0 && index < state.data.length).map((rowIndex) => Object.freeze({
+				rowIndex,
+				row: state.data[rowIndex],
+				key: keyAt(rowIndex)
+			})))
+		});
+	}
+	let current = snapshot();
+	function commit() {
+		const next = snapshot();
+		if (next.scopeKey === current.scopeKey && next.mode === current.mode && next.rowIndex === current.rowIndex && next.columnKey === current.columnKey && next.anchorRowIndex === current.anchorRowIndex && next.rowIndexes.length === current.rowIndexes.length && next.rowIndexes.every((index, i) => index === current.rowIndexes[i]) && next.cells.length === current.cells.length && next.cells.every((cell, i) => cell === current.cells[i]) && next.rows.length === current.rows.length && next.rows.every((row, i) => row.rowIndex === current.rows[i].rowIndex && row.key === current.rows[i].key && row.row === current.rows[i].row)) return;
+		current = next;
+		for (const listener of [...listeners]) listener(next);
+	}
+	function rebuildKeys() {
+		uniqueKeys = /* @__PURE__ */ new Set();
+		const duplicates = /* @__PURE__ */ new Set();
+		const property = state.config.selection.rowKey;
+		if (property === void 0) return;
+		for (const row of state.originalData) {
+			const key = readKey(row, property);
+			if (key === null) continue;
+			if (uniqueKeys.has(key)) duplicates.add(key);
+			uniqueKeys.add(key);
+		}
+		for (const key of duplicates) uniqueKeys.delete(key);
+	}
+	function reconcile() {
+		displayedKeys = /* @__PURE__ */ new Map();
+		if (state.config.selection.rowKey !== void 0) for (let index = 0; index < state.data.length; index++) {
+			const key = keyAt(index);
+			if (key !== null) displayedKeys.set(key, index);
+		}
+		if (state.selection.rowIndexes.size) {
+			const remap = /* @__PURE__ */ new Map();
+			for (const row of current.rows) {
+				const index = state.config.selection.rowKey !== void 0 ? row.key === null ? void 0 : displayedKeys.get(row.key) : state.data[row.rowIndex] === row.row ? row.rowIndex : void 0;
+				if (index !== void 0) remap.set(row.rowIndex, index);
+			}
+			state.selection = {
+				...state.selection,
+				rowIndexes: new Set([...state.selection.rowIndexes].flatMap((index) => {
+					const next = remap.get(index);
+					return next === void 0 ? [] : [next];
+				})),
+				rowIndex: remap.get(state.selection.rowIndex) ?? null,
+				anchorRowIndex: remap.get(state.selection.anchorRowIndex) ?? null
+			};
+			if (!state.selection.rowIndexes.size) state.selection = createEmptySelection(state.selection.mode);
+		} else if (state.selection.cells.size && current.rows.some((row) => state.data[row.rowIndex] !== row.row || keyAt(row.rowIndex) !== row.key)) state.selection = createEmptySelection(state.selection.mode);
+		commit();
+	}
+	return {
+		rebuildKeys,
+		reconcile,
+		commit,
+		canSelect: (index) => Number.isInteger(index) && index >= 0 && index < state.data.length && (state.config.selection.rowKey === void 0 || keyAt(index) !== null),
+		indexForKey: (key) => displayedKeys.get(key),
+		getSelectableRowCount: () => state.config.selection.rowKey === void 0 ? state.data.length : displayedKeys.size,
+		getSnapshot: () => current,
+		subscribe(listener) {
+			listeners.add(listener);
+			return () => {
+				listeners.delete(listener);
+			};
+		}
+	};
+}
+//#endregion
 //#region ../grid-core/dist/core/createGridEngine.js
 function createGridEngine(config = {}) {
 	const initialConfig = normalizeConfig(config);
-	let state = {
+	const state = {
 		config: initialConfig,
 		originalData: [],
 		transformedData: [],
@@ -880,6 +979,7 @@ function createGridEngine(config = {}) {
 		pagination: createPaginationState(initialConfig.pagination.enabled, initialConfig.pagination.pageSize, initialConfig.pagination.pageIndex),
 		selection: createEmptySelection(initialConfig.selection.mode)
 	};
+	const coordination = createSelectionCoordination(state);
 	function refreshData() {
 		state.transformedData = applyDataTransforms(state.originalData, state.quickSearchQuery, state.filters, state.sort);
 		const pageCount = Math.ceil(state.transformedData.length / state.pagination.pageSize);
@@ -890,6 +990,7 @@ function createGridEngine(config = {}) {
 			pageIndex: clampPageIndex(state.pagination.pageIndex, pageCount)
 		};
 		state.data = paginateData(state.transformedData, state.pagination);
+		coordination.reconcile();
 	}
 	function resetPage() {
 		state.pagination = {
@@ -897,19 +998,23 @@ function createGridEngine(config = {}) {
 			pageIndex: 0
 		};
 	}
-	return {
+	const engine = {
 		setConfig(config) {
 			const nextConfig = normalizeConfig(config);
+			const reset = state.selection.mode !== nextConfig.selection.mode || state.config.selection.rowKey !== nextConfig.selection.rowKey || state.config.selection.scopeKey !== nextConfig.selection.scopeKey;
+			const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey;
+			if (reset) state.selection = createEmptySelection(nextConfig.selection.mode);
 			state.config = nextConfig;
+			if (keyChanged) coordination.rebuildKeys();
 			state.pagination = createPaginationState(nextConfig.pagination.enabled, nextConfig.pagination.pageSize, nextConfig.pagination.pageIndex, state.transformedData.length);
 			refreshData();
-			if (state.selection.mode !== nextConfig.selection.mode) state.selection = createEmptySelection(nextConfig.selection.mode);
 		},
 		getConfig() {
 			return state.config;
 		},
 		setData(data) {
 			state.originalData = data ?? [];
+			coordination.rebuildKeys();
 			resetPage();
 			refreshData();
 		},
@@ -949,6 +1054,7 @@ function createGridEngine(config = {}) {
 				pageIndex: clampPageIndex(nextPageIndex, state.pagination.pageCount)
 			};
 			state.data = paginateData(state.transformedData, state.pagination);
+			coordination.reconcile();
 		},
 		setPageSize(pageSize) {
 			if (!Number.isFinite(pageSize) || pageSize <= 0) return;
@@ -987,33 +1093,57 @@ function createGridEngine(config = {}) {
 		getRowCount() {
 			return state.data.length;
 		},
+		getSelectableRowCount: coordination.getSelectableRowCount,
 		getVisibleRows(startIndex, endIndex) {
 			return state.data.slice(startIndex, endIndex);
 		},
 		selectRow(rowIndex, intent = "replace") {
+			if (state.config.selection.rowKey !== void 0 && !coordination.canSelect(rowIndex)) return;
 			const nextSelection = getNextRowSelection(state.selection, state.config.selection.mode, rowIndex, intent);
-			if (nextSelection) state.selection = nextSelection;
+			if (nextSelection) {
+				state.selection = nextSelection;
+				for (const index of state.selection.rowIndexes) if (state.config.selection.rowKey !== void 0 && !coordination.canSelect(index)) state.selection.rowIndexes.delete(index);
+				coordination.commit();
+			}
 		},
+		selectRowByKey(key, intent = "replace") {
+			const index = coordination.indexForKey(key);
+			if (index === void 0 || !["row", "multi-row"].includes(state.selection.mode)) return false;
+			engine.selectRow(index, intent);
+			return true;
+		},
+		getSelectionSnapshot: coordination.getSnapshot,
+		onSelectionChange: coordination.subscribe,
 		selectAllRows() {
 			if (state.config.selection.mode !== "multi-row") return;
 			const rowIndexes = /* @__PURE__ */ new Set();
-			for (let rowIndex = 0; rowIndex < state.data.length; rowIndex += 1) rowIndexes.add(rowIndex);
+			for (let rowIndex = 0; rowIndex < state.data.length; rowIndex += 1) if (coordination.canSelect(rowIndex)) rowIndexes.add(rowIndex);
 			state.selection = {
 				...createEmptySelection("multi-row"),
-				rowIndex: state.data.length > 0 ? state.data.length - 1 : null,
-				anchorRowIndex: state.data.length > 0 ? 0 : null,
+				rowIndex: [...rowIndexes].at(-1) ?? null,
+				anchorRowIndex: rowIndexes.values().next().value ?? null,
 				rowIndexes
 			};
+			coordination.commit();
 		},
 		selectCell(rowIndex, columnKey) {
+			if (state.config.selection.rowKey !== void 0 && !coordination.canSelect(rowIndex)) return;
 			const nextSelection = getNextCellSelection(state.selection, state.config.selection.mode, rowIndex, columnKey);
-			if (nextSelection) state.selection = nextSelection;
+			if (nextSelection) {
+				state.selection = nextSelection;
+				coordination.commit();
+			}
 		},
 		clearSelection() {
 			state.selection = createEmptySelection(state.config.selection.mode);
+			coordination.commit();
 		},
 		getSelection() {
-			return state.selection;
+			return {
+				...state.selection,
+				rowIndexes: new Set(state.selection.rowIndexes),
+				cells: new Set(state.selection.cells)
+			};
 		},
 		isRowSelected(rowIndex) {
 			return (state.selection.mode === "row" || state.selection.mode === "multi-row") && state.selection.rowIndexes.has(rowIndex);
@@ -1022,6 +1152,7 @@ function createGridEngine(config = {}) {
 			return (state.selection.mode === "cell" || state.selection.mode === "multi-cell") && state.selection.cells.has(getCellKey(rowIndex, columnKey));
 		}
 	};
+	return engine;
 }
 //#endregion
 //#region ../grid-renderer/dist/utils/math.js
@@ -1591,6 +1722,14 @@ var DataGrid = class DataGrid extends i$2 {
 		this.ariaLabel = "Data grid";
 		this.ariaDescription = "";
 		this.screenReaderAnnouncements = true;
+		this.engine.onSelectionChange((detail) => {
+			this.requestUpdate();
+			this.dispatchEvent(new CustomEvent("selection-change", {
+				detail,
+				bubbles: true,
+				composed: true
+			}));
+		});
 	}
 	static {
 		this.styles = [
@@ -2575,6 +2714,10 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	announceRowSelection(rowIndex, intent = "replace") {
 		const anchor = this.engine.getSelection().anchorRowIndex ?? rowIndex;
+		if (intent === "range" && this.engine.getConfig().selection.rowKey !== void 0) {
+			this.announceScreenReader(`${this.getDisplayedSelectedRowCount()} displayed rows selected.`);
+			return;
+		}
 		this.announceScreenReader(intent === "range" && anchor !== rowIndex ? `Rows ${Math.min(anchor, rowIndex) + 1} through ${Math.max(anchor, rowIndex) + 1} selected.` : `Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? "selected" : "deselected"}.`);
 	}
 	announceCellSelection(rowIndex, columnKey) {
@@ -2801,11 +2944,16 @@ var DataGrid = class DataGrid extends i$2 {
 		if (!unchanged) this.announceRowSelection(rowIndex, effectiveIntent);
 		this.requestUpdate();
 	}
+	announceAllRowsSelected() {
+		const count = this.engine.getSelectableRowCount();
+		const qualifier = count === this.engine.getRowCount() ? "" : "selectable ";
+		this.announceScreenReader(`All ${count} ${qualifier}displayed rows selected.`);
+	}
 	selectAllRows() {
-		if (this.engine.getConfig().selection.mode !== "multi-row" || this.engine.getRowCount() === 0) return;
-		const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getRowCount();
+		if (this.engine.getConfig().selection.mode !== "multi-row" || this.engine.getSelectableRowCount() === 0) return;
+		const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getSelectableRowCount();
 		this.engine.selectAllRows();
-		if (!unchanged) this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`);
+		if (!unchanged) this.announceAllRowsSelected();
 		this.requestUpdate();
 	}
 	clearSelection() {
@@ -2817,6 +2965,19 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	getSelection() {
 		return this.engine.getSelection();
+	}
+	getSelectionSnapshot() {
+		return this.engine.getSelectionSnapshot();
+	}
+	selectRowByKey(key, intent) {
+		const previous = this.engine.getSelectionSnapshot();
+		const selected = this.engine.selectRowByKey(key, intent);
+		const next = this.engine.getSelectionSnapshot();
+		if (selected && next !== previous) {
+			const index = next.rows.find((row) => row.key === key)?.rowIndex ?? previous.rows.find((row) => row.key === key)?.rowIndex;
+			if (index !== void 0) this.announceRowSelection(index, intent);
+		}
+		return selected;
 	}
 	isRowSelected(rowIndex) {
 		return this.engine.isRowSelected(rowIndex);
@@ -3403,18 +3564,15 @@ var DataGrid = class DataGrid extends i$2 {
 		this.selectRow(rowIndex, "toggle");
 	}
 	getDisplayedSelectedRowCount() {
-		const rowCount = this.engine.getRowCount();
-		let selectedCount = 0;
-		for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) if (this.engine.isRowSelected(rowIndex)) selectedCount += 1;
-		return selectedCount;
+		return this.engine.getSelectionSnapshot().rowIndexes.length;
 	}
 	areAllDisplayedRowsSelected() {
-		const rowCount = this.engine.getRowCount();
+		const rowCount = this.engine.getSelectableRowCount();
 		return rowCount > 0 && this.getDisplayedSelectedRowCount() === rowCount;
 	}
 	hasPartiallySelectedDisplayedRows() {
 		const selectedCount = this.getDisplayedSelectedRowCount();
-		return selectedCount > 0 && selectedCount < this.engine.getRowCount();
+		return selectedCount > 0 && selectedCount < this.engine.getSelectableRowCount();
 	}
 	handleSelectAllRows() {
 		if (this.areAllDisplayedRowsSelected()) {
@@ -3422,7 +3580,7 @@ var DataGrid = class DataGrid extends i$2 {
 			this.announceScreenReader("All displayed rows deselected.");
 		} else {
 			this.engine.selectAllRows();
-			this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`);
+			this.announceAllRowsSelected();
 		}
 		this.requestUpdate();
 	}
@@ -3650,7 +3808,7 @@ var DataGrid = class DataGrid extends i$2 {
                         aria-label="Select all displayed rows"
                         .checked=${this.areAllDisplayedRowsSelected()}
                         .indeterminate=${this.hasPartiallySelectedDisplayedRows()}
-                        ?disabled=${this.engine.getRowCount() === 0}
+                        ?disabled=${this.engine.getSelectableRowCount() === 0}
                         @change=${() => this.handleSelectAllRows()}
                       />` : b`<span>#</span>`}
                 </div>
@@ -3903,11 +4061,6 @@ function syncGridInputs(grid, inputs) {
 		const declarative = effective.declarativeColumns ?? previous.declarativeColumns === true;
 		const extended = supportsDeclarations(grid) ? grid : void 0;
 		if (declarative && !extended) throw new Error("LitGrid declarative columns require inferColumns and updateColumnSchema support.");
-		if (effective.data !== void 0) {
-			touched.add("data");
-			grid.data = effective.data;
-			captured.data = effective.data;
-		}
 		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
 			touched.add("declarativeColumns");
 			extended.inferColumns = !declarative;
@@ -3955,6 +4108,8 @@ function syncGridInputs(grid, inputs) {
 			const comparison = config ? JSON.stringify([
 				config.selection?.mode ?? "none",
 				config.selection?.checkboxes ?? false,
+				config.selection?.rowKey,
+				config.selection?.scopeKey,
 				config.rowHeader?.enabled ?? false,
 				config.rowHeader?.width ?? 56,
 				config.pagination?.enabled ?? false,
@@ -3967,6 +4122,11 @@ function syncGridInputs(grid, inputs) {
 				previous[key] = comparison;
 			}
 			captured[key] = captureValue(key, value);
+		}
+		if (effective.data !== void 0) {
+			touched.add("data");
+			grid.data = effective.data;
+			captured.data = effective.data;
 		}
 		state.comparisons = previous;
 		state.values = captured;
@@ -3986,8 +4146,10 @@ function requireGrid(element) {
 }
 function initGrid(element, dotNetHelper, inputs) {
 	const grid = requireGrid(element);
-	syncGridInputs(grid, inputs);
 	disposeGrid(element);
+	const onSelectionChange = (event) => {
+		if (event.target === grid) dotNetHelper.invokeMethodAsync("HandleSelectionChange", event.detail);
+	};
 	const onStateChange = (event) => {
 		const detail = event.detail;
 		dotNetHelper.invokeMethodAsync("HandleColumnStateChange", detail);
@@ -4001,13 +4163,16 @@ function initGrid(element, dotNetHelper, inputs) {
 		dotNetHelper.invokeMethodAsync("HandleColumnVisibilityChange", detail);
 	};
 	grid.addEventListener("column-state-change", onStateChange);
+	grid.addEventListener("selection-change", onSelectionChange);
 	grid.addEventListener("column-reorder", onReorder);
 	grid.addEventListener("column-visibility-change", onVisibilityChange);
 	activeListeners.set(element, {
+		onSelectionChange,
 		onStateChange,
 		onReorder,
 		onVisibilityChange
 	});
+	syncGridInputs(grid, inputs);
 }
 function updateInputs(element, inputs) {
 	syncGridInputs(requireGrid(element), inputs);
@@ -4016,6 +4181,7 @@ function disposeGrid(element) {
 	const listeners = activeListeners.get(element);
 	if (listeners && element) {
 		element.removeEventListener("column-state-change", listeners.onStateChange);
+		element.removeEventListener("selection-change", listeners.onSelectionChange);
 		element.removeEventListener("column-reorder", listeners.onReorder);
 		element.removeEventListener("column-visibility-change", listeners.onVisibilityChange);
 		activeListeners.delete(element);
@@ -4133,6 +4299,12 @@ function selectRow(element, rowIndex, intent) {
 function selectAllRows(element) {
 	requireGrid(element).selectAllRows();
 }
+function selectRowByKey(element, key, intent) {
+	return requireGrid(element).selectRowByKey(key, intent);
+}
+function getSelectionSnapshot(element) {
+	return requireGrid(element).getSelectionSnapshot();
+}
 function clearSelection(element) {
 	requireGrid(element).clearSelection();
 }
@@ -4165,6 +4337,6 @@ function isCellSelected(element, rowIndex, columnKey) {
 	return requireGrid(element).isCellSelected(rowIndex, columnKey);
 }
 //#endregion
-export { bestFitAllColumns, bestFitColumn, clearFilter, clearQuickSearch, clearSelection, copySelectedCells, copySelectedRows, disposeGrid, getColumnOrder, getColumnState, getColumnWidth, getFilters, getPagination, getQuickSearch, getRowHeight, getSelection, getTotalRowCount, getVisibleColumnKeys, initGrid, isCellSelected, isColumnVisible, isRowSelected, moveColumn, resetAllColumnWidths, resetAllRowHeights, resetColumnOrder, resetColumnState, resetColumnVisibility, resetColumnWidth, resetRowHeight, selectAllRows, selectRow, setColumnOrder, setColumnState, setColumnVisible, setColumnWidth, setFilter, setPage, setPageSize, setQuickSearch, setRowHeight, syncGridInputs, updateInputs };
+export { bestFitAllColumns, bestFitColumn, clearFilter, clearQuickSearch, clearSelection, copySelectedCells, copySelectedRows, disposeGrid, getColumnOrder, getColumnState, getColumnWidth, getFilters, getPagination, getQuickSearch, getRowHeight, getSelection, getSelectionSnapshot, getTotalRowCount, getVisibleColumnKeys, initGrid, isCellSelected, isColumnVisible, isRowSelected, moveColumn, resetAllColumnWidths, resetAllRowHeights, resetColumnOrder, resetColumnState, resetColumnVisibility, resetColumnWidth, resetRowHeight, selectAllRows, selectRow, selectRowByKey, setColumnOrder, setColumnState, setColumnVisible, setColumnWidth, setFilter, setPage, setPageSize, setQuickSearch, setRowHeight, syncGridInputs, updateInputs };
 
 //# sourceMappingURL=litgrid-blazor.js.map

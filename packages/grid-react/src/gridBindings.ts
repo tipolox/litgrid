@@ -31,7 +31,6 @@ export function syncGridInputs(
 ): void {
   // Keep the existing effect-triggered synchronization contract, including
   // in-place mutations. Navigation is retained by the structural grid setters.
-  grid.data = inputs.data
   grid.columns = inputs.columns
   const values = {
     config: inputs.config,
@@ -48,6 +47,7 @@ export function syncGridInputs(
   const config = inputs.config
   const configKey = JSON.stringify([
     config.selection?.mode ?? 'none', config.selection?.checkboxes ?? false,
+    config.selection?.rowKey, config.selection?.scopeKey,
     config.rowHeader?.enabled ?? false, config.rowHeader?.width ?? 56,
     config.pagination?.enabled ?? false,
     Number.isFinite(config.pagination?.pageSize) && config.pagination!.pageSize! > 0 ? Math.max(1, Math.floor(config.pagination!.pageSize!)) : 50,
@@ -60,4 +60,6 @@ export function syncGridInputs(
     }
   }
   synchronizedInputs.set(grid, { ...values, configKey })
+  // Clear a changed scope before loading rows that may reuse the same keys.
+  grid.data = inputs.data
 }

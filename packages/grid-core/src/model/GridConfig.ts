@@ -10,6 +10,10 @@ export type GridConfig = {
   selection?: {
     mode?: SelectionMode
     checkboxes?: boolean
+    /** Property containing a unique string or finite number identity. */
+    rowKey?: string
+    /** Change on account/site authorization scope transitions to clear selection. */
+    scopeKey?: string | number
   }
   rowHeader?: {
     enabled?: boolean
@@ -22,6 +26,8 @@ export type ResolvedGridConfig = {
   selection: {
     mode: SelectionMode
     checkboxes: boolean
+    rowKey?: string
+    scopeKey?: string | number
   }
   rowHeader: {
     enabled: boolean
@@ -46,7 +52,9 @@ export function normalizeConfig(config: GridConfig = {}): ResolvedGridConfig {
   return {
     selection: {
       mode: config.selection?.mode ?? 'none',
-      checkboxes: config.selection?.checkboxes ?? false
+      checkboxes: config.selection?.checkboxes ?? false,
+      rowKey: config.selection?.rowKey,
+      scopeKey: config.selection?.scopeKey
     },
     rowHeader: {
       enabled: config.rowHeader?.enabled ?? false,

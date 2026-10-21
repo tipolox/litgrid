@@ -1,6 +1,8 @@
 import type { GridConfig, ResolvedGridConfig } from '../model/GridConfig.js'
 import type {
   GridSelection,
+  GridRowKey,
+  SelectionChangeDetail,
   GridFilter,
   GridPaginationState,
   GridSortState,
@@ -27,8 +29,13 @@ export type GridEngine = {
   clearSort: () => void
   getSort: () => GridSortState
   getRowCount: () => number
+  /** Number of displayed rows with valid unique keys, or all rows in index mode. */
+  getSelectableRowCount: () => number
   getVisibleRows: (startIndex: number, endIndex: number) => unknown[]
   selectRow: (rowIndex: number, intent?: SelectionIntent) => void
+  selectRowByKey: (key: GridRowKey, intent?: SelectionIntent) => boolean
+  getSelectionSnapshot: () => SelectionChangeDetail
+  onSelectionChange: (listener: (detail: SelectionChangeDetail) => void) => () => void
   selectAllRows: () => void
   selectCell: (rowIndex: number, columnKey: string) => void
   clearSelection: () => void

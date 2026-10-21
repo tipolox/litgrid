@@ -72,12 +72,6 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
     const extended = supportsDeclarations(grid) ? grid : undefined
     if (declarative && !extended) throw new Error('LitGrid declarative columns require inferColumns and updateColumnSchema support.')
 
-    // No content-equality inference or row scanning. Explicit data always adopts.
-    if (effective.data !== undefined) {
-      touched.add('data')
-      grid.data = effective.data
-      captured.data = effective.data
-    }
     if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has('declarativeColumns'))) {
       touched.add('declarativeColumns')
       extended.inferColumns = !declarative
@@ -121,6 +115,7 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
       const config = key === 'config' ? input as GridConfig : undefined
       const comparison = config ? JSON.stringify([
         config.selection?.mode ?? 'none', config.selection?.checkboxes ?? false,
+        config.selection?.rowKey, config.selection?.scopeKey,
         config.rowHeader?.enabled ?? false, config.rowHeader?.width ?? 56,
         config.pagination?.enabled ?? false,
         Number.isFinite(config.pagination?.pageSize) && config.pagination!.pageSize! > 0 ? Math.max(1, Math.floor(config.pagination!.pageSize!)) : 50,
@@ -132,6 +127,12 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
         previous[key] = comparison
       }
       captured[key] = captureValue(key, value)
+    }
+    // Apply scope before data: separate tenants can reuse record keys.
+    if (effective.data !== undefined) {
+      touched.add('data')
+      grid.data = effective.data
+      captured.data = effective.data
     }
     state.comparisons = previous
     state.values = captured

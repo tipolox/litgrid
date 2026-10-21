@@ -12,6 +12,9 @@ export type {
   GridFilter,
   GridPaginationState,
   GridSelection,
+  GridRowKey,
+  SelectedRowSnapshot,
+  SelectionChangeDetail,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'

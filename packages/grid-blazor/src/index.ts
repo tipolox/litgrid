@@ -9,6 +9,8 @@ import type {
   GridColumnState,
   GridConfig,
   GridFilter,
+  GridRowKey,
+  SelectionChangeDetail,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
@@ -36,6 +38,8 @@ export type BlazorGridSelection = {
 }
 
 export type {
+  GridRowKey,
+  SelectionChangeDetail,
   BestFitColumnWidth,
   ColumnReorderDetail,
   ColumnStateChangeDetail,
@@ -58,6 +62,7 @@ export interface DotNetHelper {
 }
 
 interface GridListeners {
+  onSelectionChange: (event: Event) => void
   onStateChange: (event: Event) => void
   onReorder: (event: Event) => void
   onVisibilityChange: (event: Event) => void
@@ -78,10 +83,13 @@ export function initGrid(
   inputs: BlazorGridInputs
 ): void {
   const grid = requireGrid(element)
-  syncGridInputs(grid, inputs)
   // Initialization may have applied successfully but lost its Server acknowledgment.
   // Retrying must replace callbacks rather than retaining duplicate listeners.
   disposeGrid(element)
+
+  const onSelectionChange = (event: Event) => {
+    if (event.target === grid) dotNetHelper.invokeMethodAsync('HandleSelectionChange', (event as CustomEvent<SelectionChangeDetail>).detail)
+  }
 
     const onStateChange = (event: Event) => {
     const detail = (event as CustomEvent<ColumnStateChangeDetail>).detail
@@ -99,14 +107,17 @@ export function initGrid(
   }
 
   grid.addEventListener('column-state-change', onStateChange)
+  grid.addEventListener('selection-change', onSelectionChange)
   grid.addEventListener('column-reorder', onReorder)
   grid.addEventListener('column-visibility-change', onVisibilityChange)
 
   activeListeners.set(element, {
+    onSelectionChange,
     onStateChange,
     onReorder,
     onVisibilityChange
   })
+  syncGridInputs(grid, inputs)
 }
 
 export function updateInputs(element: HTMLElement, inputs: BlazorGridInputPatch): void {
@@ -118,6 +129,7 @@ export function disposeGrid(element: HTMLElement): void {
   const listeners = activeListeners.get(element)
   if (listeners && element) {
     element.removeEventListener('column-state-change', listeners.onStateChange)
+    element.removeEventListener('selection-change', listeners.onSelectionChange)
     element.removeEventListener('column-reorder', listeners.onReorder)
     element.removeEventListener('column-visibility-change', listeners.onVisibilityChange)
     activeListeners.delete(element)
@@ -270,6 +282,14 @@ export function selectRow(element: HTMLElement, rowIndex: number, intent?: Selec
 
 export function selectAllRows(element: HTMLElement): void {
   requireGrid(element).selectAllRows()
+}
+
+export function selectRowByKey(element: HTMLElement, key: GridRowKey, intent?: SelectionIntent): boolean {
+  return requireGrid(element).selectRowByKey(key, intent)
+}
+
+export function getSelectionSnapshot(element: HTMLElement): SelectionChangeDetail {
+  return requireGrid(element).getSelectionSnapshot()
 }
 
 export function clearSelection(element: HTMLElement): void {

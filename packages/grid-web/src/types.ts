@@ -3,6 +3,8 @@ import type {
   GridFilter,
   GridPaginationState,
   GridSelection,
+  GridRowKey,
+  SelectionChangeDetail,
   SelectionIntent
 } from '@tipolox/litgrid-core'
 import type { ColumnStateChangeDetail, GridColumnState } from './columnState/columnState.js'
@@ -10,6 +12,9 @@ import type { ColumnStateChangeDetail, GridColumnState } from './columnState/col
 export type { ColumnStateChangeDetail, GridColumnState }
 
 export type {
+  GridRowKey,
+  SelectedRowSnapshot,
+  SelectionChangeDetail,
   GridConfig,
   GridFilter,
   GridPaginationState,
@@ -107,6 +112,14 @@ export type DataGridElement = HTMLElement & {
   selectAllRows: () => void
   clearSelection: () => void
   getSelection: () => GridSelection
+  getSelectionSnapshot: () => SelectionChangeDetail
+  selectRowByKey: (key: GridRowKey, intent?: SelectionIntent) => boolean
   isRowSelected: (rowIndex: number) => boolean
   isCellSelected: (rowIndex: number, columnKey: string) => boolean
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    'selection-change': CustomEvent<SelectionChangeDetail>
+  }
 }

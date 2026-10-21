@@ -24,9 +24,9 @@ export type VueGridInputs = {
 }
 
 export function syncGridInputs(grid: DataGridElement, inputs: VueGridInputs): void {
-  grid.data = inputs.data
   grid.columns = inputs.columns
   grid.config = inputs.config
+  grid.data = inputs.data
   grid.theme = inputs.theme
   grid.ariaLabel = inputs.ariaLabel
   grid.ariaDescription = inputs.ariaDescription

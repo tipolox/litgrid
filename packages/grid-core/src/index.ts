@@ -6,6 +6,9 @@ export type {
   GridFilter,
   GridPaginationState,
   GridSelection,
+  GridRowKey,
+  SelectedRowSnapshot,
+  SelectionChangeDetail,
   SelectionIntent,
   SortDirection
 } from './model/GridState.js'
