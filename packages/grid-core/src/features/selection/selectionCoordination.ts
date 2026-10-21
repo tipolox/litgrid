@@ -8,7 +8,13 @@ function readKey(row: unknown, property: string): GridRowKey | null {
 
 /** Indexes are rebuilt on data/view transitions, never on individual clicks. */
 export function createSelectionCoordination(state: GridState) {
-  let uniqueKeys = new Set<GridRowKey>()
+  // Negative indexes mark ambiguous identities, including third/later duplicates.
+  let sourceIndexes = new Map<GridRowKey, number>()
+  let sourceKeys: Array<GridRowKey | null> = []
+  let indexedProperty: string | undefined
+  let sourceSelectableCount = 0
+  let freshSourceIndexes = false
+  let displayedSelectableCount = 0
   let displayedKeys = new Map<GridRowKey, number>()
   const listeners = new Set<(detail: SelectionChangeDetail) => void>()
 
@@ -16,7 +22,7 @@ export function createSelectionCoordination(state: GridState) {
     const property = state.config.selection.rowKey
     if (property === undefined) return null
     const key = readKey(state.data[rowIndex], property)
-    return key !== null && uniqueKeys.has(key) ? key : null
+    return key !== null && (sourceIndexes.get(key) ?? -1) >= 0 ? key : null
   }
 
   function snapshot(): SelectionChangeDetail {
@@ -52,32 +58,70 @@ export function createSelectionCoordination(state: GridState) {
   }
 
   function rebuildKeys() {
-    uniqueKeys = new Set()
-    const duplicates = new Set<GridRowKey>()
     const property = state.config.selection.rowKey
-    if (property === undefined) return
-    for (const row of state.originalData) {
-      const key = readKey(row, property)
-      if (key === null) continue
-      if (uniqueKeys.has(key)) duplicates.add(key)
-      uniqueKeys.add(key)
+    freshSourceIndexes = true
+    if (property === undefined) {
+      sourceIndexes = new Map()
+      sourceKeys = []
+      indexedProperty = undefined
+      sourceSelectableCount = 0
+      return
     }
-    for (const key of duplicates) uniqueKeys.delete(key)
+
+    // Array identity cannot prove validity: callers may mutate rows in place.
+    // Check every identity synchronously, even for the same array/reference.
+    const rows = state.originalData
+    let firstChanged = 0
+    let changedKey: GridRowKey | null = null
+    let checkedChangedKey = false
+    if (property === indexedProperty) {
+      for (; firstChanged < Math.min(rows.length, sourceKeys.length); firstChanged++) {
+        changedKey = readKey(rows[firstChanged], property)
+        if (changedKey !== sourceKeys[firstChanged]) { checkedChangedKey = true; break }
+      }
+      if (firstChanged === rows.length && rows.length === sourceKeys.length) return
+    }
+
+    const nextKeys = sourceKeys.slice(0, firstChanged)
+    const nextIndexes = new Map<GridRowKey, number>()
+    let selectableCount = 0
+    for (let index = 0; index < rows.length; index++) {
+      const key = index < firstChanged ? nextKeys[index]
+        : index === firstChanged && checkedChangedKey ? changedKey : readKey(rows[index], property)
+      if (index >= firstChanged) nextKeys.push(key)
+      if (key === null) continue
+      const previous = nextIndexes.get(key)
+      if (previous === undefined) { nextIndexes.set(key, index); selectableCount++ }
+      else if (previous >= 0) { nextIndexes.set(key, -1); selectableCount-- }
+    }
+    sourceKeys = nextKeys
+    sourceIndexes = nextIndexes
+    sourceSelectableCount = selectableCount
+    indexedProperty = property
   }
 
-  function reconcile() {
-    displayedKeys = new Map()
-    if (state.config.selection.rowKey !== undefined) {
-      for (let index = 0; index < state.data.length; index++) {
-        const key = keyAt(index)
-        if (key !== null) displayedKeys.set(key, index)
+  function reconcile(originalOrder = false) {
+    // Reuse only immediately after validation and when the engine guarantees
+    // the complete original order. View changes otherwise read displayed keys.
+    if (originalOrder && freshSourceIndexes) {
+      displayedKeys = sourceIndexes
+      displayedSelectableCount = sourceSelectableCount
+    } else {
+      displayedKeys = new Map()
+      if (state.config.selection.rowKey !== undefined) {
+        for (let index = 0; index < state.data.length; index++) {
+          const key = keyAt(index)
+          if (key !== null) displayedKeys.set(key, index)
+        }
       }
+      displayedSelectableCount = displayedKeys.size
     }
+    freshSourceIndexes = false
     if (state.selection.rowIndexes.size) {
       const remap = new Map<number, number>()
       for (const row of current.rows) {
         const index = state.config.selection.rowKey !== undefined
-          ? row.key === null ? undefined : displayedKeys.get(row.key)
+          ? row.key === null ? undefined : indexForKey(row.key)
           : state.data[row.rowIndex] === row.row ? row.rowIndex : undefined
         if (index !== undefined) remap.set(row.rowIndex, index)
       }
@@ -98,12 +142,17 @@ export function createSelectionCoordination(state: GridState) {
     commit()
   }
 
+  function indexForKey(key: GridRowKey) {
+    const index = displayedKeys.get(key)
+    return index !== undefined && index >= 0 ? index : undefined
+  }
+
   return {
     rebuildKeys, reconcile, commit,
     canSelect: (index: number) => Number.isInteger(index) && index >= 0 && index < state.data.length &&
       (state.config.selection.rowKey === undefined || keyAt(index) !== null),
-    indexForKey: (key: GridRowKey) => displayedKeys.get(key),
-    getSelectableRowCount: () => state.config.selection.rowKey === undefined ? state.data.length : displayedKeys.size,
+    indexForKey,
+    getSelectableRowCount: () => state.config.selection.rowKey === undefined ? state.data.length : displayedSelectableCount,
     getSnapshot: () => current,
     subscribe(listener: (detail: SelectionChangeDetail) => void) {
       listeners.add(listener)
