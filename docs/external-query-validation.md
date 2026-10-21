@@ -66,6 +66,9 @@ values pass through intact, including huge and negative values.
 - Scoped external-query typecheck includes the new core/web/React/adapter tests,
   shared event/API fixture and old structural Web Component shape: **passed**.
   Existing selection/compatibility fixtures also passed during implementation.
+- Existing engine, virtualizer and scroll-mapping benchmarks completed, including
+  a final run scoped to the repository package sources. Benchmark ratios printed
+  by Vitest compare different operations, not main versus feature speedups.
 - Every package compiler/bundler and playground build passed locally using
   `pnpm --config.enable-pre-post-scripts=false -r run build`.
 - Standard local `pnpm build` was attempted repeatedly but Windows held generated
@@ -76,6 +79,8 @@ values pass through intact, including huge and negative values.
   **passed for implementation commit 73cbbc2**, including the standard
   `pnpm run build`, full JavaScript suite, Blazor tests and Release build on Linux.
   Final-head status is reported in the PR/checks and delivery message.
+  Follow-up [run 39554331891](https://github.com/tipolox/litgrid/actions/runs/39554331891)
+  also passed for `bded9ff`, including final React typing/StrictMode coverage.
 - `dotnet test ... -c Release --no-restore`: **129 passed**; Release library build:
   **zero warnings/errors**. An earlier run exposed an existing timeout-test-runtime
   race (126/127); the rerun passed 127/127 before adding the two new tests. Initial
@@ -84,6 +89,8 @@ values pass through intact, including huge and negative values.
 - The tracked Blazor JS bundle/map were regenerated from the shared implementation.
 
 Root TypeScript remains a #31 release-quality limitation. An in-memory comparison
+and final raw root run recorded **177 baseline / 172 final raw diagnostics**.
+The controlled source comparison
 against main, using identical compiler options and excluding ignored scratch and
 generated outputs, produced **167 baseline / 162 feature diagnostics with the
 root React shim**. Two new diagnostics are the new test's legitimate React19
