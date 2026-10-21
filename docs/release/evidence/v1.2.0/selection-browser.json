@@ -1,0 +1,27 @@
+{
+  "browser": "156.0.8078.4",
+  "correctness": "PASS",
+  "focusBeforeSort": "1",
+  "measurements": [
+    {
+      "count": 30000,
+      "loadAndRenderMs": 27.399999998509884,
+      "selectionRenderMedianMs": 1,
+      "selectionRenderP95Ms": 2.199999999254942,
+      "mountedRows": 13,
+      "selectedKey": "uuid-29999",
+      "lastRowMounted": true,
+      "lastRowAriaSelected": "true"
+    },
+    {
+      "count": 100000,
+      "loadAndRenderMs": 91.30000000074506,
+      "selectionRenderMedianMs": 0.7000000029802322,
+      "selectionRenderP95Ms": 1.4000000022351742,
+      "mountedRows": 13,
+      "selectedKey": "uuid-99999",
+      "lastRowMounted": true,
+      "lastRowAriaSelected": "true"
+    }
+  ]
+}

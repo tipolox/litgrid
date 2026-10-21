@@ -1,0 +1,29 @@
+{
+  "source": "feature",
+  "correctness": "passed",
+  "browser": "156.0.8078.4",
+  "benchmarks": [
+    {
+      "disabled": false,
+      "rows": 100000,
+      "columns": 80,
+      "initialMs": 60.900000002235174,
+      "scrollMedianMs": 65.20000000298023,
+      "scrollP95Ms": 172.60000000149012,
+      "updateMedianMs": 36.20000000298023,
+      "updateP95Ms": 52.79999999701977,
+      "maxCells": 392
+    },
+    {
+      "disabled": true,
+      "rows": 100000,
+      "columns": 80,
+      "initialMs": 33.100000001490116,
+      "scrollMedianMs": 60.900000002235174,
+      "scrollP95Ms": 164.10000000149012,
+      "updateMedianMs": 35,
+      "updateP95Ms": 54,
+      "maxCells": 392
+    }
+  ]
+}
