@@ -26,3 +26,5 @@ React: 50 updates/version/case; 30k/100k, stable/fresh config, stable rows/colum
 Core: n=30 per row count/version/operation/GC protocol, with immediate first selection; CPU profiles include fixture and selection work. Forced collections occur before operation batches, not before each individual synchronization. Allocation sampling is a separate run and must not be mixed into timing data. Heap values are whole-page observations and do not establish retained leaks. First-click timings measure DOM click dispatch, Lit update and two-frame wait separately, excluding physical input hardware.
 
 Nearest-rank p50/p95, full ranges and sample counts are retained. The summarizer never asserts parity or a performance-budget PASS.
+
+The summarizer compacts raw sample/profile JSON without dropping values. Use a JSON viewer or `jq` to inspect individual samples; the summary and Markdown tables remain formatted.

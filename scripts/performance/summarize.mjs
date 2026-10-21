@@ -56,3 +56,8 @@ md += '\n| External declared total | Loaded rows | Optimized commit |\n|---:|---
 for (const s of summary.external) md += `| ${s.totalRows} | ${s.loadedRows} | ${cell(s.commit)} |\n`
 fs.writeFileSync(path.join(dir, 'tables.md'), md)
 console.log(JSON.stringify({ local: summary.local.map(s => ({ rows: s.rows, columns: s.columns, variant: s.variant, adoption: s.adoption })), react: summary.react, heap: summary.heap }, null, 2))
+
+// Keep raw samples/profiles complete while reducing mechanical review noise.
+for (const name of ['reproduction.json', 'react-reproduction.json', 'paired-1.json', 'paired-2.json', 'paired-3.json', 'react-paired.json', 'core-paired.json', 'allocations.json', 'first-interaction.json']) {
+  fs.writeFileSync(path.join(dir, name), JSON.stringify(read(name)) + '\n')
+}
