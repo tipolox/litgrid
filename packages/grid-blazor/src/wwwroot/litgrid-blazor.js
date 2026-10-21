@@ -663,6 +663,7 @@ function normalizePageIndex(value) {
 }
 function normalizeConfig(config = {}) {
 	return {
+		queryMode: config.queryMode === "external" ? "external" : "local",
 		selection: {
 			mode: config.selection?.mode ?? "none",
 			checkboxes: config.selection?.checkboxes ?? false,
@@ -962,6 +963,200 @@ function createSelectionCoordination(state) {
 	};
 }
 //#endregion
+//#region ../grid-core/dist/features/query/externalQuery.js
+var operators = new Set([
+	"contains",
+	"equals",
+	"startsWith",
+	"endsWith",
+	"isEmpty",
+	"isNotEmpty",
+	"greaterThan",
+	"greaterThanOrEqual",
+	"lessThan",
+	"lessThanOrEqual"
+]);
+var integer = (value, min = 0) => Number.isSafeInteger(value) && value >= min;
+function copyQuery(query) {
+	if (!query || typeof query.search !== "string" || !integer(query.pageIndex) || !integer(query.pageSize, 1) || !Array.isArray(query.filters) || !query.sort || !(query.sort.columnKey === null && query.sort.direction === null || typeof query.sort.columnKey === "string" && ["asc", "desc"].includes(query.sort.direction))) throw new TypeError("Invalid external query");
+	const keys = /* @__PURE__ */ new Set();
+	const filters = query.filters.map((filter) => {
+		if (!filter || typeof filter.columnKey !== "string" || keys.has(filter.columnKey) || !operators.has(filter.operator) || !(filter.value == null || ["string", "boolean"].includes(typeof filter.value) || typeof filter.value === "number" && Number.isFinite(filter.value))) throw new TypeError("External filters require unique columns and finite JSON scalar values");
+		keys.add(filter.columnKey);
+		return Object.freeze({
+			columnKey: filter.columnKey,
+			operator: filter.operator,
+			...filter.value !== void 0 ? { value: filter.value } : {}
+		});
+	});
+	return Object.freeze({
+		search: query.search,
+		filters: Object.freeze(filters),
+		sort: Object.freeze({ ...query.sort }),
+		pageIndex: query.pageIndex,
+		pageSize: query.pageSize
+	});
+}
+var equalQuery = (a, b) => a.search === b.search && a.pageIndex === b.pageIndex && a.pageSize === b.pageSize && a.sort.columnKey === b.sort.columnKey && a.sort.direction === b.sort.direction && a.filters.length === b.filters.length && a.filters.every((filter, i) => filter.columnKey === b.filters[i].columnKey && filter.operator === b.filters[i].operator && Object.is(filter.value, b.filters[i].value));
+function createExternalQuery(state, replaceRows) {
+	let requestId = 0;
+	let query = copyQuery({
+		search: "",
+		filters: [],
+		sort: {
+			columnKey: null,
+			direction: null
+		},
+		pageIndex: state.config.pagination.pageIndex,
+		pageSize: state.config.pagination.pageSize
+	});
+	let result = null;
+	let terminal = false;
+	let used = false;
+	let lastInput = null;
+	let applying = false;
+	let notifying = false;
+	const queuedIntents = [];
+	const listeners = /* @__PURE__ */ new Set();
+	function advance() {
+		if (requestId === Number.MAX_SAFE_INTEGER) throw new RangeError("External request identity exhausted; remount the grid");
+		requestId += 1;
+	}
+	function apply() {
+		state.quickSearchQuery = query.search;
+		state.filters = query.filters.map((filter) => ({ ...filter }));
+		state.sort = { ...query.sort };
+		const total = result?.total ?? {
+			kind: "unknown",
+			hasMore: false
+		};
+		const known = total.kind === "known";
+		const totalRows = known ? total.totalRows : -1;
+		const pageCount = known ? Math.ceil(totalRows / query.pageSize) : -1;
+		state.pagination = {
+			enabled: true,
+			pageIndex: query.pageIndex,
+			pageSize: query.pageSize,
+			totalRows,
+			pageCount,
+			totalKnown: known,
+			hasMore: known ? query.pageIndex + 1 < pageCount : total.hasMore
+		};
+		applying = true;
+		try {
+			replaceRows(result && !result.loading && !result.error ? [...result.rows] : []);
+		} finally {
+			applying = false;
+		}
+	}
+	function flush() {
+		while (!applying && !notifying && queuedIntents.length) queuedIntents.shift()();
+	}
+	function intent(changes, reason) {
+		if (applying || notifying) {
+			queuedIntents.push(() => intent(changes, reason));
+			return;
+		}
+		const next = copyQuery({
+			...query,
+			...changes
+		});
+		if (reason !== "refresh" && equalQuery(query, next)) return;
+		advance();
+		used = true;
+		terminal = false;
+		query = next;
+		const total = (reason === "page" || reason === "refresh" || reason === "page-size") && result?.total.kind === "known" ? result.total : {
+			kind: "unknown",
+			hasMore: false
+		};
+		result = Object.freeze({
+			requestId,
+			query,
+			rows: Object.freeze([]),
+			total,
+			loading: true,
+			error: null
+		});
+		const detail = Object.freeze({
+			requestId,
+			query,
+			reason
+		});
+		apply();
+		notifying = true;
+		try {
+			for (const listener of [...listeners]) listener(detail);
+		} finally {
+			notifying = false;
+			flush();
+		}
+	}
+	return {
+		active: () => state.config.queryMode === "external",
+		getQuery: () => Object.freeze({
+			requestId,
+			query
+		}),
+		getState: () => result,
+		subscribe(listener) {
+			listeners.add(listener);
+			return () => {
+				listeners.delete(listener);
+			};
+		},
+		reset() {
+			if (used) advance();
+			used = true;
+			terminal = false;
+			query = copyQuery({
+				search: "",
+				filters: [],
+				sort: {
+					columnKey: null,
+					direction: null
+				},
+				pageIndex: state.config.pagination.pageIndex,
+				pageSize: state.config.pagination.pageSize
+			});
+			result = null;
+			lastInput = null;
+			apply();
+			flush();
+		},
+		reconcile: apply,
+		commit(input) {
+			if (state.config.queryMode !== "external") return false;
+			if (applying) return false;
+			if (input === lastInput) return false;
+			if (!input || !integer(input.requestId)) throw new TypeError("Invalid external requestId");
+			if (input.requestId < requestId) return false;
+			const next = copyQuery(input.query);
+			if (input.requestId === requestId && (!equalQuery(query, next) || terminal)) return false;
+			if (!Array.isArray(input.rows) || input.rows.length > next.pageSize || input.loading !== void 0 && typeof input.loading !== "boolean" || input.error != null && typeof input.error !== "string" || !input.total || !["known", "unknown"].includes(input.total.kind) || input.total.kind === "known" && !integer(input.total.totalRows) || input.total.kind === "unknown" && typeof input.total.hasMore !== "boolean") throw new TypeError("Invalid external result");
+			if (input.total.kind === "known" && !input.loading && !input.error && input.rows.length > Math.max(0, input.total.totalRows - next.pageIndex * next.pageSize)) throw new TypeError("External rows contradict the exact total");
+			if (!equalQuery(query, next)) state.selection = createEmptySelection(state.config.selection.mode);
+			used = true;
+			lastInput = input;
+			requestId = input.requestId;
+			query = next;
+			terminal = !input.loading;
+			result = Object.freeze({
+				requestId,
+				query,
+				rows: Object.freeze([...input.rows]),
+				total: Object.freeze({ ...input.total }),
+				loading: !!input.loading,
+				error: input.error ?? null
+			});
+			apply();
+			flush();
+			return true;
+		},
+		intent
+	};
+}
+//#endregion
 //#region ../grid-core/dist/core/createGridEngine.js
 function createGridEngine(config = {}) {
 	const initialConfig = normalizeConfig(config);
@@ -980,7 +1175,19 @@ function createGridEngine(config = {}) {
 		selection: createEmptySelection(initialConfig.selection.mode)
 	};
 	const coordination = createSelectionCoordination(state);
+	const external = createExternalQuery(state, (rows) => {
+		state.originalData = rows;
+		state.transformedData = rows;
+		state.data = rows;
+		coordination.rebuildKeys();
+		coordination.reconcile();
+	});
+	if (external.active()) external.reset();
 	function refreshData() {
+		if (external.active()) {
+			external.reconcile();
+			return;
+		}
 		state.transformedData = applyDataTransforms(state.originalData, state.quickSearchQuery, state.filters, state.sort);
 		const pageCount = Math.ceil(state.transformedData.length / state.pagination.pageSize);
 		state.pagination = {
@@ -999,12 +1206,34 @@ function createGridEngine(config = {}) {
 		};
 	}
 	const engine = {
+		setExternalState: external.commit,
+		getExternalState: external.getState,
+		getQuery: external.getQuery,
+		onQueryChange: external.subscribe,
+		refreshQuery() {
+			if (external.active()) external.intent({}, "refresh");
+		},
 		setConfig(config) {
 			const nextConfig = normalizeConfig(config);
+			const modeChanged = state.config.queryMode !== nextConfig.queryMode;
 			const reset = state.selection.mode !== nextConfig.selection.mode || state.config.selection.rowKey !== nextConfig.selection.rowKey || state.config.selection.scopeKey !== nextConfig.selection.scopeKey;
 			const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey;
 			if (reset) state.selection = createEmptySelection(nextConfig.selection.mode);
 			state.config = nextConfig;
+			if (external.active()) {
+				if (modeChanged || reset) external.reset();
+				else external.reconcile();
+				return;
+			}
+			if (modeChanged) {
+				external.reset();
+				state.quickSearchQuery = "";
+				state.filters = [];
+				state.sort = {
+					columnKey: null,
+					direction: null
+				};
+			}
 			if (keyChanged) coordination.rebuildKeys();
 			state.pagination = createPaginationState(nextConfig.pagination.enabled, nextConfig.pagination.pageSize, nextConfig.pagination.pageIndex, state.transformedData.length);
 			refreshData();
@@ -1013,6 +1242,7 @@ function createGridEngine(config = {}) {
 			return state.config;
 		},
 		setData(data) {
+			if (external.active()) return;
 			state.originalData = data ?? [];
 			coordination.rebuildKeys();
 			resetPage();
@@ -1022,11 +1252,24 @@ function createGridEngine(config = {}) {
 			return state.data;
 		},
 		setQuickSearch(query) {
+			if (external.active()) {
+				const search = typeof query === "string" ? query : "";
+				if (search === state.quickSearchQuery) return;
+				external.intent({
+					search,
+					pageIndex: 0
+				}, "search");
+				return;
+			}
 			state.quickSearchQuery = typeof query === "string" ? query : "";
 			resetPage();
 			refreshData();
 		},
 		clearQuickSearch() {
+			if (external.active()) {
+				engine.setQuickSearch("");
+				return;
+			}
 			state.quickSearchQuery = "";
 			resetPage();
 			refreshData();
@@ -1035,11 +1278,29 @@ function createGridEngine(config = {}) {
 			return state.quickSearchQuery;
 		},
 		setFilter(filter) {
+			if (external.active()) {
+				const previous = state.filters.find((item) => item.columnKey === filter.columnKey);
+				if (previous && previous.operator === filter.operator && Object.is(previous.value, filter.value)) return;
+				external.intent({
+					filters: [...state.filters.filter((item) => item.columnKey !== filter.columnKey), { ...filter }],
+					pageIndex: 0
+				}, "filter");
+				return;
+			}
 			state.filters = [...state.filters.filter((item) => item.columnKey !== filter.columnKey), { ...filter }];
 			resetPage();
 			refreshData();
 		},
 		clearFilter(columnKey) {
+			if (external.active()) {
+				const filters = columnKey ? state.filters.filter((item) => item.columnKey !== columnKey) : [];
+				if (filters.length === state.filters.length) return;
+				external.intent({
+					filters,
+					pageIndex: 0
+				}, "filter");
+				return;
+			}
 			state.filters = columnKey ? state.filters.filter((item) => item.columnKey !== columnKey) : [];
 			resetPage();
 			refreshData();
@@ -1049,6 +1310,13 @@ function createGridEngine(config = {}) {
 		},
 		setPage(pageIndex) {
 			const nextPageIndex = Number.isFinite(pageIndex) ? Math.max(0, Math.floor(pageIndex)) : 0;
+			if (external.active()) {
+				const pagination = state.pagination;
+				if (!Number.isSafeInteger(nextPageIndex) || nextPageIndex === pagination.pageIndex) return;
+				if (nextPageIndex > pagination.pageIndex && (pagination.totalKnown ? nextPageIndex >= pagination.pageCount : !pagination.hasMore || nextPageIndex > pagination.pageIndex + 1)) return;
+				external.intent({ pageIndex: nextPageIndex }, "page");
+				return;
+			}
 			state.pagination = {
 				...state.pagination,
 				pageIndex: clampPageIndex(nextPageIndex, state.pagination.pageCount)
@@ -1058,6 +1326,15 @@ function createGridEngine(config = {}) {
 		},
 		setPageSize(pageSize) {
 			if (!Number.isFinite(pageSize) || pageSize <= 0) return;
+			if (external.active()) {
+				const size = Math.max(1, Math.floor(pageSize));
+				if (!Number.isSafeInteger(size) || size === state.pagination.pageSize) return;
+				external.intent({
+					pageSize: size,
+					pageIndex: 0
+				}, "page-size");
+				return;
+			}
 			state.pagination = {
 				...state.pagination,
 				pageSize: Math.max(1, Math.floor(pageSize)),
@@ -1072,6 +1349,17 @@ function createGridEngine(config = {}) {
 			return state.pagination.totalRows;
 		},
 		sortBy(columnKey, direction) {
+			if (external.active()) {
+				if (state.sort.columnKey === columnKey && state.sort.direction === direction) return;
+				external.intent({
+					sort: {
+						columnKey,
+						direction
+					},
+					pageIndex: 0
+				}, "sort");
+				return;
+			}
 			state.sort = {
 				columnKey,
 				direction
@@ -1080,6 +1368,17 @@ function createGridEngine(config = {}) {
 			refreshData();
 		},
 		clearSort() {
+			if (external.active()) {
+				if (state.sort.columnKey === null) return;
+				external.intent({
+					sort: {
+						columnKey: null,
+						direction: null
+					},
+					pageIndex: 0
+				}, "sort");
+				return;
+			}
 			state.sort = {
 				columnKey: null,
 				direction: null
@@ -1628,6 +1927,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.shouldRestoreHeaderMenuFocus = false;
 		this.screenReaderMessage = "";
 		this.lastScreenReaderAnnouncement = "";
+		this.paginationFocusTarget = null;
 		this.maxScrollableHeight = 67108864;
 		this.lastTotalSize = 0;
 		this.lastDisplayTotal = 0;
@@ -1725,6 +2025,17 @@ var DataGrid = class DataGrid extends i$2 {
 		this.engine.onSelectionChange((detail) => {
 			this.requestUpdate();
 			this.dispatchEvent(new CustomEvent("selection-change", {
+				detail,
+				bubbles: true,
+				composed: true
+			}));
+		});
+		this.engine.onQueryChange((detail) => {
+			this.quickSearchDraft = detail.query.search;
+			this.clearBestFitWidths();
+			this.resetVerticalScroll();
+			this.requestUpdate();
+			this.dispatchEvent(new CustomEvent("query-change", {
 				detail,
 				bubbles: true,
 				composed: true
@@ -2267,6 +2578,9 @@ var DataGrid = class DataGrid extends i$2 {
 		this.reconcileHeaderMenuCapabilities();
 	}
 	updated() {
+		const paginationTarget = this.paginationFocusTarget;
+		this.paginationFocusTarget = null;
+		if (paginationTarget?.isConnected && paginationTarget.disabled) this.renderRoot.querySelector(".pagination button:not([disabled]), .pagination select")?.focus();
 		this.updateScrollbarWidth();
 		if (this.shouldFocusViewport) {
 			this.shouldFocusViewport = false;
@@ -2724,27 +3038,31 @@ var DataGrid = class DataGrid extends i$2 {
 		this.announceScreenReader(`${this.getColumnLabel(columnKey)}, row ${rowIndex + 1} ${this.engine.isCellSelected(rowIndex, columnKey) ? "selected" : "deselected"}.`);
 	}
 	announceVisibleRowCount(context) {
+		if (this.engine.getConfig().queryMode === "external") {
+			this.announceScreenReader(`${context}. Server query requested.`);
+			return;
+		}
 		const rowCount = this.engine.getRowCount();
 		this.announceScreenReader(rowCount === 0 ? `${context}. No matching rows.` : `${context}. ${rowCount} ${rowCount === 1 ? "row" : "rows"} shown.`);
 	}
 	handleSortAscending(columnKey) {
 		if (!this.getColumnCapabilities(columnKey).sortable) return;
 		this.engine.sortBy(columnKey, "asc");
-		this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`);
+		this.announceScreenReader(`${this.getColumnLabel(columnKey)} ${this.engine.getConfig().queryMode === "external" ? "ascending sort requested" : "sorted ascending"}.`);
 		this.requestUpdate();
 		this.closeHeaderMenu(true);
 	}
 	handleSortDescending(columnKey) {
 		if (!this.getColumnCapabilities(columnKey).sortable) return;
 		this.engine.sortBy(columnKey, "desc");
-		this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`);
+		this.announceScreenReader(`${this.getColumnLabel(columnKey)} ${this.engine.getConfig().queryMode === "external" ? "descending sort requested" : "sorted descending"}.`);
 		this.requestUpdate();
 		this.closeHeaderMenu(true);
 	}
 	handleClearSort(columnKey) {
 		if (!this.getColumnCapabilities(columnKey).sortable) return;
 		this.engine.clearSort();
-		this.announceScreenReader("Sorting cleared.");
+		this.announceScreenReader(this.engine.getConfig().queryMode === "external" ? "Clear sorting requested." : "Sorting cleared.");
 		this.requestUpdate();
 		this.closeHeaderMenu(true);
 	}
@@ -2887,7 +3205,8 @@ var DataGrid = class DataGrid extends i$2 {
 		this.clearQuickSearchDebounce();
 		const threshold = Math.max(0, Math.floor(this.quickSearchDebounceThreshold));
 		const debounceMs = Math.max(0, Math.floor(this.quickSearchDebounceMs));
-		if (this.sourceRowCount < threshold || debounceMs === 0) {
+		const external = this.engine.getConfig().queryMode === "external";
+		if (debounceMs === 0 || !external && this.sourceRowCount < threshold) {
 			this.applyQuickSearch(query);
 			return;
 		}
@@ -2915,22 +3234,65 @@ var DataGrid = class DataGrid extends i$2 {
 	getFilters() {
 		return this.engine.getFilters();
 	}
+	sortBy(columnKey, direction) {
+		this.engine.sortBy(columnKey, direction);
+		this.resetVerticalScroll();
+		this.requestUpdate();
+	}
+	clearSort() {
+		this.engine.clearSort();
+		this.resetVerticalScroll();
+		this.requestUpdate();
+	}
+	getQuery() {
+		return this.engine.getQuery();
+	}
+	refreshQuery() {
+		this.engine.refreshQuery();
+	}
+	get externalState() {
+		return this.engine.getExternalState();
+	}
+	set externalState(value) {
+		if (value) this.setExternalState(value);
+	}
+	setExternalState(value) {
+		if (!this.engine.setExternalState(value)) return false;
+		this.clearQuickSearchDebounce();
+		this.quickSearchDraft = this.engine.getQuickSearch();
+		this.filterDrafts = new Map(this.engine.getFilters().map((filter) => [filter.columnKey, filter]));
+		this.sourceRowCount = this.engine.getRowCount();
+		this.clearBestFitWidths();
+		this.requestUpdate();
+		return true;
+	}
+	getPageLabel() {
+		const pagination = this.engine.getPagination();
+		if (this.engine.getConfig().queryMode === "external" && pagination.totalKnown && pagination.pageIndex > 0 && pagination.pageIndex >= pagination.pageCount) return `Page ${pagination.pageIndex + 1} (out of range)`;
+		return pagination.totalKnown === false ? `Page ${pagination.pageIndex + 1}` : `Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}`;
+	}
 	setPage(pageIndex) {
+		this.rememberPaginationFocus();
 		this.engine.setPage(pageIndex);
 		this.resetVerticalScroll();
-		const pagination = this.engine.getPagination();
-		this.announceScreenReader(`Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}.`);
+		this.engine.getPagination();
+		this.announceScreenReader(`${this.getPageLabel()}.`);
 		this.requestUpdate();
 	}
 	setPageSize(pageSize) {
+		this.rememberPaginationFocus();
 		this.engine.setPageSize(pageSize);
 		this.resetVerticalScroll();
 		const pagination = this.engine.getPagination();
-		this.announceScreenReader(`${pagination.pageSize} rows per page. Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}.`);
+		this.announceScreenReader(`${pagination.pageSize} rows per page. ${this.getPageLabel()}.`);
 		this.requestUpdate();
 	}
 	getPagination() {
 		return this.engine.getPagination();
+	}
+	rememberPaginationFocus() {
+		const active = this.shadowRoot?.activeElement;
+		if (active instanceof HTMLButtonElement && active.closest(".pagination")) this.paginationFocusTarget = active;
 	}
 	getTotalRowCount() {
 		return this.engine.getTotalRowCount();
@@ -3552,6 +3914,7 @@ var DataGrid = class DataGrid extends i$2 {
     `;
 	}
 	set data(value) {
+		if (this.engine.getConfig().queryMode === "external") return;
 		this.clearQuickSearchDebounce();
 		this.sourceRowCount = Array.isArray(value) ? value.length : 0;
 		this.engine.setData(value ?? []);
@@ -3678,6 +4041,10 @@ var DataGrid = class DataGrid extends i$2 {
 	render() {
 		const count = this.engine.getRowCount();
 		const pagination = this.engine.getPagination();
+		const external = this.engine.getConfig().queryMode === "external";
+		const externalState = external ? this.engine.getExternalState() : null;
+		const outOfRange = external && pagination.totalKnown && pagination.pageIndex > 0 && pagination.pageIndex >= pagination.pageCount;
+		const externalStatus = externalState?.loading ? "Loading results." : externalState?.error ? externalState.error : outOfRange ? "Requested page is out of range. Choose a previous page." : count === 0 ? pagination.totalRows === 0 ? "No results." : "No rows on this page." : "";
 		const pageSizeOptions = [
 			25,
 			50,
@@ -3762,15 +4129,19 @@ var DataGrid = class DataGrid extends i$2 {
 			`${columnRange.rightPadding}px`
 		].join(" ");
 		const totalColumnWidth = columnRange.totalSize;
+		const totalRowWidth = totalColumnWidth + rowHeaderWidth;
+		const headerGridTemplate = this.isRowHeaderVisible() ? `${rowHeaderWidth}px minmax(0, 1fr) ${this.scrollbarWidth}px` : `minmax(0, 1fr) ${this.scrollbarWidth}px`;
 		return b`
             <div
         class="shell"
-        style=${`--virtual-grid-template: ${gridTemplate}; --total-column-width: ${totalColumnWidth}px; --total-row-width: ${totalColumnWidth + rowHeaderWidth}px; --row-header-width: ${rowHeaderWidth}px; --header-grid-template: ${this.isRowHeaderVisible() ? `${rowHeaderWidth}px minmax(0, 1fr) ${this.scrollbarWidth}px` : `minmax(0, 1fr) ${this.scrollbarWidth}px`}; --scrollbar-width: ${this.scrollbarWidth}px;`}
+        aria-busy=${external ? String(!!externalState?.loading) : A}
+        style=${`--virtual-grid-template: ${gridTemplate}; --total-column-width: ${totalColumnWidth}px; --total-row-width: ${totalRowWidth}px; --row-header-width: ${rowHeaderWidth}px; --header-grid-template: ${headerGridTemplate}; --scrollbar-width: ${this.scrollbarWidth}px;`}
         @keydown=${this.handleShellKeyDown}
         >
         <p id=${`${this.gridId}-description`} class="screen-reader-only">${this.getScreenReaderDescription()}</p>
+        ${external && externalStatus ? b`<div class="external-status" role=${externalState?.error ? "alert" : "status"}>${externalStatus}</div>` : A}
         ${this.screenReaderAnnouncements ? b`<div class="screen-reader-only" role="status" aria-live="polite" aria-atomic="true">${this.screenReaderMessage}</div>` : ""}
-        ${this.quickSearchVisible ? b`
+        ${this.quickSearchVisible || external ? b`
               <div class="quick-search" role="search">
                 <input
                   aria-label="Quick search"
@@ -3991,7 +4362,7 @@ var DataGrid = class DataGrid extends i$2 {
         ${pagination.enabled ? b`
               <div class="pagination" role="navigation" aria-label="Pagination">
                 <div class="pagination-summary">
-                  <span>${pagination.totalRows} rows</span>
+                  <span>${pagination.totalKnown === false ? "Total unknown" : `${pagination.totalRows} rows`}</span>
                   <label>
                     Rows per page
                     <select
@@ -4007,7 +4378,7 @@ var DataGrid = class DataGrid extends i$2 {
                   </label>
                 </div>
                 <div class="pagination-navigation">
-                  <span>Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}</span>
+                  <span>${this.getPageLabel()}</span>
                   <button
                     type="button"
                     ?disabled=${pagination.pageIndex === 0}
@@ -4015,7 +4386,7 @@ var DataGrid = class DataGrid extends i$2 {
                   >Previous</button>
                   <button
                     type="button"
-                    ?disabled=${pagination.pageCount === 0 || pagination.pageIndex >= pagination.pageCount - 1}
+                    ?disabled=${pagination.totalKnown === false ? !pagination.hasMore : pagination.pageCount === 0 || pagination.pageIndex >= pagination.pageCount - 1}
                     @click=${() => this.setPage(pagination.pageIndex + 1)}
                   >Next</button>
                 </div>
@@ -4087,7 +4458,7 @@ function syncGridInputs(grid, inputs) {
 		previous.declarativeColumns = declarative;
 		captured.declarativeColumns = declarative;
 		captured.columnStateStorageKey = storageKey;
-		const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, ...scalars } = effective;
+		const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, externalState, ...scalars } = effective;
 		const values = {
 			...scalars,
 			columnStateStorageKey: storageKey
@@ -4106,6 +4477,7 @@ function syncGridInputs(grid, inputs) {
 			const value = key === "columnStateStorageKey" ? input ?? null : input;
 			const config = key === "config" ? input : void 0;
 			const comparison = config ? JSON.stringify([
+				config.queryMode ?? "local",
 				config.selection?.mode ?? "none",
 				config.selection?.checkboxes ?? false,
 				config.selection?.rowKey,
@@ -4122,6 +4494,12 @@ function syncGridInputs(grid, inputs) {
 				previous[key] = comparison;
 			}
 			captured[key] = captureValue(key, value);
+		}
+		if ("externalState" in effective && (previous.externalState !== externalState || state.uncertain.has("externalState"))) {
+			touched.add("externalState");
+			grid.externalState = externalState ?? null;
+			previous.externalState = externalState;
+			captured.externalState = externalState;
 		}
 		if (effective.data !== void 0) {
 			touched.add("data");
@@ -4147,6 +4525,10 @@ function requireGrid(element) {
 function initGrid(element, dotNetHelper, inputs) {
 	const grid = requireGrid(element);
 	disposeGrid(element);
+	const onQueryChange = (event) => {
+		if (event.target === grid) dotNetHelper.invokeMethodAsync("HandleQueryChange", event.detail);
+	};
+	grid.addEventListener("query-change", onQueryChange);
 	const onSelectionChange = (event) => {
 		if (event.target === grid) dotNetHelper.invokeMethodAsync("HandleSelectionChange", event.detail);
 	};
@@ -4167,6 +4549,7 @@ function initGrid(element, dotNetHelper, inputs) {
 	grid.addEventListener("column-reorder", onReorder);
 	grid.addEventListener("column-visibility-change", onVisibilityChange);
 	activeListeners.set(element, {
+		onQueryChange,
 		onSelectionChange,
 		onStateChange,
 		onReorder,
@@ -4180,6 +4563,7 @@ function updateInputs(element, inputs) {
 function disposeGrid(element) {
 	const listeners = activeListeners.get(element);
 	if (listeners && element) {
+		element.removeEventListener("query-change", listeners.onQueryChange);
 		element.removeEventListener("column-state-change", listeners.onStateChange);
 		element.removeEventListener("selection-change", listeners.onSelectionChange);
 		element.removeEventListener("column-reorder", listeners.onReorder);
@@ -4283,6 +4667,10 @@ function setPageSize(element, pageSize) {
 function getPagination(element) {
 	const pagination = requireGrid(element).getPagination();
 	return {
+		...pagination.totalKnown !== void 0 ? {
+			totalKnown: pagination.totalKnown,
+			hasMore: pagination.hasMore
+		} : {},
 		enabled: pagination.enabled,
 		pageIndex: pagination.pageIndex,
 		pageSize: pagination.pageSize,
@@ -4292,6 +4680,21 @@ function getPagination(element) {
 }
 function getTotalRowCount(element) {
 	return requireGrid(element).getTotalRowCount();
+}
+function getQuery(element) {
+	return requireGrid(element).getQuery();
+}
+function refreshQuery(element) {
+	requireGrid(element).refreshQuery();
+}
+function setExternalState(element, state) {
+	return requireGrid(element).setExternalState(state);
+}
+function sortBy(element, key, direction) {
+	requireGrid(element).sortBy(key, direction);
+}
+function clearSort(element) {
+	requireGrid(element).clearSort();
 }
 function selectRow(element, rowIndex, intent) {
 	requireGrid(element).selectRow(rowIndex, intent);
@@ -4337,6 +4740,6 @@ function isCellSelected(element, rowIndex, columnKey) {
 	return requireGrid(element).isCellSelected(rowIndex, columnKey);
 }
 //#endregion
-export { bestFitAllColumns, bestFitColumn, clearFilter, clearQuickSearch, clearSelection, copySelectedCells, copySelectedRows, disposeGrid, getColumnOrder, getColumnState, getColumnWidth, getFilters, getPagination, getQuickSearch, getRowHeight, getSelection, getSelectionSnapshot, getTotalRowCount, getVisibleColumnKeys, initGrid, isCellSelected, isColumnVisible, isRowSelected, moveColumn, resetAllColumnWidths, resetAllRowHeights, resetColumnOrder, resetColumnState, resetColumnVisibility, resetColumnWidth, resetRowHeight, selectAllRows, selectRow, selectRowByKey, setColumnOrder, setColumnState, setColumnVisible, setColumnWidth, setFilter, setPage, setPageSize, setQuickSearch, setRowHeight, syncGridInputs, updateInputs };
+export { bestFitAllColumns, bestFitColumn, clearFilter, clearQuickSearch, clearSelection, clearSort, copySelectedCells, copySelectedRows, disposeGrid, getColumnOrder, getColumnState, getColumnWidth, getFilters, getPagination, getQuery, getQuickSearch, getRowHeight, getSelection, getSelectionSnapshot, getTotalRowCount, getVisibleColumnKeys, initGrid, isCellSelected, isColumnVisible, isRowSelected, moveColumn, refreshQuery, resetAllColumnWidths, resetAllRowHeights, resetColumnOrder, resetColumnState, resetColumnVisibility, resetColumnWidth, resetRowHeight, selectAllRows, selectRow, selectRowByKey, setColumnOrder, setColumnState, setColumnVisible, setColumnWidth, setExternalState, setFilter, setPage, setPageSize, setQuickSearch, setRowHeight, sortBy, syncGridInputs, updateInputs };
 
 //# sourceMappingURL=litgrid-blazor.js.map

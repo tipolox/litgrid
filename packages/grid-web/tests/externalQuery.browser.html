@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>External query browser regression</title>
+<style>body{font:14px system-ui;margin:24px}yc-grid{width:850px}</style>
+<div id="host"></div>
+<script type="module">
+  import { DataGrid } from '../src/components/DataGrid.ts'
+  const grid = new DataGrid()
+  grid.config = { queryMode: 'external', selection: { mode: 'multi-row', rowKey: 'id', scopeKey: 'site-a', checkboxes: true } }
+  grid.columns = [{ key: 'name', header: 'Property' }, { key: 'amount', sortable: false, filterable: false }]
+  window.initial = { requestId: 1, query: { search: '', filters: [], sort: { columnKey: null, direction: null }, pageIndex: 2, pageSize: 20 }, rows: [{ id: 'a', name: 'Zulu', amount: '9007199254740993.01' }, { id: 'b', name: 'Alpha', amount: '-2.00' }], total: { kind: 'known', totalRows: 352 } }
+  grid.externalState = window.initial
+  document.querySelector('#host').append(grid)
+  window.grid = grid
+  window.events = []
+  window.order = []
+  grid.addEventListener('selection-change', () => window.order.push('selection'))
+  grid.addEventListener('query-change', event => { window.order.push('query'); window.events.push(event.detail) })
+  window.commit = (overrides = {}) => grid.setExternalState({ ...window.initial, ...grid.getQuery(), ...overrides })
+  window.featureGrid = DataGrid
+  await grid.updateComplete
+  document.body.dataset.ready = 'true'
+</script>

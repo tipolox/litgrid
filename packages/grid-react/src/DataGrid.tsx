@@ -13,6 +13,10 @@ import type {
   GridSelection,
   GridRowKey,
   SelectionChangeDetail,
+  GridExternalState,
+  GridQuerySnapshot,
+  GridQueryChangeDetail,
+  SortDirection,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
@@ -26,6 +30,8 @@ import {
 import { syncGridInputs } from './gridBindings.js'
 
 export type DataGridProps = {
+  externalState?: GridExternalState
+  onQueryChange?: (detail: GridQueryChangeDetail) => void
   data: unknown[]
   columns?: GridColumn[]
   config?: GridConfig
@@ -48,6 +54,11 @@ export type DataGridProps = {
 }
 
 export type DataGridRef = {
+  setExternalState(state: GridExternalState): boolean
+  getQuery(): GridQuerySnapshot
+  refreshQuery(): void
+  sortBy(columnKey: string, direction: SortDirection): void
+  clearSort(): void
   readonly gridElement: DataGridElement | null
   getRowHeight(rowIndex: number): number
   getColumnWidth(column: GridColumn): number
@@ -99,6 +110,8 @@ const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the React comp
 export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid(
   {
     data,
+    externalState,
+    onQueryChange,
     columns = [],
     config = {},
     theme = 'light',
@@ -117,7 +130,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     onSelectionChange,
     onColumnReorder,
     onColumnVisibilityChange
-  },
+  }: DataGridProps,
   forwardedRef
 ) {
   const gridRef = useRef<DataGridElement | null>(null)
@@ -130,6 +143,11 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   useImperativeHandle(
     forwardedRef,
     () => ({
+      setExternalState: (state: GridExternalState) => requireGridElement().setExternalState!(state),
+      getQuery: () => requireGridElement().getQuery!(),
+      refreshQuery: () => requireGridElement().refreshQuery!(),
+      sortBy: (key: string, direction: SortDirection) => requireGridElement().sortBy!(key, direction),
+      clearSort: () => requireGridElement().clearSort!(),
       get gridElement() {
         return gridRef.current
       },
@@ -184,6 +202,17 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
 
   // Subscribe before input synchronization, which can synchronously clear selection.
   const selectionCallback = useRef(onSelectionChange)
+  const queryCallback = useRef(onQueryChange)
+  useLayoutEffect(() => { queryCallback.current = onQueryChange }, [onQueryChange])
+  useEffect(() => {
+    const element = gridRef.current
+    if (!element) return
+    const handler = (event: Event) => {
+      if (event.target === element) queryCallback.current?.((event as CustomEvent<GridQueryChangeDetail>).detail)
+    }
+    element.addEventListener('query-change', handler)
+    return () => element.removeEventListener('query-change', handler)
+  }, [])
   useLayoutEffect(() => { selectionCallback.current = onSelectionChange }, [onSelectionChange])
   useEffect(() => {
     const element = gridRef.current
@@ -200,6 +229,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     if (!grid) return
 
     syncGridInputs(grid, {
+      externalState,
       data,
       columns,
       config,
@@ -217,6 +247,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
       columnStateStorageKey
     })
   }, [
+    externalState,
     data,
     columns,
     config,

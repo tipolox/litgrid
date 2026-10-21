@@ -61,6 +61,9 @@ export type GridPaginationState = {
   pageSize: number
   totalRows: number
   pageCount: number
+  /** External unknown totals use -1 for totalRows/pageCount. Absent in local mode. */
+  totalKnown?: boolean
+  hasMore?: boolean
 }
 
 export type GridState = {

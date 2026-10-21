@@ -1,0 +1,243 @@
+// @vitest-environment jsdom
+import { afterEach, expect, it, vi } from 'vitest'
+import { DataGrid } from './DataGrid.js'
+import type { GridExternalState, GridQueryChangeDetail } from '@tipolox/litgrid-core'
+
+afterEach(() => { document.body.replaceChildren(); vi.useRealTimers() })
+const initial = (overrides: Partial<GridExternalState> = {}): GridExternalState => ({ requestId: 1,
+  query: { search: '', filters: [], sort: { columnKey: null, direction: null }, pageIndex: 2, pageSize: 20 },
+  rows: [{ id: 'a', name: 'Zebra', amount: '9007199254740993.01' }, { id: 'b', name: 'Alpha', amount: '-2.00' }],
+  total: { kind: 'known', totalRows: 352 }, ...overrides })
+async function setup(state = initial()) {
+  const grid = new DataGrid()
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' } }
+  grid.columns = [{ key: 'name' }, { key: 'amount', sortable: false, filterable: false }]
+  grid.externalState = state
+  document.body.append(grid)
+  await grid.updateComplete
+  return grid
+}
+const text = (grid: DataGrid) => grid.renderRoot.textContent!
+const button = (grid: DataGrid, label: string) => [...grid.renderRoot.querySelectorAll<HTMLButtonElement>('button')].find(el => el.textContent!.trim() === label)!
+
+it('renders server rows in order, exact totals and always-available external search', async () => {
+  const grid = await setup()
+  expect(text(grid)).toContain('352 rows')
+  expect(text(grid)).toContain('Page 3 of 18')
+  expect(grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')).not.toBeNull()
+  expect([...grid.renderRoot.querySelectorAll('.cell')].map(el => el.textContent!.trim())).toEqual(['Zebra', '9007199254740993.01', 'Alpha', '-2.00'])
+  const listener = vi.fn()
+  grid.addEventListener('query-change', listener)
+  grid.data = [{ name: 'Wrong page' }]
+  grid.theme = 'dark'
+  await grid.updateComplete
+  expect(listener).not.toHaveBeenCalled()
+  expect(text(grid)).toContain('Zebra')
+  expect(text(grid)).toContain('Page 3 of 18')
+})
+
+it('delegates public search, header sort/filter/clear and respects monetary column flags', async () => {
+  const grid = await setup()
+  grid.quickSearchDebounceMs = 0
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+  const search = grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')!
+  search.value = 'Not on page'
+  search.dispatchEvent(new Event('input', { bubbles: true }))
+  await grid.updateComplete
+  expect(events.at(-1)).toMatchObject({ reason: 'search', query: { search: 'Not on page', pageIndex: 0 } })
+  expect(text(grid)).toContain('Loading results.')
+  expect(grid.renderRoot.querySelector('.shell')?.getAttribute('aria-busy')).toBe('true')
+  button(grid, 'Clear').click()
+  await grid.updateComplete
+  expect(events.at(-1)?.query.search).toBe('')
+  // Use rendered controls rather than private handlers.
+  grid.renderRoot.querySelectorAll<HTMLButtonElement>('[aria-label="Show column actions"]')[0].click()
+  await grid.updateComplete
+  button(grid, 'Sort Asc').click()
+  await grid.updateComplete
+  expect(events.at(-1)).toMatchObject({ reason: 'sort', query: { sort: { columnKey: 'name', direction: 'asc' } } })
+  grid.setFilter({ columnKey: 'amount', operator: 'greaterThan', value: '9007199254740993.00000001' })
+  expect(events.at(-1)?.query.filters[0].value).toBe('9007199254740993.00000001')
+  grid.clearFilter('amount')
+  expect(events.at(-1)?.query.filters).toEqual([])
+  grid.renderRoot.querySelectorAll<HTMLButtonElement>('[aria-label="Show column actions"]')[1].click()
+  await grid.updateComplete
+  expect(button(grid, 'Sort Asc')).toBeUndefined()
+  expect(button(grid, 'Apply Filter')).toBeUndefined()
+})
+
+it('shows truthful unknown, error, empty and out-of-range statuses', async () => {
+  const grid = await setup(initial({ total: { kind: 'unknown', hasMore: false } }))
+  expect(text(grid)).toContain('Total unknown')
+  expect(text(grid)).toContain('Page 3')
+  expect(text(grid)).not.toContain('of -1')
+  expect(button(grid, 'Next').disabled).toBe(true)
+  grid.externalState = initial({ requestId: 2, error: 'Access unavailable', rows: [] })
+  await grid.updateComplete
+  expect(grid.renderRoot.querySelector('[role="alert"]')?.textContent).toBe('Access unavailable')
+  expect(grid.renderRoot.querySelectorAll('.cell')).toHaveLength(0)
+  grid.externalState = initial({ requestId: 3, rows: [], total: { kind: 'known', totalRows: 0 } })
+  await grid.updateComplete
+  expect(text(grid)).toContain('Requested page is out of range')
+  expect(grid.getPagination().pageIndex).toBe(2)
+  grid.externalState = initial({ requestId: 4, query: { ...initial().query, pageIndex: 0 }, rows: [], total: { kind: 'known', totalRows: 0 } })
+  await grid.updateComplete
+  expect(text(grid)).toContain('No results.')
+})
+
+it('restores pagination focus when Next becomes unavailable and rejects stale DOM updates', async () => {
+  const grid = await setup(initial({ total: { kind: 'unknown', hasMore: true } }))
+  const next = button(grid, 'Next')
+  next.focus()
+  next.click()
+  const pending = grid.getQuery()
+  await grid.updateComplete
+  expect(grid.shadowRoot?.activeElement?.getAttribute('aria-label') === 'Rows per page' || grid.shadowRoot?.activeElement === button(grid, 'Previous')).toBe(true)
+  expect(grid.setExternalState(initial())).toBe(false)
+  expect(grid.setExternalState({ ...initial(), ...pending })).toBe(true)
+  await grid.updateComplete
+  expect(text(grid)).toContain('Page 4')
+})
+
+function typeSearch(grid: DataGrid, value: string) {
+  const input = grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')!
+  input.value = value
+  input.dispatchEvent(new Event('input', { bubbles: true }))
+  return input
+}
+
+it('debounces rapid external typing on a small page and preserves focus and request identities', async () => {
+  const grid = await setup()
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+  const input = typeSearch(grid, 'A')
+  input.focus()
+  vi.advanceTimersByTime(100)
+  typeSearch(grid, 'Al')
+  vi.advanceTimersByTime(100)
+  typeSearch(grid, 'Alpha')
+  await grid.updateComplete
+  expect(events).toEqual([])
+  expect(grid.getQuery().requestId).toBe(1)
+  expect(input.value).toBe('Alpha')
+  expect(grid.shadowRoot?.activeElement).toBe(input)
+  vi.advanceTimersByTime(149)
+  expect(events).toEqual([])
+  vi.advanceTimersByTime(1)
+  await grid.updateComplete
+  expect(events).toEqual([expect.objectContaining({ requestId: 2, reason: 'search', query: expect.objectContaining({ search: 'Alpha', pageIndex: 0 }) })])
+  expect(grid.shadowRoot?.activeElement).toBe(input)
+  typeSearch(grid, 'Alpha')
+  vi.advanceTimersByTime(150)
+  expect(events).toHaveLength(1)
+  expect(grid.getQuery().requestId).toBe(2)
+})
+
+it('emits immediate external typing intents only when delay is zero', async () => {
+  const grid = await setup()
+  grid.quickSearchDebounceMs = 0
+  grid.quickSearchDebounceThreshold = Number.MAX_SAFE_INTEGER
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+  typeSearch(grid, 'A'); typeSearch(grid, 'AB'); typeSearch(grid, 'ABC')
+  expect(events.map(event => [event.requestId, event.query.search])).toEqual([[2, 'A'], [3, 'AB'], [4, 'ABC']])
+  expect(vi.getTimerCount()).toBe(0)
+})
+
+it('clears search immediately and cancels pending input without consuming an extra ID', async () => {
+  const grid = await setup()
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+  grid.setQuickSearch('Existing')
+  typeSearch(grid, 'Pending')
+  await grid.updateComplete
+  button(grid, 'Clear').click()
+  vi.advanceTimersByTime(300)
+  await grid.updateComplete
+  expect(events.map(event => [event.requestId, event.query.search])).toEqual([[2, 'Existing'], [3, '']])
+  expect(grid.getQuickSearch()).toBe('')
+  expect(grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')!.value).toBe('')
+  typeSearch(grid, 'Never applied')
+  grid.clearQuickSearch()
+  vi.advanceTimersByTime(300)
+  expect(events).toHaveLength(2)
+  expect(grid.getQuery().requestId).toBe(3)
+})
+
+it('cancels pending input on imperative or accepted controlled search replacement', async () => {
+  const grid = await setup()
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+  typeSearch(grid, 'Pending')
+  grid.setQuickSearch('Imperative')
+  vi.advanceTimersByTime(300)
+  expect(events.map(event => [event.requestId, event.query.search])).toEqual([[2, 'Imperative']])
+  typeSearch(grid, 'Also pending')
+  grid.externalState = initial({ requestId: 3, query: { ...initial().query, search: 'Controlled' } })
+  vi.advanceTimersByTime(300)
+  expect(events).toHaveLength(1)
+  expect(grid.getQuery()).toMatchObject({ requestId: 3, query: { search: 'Controlled' } })
+})
+
+it('cancels pending external input on disconnect and does not replay it on reconnect', async () => {
+  const grid = await setup()
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const listener = vi.fn()
+  grid.addEventListener('query-change', listener)
+  typeSearch(grid, 'Pending')
+  expect(vi.getTimerCount()).toBe(1)
+  grid.remove()
+  expect(vi.getTimerCount()).toBe(0)
+  vi.advanceTimersByTime(300)
+  document.body.append(grid)
+  await grid.updateComplete
+  vi.advanceTimersByTime(300)
+  expect(listener).not.toHaveBeenCalled()
+  expect(grid.getQuery().requestId).toBe(1)
+})
+
+it.each([0, 1, 100_000])('ignores legacy data of length %i during an external debounce', async length => {
+  const grid = await setup()
+  grid.quickSearchDebounceThreshold = 0
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+  typeSearch(grid, 'A')
+  vi.advanceTimersByTime(100)
+  grid.data = new Array(length)
+  typeSearch(grid, 'AB')
+  expect(events).toEqual([])
+  vi.advanceTimersByTime(100)
+  grid.data = []
+  vi.advanceTimersByTime(49)
+  expect(events).toEqual([])
+  vi.advanceTimersByTime(1)
+  expect(events.map(event => [event.requestId, event.query.search])).toEqual([[2, 'AB']])
+  expect(grid.getPagination().totalRows).toBe(-1)
+})
+
+it.each([{ count: 2, delay: 150, immediate: true }, { count: 3, delay: 150, immediate: false }, { count: 4, delay: 150, immediate: false }, { count: 4, delay: 0, immediate: true }])('retains local threshold behavior: $count rows, $delay ms', async ({ count, delay, immediate }) => {
+  const grid = await setup()
+  grid.config = { pagination: { enabled: true, pageSize: 20 } }
+  grid.quickSearchDebounceThreshold = 3
+  grid.quickSearchDebounceMs = delay
+  grid.data = Array.from({ length: count }, (_, id) => ({ id, name: `Alpha ${id}` }))
+  await grid.updateComplete
+  grid.renderRoot.querySelector<HTMLButtonElement>('[aria-label="Show column actions"]')!.click()
+  await grid.updateComplete
+  button(grid, 'Show Quick Search').click()
+  await grid.updateComplete
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const listener = vi.fn()
+  grid.addEventListener('query-change', listener)
+  typeSearch(grid, 'A'); typeSearch(grid, 'Al')
+  expect(grid.getQuickSearch()).toBe(immediate ? 'Al' : '')
+  vi.advanceTimersByTime(150)
+  expect(grid.getQuickSearch()).toBe('Al')
+  expect(listener).not.toHaveBeenCalled()
+})

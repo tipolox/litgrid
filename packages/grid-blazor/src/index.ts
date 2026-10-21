@@ -11,12 +11,19 @@ import type {
   GridFilter,
   GridRowKey,
   SelectionChangeDetail,
+  GridExternalState,
+  GridQueryChangeDetail,
+  GridQuerySnapshot,
+  SortDirection,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
 import { syncGridInputs, type BlazorGridInputs, type BlazorGridInputPatch } from './gridBindings'
+export type { GridQuery, GridQueryFilter, GridQueryReason, GridQueryChangeDetail, GridQuerySnapshot, GridExternalTotal, GridExternalState } from '@tipolox/litgrid-web'
 
 export type BlazorGridPaginationState = {
+  totalKnown?: boolean
+  hasMore?: boolean
   enabled: boolean
   pageIndex: number
   pageSize: number
@@ -62,6 +69,7 @@ export interface DotNetHelper {
 }
 
 interface GridListeners {
+  onQueryChange: (event: Event) => void
   onSelectionChange: (event: Event) => void
   onStateChange: (event: Event) => void
   onReorder: (event: Event) => void
@@ -86,6 +94,11 @@ export function initGrid(
   // Initialization may have applied successfully but lost its Server acknowledgment.
   // Retrying must replace callbacks rather than retaining duplicate listeners.
   disposeGrid(element)
+
+  const onQueryChange = (event: Event) => {
+    if (event.target === grid) dotNetHelper.invokeMethodAsync('HandleQueryChange', (event as CustomEvent<GridQueryChangeDetail>).detail)
+  }
+  grid.addEventListener('query-change', onQueryChange)
 
   const onSelectionChange = (event: Event) => {
     if (event.target === grid) dotNetHelper.invokeMethodAsync('HandleSelectionChange', (event as CustomEvent<SelectionChangeDetail>).detail)
@@ -112,6 +125,7 @@ export function initGrid(
   grid.addEventListener('column-visibility-change', onVisibilityChange)
 
   activeListeners.set(element, {
+    onQueryChange,
     onSelectionChange,
     onStateChange,
     onReorder,
@@ -128,6 +142,7 @@ export function updateInputs(element: HTMLElement, inputs: BlazorGridInputPatch)
 export function disposeGrid(element: HTMLElement): void {
   const listeners = activeListeners.get(element)
   if (listeners && element) {
+    element.removeEventListener('query-change', listeners.onQueryChange)
     element.removeEventListener('column-state-change', listeners.onStateChange)
     element.removeEventListener('selection-change', listeners.onSelectionChange)
     element.removeEventListener('column-reorder', listeners.onReorder)
@@ -264,6 +279,7 @@ export function setPageSize(element: HTMLElement, pageSize: number): void {
 export function getPagination(element: HTMLElement): BlazorGridPaginationState {
   const pagination = requireGrid(element).getPagination()
   return {
+    ...(pagination.totalKnown !== undefined ? { totalKnown: pagination.totalKnown, hasMore: pagination.hasMore } : {}),
     enabled: pagination.enabled,
     pageIndex: pagination.pageIndex,
     pageSize: pagination.pageSize,
@@ -275,6 +291,12 @@ export function getPagination(element: HTMLElement): BlazorGridPaginationState {
 export function getTotalRowCount(element: HTMLElement): number {
   return requireGrid(element).getTotalRowCount()
 }
+
+export function getQuery(element: HTMLElement): GridQuerySnapshot { return requireGrid(element).getQuery!() }
+export function refreshQuery(element: HTMLElement): void { requireGrid(element).refreshQuery!() }
+export function setExternalState(element: HTMLElement, state: GridExternalState): boolean { return requireGrid(element).setExternalState!(state) }
+export function sortBy(element: HTMLElement, key: string, direction: SortDirection): void { requireGrid(element).sortBy!(key, direction) }
+export function clearSort(element: HTMLElement): void { requireGrid(element).clearSort!() }
 
 export function selectRow(element: HTMLElement, rowIndex: number, intent?: SelectionIntent): void {
   requireGrid(element).selectRow(rowIndex, intent)

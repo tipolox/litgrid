@@ -1,4 +1,5 @@
 import type { GridConfig, ResolvedGridConfig } from '../model/GridConfig.js'
+import type { GridExternalState, GridQueryChangeDetail, GridQuerySnapshot } from '../model/GridQuery.js'
 import type {
   GridSelection,
   GridRowKey,
@@ -11,6 +12,11 @@ import type {
 } from '../model/GridState.js'
 
 export type GridEngine = {
+  setExternalState: (state: GridExternalState) => boolean
+  getExternalState: () => GridExternalState | null
+  getQuery: () => GridQuerySnapshot
+  refreshQuery: () => void
+  onQueryChange: (listener: (detail: GridQueryChangeDetail) => void) => () => void
   setConfig: (config: GridConfig) => void
   getConfig: () => ResolvedGridConfig
   setData: (data: unknown[]) => void

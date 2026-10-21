@@ -242,3 +242,10 @@ benchmarking guidance, see the [React Performance Guide](react-performance-guide
 `DataGrid` is a thin, reference-driven wrapper around `<yc-grid>`. It synchronizes inputs and forwards custom events and imperative calls directly to the custom element without duplicating grid state or data transformations in React.
 
 For complete, focused integration patterns, see the [Examples guide](examples.md).
+## External server queries
+
+For controlled server paging, sorting, filtering and search, see the
+[external-query contract and Next.js client example](external-query.md).
+Use `config.queryMode: 'external'`, immutable `externalState`, and
+`onQueryChange`. The application owns fetching, cancellation, scope and BFF
+authorization. No network requests are made by LitGrid.

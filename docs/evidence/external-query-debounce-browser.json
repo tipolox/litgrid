@@ -1,0 +1,19 @@
+{
+  "browser": "156.0.8078.4",
+  "correctness": "PASS",
+  "debounce": {
+    "rapidTyping": "PASS",
+    "finalIntentOnly": "PASS",
+    "zeroDelay": "PASS",
+    "clearCancellation": "PASS",
+    "disconnectCleanup": "PASS",
+    "focus": "PASS",
+    "requestIds": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "localThreshold": "PASS"
+  }
+}

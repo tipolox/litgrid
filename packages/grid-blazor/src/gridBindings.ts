@@ -2,10 +2,12 @@ import type {
   DataGridElement,
   GridColumn,
   GridConfig,
+  GridExternalState,
   GridTheme
 } from '@tipolox/litgrid-web'
 
 export type BlazorGridInputs = {
+  externalState?: GridExternalState | null
   data?: unknown[]
   columns?: GridColumn[]
   declarativeColumns?: boolean
@@ -100,7 +102,7 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
     previous.declarativeColumns = declarative
     captured.declarativeColumns = declarative
     captured.columnStateStorageKey = storageKey
-    const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, ...scalars } = effective
+    const { data: _, columns: __, declarativeColumns: ___, columnOrderChanged: ____, externalState, ...scalars } = effective
     const values = { ...scalars, columnStateStorageKey: storageKey }
     const propertyNames: Record<string, string> = {
       height: 'viewportHeight', rowHeight: 'virtualRowHeight', overscan: 'overscanCount',
@@ -114,6 +116,7 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
       const value = key === 'columnStateStorageKey' ? input ?? null : input
       const config = key === 'config' ? input as GridConfig : undefined
       const comparison = config ? JSON.stringify([
+        config.queryMode ?? 'local',
         config.selection?.mode ?? 'none', config.selection?.checkboxes ?? false,
         config.selection?.rowKey, config.selection?.scopeKey,
         config.rowHeader?.enabled ?? false, config.rowHeader?.width ?? 56,
@@ -129,6 +132,12 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
       captured[key] = captureValue(key, value)
     }
     // Apply scope before data: separate tenants can reuse record keys.
+    if ('externalState' in effective && (previous.externalState !== externalState || state.uncertain.has('externalState'))) {
+      touched.add('externalState')
+      grid.externalState = externalState ?? null
+      previous.externalState = externalState
+      captured.externalState = externalState
+    }
     if (effective.data !== undefined) {
       touched.add('data')
       grid.data = effective.data
