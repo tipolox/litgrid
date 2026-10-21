@@ -249,4 +249,3 @@ For controlled server paging, sorting, filtering and search, see the
 Use `config.queryMode: 'external'`, immutable `externalState`, and
 `onQueryChange`. The application owns fetching, cancellation, scope and BFF
 authorization. No network requests are made by LitGrid.
-

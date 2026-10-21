@@ -168,9 +168,9 @@ application commit guards remain necessary across remounts. Unknown totals use
 an explicit -1 numeric sentinel for backward-compatible getter types. The new
 external input requires immutable replacement.
 
-ISSUE #35: READY FOR REVIEW  
-BACKWARD COMPATIBILITY: PASS (existing local regression suite)  
-RELEASE: UNCHANGED  
+ISSUE #35: READY FOR REVIEW
+BACKWARD COMPATIBILITY: PASS (existing local regression suite)
+RELEASE: UNCHANGED
 PROPERTY MANAGEMENT: UNCHANGED
 
 Stop for independent review. No merge or release authorization is implied.
