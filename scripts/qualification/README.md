@@ -24,6 +24,7 @@ node scripts/qualification/consumers-browser.mjs <playwright-directory> <strict-
 node scripts/qualification/adapters-browser.mjs .private/v120-consumer <playwright-directory> <adapters-result.json>
 node scripts/qualification/selection-browser.mjs .private/v120-candidate <playwright-directory>
 node scripts/qualification/performance.mjs .private/v120-candidate .private/v110-baseline <playwright-directory> <performance-result.json>
+node scripts/qualification/react-performance.mjs .private/v120-candidate .private/v110-baseline <playwright-directory> <react-performance-result.json>
 ```
 
 The external-query browser harness takes a Playwright **module file URL** as its first argument. The monetary harness uses `LITGRID_PLAYWRIGHT_MODULE=<playwright-directory>`. Run those from the candidate root; see their file headers. Stop other test/compiler workloads before performance sampling, alternate runs on identical equipment and preserve raw samples. The performance harness includes keyed/unkeyed core controls and CPU profile summaries, without changing source algorithms.

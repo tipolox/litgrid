@@ -5,6 +5,7 @@ const out='docs/release/evidence/v1.2.0'
 fs.mkdirSync(out,{recursive:true})
 const read=file=>{const b=fs.readFileSync(file);return (b[0]===255&&b[1]===254?b.subarray(2).toString('utf16le'):b.toString('utf8')).replace(/^\uFEFF/,'')}
 const raw=['v120-root-types-clean.log','v120-root-types-final.log','v120-types-shim.json','v120-types-real.json','v120-types-bundler.json','v120-types-comparison.json','v120-tests.log','v120-tests-final.log','v120-build.log','v120-build-final.log','v120-dotnet-test.log','v120-dotnet-build.log','v120-consumer-types.log','v120-next-build.log','v120-blazor-consumer-build.log','v120-blazor-consumer-publish.log','v120-artifact-validation.log','v120-packaged-browser.json','v120-strictmode-browser.json','v120-adapters-browser.json','v120-performance.json','v120-performance-repeat.json','v120-performance-profile.json']
+raw.push('v120-react-performance.json')
 for(const file of raw){const source=path.join('.private',file);if(fs.existsSync(source))fs.writeFileSync(path.join(out,file),read(source).replace(/\x1b\[[0-9;]*m/g,'').replaceAll('D:/Work/litgrid-p0','<workspace>').replaceAll('D:\\Work\\litgrid-p0','<workspace>'))}
 for(const [source,dest]of[['v120-external-browser.log','external-browser.json'],['v120-column-browser.log','column-browser.json'],['v120-selection-browser.log','selection-browser.json']]){
  const log=read(path.join('.private',source));let value
