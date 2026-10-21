@@ -80,6 +80,8 @@ React exposes `onSelectionChange?: (detail: SelectionChangeDetail) => void`, plu
 
 Vue forwards `@selection-change`; Angular exposes `(selectionChange)`. Both expose the same snapshot/key methods. Blazor exposes `OnSelectionChange`, `GetSelectionSnapshotAsync()`, and `SelectRowByKeyAsync(string key, SelectionIntent? intent)`. Its optional `GridSelectionConfig.RowKey` and `ScopeKey` are strings; callback row/key/scope values use `JsonElement`. TypeScript interop also accepts numeric keys. JS/.NET delivery is asynchronous; recheck current scope before applying results.
 
+Vue installs all event listeners before initial input synchronization. The consumer receives the real synchronous initial mode/scope notification, with empty selected rows, without a synthetic duplicate. Subsequent scope/data changes use the same forwarding path, and unmount removes all listeners.
+
 Core exposes `onSelectionChange(listener)` returning an unsubscribe function, snapshot/key methods, and `getSelectableRowCount()` for checkbox coordination. The shared state path covers pointer, keyboard, checkboxes, imperative calls, transforms, config, and data replacement. Existing focus handling, ARIA selection, announcements, and native custom-cell keyboard activation remain in the Web Component. Custom controls can stop click propagation to keep pointer activation from selecting their containing row, as before.
 
 ## Cost and verification
@@ -87,3 +89,19 @@ Core exposes `onSelectionChange(listener)` returning an unsubscribe function, sn
 Key validation is O(input rows) on data/key-config changes. The displayed-key index is O(displayed rows) on view changes. Selection/snapshot comparisons cost O(selected rows/cells), without dataset scans or index rebuilding per click. Range/Select All necessarily process the selected range. Virtualization and delegated event handling remain in use.
 
 Run `pnpm test`, `pnpm run build`, the Blazor tests/build, and `pnpm exec tsc -p packages/grid-web/tests/tsconfig.selection.json`. Browser regression: serve local Vite on port 5174, then run `scripts/selection-browser-check.mjs` with Playwright installed. Its optional first argument is a file URL to Playwright's `index.mjs`; `LITGRID_TEST_URL` overrides the server URL. Local tooling can be installed without a repository dependency using `npm install --prefix .private/selection-browser-tools --no-save --package-lock=false playwright`. The script verifies keyboard/focus, keys, ARIA, custom controls, scope reset, and 30,000/100,000-row virtualization. Local timings are observations, not an SLA or assistive-technology certification.
+
+### Root TypeScript backlog (#31)
+
+The unfiltered root typecheck is **not clean**. PR #39's comparison including the existing `react-shim.d.ts` reported **162 baseline / 167 feature diagnostics**, an increase of five. This is tracked under [#31](https://github.com/tipolox/litgrid/issues/31), alongside wrapper fixture typechecking. The five additional reports are:
+
+| File | Diagnostic |
+| --- | --- |
+| `packages/grid-react/src/DataGrid.selectionChange.test.tsx` | TS2305: React shim does not export `act` |
+| `packages/grid-react/src/DataGrid.tsx` | TS2305: React shim does not export `useLayoutEffect` |
+| `packages/grid-react/src/DataGrid.tsx` | TS7031: `onSelectionChange` binding implicitly has type `any` |
+| `packages/grid-react/src/DataGrid.tsx` | TS7006: `key` parameter implicitly has type `any` |
+| `packages/grid-react/src/DataGrid.tsx` | TS7006: `intent` parameter implicitly has type `any` |
+
+The legacy ambient shim shadows the installed React declarations; the missing contextual types also cause the implicit-any reports. Package builds and the scoped old/new selection compatibility fixture use the real installed React typings and pass. The source-tree comparison excluding that shim reported 68 baseline / 68 feature diagnostics, with none added; that separate check must not be described as an unchanged unfiltered root result. Generated outputs can affect the total from a literal root `tsc --noEmit` invocation. Resolving the root shim and stale wrapper fixtures, and enforcing their typecheck in CI, remains #31 work; the Vue subscription-order correction does not expand that scope.
+
+The Vue follow-up explicitly includes the existing React `jsx-elements.d.ts` in the selection fixture's tsconfig, matching the column-controls fixture. Omitting it caused two `yc-grid` JSX errors in the scoped check; correcting that fixture input does not resolve or hide the five root diagnostics above.

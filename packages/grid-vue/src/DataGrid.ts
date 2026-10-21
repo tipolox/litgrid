@@ -162,12 +162,13 @@ export const DataGrid = defineComponent({
     }
 
     onMounted(() => {
-      syncInputs()
       const grid = requireGridElement()
       grid.addEventListener('selection-change', handleSelectionChange)
       grid.addEventListener('column-state-change', handleColumnStateChange)
       grid.addEventListener('column-reorder', handleColumnReorder)
       grid.addEventListener('column-visibility-change', handleColumnVisibilityChange)
+      // Initial mode/scope changes emit synchronously from input synchronization.
+      syncInputs()
     })
 
     onBeforeUnmount(() => {
