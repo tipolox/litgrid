@@ -9,6 +9,9 @@ import {
   type GridSelection,
   type GridRowKey,
   type SelectionChangeDetail,
+  type GridExternalState,
+  type GridQueryChangeDetail,
+  type SortDirection,
   type SelectionIntent
 } from '@tipolox/litgrid-core'
 import {
@@ -148,6 +151,7 @@ export class DataGrid extends LitElement {
   private shouldRestoreHeaderMenuFocus = false
   private screenReaderMessage = ''
   private lastScreenReaderAnnouncement = ''
+  private paginationFocusTarget: HTMLButtonElement | null = null
 
   // Use a larger cap (2^26) to avoid hitting browser element-height limits.
 
@@ -177,6 +181,15 @@ export class DataGrid extends LitElement {
     this.engine.onSelectionChange(detail => {
       this.requestUpdate()
       this.dispatchEvent(new CustomEvent<SelectionChangeDetail>('selection-change', {
+        detail, bubbles: true, composed: true
+      }))
+    })
+    this.engine.onQueryChange(detail => {
+      this.quickSearchDraft = detail.query.search
+      this.clearBestFitWidths()
+      this.resetVerticalScroll()
+      this.requestUpdate()
+      this.dispatchEvent(new CustomEvent<GridQueryChangeDetail>('query-change', {
         detail, bubbles: true, composed: true
       }))
     })
@@ -716,6 +729,11 @@ export class DataGrid extends LitElement {
   }
 
       updated() {
+    const paginationTarget = this.paginationFocusTarget
+    this.paginationFocusTarget = null
+    if (paginationTarget?.isConnected && paginationTarget.disabled) {
+      this.renderRoot.querySelector<HTMLElement>('.pagination button:not([disabled]), .pagination select')?.focus()
+    }
     this.updateScrollbarWidth()
 
     if (this.shouldFocusViewport) {
@@ -1363,6 +1381,10 @@ export class DataGrid extends LitElement {
   }
 
   private announceVisibleRowCount(context: string) {
+    if (this.engine.getConfig().queryMode === 'external') {
+      this.announceScreenReader(`${context}. Server query requested.`)
+      return
+    }
     const rowCount = this.engine.getRowCount()
     this.announceScreenReader(rowCount === 0 ? `${context}. No matching rows.` : `${context}. ${rowCount} ${rowCount === 1 ? 'row' : 'rows'} shown.`)
   }
@@ -1372,7 +1394,7 @@ export class DataGrid extends LitElement {
   private handleSortAscending(columnKey: string) {
     if (!this.getColumnCapabilities(columnKey).sortable) return
     this.engine.sortBy(columnKey, 'asc')
-    this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`)
+    this.announceScreenReader(`${this.getColumnLabel(columnKey)} ${this.engine.getConfig().queryMode === 'external' ? 'ascending sort requested' : 'sorted ascending'}.`)
     this.requestUpdate()
     this.closeHeaderMenu(true)
   }
@@ -1380,7 +1402,7 @@ export class DataGrid extends LitElement {
   private handleSortDescending(columnKey: string) {
     if (!this.getColumnCapabilities(columnKey).sortable) return
     this.engine.sortBy(columnKey, 'desc')
-    this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`)
+    this.announceScreenReader(`${this.getColumnLabel(columnKey)} ${this.engine.getConfig().queryMode === 'external' ? 'descending sort requested' : 'sorted descending'}.`)
     this.requestUpdate()
     this.closeHeaderMenu(true)
   }
@@ -1388,7 +1410,7 @@ export class DataGrid extends LitElement {
   private handleClearSort(columnKey: string) {
     if (!this.getColumnCapabilities(columnKey).sortable) return
     this.engine.clearSort()
-    this.announceScreenReader('Sorting cleared.')
+    this.announceScreenReader(this.engine.getConfig().queryMode === 'external' ? 'Clear sorting requested.' : 'Sorting cleared.')
     this.requestUpdate()
     this.closeHeaderMenu(true)
   }
@@ -1632,24 +1654,67 @@ export class DataGrid extends LitElement {
     return this.engine.getFilters()
   }
 
+  sortBy(columnKey: string, direction: SortDirection) {
+    this.engine.sortBy(columnKey, direction)
+    this.resetVerticalScroll()
+    this.requestUpdate()
+  }
+
+  clearSort() {
+    this.engine.clearSort()
+    this.resetVerticalScroll()
+    this.requestUpdate()
+  }
+
+  getQuery() { return this.engine.getQuery() }
+  refreshQuery() { this.engine.refreshQuery() }
+  get externalState() { return this.engine.getExternalState() }
+  set externalState(value: GridExternalState | null) {
+    if (value) this.setExternalState(value)
+  }
+  setExternalState(value: GridExternalState): boolean {
+    if (!this.engine.setExternalState(value)) return false
+    this.clearQuickSearchDebounce()
+    this.quickSearchDraft = this.engine.getQuickSearch()
+    this.filterDrafts = new Map(this.engine.getFilters().map(filter => [filter.columnKey, filter]))
+    this.sourceRowCount = this.engine.getRowCount()
+    this.clearBestFitWidths()
+    this.requestUpdate()
+    return true
+  }
+
+  private getPageLabel() {
+    const pagination = this.engine.getPagination()
+    if (this.engine.getConfig().queryMode === 'external' && pagination.totalKnown && pagination.pageIndex > 0 && pagination.pageIndex >= pagination.pageCount) return `Page ${pagination.pageIndex + 1} (out of range)`
+    return pagination.totalKnown === false ? `Page ${pagination.pageIndex + 1}`
+      : `Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}`
+  }
+
   setPage(pageIndex: number) {
+    this.rememberPaginationFocus()
     this.engine.setPage(pageIndex)
     this.resetVerticalScroll()
     const pagination = this.engine.getPagination()
-    this.announceScreenReader(`Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}.`)
+    this.announceScreenReader(`${this.getPageLabel()}.`)
     this.requestUpdate()
   }
 
   setPageSize(pageSize: number) {
+    this.rememberPaginationFocus()
     this.engine.setPageSize(pageSize)
     this.resetVerticalScroll()
     const pagination = this.engine.getPagination()
-    this.announceScreenReader(`${pagination.pageSize} rows per page. Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}.`)
+    this.announceScreenReader(`${pagination.pageSize} rows per page. ${this.getPageLabel()}.`)
     this.requestUpdate()
   }
 
   getPagination() {
     return this.engine.getPagination()
+  }
+
+  private rememberPaginationFocus() {
+    const active = this.shadowRoot?.activeElement
+    if (active instanceof HTMLButtonElement && active.closest('.pagination')) this.paginationFocusTarget = active
   }
 
   getTotalRowCount() {
@@ -2594,6 +2659,7 @@ export class DataGrid extends LitElement {
   }
 
     set data(value: unknown[]) {
+    if (this.engine.getConfig().queryMode === 'external') return
     this.clearQuickSearchDebounce()
 
     this.sourceRowCount = Array.isArray(value) ? value.length : 0
@@ -2809,6 +2875,12 @@ export class DataGrid extends LitElement {
   render() {
     const count = this.engine.getRowCount()
     const pagination = this.engine.getPagination()
+    const external = this.engine.getConfig().queryMode === 'external'
+    const externalState = external ? this.engine.getExternalState() : null
+    const outOfRange = external && pagination.totalKnown && pagination.pageIndex > 0 && pagination.pageIndex >= pagination.pageCount
+    const externalStatus = externalState?.loading ? 'Loading results.' : externalState?.error
+      ? externalState.error : outOfRange ? 'Requested page is out of range. Choose a previous page.'
+      : count === 0 ? (pagination.totalRows === 0 ? 'No results.' : 'No rows on this page.') : ''
     const pageSizeOptions = [25, 50, 100].includes(pagination.pageSize)
       ? [25, 50, 100]
       : [pagination.pageSize, 25, 50, 100].sort((left, right) => left - right)
@@ -2932,14 +3004,16 @@ export class DataGrid extends LitElement {
     return html`
             <div
         class="shell"
+        aria-busy=${external ? String(!!externalState?.loading) : nothing}
         style=${`--virtual-grid-template: ${gridTemplate}; --total-column-width: ${totalColumnWidth}px; --total-row-width: ${totalRowWidth}px; --row-header-width: ${rowHeaderWidth}px; --header-grid-template: ${headerGridTemplate}; --scrollbar-width: ${this.scrollbarWidth}px;`}
         @keydown=${this.handleShellKeyDown}
         >
         <p id=${`${this.gridId}-description`} class="screen-reader-only">${this.getScreenReaderDescription()}</p>
+        ${external && externalStatus ? html`<div class="external-status" role=${externalState?.error ? 'alert' : 'status'}>${externalStatus}</div>` : nothing}
         ${this.screenReaderAnnouncements
           ? html`<div class="screen-reader-only" role="status" aria-live="polite" aria-atomic="true">${this.screenReaderMessage}</div>`
           : ''}
-        ${this.quickSearchVisible
+        ${this.quickSearchVisible || external
           ? html`
               <div class="quick-search" role="search">
                 <input
@@ -3200,7 +3274,7 @@ export class DataGrid extends LitElement {
           ? html`
               <div class="pagination" role="navigation" aria-label="Pagination">
                 <div class="pagination-summary">
-                  <span>${pagination.totalRows} rows</span>
+                  <span>${pagination.totalKnown === false ? 'Total unknown' : `${pagination.totalRows} rows`}</span>
                   <label>
                     Rows per page
                     <select
@@ -3217,7 +3291,7 @@ export class DataGrid extends LitElement {
                   </label>
                 </div>
                 <div class="pagination-navigation">
-                  <span>Page ${pagination.pageCount === 0 ? 0 : pagination.pageIndex + 1} of ${pagination.pageCount}</span>
+                  <span>${this.getPageLabel()}</span>
                   <button
                     type="button"
                     ?disabled=${pagination.pageIndex === 0}
@@ -3225,7 +3299,7 @@ export class DataGrid extends LitElement {
                   >Previous</button>
                   <button
                     type="button"
-                    ?disabled=${pagination.pageCount === 0 || pagination.pageIndex >= pagination.pageCount - 1}
+                    ?disabled=${pagination.totalKnown === false ? !pagination.hasMore : pagination.pageCount === 0 || pagination.pageIndex >= pagination.pageCount - 1}
                     @click=${() => this.setPage(pagination.pageIndex + 1)}
                   >Next</button>
                 </div>

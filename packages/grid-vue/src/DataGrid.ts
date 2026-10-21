@@ -22,12 +22,17 @@ import type {
   GridSelection,
   GridRowKey,
   SelectionChangeDetail,
+  GridExternalState,
+  GridQueryChangeDetail,
+  GridQuerySnapshot,
+  SortDirection,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
 import { syncGridInputs } from './gridBindings.js'
 
 export type DataGridProps = {
+  externalState?: GridExternalState
   data: unknown[]
   columns?: GridColumn[]
   config?: GridConfig
@@ -46,6 +51,11 @@ export type DataGridProps = {
 }
 
 export type DataGridInstance = {
+  setExternalState(state: GridExternalState): boolean
+  getQuery(): GridQuerySnapshot
+  refreshQuery(): void
+  sortBy(key: string, direction: SortDirection): void
+  clearSort(): void
   readonly gridElement: DataGridElement | null
   getRowHeight(rowIndex: number): number
   getColumnWidth(column: GridColumn): number
@@ -95,6 +105,7 @@ const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the Vue compon
 export const DataGrid = defineComponent({
   name: 'LitGridDataGrid',
   props: {
+    externalState: { type: Object as PropType<GridExternalState>, default: undefined },
     data: { type: Array as PropType<unknown[]>, required: true },
     columns: { type: Array as PropType<GridColumn[]>, default: () => [] },
     config: { type: Object as PropType<GridConfig>, default: () => ({}) },
@@ -112,6 +123,7 @@ export const DataGrid = defineComponent({
     columnStateStorageKey: { type: String, default: undefined }
   },
   emits: {
+    'query-change': (_detail: GridQueryChangeDetail) => true,
     'selection-change': (_detail: SelectionChangeDetail) => true,
     'column-state-change': (_detail: ColumnStateChangeDetail) => true,
     'column-reorder': (_detail: ColumnReorderDetail) => true,
@@ -133,6 +145,7 @@ export const DataGrid = defineComponent({
     }
 
     watch(() => props.data, syncInputs)
+    watch(() => props.externalState, syncInputs)
     watch(() => props.columns, syncInputs)
     watch(() => props.config, syncInputs)
     watch(() => props.theme, syncInputs)
@@ -154,6 +167,9 @@ export const DataGrid = defineComponent({
     const handleSelectionChange = (event: Event) => {
       if (event.target === gridRef.value) emit('selection-change', (event as CustomEvent<SelectionChangeDetail>).detail)
     }
+    const handleQueryChange = (event: Event) => {
+      if (event.target === gridRef.value) emit('query-change', (event as CustomEvent<GridQueryChangeDetail>).detail)
+    }
     const handleColumnReorder = (event: Event) => {
       emit('column-reorder', (event as CustomEvent<ColumnReorderDetail>).detail)
     }
@@ -164,6 +180,7 @@ export const DataGrid = defineComponent({
     onMounted(() => {
       const grid = requireGridElement()
       grid.addEventListener('selection-change', handleSelectionChange)
+      grid.addEventListener('query-change', handleQueryChange)
       grid.addEventListener('column-state-change', handleColumnStateChange)
       grid.addEventListener('column-reorder', handleColumnReorder)
       grid.addEventListener('column-visibility-change', handleColumnVisibilityChange)
@@ -175,12 +192,18 @@ export const DataGrid = defineComponent({
       const grid = gridRef.value
       if (!grid) return
       grid.removeEventListener('selection-change', handleSelectionChange)
+      grid.removeEventListener('query-change', handleQueryChange)
       grid.removeEventListener('column-state-change', handleColumnStateChange)
       grid.removeEventListener('column-reorder', handleColumnReorder)
       grid.removeEventListener('column-visibility-change', handleColumnVisibilityChange)
     })
 
     expose({
+      setExternalState: (state: GridExternalState) => requireGridElement().setExternalState!(state),
+      getQuery: () => requireGridElement().getQuery!(),
+      refreshQuery: () => requireGridElement().refreshQuery!(),
+      sortBy: (key: string, direction: SortDirection) => requireGridElement().sortBy!(key, direction),
+      clearSort: () => requireGridElement().clearSort!(),
       get gridElement() { return gridRef.value },
       getRowHeight: (rowIndex: number) => requireGridElement().getRowHeight(rowIndex),
       getColumnWidth: (column: GridColumn) => requireGridElement().getColumnWidth(column),

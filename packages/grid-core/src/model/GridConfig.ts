@@ -7,6 +7,8 @@ export type GridPaginationConfig = {
 }
 
 export type GridConfig = {
+  /** Opt in to atomic server page results and query intents. Defaults to local. */
+  queryMode?: 'local' | 'external'
   selection?: {
     mode?: SelectionMode
     checkboxes?: boolean
@@ -23,6 +25,7 @@ export type GridConfig = {
 }
 
 export type ResolvedGridConfig = {
+  queryMode: 'local' | 'external'
   selection: {
     mode: SelectionMode
     checkboxes: boolean
@@ -50,6 +53,7 @@ function normalizePageIndex(value: number | undefined) {
 
 export function normalizeConfig(config: GridConfig = {}): ResolvedGridConfig {
   return {
+    queryMode: config.queryMode === 'external' ? 'external' : 'local',
     selection: {
       mode: config.selection?.mode ?? 'none',
       checkboxes: config.selection?.checkboxes ?? false,

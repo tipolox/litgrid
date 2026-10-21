@@ -17,6 +17,8 @@ public class GridFilter
 
 public class GridPaginationState
 {
+    [JsonPropertyName("totalKnown")] public bool? TotalKnown { get; set; }
+    [JsonPropertyName("hasMore")] public bool? HasMore { get; set; }
     [JsonPropertyName("enabled")]
     public bool Enabled { get; set; }
 

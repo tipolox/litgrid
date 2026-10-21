@@ -1,5 +1,6 @@
 export { createGridEngine } from './core/createGridEngine.js'
 export type { GridEngine } from './core/GridEngine.js'
+export type { GridQuery, GridQueryFilter, GridQueryReason, GridQueryChangeDetail, GridQuerySnapshot, GridExternalTotal, GridExternalState } from './model/GridQuery.js'
 export type { GridConfig, GridPaginationConfig, ResolvedGridConfig, SelectionMode } from './model/GridConfig.js'
 export type {
   FilterOperator,

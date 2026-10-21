@@ -2,10 +2,12 @@ import type {
   DataGridElement,
   GridColumn,
   GridConfig,
+  GridExternalState,
   GridTheme
 } from '@tipolox/litgrid-web'
 
 export type AngularGridInputs = {
+  externalState?: GridExternalState
   data: unknown[]
   columns: GridColumn[]
   config: GridConfig
@@ -29,7 +31,9 @@ export function syncGridInputs(
 ): void {
   grid.columns = inputs.columns
   grid.config = inputs.config
-  grid.data = inputs.data
+  if (inputs.config.queryMode === 'external') {
+    if (inputs.externalState) grid.externalState = inputs.externalState
+  } else grid.data = inputs.data
   grid.theme = inputs.theme
   grid.ariaLabel = inputs.ariaLabel
   grid.ariaDescription = inputs.ariaDescription

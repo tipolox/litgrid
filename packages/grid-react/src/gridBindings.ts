@@ -2,10 +2,12 @@ import type {
   DataGridElement,
   GridColumn,
   GridConfig,
+  GridExternalState,
   GridTheme
 } from '@tipolox/litgrid-web'
 
 export type ReactGridInputs = {
+  externalState?: GridExternalState
   data: unknown[]
   columns: GridColumn[]
   config: GridConfig
@@ -31,7 +33,9 @@ export function syncGridInputs(
 ): void {
   // Keep the existing effect-triggered synchronization contract, including
   // in-place mutations. Navigation is retained by the structural grid setters.
-  grid.columns = inputs.columns
+  const previous = synchronizedInputs.get(grid)
+  const external = inputs.config.queryMode === 'external'
+  if (!external || !previous || previous.columns !== inputs.columns) grid.columns = inputs.columns
   const values = {
     config: inputs.config,
     theme: inputs.theme, ariaLabel: inputs.ariaLabel, ariaDescription: inputs.ariaDescription,
@@ -46,6 +50,7 @@ export function syncGridInputs(
   // Snapshot only the fixed-size configuration, never row data or column content.
   const config = inputs.config
   const configKey = JSON.stringify([
+    config.queryMode ?? 'local',
     config.selection?.mode ?? 'none', config.selection?.checkboxes ?? false,
     config.selection?.rowKey, config.selection?.scopeKey,
     config.rowHeader?.enabled ?? false, config.rowHeader?.width ?? 56,
@@ -53,13 +58,15 @@ export function syncGridInputs(
     Number.isFinite(config.pagination?.pageSize) && config.pagination!.pageSize! > 0 ? Math.max(1, Math.floor(config.pagination!.pageSize!)) : 50,
     Number.isFinite(config.pagination?.pageIndex) && config.pagination!.pageIndex! >= 0 ? Math.floor(config.pagination!.pageIndex!) : 0
   ])
-  const previous = synchronizedInputs.get(grid)
   for (const [key, value] of Object.entries(values)) {
     if (!previous || (key === 'config' ? previous.configKey !== configKey : previous[key] !== value)) {
       Reflect.set(grid, key, value)
     }
   }
-  synchronizedInputs.set(grid, { ...values, configKey })
+  if (external && inputs.externalState && (!previous || previous.externalState !== inputs.externalState || previous.configKey !== configKey)) {
+    grid.externalState = inputs.externalState
+  }
+  synchronizedInputs.set(grid, { ...values, configKey, columns: inputs.columns, externalState: inputs.externalState })
   // Clear a changed scope before loading rows that may reuse the same keys.
-  grid.data = inputs.data
+  if (!external) grid.data = inputs.data
 }

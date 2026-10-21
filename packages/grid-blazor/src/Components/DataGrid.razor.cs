@@ -56,6 +56,21 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     [Parameter]
     public IEnumerable<TItem> Data { get; set; } = [];
 
+    [Parameter] public GridExternalState<TItem>? ExternalState { get; set; }
+    [Parameter] public EventCallback<GridQueryChangeDetail> OnQueryChange { get; set; }
+
+    [JSInvokable]
+    public async Task HandleQueryChange(GridQueryChangeDetail detail)
+    {
+        if (!disposed && OnQueryChange.HasDelegate) await OnQueryChange.InvokeAsync(detail);
+    }
+
+    public async ValueTask<GridQuerySnapshot> GetQueryAsync() => await RequireModule().InvokeAsync<GridQuerySnapshot>("getQuery", elementRef);
+    public async ValueTask RefreshQueryAsync() => await RequireModule().InvokeVoidAsync("refreshQuery", elementRef);
+    public async ValueTask<bool> SetExternalStateAsync(GridExternalState<TItem> state) => await RequireModule().InvokeAsync<bool>("setExternalState", elementRef, state);
+    public async ValueTask SortByAsync(string columnKey, string direction) => await RequireModule().InvokeVoidAsync("sortBy", elementRef, columnKey, direction);
+    public async ValueTask ClearSortAsync() => await RequireModule().InvokeVoidAsync("clearSort", elementRef);
+
     /// <summary>
     /// Optional caller-owned change signal. Revision changes (including null transitions)
     /// synchronize alongside replacements, notifications and explicit refreshes.
@@ -385,6 +400,7 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
 
     private Dictionary<string, object?> CaptureScalars() => new()
     {
+        ["externalState"] = ExternalState,
         ["theme"] = Theme == GridTheme.Dark ? "dark" : "light",
         ["ariaLabel"] = AriaLabel,
         ["ariaDescription"] = AriaDescription,
@@ -401,13 +417,14 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
 
     // Copy supported mutable configuration values without serializing it to compare.
     private sealed record ConfigurationSnapshot(SelectionMode? Mode, bool? Checkboxes, string? RowKey, string? ScopeKey,
-        bool? RowHeaderEnabled, double? RowHeaderWidth, bool? PaginationEnabled, int? PageSize, int? PageIndex)
+        bool? RowHeaderEnabled, double? RowHeaderWidth, bool? PaginationEnabled, int? PageSize, int? PageIndex, string? QueryMode)
     {
         internal static ConfigurationSnapshot Capture(GridConfig config) => new(config.Selection?.Mode,
             config.Selection?.Checkboxes, config.Selection?.RowKey, config.Selection?.ScopeKey, config.RowHeader?.Enabled, config.RowHeader?.Width,
-            config.Pagination?.Enabled, config.Pagination?.PageSize, config.Pagination?.PageIndex);
+            config.Pagination?.Enabled, config.Pagination?.PageSize, config.Pagination?.PageIndex, config.QueryMode);
         internal GridConfig ToConfig() => new()
         {
+            QueryMode = QueryMode,
             Selection = new() { Mode = Mode, Checkboxes = Checkboxes, RowKey = RowKey, ScopeKey = ScopeKey },
             RowHeader = new() { Enabled = RowHeaderEnabled, Width = RowHeaderWidth },
             Pagination = new() { Enabled = PaginationEnabled, PageSize = PageSize, PageIndex = PageIndex }

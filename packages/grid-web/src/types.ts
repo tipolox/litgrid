@@ -5,11 +5,16 @@ import type {
   GridSelection,
   GridRowKey,
   SelectionChangeDetail,
+  GridExternalState,
+  GridQuerySnapshot,
+  GridQueryChangeDetail,
+  SortDirection,
   SelectionIntent
 } from '@tipolox/litgrid-core'
 import type { ColumnStateChangeDetail, GridColumnState } from './columnState/columnState.js'
 
 export type { ColumnStateChangeDetail, GridColumnState }
+export type { GridQuery, GridQueryFilter, GridQueryReason, GridQueryChangeDetail, GridQuerySnapshot, GridExternalTotal, GridExternalState, SortDirection } from '@tipolox/litgrid-core'
 
 export type {
   GridRowKey,
@@ -56,6 +61,13 @@ export type ColumnVisibilityChangeDetail = {
 }
 
 export type DataGridElement = HTMLElement & {
+  /** Additive external-query capabilities; production DataGrid implements them. */
+  externalState?: GridExternalState | null
+  setExternalState?: (state: GridExternalState) => boolean
+  getQuery?: () => GridQuerySnapshot
+  refreshQuery?: () => void
+  sortBy?: (columnKey: string, direction: SortDirection) => void
+  clearSort?: () => void
   data: unknown[]
   columns: GridColumn[]
   config: GridConfig
@@ -121,5 +133,6 @@ export type DataGridElement = HTMLElement & {
 declare global {
   interface HTMLElementEventMap {
     'selection-change': CustomEvent<SelectionChangeDetail>
+    'query-change': CustomEvent<GridQueryChangeDetail>
   }
 }

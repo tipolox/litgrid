@@ -4,6 +4,9 @@ namespace Tipolox.LitGrid.Blazor;
 
 public class GridConfig
 {
+    [JsonPropertyName("queryMode")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? QueryMode { get; set; }
     [JsonPropertyName("selection")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public GridSelectionConfig? Selection { get; set; }

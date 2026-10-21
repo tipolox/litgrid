@@ -27,6 +27,10 @@ Before emitting, the grid commits query state, clears displayed rows/selection,
 and marks loading. Synchronous `selection-change` precedes `query-change` when
 selection actually changes. Render follows asynchronously. Controlled inputs
 never emit query intents. Listeners may synchronously commit a response.
+Reentrant query intents are queued until the current notification finishes, so
+all subscribers observe the same identity order. A result commit attempted from
+inside a synchronous selection notification returns false; commit results from
+the query callback or subsequent application work instead.
 
 `setExternalState(state): boolean` atomically validates and commits a response;
 the property setter uses the same guard. Lower request IDs are rejected. The

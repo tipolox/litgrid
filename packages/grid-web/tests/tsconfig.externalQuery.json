@@ -1,0 +1,5 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": { "noEmit": true, "lib": ["ES2022", "DOM"], "rootDir": "../../..", "moduleResolution": "Bundler" },
+  "include": ["externalQuery.typecheck.ts", "oldShape.typecheck.ts", "../../grid-react/src/jsx-elements.d.ts", "../src/components/DataGrid.externalQuery.test.ts", "../../grid-core/src/core/externalQuery*.test.ts", "../../grid-react/src/DataGrid.externalQuery.test.tsx", "../../grid-vue/src/externalQuery.adapters.test.ts"]
+}

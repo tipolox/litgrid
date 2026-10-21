@@ -11,6 +11,8 @@ import { applyDataTransforms } from '../features/transforms/applyDataTransforms.
 import { clampPageIndex, createPaginationState, paginateData } from '../features/pagination/pagination.js'
 import type { GridEngine } from './GridEngine.js'
 import { createSelectionCoordination } from '../features/selection/selectionCoordination.js'
+import { createExternalQuery } from '../features/query/externalQuery.js'
+import type { GridQuery } from '../model/GridQuery.js'
 
 export function createGridEngine(config: GridConfig = {}): GridEngine {
   const initialConfig = normalizeConfig(config)
@@ -30,8 +32,17 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     selection: createEmptySelection(initialConfig.selection.mode)
   }
   const coordination = createSelectionCoordination(state)
+  const external = createExternalQuery(state, rows => {
+    state.originalData = rows
+    state.transformedData = rows
+    state.data = rows
+    coordination.rebuildKeys()
+    coordination.reconcile()
+  })
+  if (external.active()) external.reset()
 
   function refreshData() {
+    if (external.active()) { external.reconcile(); return }
     state.transformedData = applyDataTransforms(
       state.originalData,
       state.quickSearchQuery,
@@ -54,14 +65,31 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
   }
 
   const engine: GridEngine = {
+    setExternalState: external.commit,
+    getExternalState: external.getState,
+    getQuery: external.getQuery,
+    onQueryChange: external.subscribe,
+    refreshQuery() { if (external.active()) external.intent({}, 'refresh') },
     setConfig(config: GridConfig) {
       const nextConfig = normalizeConfig(config)
+      const modeChanged = state.config.queryMode !== nextConfig.queryMode
       const reset = state.selection.mode !== nextConfig.selection.mode ||
         state.config.selection.rowKey !== nextConfig.selection.rowKey ||
         state.config.selection.scopeKey !== nextConfig.selection.scopeKey
       const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey
       if (reset) state.selection = createEmptySelection(nextConfig.selection.mode)
       state.config = nextConfig
+      if (external.active()) {
+        if (modeChanged || reset) external.reset()
+        else external.reconcile()
+        return
+      }
+      if (modeChanged) {
+        external.reset()
+        state.quickSearchQuery = ''
+        state.filters = []
+        state.sort = { columnKey: null, direction: null }
+      }
       if (keyChanged) coordination.rebuildKeys()
       state.pagination = createPaginationState(
         nextConfig.pagination.enabled,
@@ -76,6 +104,7 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       return state.config
     },
     setData(data: unknown[]) {
+      if (external.active()) return
       state.originalData = data ?? []
       coordination.rebuildKeys()
       resetPage()
@@ -85,11 +114,17 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       return state.data
     },
     setQuickSearch(query: string) {
+      if (external.active()) {
+        const search = typeof query === 'string' ? query : ''
+        if (search === state.quickSearchQuery) return
+        external.intent({ search, pageIndex: 0 }, 'search'); return
+      }
       state.quickSearchQuery = typeof query === 'string' ? query : ''
       resetPage()
       refreshData()
     },
     clearQuickSearch() {
+      if (external.active()) { engine.setQuickSearch(''); return }
       state.quickSearchQuery = ''
       resetPage()
       refreshData()
@@ -98,6 +133,11 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       return state.quickSearchQuery
     },
     setFilter(filter: GridFilter) {
+      if (external.active()) {
+        const previous = state.filters.find(item => item.columnKey === filter.columnKey)
+        if (previous && previous.operator === filter.operator && Object.is(previous.value, filter.value)) return
+        external.intent({ filters: [...state.filters.filter(item => item.columnKey !== filter.columnKey), { ...filter }] as GridQuery['filters'], pageIndex: 0 }, 'filter'); return
+      }
       state.filters = [
         ...state.filters.filter((item) => item.columnKey !== filter.columnKey),
         { ...filter }
@@ -106,6 +146,11 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       refreshData()
     },
     clearFilter(columnKey?: string) {
+      if (external.active()) {
+        const filters = columnKey ? state.filters.filter(item => item.columnKey !== columnKey) : []
+        if (filters.length === state.filters.length) return
+        external.intent({ filters: filters as GridQuery['filters'], pageIndex: 0 }, 'filter'); return
+      }
       state.filters = columnKey
         ? state.filters.filter((item) => item.columnKey !== columnKey)
         : []
@@ -117,6 +162,14 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     },
     setPage(pageIndex: number) {
       const nextPageIndex = Number.isFinite(pageIndex) ? Math.max(0, Math.floor(pageIndex)) : 0
+      if (external.active()) {
+        const pagination = state.pagination
+        if (!Number.isSafeInteger(nextPageIndex) || nextPageIndex === pagination.pageIndex) return
+        if (nextPageIndex > pagination.pageIndex && (pagination.totalKnown
+          ? nextPageIndex >= pagination.pageCount
+          : !pagination.hasMore || nextPageIndex > pagination.pageIndex + 1)) return
+        external.intent({ pageIndex: nextPageIndex }, 'page'); return
+      }
       state.pagination = {
         ...state.pagination,
         pageIndex: clampPageIndex(nextPageIndex, state.pagination.pageCount)
@@ -127,6 +180,12 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     setPageSize(pageSize: number) {
       if (!Number.isFinite(pageSize) || pageSize <= 0) {
         return
+      }
+
+      if (external.active()) {
+        const size = Math.max(1, Math.floor(pageSize))
+        if (!Number.isSafeInteger(size) || size === state.pagination.pageSize) return
+        external.intent({ pageSize: size, pageIndex: 0 }, 'page-size'); return
       }
 
       state.pagination = {
@@ -143,11 +202,19 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       return state.pagination.totalRows
     },
     sortBy(columnKey: string, direction: SortDirection) {
+      if (external.active()) {
+        if (state.sort.columnKey === columnKey && state.sort.direction === direction) return
+        external.intent({ sort: { columnKey, direction }, pageIndex: 0 }, 'sort'); return
+      }
       state.sort = { columnKey, direction }
       resetPage()
       refreshData()
     },
     clearSort() {
+      if (external.active()) {
+        if (state.sort.columnKey === null) return
+        external.intent({ sort: { columnKey: null, direction: null }, pageIndex: 0 }, 'sort'); return
+      }
       state.sort = { columnKey: null, direction: null }
       resetPage()
       refreshData()

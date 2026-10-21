@@ -25,6 +25,10 @@ import type {
   GridSelection,
   GridRowKey,
   SelectionChangeDetail,
+  GridExternalState,
+  GridQueryChangeDetail,
+  GridQuerySnapshot,
+  SortDirection,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
@@ -37,6 +41,7 @@ import { syncGridInputs } from './gridBindings'
     <yc-grid
       #grid
       (selection-change)="handleSelectionChange($event)"
+      (query-change)="handleQueryChange($event)"
       (column-state-change)="handleColumnStateChange($event)"
       (column-reorder)="handleColumnReorder($event)"
       (column-visibility-change)="handleColumnVisibilityChange($event)"
@@ -50,6 +55,17 @@ import { syncGridInputs } from './gridBindings'
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DataGridComponent implements AfterViewInit, OnChanges {
+  @Input() externalState?: GridExternalState
+  @Output() readonly queryChange = new EventEmitter<GridQueryChangeDetail>()
+
+  handleQueryChange(event: Event): void {
+    if (event.target === this.gridElement) this.queryChange.emit((event as CustomEvent<GridQueryChangeDetail>).detail)
+  }
+  setExternalState(state: GridExternalState): boolean { return this.requireGridElement().setExternalState!(state) }
+  getQuery(): GridQuerySnapshot { return this.requireGridElement().getQuery!() }
+  refreshQuery(): void { this.requireGridElement().refreshQuery!() }
+  sortBy(key: string, direction: SortDirection): void { this.requireGridElement().sortBy!(key, direction) }
+  clearSort(): void { this.requireGridElement().clearSort!() }
   @Input() data: unknown[] = []
   @Input() columns: GridColumn[] = []
   @Input() config: GridConfig = {}
