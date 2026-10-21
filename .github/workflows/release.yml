@@ -77,6 +77,7 @@ jobs:
 
       - name: Run JavaScript quality gates
         run: |
+          node scripts/typecheck-contracts.mjs
           pnpm test
           pnpm build
 
@@ -204,6 +205,10 @@ jobs:
           name: litgrid-${{ needs.validate-release.outputs.version }}-release-candidate
           path: release-candidate
 
+      - name: Verify downloaded candidate checksums
+        working-directory: release-candidate
+        run: sha256sum --check SHA256SUMS.txt
+
       - name: Set up Node.js for npm trusted publishing
         uses: actions/setup-node@v7
         with:
@@ -291,6 +296,10 @@ jobs:
         with:
           name: litgrid-${{ needs.validate-release.outputs.version }}-release-candidate
           path: release-candidate
+
+      - name: Verify downloaded candidate checksums
+        working-directory: release-candidate
+        run: sha256sum --check SHA256SUMS.txt
 
       - name: Create GitHub Release for the existing tag
         env:

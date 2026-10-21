@@ -21,13 +21,13 @@ afterEach(() => {
 })
 
 async function mountGrid(props: Record<string, unknown> = {}) {
-  let instance: DataGridInstance | null = null
+  const mounted: { instance: DataGridInstance | null } = { instance: null }
   const host = document.createElement('div')
   document.body.append(host)
 
   const app = createApp({
     render: () => h(DataGrid, {
-      ref: (value: unknown) => { instance = value as DataGridInstance | null },
+      ref: (value: unknown) => { mounted.instance = value as DataGridInstance | null },
       data: [],
       ...props
     })
@@ -37,8 +37,8 @@ async function mountGrid(props: Record<string, unknown> = {}) {
   await nextTick()
   await nextTick()
 
-  if (!instance) throw new Error('Vue DataGrid instance was not mounted.')
-  return { app, host, instance }
+  if (!mounted.instance) throw new Error('Vue DataGrid instance was not mounted.')
+  return { app, host, instance: mounted.instance }
 }
 
 describe('Vue DataGrid', () => {
@@ -82,14 +82,14 @@ describe('Vue DataGrid', () => {
     })
     const grid = instance.gridElement!
     const stateDetail: ColumnStateChangeDetail = {
-      state: { version: 1, order: ['id'], widths: {}, hidden: [] },
-      source: 'reorder'
+      state: { version: 1, columns: [{ key: 'id', visible: true }] },
+      reason: 'reorder'
     }
     const reorderDetail: ColumnReorderDetail = {
-      columnKey: 'id', fromIndex: 1, toIndex: 0, order: ['id']
+      columnKey: 'id', previousIndex: 1, currentIndex: 0, columnOrder: ['id']
     }
     const visibilityDetail: ColumnVisibilityChangeDetail = {
-      columnKey: 'id', visible: false, visibleKeys: []
+      columnKey: 'id', visible: false, visibleColumnKeys: []
     }
 
     grid.dispatchEvent(new CustomEvent('column-state-change', { detail: stateDetail }))

@@ -168,7 +168,7 @@ describe('DataGridComponent', () => {
   it('syncs inputs on ngAfterViewInit and ngOnChanges', () => {
     const { component, gridElement } = createComponentWithGrid()
     component.data = [{ id: 10 }]
-    component.columns = [{ key: 'id', title: 'ID' }]
+    component.columns = [{ key: 'id', header: 'ID' }]
     component.theme = 'dark'
 
     component.ngAfterViewInit()
@@ -193,19 +193,19 @@ describe('DataGridComponent', () => {
     component.columnVisibilityChange.subscribe(detail => visibilityEmissions.push(detail))
 
     const stateDetail: ColumnStateChangeDetail = {
-      state: { version: 1, order: ['a', 'b'], widths: { a: 100 }, hidden: [] },
-      source: 'reorder'
+      state: { version: 1, columns: [{ key: 'a', width: 100, visible: true }, { key: 'b', visible: true }] },
+      reason: 'reorder'
     }
     const reorderDetail: ColumnReorderDetail = {
       columnKey: 'b',
-      fromIndex: 1,
-      toIndex: 0,
-      order: ['b', 'a']
+      previousIndex: 1,
+      currentIndex: 0,
+      columnOrder: ['b', 'a']
     }
     const visibilityDetail: ColumnVisibilityChangeDetail = {
       columnKey: 'a',
       visible: false,
-      visibleKeys: ['b']
+      visibleColumnKeys: ['b']
     }
 
     component.handleColumnStateChange(
@@ -239,7 +239,7 @@ describe('DataGridComponent', () => {
   it('forwards sizing, ordering, and visibility methods to DataGridElement', () => {
     const { component, gridElement } = createComponentWithGrid()
     const col: GridColumn = { key: 'col1' }
-    const state: GridColumnState = { version: 1, order: ['col1'], widths: {}, hidden: [] }
+    const state: GridColumnState = { version: 1, columns: [{ key: 'col1', visible: true }] }
 
     vi.mocked(gridElement.getRowHeight).mockReturnValue(50)
     vi.mocked(gridElement.getColumnWidth).mockReturnValue(120)
@@ -309,8 +309,8 @@ describe('DataGridComponent', () => {
   it('forwards search, filter, pagination, clipboard, and selection methods to DataGridElement', async () => {
     const { component, gridElement } = createComponentWithGrid()
     const filter: GridFilter = { columnKey: 'col1', operator: 'equals', value: 'x' }
-    const pagination: GridPaginationState = { pageIndex: 0, pageSize: 25, totalPages: 1 }
-    const selection: GridSelection = { mode: 'row', selectedRowIndexes: [0], selectedCellKeys: [] }
+    const pagination: GridPaginationState = { enabled: true, pageIndex: 0, pageSize: 25, totalRows: 25, pageCount: 1 }
+    const selection: GridSelection = { mode: 'row', rowIndex: 0, columnKey: null, anchorRowIndex: 0, rowIndexes: new Set([0]), cells: new Set() }
 
     vi.mocked(gridElement.copySelectedCells).mockResolvedValue(true)
     vi.mocked(gridElement.copySelectedRows).mockResolvedValue(true)

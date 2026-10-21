@@ -6,7 +6,8 @@
 // LITGRID_BASELINE_SOURCE=<git-show copy of baseline components/DataGrid.ts>.
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
-import { isAbsolute, resolve } from 'node:path'
+import { existsSync } from 'node:fs'
+import { dirname, isAbsolute, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createServer } from 'vite'
 
@@ -22,6 +23,14 @@ const server = await createServer({
     '@tipolox/litgrid-renderer': resolve(root, 'packages/grid-renderer/src/index.ts')
   } },
   plugins: [{ name: 'column-controls-fixture',
+    enforce: 'pre',
+    resolveId(source, importer) {
+      // Match the package build input, not historical generated JS beside TS.
+      if (importer && source.startsWith('.') && source.endsWith('.js')) {
+        const candidate = resolve(dirname(importer), source.slice(0, -3) + '.ts')
+        if (candidate.startsWith(resolve(root, 'packages')) && !candidate.includes('node_modules') && existsSync(candidate)) return candidate
+      }
+    },
     async load(id) {
       if (baseline && id.replaceAll('\\', '/').endsWith('/packages/grid-web/src/components/DataGrid.ts')) return readFile(baseline, 'utf8')
     },
