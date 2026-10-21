@@ -15,6 +15,8 @@ public sealed class LitGridColumn<TItem> : ComponentBase, IDisposable
     [Parameter] public string? Title { get; set; }
     [Parameter] public object? Width { get; set; }
     [Parameter] public bool? Hidden { get; set; }
+    [Parameter] public bool? Sortable { get; set; }
+    [Parameter] public bool? Filterable { get; set; }
     [Parameter] public int? Order { get; set; }
 
     protected override void OnParametersSet()
@@ -27,7 +29,7 @@ public sealed class LitGridColumn<TItem> : ComponentBase, IDisposable
         if (resolved != null && Key != null && !StringComparer.Ordinal.Equals(resolved, Key))
             throw new ArgumentException($"LitGridColumn Key '{Key}' does not match the serialized Field name '{resolved}'.");
         var key = resolved ?? Key ?? throw new ArgumentException("LitGridColumn requires Field or Key.");
-        var column = new DeclaredColumn(key, Title, NormalizeWidth(Width), Hidden, Order);
+        var column = new DeclaredColumn(key, Title, NormalizeWidth(Width), Hidden, Order, Sortable, Filterable);
         if (owner != Registry)
         {
             owner?.Remove(this);

@@ -18,6 +18,14 @@ public class GridColumn
     [JsonPropertyName("hidden")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Hidden { get; set; }
+
+    [JsonPropertyName("sortable")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Sortable { get; set; }
+
+    [JsonPropertyName("filterable")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Filterable { get; set; }
 }
 
 public class BestFitColumnWidth

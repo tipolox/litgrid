@@ -1,8 +1,8 @@
 namespace Tipolox.LitGrid.Blazor;
 
-internal sealed record DeclaredColumn(string Key, string? Title, object? Width, bool? Hidden, int? Order)
+internal sealed record DeclaredColumn(string Key, string? Title, object? Width, bool? Hidden, int? Order, bool? Sortable = null, bool? Filterable = null)
 {
-    internal GridColumn ToGridColumn() => new() { Key = Key, Header = Title, Width = Width, Hidden = Hidden };
+    internal GridColumn ToGridColumn() => new() { Key = Key, Header = Title, Width = Width, Hidden = Hidden, Sortable = Sortable, Filterable = Filterable };
 }
 
 // A nongeneric cascading boundary prevents a mismatched column inside a nested

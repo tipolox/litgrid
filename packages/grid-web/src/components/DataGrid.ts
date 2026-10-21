@@ -118,6 +118,7 @@ export class DataGrid extends LitElement {
   private previousBodyCursor = ''
   private previousBodyUserSelect = ''
   private activeHeaderMenu: string | null = null
+  private headerMenuCapabilities = { sortable: true, filterable: true }
   private columnChooserOpen = false
   private columnChooserPosition: { left: number; top: number } | null = null
   private quickSearchVisible = false
@@ -1162,6 +1163,7 @@ export class DataGrid extends LitElement {
       })
     }
         const isOpening = this.activeHeaderMenu !== columnKey
+    this.headerMenuCapabilities = this.getColumnCapabilities(columnKey)
 
     this.activeHeaderMenu = isOpening ? columnKey : null
     this.headerMenuTrigger = isOpening && event.currentTarget instanceof HTMLButtonElement
@@ -1169,6 +1171,19 @@ export class DataGrid extends LitElement {
       : null
     this.shouldFocusHeaderMenu = isOpening
     this.requestUpdate()
+  }
+
+  private getColumnCapabilities(columnKey: string) {
+    const column = this.getResolvedColumns().find(column => column.key === columnKey)
+    return { sortable: !!column && column.sortable !== false, filterable: !!column && column.filterable !== false }
+  }
+
+  private reconcileHeaderMenuCapabilities() {
+    if (this.activeHeaderMenu === null) return
+    const next = this.getColumnCapabilities(this.activeHeaderMenu)
+    if (next.sortable !== this.headerMenuCapabilities.sortable || next.filterable !== this.headerMenuCapabilities.filterable) {
+      this.closeHeaderMenu(true)
+    }
   }
 
     private closeHeaderMenu(restoreFocus = false) {
@@ -1337,6 +1352,7 @@ export class DataGrid extends LitElement {
 
 
   private handleSortAscending(columnKey: string) {
+    if (!this.getColumnCapabilities(columnKey).sortable) return
     this.engine.sortBy(columnKey, 'asc')
     this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted ascending.`)
     this.requestUpdate()
@@ -1344,13 +1360,15 @@ export class DataGrid extends LitElement {
   }
 
   private handleSortDescending(columnKey: string) {
+    if (!this.getColumnCapabilities(columnKey).sortable) return
     this.engine.sortBy(columnKey, 'desc')
     this.announceScreenReader(`${this.getColumnLabel(columnKey)} sorted descending.`)
     this.requestUpdate()
     this.closeHeaderMenu(true)
   }
 
-  private handleClearSort() {
+  private handleClearSort(columnKey: string) {
+    if (!this.getColumnCapabilities(columnKey).sortable) return
     this.engine.clearSort()
     this.announceScreenReader('Sorting cleared.')
     this.requestUpdate()
@@ -1713,6 +1731,7 @@ export class DataGrid extends LitElement {
   }
 
   private applyHeaderFilter(columnKey: string) {
+    if (!this.getColumnCapabilities(columnKey).filterable) return
     const filter = this.getFilterDraft(columnKey)
     this.setFilter({
       ...filter,
@@ -1722,6 +1741,7 @@ export class DataGrid extends LitElement {
   }
 
   private clearHeaderFilter(columnKey: string) {
+    if (!this.getColumnCapabilities(columnKey).filterable) return
     this.clearFilter(columnKey)
     this.closeHeaderMenu(true)
   }
@@ -2644,6 +2664,7 @@ export class DataGrid extends LitElement {
       this.sourceColumnDefs = columns
       this.persistColumnState()
     }
+    this.reconcileHeaderMenuCapabilities()
     this.clearBestFitWidths()
     if (activeCell) {
       const columnIndex = this.getVisibleColumns().findIndex(column => column.key === activeColumnKey)
@@ -2656,6 +2677,7 @@ export class DataGrid extends LitElement {
     const activeCell = this.activeCell
         this.sourceColumnDefs = Array.isArray(value) ? [...value] : []
     this.columnDefs = [...this.sourceColumnDefs]
+    this.reconcileHeaderMenuCapabilities()
     this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key))
 
     this.clearBestFitWidths()
@@ -3006,19 +3028,22 @@ export class DataGrid extends LitElement {
                                 ${this.quickSearchVisible ? 'Hide Quick Search' : 'Show Quick Search'}
                               </button>
                               <hr class="header-menu-divider" />
-                              <button type="button" @click=${() => this.handleSortAscending(column.key)}>
-                                Sort Asc
-                              </button>
-                              <button type="button" @click=${() => this.handleSortDescending(column.key)}>
-                                Sort Desc
-                              </button>
-                                                            <button type="button" @click=${() => this.handleClearSort()}>
-                                                              Clear Sort
-                                                            </button>
+                              ${column.sortable === false ? '' : html`
+                                <button type="button" @click=${() => this.handleSortAscending(column.key)}>
+                                  Sort Asc
+                                </button>
+                                <button type="button" @click=${() => this.handleSortDescending(column.key)}>
+                                  Sort Desc
+                                </button>
+                                <button type="button" @click=${() => this.handleClearSort(column.key)}>
+                                  Clear Sort
+                                </button>
+                              `}
                                                             <button type="button" @click=${(event: MouseEvent) => this.toggleColumnChooser(event)}>
                                                               Columns
                                                             </button>
                               ${(() => {
+                                if (column.filterable === false) return ''
                                 const draft = this.getFilterDraft(column.key)
                                 const valueFree = this.isValueFreeFilter(draft.operator)
 

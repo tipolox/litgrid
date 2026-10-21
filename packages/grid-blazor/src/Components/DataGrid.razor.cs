@@ -371,7 +371,7 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     }
 
     private DeclaredColumn[] CaptureColumns(bool declarative) => declarative ? columnRegistry.Snapshot() :
-        Columns.Select(column => new DeclaredColumn(column.Key, column.Header, column.Width, column.Hidden, null)).ToArray();
+        Columns.Select(column => new DeclaredColumn(column.Key, column.Header, column.Width, column.Hidden, null, column.Sortable, column.Filterable)).ToArray();
 
     private Dictionary<string, object?> CaptureScalars() => new()
     {
