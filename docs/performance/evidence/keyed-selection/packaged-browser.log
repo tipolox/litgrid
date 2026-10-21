@@ -1,0 +1,22 @@
+node : 6:27:21 PM [vite] (client) [console.warn] Lit is in dev mode. Not recommended for production! See 
+https://lit.dev/msg/dev-mode for more information.
+At line:2 char:91
++ ... rowser.mjs; node .private\packaged-browser.mjs D:\Work\litgrid-p0\.pr ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (6:27:21 PM [vit...re information.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+6:27:21 PM [vite] (client) [console.warn] Element yc-grid scheduled an update (generally because a property was set) 
+after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the 
+next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update 
+for more information.
+PASS packaged Chromium {
+  checks: [
+    '100k packaged cold/repeat identity passes',
+    'scope, duplicate and missing identity',
+    '20-row external page / billion total'
+  ],
+  coldReads: 100001,
+  repeatedReads: 100001,
+  mountedCells: 26
+}

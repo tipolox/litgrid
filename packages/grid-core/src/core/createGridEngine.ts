@@ -37,7 +37,7 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     state.transformedData = rows
     state.data = rows
     coordination.rebuildKeys()
-    coordination.reconcile()
+    coordination.reconcile(true)
   })
   if (external.active()) external.reset()
 
@@ -57,7 +57,8 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       pageIndex: clampPageIndex(state.pagination.pageIndex, pageCount)
     }
     state.data = paginateData(state.transformedData, state.pagination)
-    coordination.reconcile()
+    coordination.reconcile(!state.pagination.enabled && !state.quickSearchQuery.trim() &&
+      state.filters.length === 0 && (!state.sort.columnKey || !state.sort.direction))
   }
 
   function resetPage() {

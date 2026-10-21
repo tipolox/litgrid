@@ -84,3 +84,45 @@ it('preserves legacy same-reference mutation synchronization when column/config 
     expect(grid.renderRoot.querySelector('.viewport')!.getAttribute('aria-rowcount')).toBe('3')
   } finally { act(() => root.unmount()) }
 })
+
+  it.each([30_000, 100_000])('preserves same-reference mutation synchronization across %i-row rerenders', async count => {
+    const data = Array.from({ length: count }, (_, id) => ({ id, name: `row ${id}` }))
+    const config = { selection: { mode: 'multi-row' as const, rowKey: 'id', scopeKey: 'a' } }
+    const columns = [{ key: 'name' }]
+    const host = document.createElement('div')
+    document.body.append(host)
+    const root = createRoot(host)
+    const render = async (label: string, fresh = false) => {
+      await act(async () => {
+        root.render(<DataGrid data={data} columns={columns} config={fresh ? { ...config } : config} ariaLabel={label} />)
+      })
+      const grid = host.querySelector('yc-grid') as WebGrid
+      await grid.updateComplete
+      return grid
+    }
+    try {
+      const grid = await render('initial')
+      expect(grid.selectRowByKey(count - 1)).toBe(true)
+      await render('unrelated update')
+      expect(grid.getSelectionSnapshot().rows[0].key).toBe(count - 1)
+      data[count - 1].name = 'edited in place'
+      await render('same identity', true)
+      expect(grid.getSelectionSnapshot().rows[0].row).toBe(data[count - 1])
+      // The duplicate is outside the rendered viewport; validation must still
+      // reject it during synchronization, before any subsequent user click.
+      data[count - 1].id = 0
+      await render('duplicate mutation')
+      expect(grid.getSelectionSnapshot().rows).toEqual([])
+      expect(grid.selectRowByKey(0)).toBe(false)
+      data[count - 1].id = count + 1
+      await render('changed identity', true)
+      expect(grid.selectRowByKey(count + 1)).toBe(true)
+      config.selection.scopeKey = 'b'
+      await render('scope mutation')
+      expect(grid.getSelectionSnapshot().rows).toEqual([])
+      expect(grid.shadowRoot!.querySelectorAll('.cell').length).toBeLessThan(100)
+    } finally {
+      await act(async () => root.unmount())
+      host.remove()
+    }
+  })
