@@ -7,6 +7,8 @@ import {
   type GridConfig,
   type GridFilter,
   type GridSelection,
+  type GridRowKey,
+  type SelectionChangeDetail,
   type SelectionIntent
 } from '@tipolox/litgrid-core'
 import {
@@ -172,6 +174,12 @@ export class DataGrid extends LitElement {
     this.ariaLabel = 'Data grid'
     this.ariaDescription = ''
     this.screenReaderAnnouncements = true
+    this.engine.onSelectionChange(detail => {
+      this.requestUpdate()
+      this.dispatchEvent(new CustomEvent<SelectionChangeDetail>('selection-change', {
+        detail, bubbles: true, composed: true
+      }))
+    })
   }
 
   static styles = [lightThemeStyles, darkThemeStyles, css`
@@ -1341,6 +1349,10 @@ export class DataGrid extends LitElement {
 
   private announceRowSelection(rowIndex: number, intent: SelectionIntent = 'replace') {
     const anchor = this.engine.getSelection().anchorRowIndex ?? rowIndex
+    if (intent === 'range' && this.engine.getConfig().selection.rowKey !== undefined) {
+      this.announceScreenReader(`${this.getDisplayedSelectedRowCount()} displayed rows selected.`)
+      return
+    }
     this.announceScreenReader(intent === 'range' && anchor !== rowIndex
       ? `Rows ${Math.min(anchor, rowIndex) + 1} through ${Math.max(anchor, rowIndex) + 1} selected.`
       : `Row ${rowIndex + 1} ${this.engine.isRowSelected(rowIndex) ? 'selected' : 'deselected'}.`)
@@ -1658,11 +1670,17 @@ export class DataGrid extends LitElement {
     this.requestUpdate()
   }
 
+  private announceAllRowsSelected() {
+    const count = this.engine.getSelectableRowCount()
+    const qualifier = count === this.engine.getRowCount() ? '' : 'selectable '
+    this.announceScreenReader(`All ${count} ${qualifier}displayed rows selected.`)
+  }
+
   selectAllRows() {
-    if (this.engine.getConfig().selection.mode !== 'multi-row' || this.engine.getRowCount() === 0) return
-    const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getRowCount()
+    if (this.engine.getConfig().selection.mode !== 'multi-row' || this.engine.getSelectableRowCount() === 0) return
+    const unchanged = this.engine.getSelection().rowIndexes.size === this.engine.getSelectableRowCount()
     this.engine.selectAllRows()
-    if (!unchanged) this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`)
+    if (!unchanged) this.announceAllRowsSelected()
     this.requestUpdate()
   }
 
@@ -1676,6 +1694,22 @@ export class DataGrid extends LitElement {
 
   getSelection(): GridSelection {
     return this.engine.getSelection()
+  }
+
+  getSelectionSnapshot(): SelectionChangeDetail {
+    return this.engine.getSelectionSnapshot()
+  }
+
+  selectRowByKey(key: GridRowKey, intent?: SelectionIntent): boolean {
+    const previous = this.engine.getSelectionSnapshot()
+    const selected = this.engine.selectRowByKey(key, intent)
+    const next = this.engine.getSelectionSnapshot()
+    if (selected && next !== previous) {
+      const index = next.rows.find(row => row.key === key)?.rowIndex
+        ?? previous.rows.find(row => row.key === key)?.rowIndex
+      if (index !== undefined) this.announceRowSelection(index, intent)
+    }
+    return selected
   }
 
   isRowSelected(rowIndex: number) {
@@ -2575,26 +2609,17 @@ export class DataGrid extends LitElement {
   }
 
   private getDisplayedSelectedRowCount() {
-    const rowCount = this.engine.getRowCount()
-    let selectedCount = 0
-
-    for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
-      if (this.engine.isRowSelected(rowIndex)) {
-        selectedCount += 1
-      }
-    }
-
-    return selectedCount
+    return this.engine.getSelectionSnapshot().rowIndexes.length
   }
 
   private areAllDisplayedRowsSelected() {
-    const rowCount = this.engine.getRowCount()
+    const rowCount = this.engine.getSelectableRowCount()
     return rowCount > 0 && this.getDisplayedSelectedRowCount() === rowCount
   }
 
   private hasPartiallySelectedDisplayedRows() {
     const selectedCount = this.getDisplayedSelectedRowCount()
-    return selectedCount > 0 && selectedCount < this.engine.getRowCount()
+    return selectedCount > 0 && selectedCount < this.engine.getSelectableRowCount()
   }
 
   private handleSelectAllRows() {
@@ -2603,7 +2628,7 @@ export class DataGrid extends LitElement {
       this.announceScreenReader('All displayed rows deselected.')
     } else {
       this.engine.selectAllRows()
-      this.announceScreenReader(`All ${this.engine.getRowCount()} displayed rows selected.`)
+      this.announceAllRowsSelected()
     }
     this.requestUpdate()
   }
@@ -2964,7 +2989,7 @@ export class DataGrid extends LitElement {
                         aria-label="Select all displayed rows"
                         .checked=${this.areAllDisplayedRowsSelected()}
                         .indeterminate=${this.hasPartiallySelectedDisplayedRows()}
-                        ?disabled=${this.engine.getRowCount() === 0}
+                        ?disabled=${this.engine.getSelectableRowCount() === 0}
                         @change=${() => this.handleSelectAllRows()}
                       />`
                     : html`<span>#</span>`}

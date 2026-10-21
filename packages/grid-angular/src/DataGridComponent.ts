@@ -23,6 +23,8 @@ import type {
   GridFilter,
   GridPaginationState,
   GridSelection,
+  GridRowKey,
+  SelectionChangeDetail,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
@@ -34,6 +36,7 @@ import { syncGridInputs } from './gridBindings'
   template: `
     <yc-grid
       #grid
+      (selection-change)="handleSelectionChange($event)"
       (column-state-change)="handleColumnStateChange($event)"
       (column-reorder)="handleColumnReorder($event)"
       (column-visibility-change)="handleColumnVisibilityChange($event)"
@@ -64,6 +67,7 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
   @Input() columnStateStorageKey?: string
 
   @Output() readonly columnStateChange = new EventEmitter<ColumnStateChangeDetail>()
+  @Output() readonly selectionChange = new EventEmitter<SelectionChangeDetail>()
   @Output() readonly columnReorder = new EventEmitter<ColumnReorderDetail>()
   @Output() readonly columnVisibilityChange = new EventEmitter<ColumnVisibilityChangeDetail>()
 
@@ -83,6 +87,18 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
 
   handleColumnStateChange(event: Event): void {
     this.columnStateChange.emit((event as CustomEvent<ColumnStateChangeDetail>).detail)
+  }
+
+  handleSelectionChange(event: Event): void {
+    this.selectionChange.emit((event as CustomEvent<SelectionChangeDetail>).detail)
+  }
+
+  getSelectionSnapshot(): SelectionChangeDetail {
+    return this.requireGridElement().getSelectionSnapshot()
+  }
+
+  selectRowByKey(key: GridRowKey, intent?: SelectionIntent): boolean {
+    return this.requireGridElement().selectRowByKey(key, intent)
   }
 
   handleColumnReorder(event: Event): void {

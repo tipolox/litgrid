@@ -11,6 +11,8 @@ import type {
   GridFilter,
   GridPaginationState,
   GridSelection,
+  GridRowKey,
+  SelectionChangeDetail,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
@@ -18,6 +20,7 @@ import {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useRef
 } from 'react'
 import { syncGridInputs } from './gridBindings.js'
@@ -39,6 +42,7 @@ export type DataGridProps = {
   quickSearchDebounceMs?: number
   columnStateStorageKey?: string
   onColumnStateChange?: (detail: ColumnStateChangeDetail) => void
+  onSelectionChange?: (detail: SelectionChangeDetail) => void
   onColumnReorder?: (detail: ColumnReorderDetail) => void
   onColumnVisibilityChange?: (detail: ColumnVisibilityChangeDetail) => void
 }
@@ -82,6 +86,8 @@ export type DataGridRef = {
   selectAllRows(): void
   clearSelection(): void
   getSelection(): GridSelection
+  getSelectionSnapshot(): SelectionChangeDetail
+  selectRowByKey(key: GridRowKey, intent?: SelectionIntent): boolean
   isRowSelected(rowIndex: number): boolean
   isCellSelected(rowIndex: number, columnKey: string): boolean
 }
@@ -108,6 +114,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     quickSearchDebounceMs = 150,
     columnStateStorageKey,
     onColumnStateChange,
+    onSelectionChange,
     onColumnReorder,
     onColumnVisibilityChange
   },
@@ -163,6 +170,8 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
       selectAllRows: () => requireGridElement().selectAllRows(),
       clearSelection: () => requireGridElement().clearSelection(),
       getSelection: () => requireGridElement().getSelection(),
+      getSelectionSnapshot: () => requireGridElement().getSelectionSnapshot(),
+      selectRowByKey: (key, intent) => requireGridElement().selectRowByKey(key, intent),
       isRowSelected(rowIndex: number) {
         return requireGridElement().isRowSelected(rowIndex)
       },
@@ -172,6 +181,19 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     }),
     []
   )
+
+  // Subscribe before input synchronization, which can synchronously clear selection.
+  const selectionCallback = useRef(onSelectionChange)
+  useLayoutEffect(() => { selectionCallback.current = onSelectionChange }, [onSelectionChange])
+  useEffect(() => {
+    const element = gridRef.current
+    if (!element) return
+    const handleSelectionChange = (event: Event) => {
+      if (event.target === element) selectionCallback.current?.((event as CustomEvent<SelectionChangeDetail>).detail)
+    }
+    element.addEventListener('selection-change', handleSelectionChange)
+    return () => element.removeEventListener('selection-change', handleSelectionChange)
+  }, [])
 
   useEffect(() => {
     const grid = gridRef.current

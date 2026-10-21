@@ -4,6 +4,8 @@ LitGrid's `yc-grid` Web Component: a virtualized data grid for browser applicati
 
 ## Install
 
+See [selection coordination](../../docs/selection-coordination.md) for typed notifications, stable row keys, restoration, and account/site scope resets.
+
 ```bash
 npm install @tipolox/litgrid-web
 ```

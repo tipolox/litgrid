@@ -1,6 +1,25 @@
 import type { ResolvedGridConfig, SelectionMode } from './GridConfig.js'
 
 export type SelectionIntent = 'replace' | 'toggle' | 'range'
+export type GridRowKey = string | number
+export type SelectedRowSnapshot = Readonly<{
+  rowIndex: number
+  /** Input row reference; row data is not cloned or frozen. */
+  row: unknown
+  /** null when no valid, unique rowKey is configured. */
+  key: GridRowKey | null
+}>
+/** Detached, frozen containers. Indexes always refer to the displayed page. */
+export type SelectionChangeDetail = Readonly<{
+  scopeKey?: string | number
+  mode: SelectionMode
+  rowIndex: number | null
+  columnKey: string | null
+  anchorRowIndex: number | null
+  rowIndexes: readonly number[]
+  cells: readonly string[]
+  rows: readonly SelectedRowSnapshot[]
+}>
 
 export type GridSelection = {
   mode: SelectionMode

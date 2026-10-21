@@ -121,6 +121,9 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     public EventCallback<ColumnStateChangeDetail> OnColumnStateChange { get; set; }
 
     [Parameter]
+    public EventCallback<SelectionChangeDetail> OnSelectionChange { get; set; }
+
+    [Parameter]
     public EventCallback<ColumnReorderDetail> OnColumnReorder { get; set; }
 
     [Parameter]
@@ -353,6 +356,13 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     }
 
     [JSInvokable]
+    public async Task HandleSelectionChange(SelectionChangeDetail detail)
+    {
+        if (!disposed && OnSelectionChange.HasDelegate)
+            await OnSelectionChange.InvokeAsync(detail);
+    }
+
+    [JSInvokable]
     public async Task HandleColumnReorder(ColumnReorderDetail detail)
     {
         if (!disposed && OnColumnReorder.HasDelegate)
@@ -390,15 +400,15 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     };
 
     // Copy supported mutable configuration values without serializing it to compare.
-    private sealed record ConfigurationSnapshot(SelectionMode? Mode, bool? Checkboxes,
+    private sealed record ConfigurationSnapshot(SelectionMode? Mode, bool? Checkboxes, string? RowKey, string? ScopeKey,
         bool? RowHeaderEnabled, double? RowHeaderWidth, bool? PaginationEnabled, int? PageSize, int? PageIndex)
     {
         internal static ConfigurationSnapshot Capture(GridConfig config) => new(config.Selection?.Mode,
-            config.Selection?.Checkboxes, config.RowHeader?.Enabled, config.RowHeader?.Width,
+            config.Selection?.Checkboxes, config.Selection?.RowKey, config.Selection?.ScopeKey, config.RowHeader?.Enabled, config.RowHeader?.Width,
             config.Pagination?.Enabled, config.Pagination?.PageSize, config.Pagination?.PageIndex);
         internal GridConfig ToConfig() => new()
         {
-            Selection = new() { Mode = Mode, Checkboxes = Checkboxes },
+            Selection = new() { Mode = Mode, Checkboxes = Checkboxes, RowKey = RowKey, ScopeKey = ScopeKey },
             RowHeader = new() { Enabled = RowHeaderEnabled, Width = RowHeaderWidth },
             Pagination = new() { Enabled = PaginationEnabled, PageSize = PageSize, PageIndex = PageIndex }
         };
@@ -629,6 +639,12 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     {
         return await RequireModule().InvokeAsync<GridSelection>("getSelection", elementRef);
     }
+
+    public async ValueTask<SelectionChangeDetail> GetSelectionSnapshotAsync() =>
+        await RequireModule().InvokeAsync<SelectionChangeDetail>("getSelectionSnapshot", elementRef);
+
+    public async ValueTask<bool> SelectRowByKeyAsync(string key, SelectionIntent? intent = null) =>
+        await RequireModule().InvokeAsync<bool>("selectRowByKey", elementRef, key, intent);
 
     public async ValueTask<bool> IsRowSelectedAsync(int rowIndex)
     {

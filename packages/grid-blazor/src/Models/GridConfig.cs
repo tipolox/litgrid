@@ -19,6 +19,14 @@ public class GridConfig
 
 public class GridSelectionConfig
 {
+    [JsonPropertyName("rowKey")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? RowKey { get; set; }
+
+    [JsonPropertyName("scopeKey")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ScopeKey { get; set; }
+
     [JsonPropertyName("mode")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SelectionMode? Mode { get; set; }

@@ -1,0 +1,27 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>LitGrid selection browser regression</title>
+<style>body { font-family: system-ui; margin: 24px } yc-grid { width: 800px }</style>
+<h1>Selection identity regression</h1>
+<div id="host"></div>
+<output id="selection" aria-live="polite"></output>
+<script type="module">
+  import { DataGrid } from '../src/components/DataGrid.ts'
+  import { html } from 'lit'
+  const grid = new DataGrid()
+  grid.config = { selection: { mode: 'multi-row', rowKey: 'id', scopeKey: 'site-a', checkboxes: true } }
+  grid.columns = [
+    { key: 'name', header: 'Property' },
+    { key: 'id', header: 'Action', render: () => html`<button @click=${event => event.stopPropagation()}>Open</button>` }
+  ]
+  grid.data = [{ id: 'uuid-a', name: 'Zulu' }, { id: 'uuid-b', name: 'Alpha' }, { id: 'uuid-c', name: 'Beta' }]
+  document.querySelector('#host').append(grid)
+  window.grid = grid
+  window.events = []
+  grid.addEventListener('selection-change', event => {
+    window.events.push(event.detail)
+    document.querySelector('#selection').textContent = event.detail.rows.map(row => row.key).join(',') || 'None'
+  })
+  await grid.updateComplete
+  document.body.dataset.ready = 'true'
+</script>

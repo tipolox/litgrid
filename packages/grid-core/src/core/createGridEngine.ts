@@ -10,10 +10,11 @@ import {
 import { applyDataTransforms } from '../features/transforms/applyDataTransforms.js'
 import { clampPageIndex, createPaginationState, paginateData } from '../features/pagination/pagination.js'
 import type { GridEngine } from './GridEngine.js'
+import { createSelectionCoordination } from '../features/selection/selectionCoordination.js'
 
 export function createGridEngine(config: GridConfig = {}): GridEngine {
   const initialConfig = normalizeConfig(config)
-  let state: GridState = {
+  const state: GridState = {
     config: initialConfig,
     originalData: [],
     transformedData: [],
@@ -28,6 +29,7 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     ),
     selection: createEmptySelection(initialConfig.selection.mode)
   }
+  const coordination = createSelectionCoordination(state)
 
   function refreshData() {
     state.transformedData = applyDataTransforms(
@@ -44,17 +46,23 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       pageIndex: clampPageIndex(state.pagination.pageIndex, pageCount)
     }
     state.data = paginateData(state.transformedData, state.pagination)
+    coordination.reconcile()
   }
 
   function resetPage() {
     state.pagination = { ...state.pagination, pageIndex: 0 }
   }
 
-  return {
+  const engine: GridEngine = {
     setConfig(config: GridConfig) {
       const nextConfig = normalizeConfig(config)
-
+      const reset = state.selection.mode !== nextConfig.selection.mode ||
+        state.config.selection.rowKey !== nextConfig.selection.rowKey ||
+        state.config.selection.scopeKey !== nextConfig.selection.scopeKey
+      const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey
+      if (reset) state.selection = createEmptySelection(nextConfig.selection.mode)
       state.config = nextConfig
+      if (keyChanged) coordination.rebuildKeys()
       state.pagination = createPaginationState(
         nextConfig.pagination.enabled,
         nextConfig.pagination.pageSize,
@@ -63,15 +71,13 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       )
       refreshData()
 
-      if (state.selection.mode !== nextConfig.selection.mode) {
-        state.selection = createEmptySelection(nextConfig.selection.mode)
-      }
     },
     getConfig() {
       return state.config
     },
     setData(data: unknown[]) {
       state.originalData = data ?? []
+      coordination.rebuildKeys()
       resetPage()
       refreshData()
     },
@@ -116,6 +122,7 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
         pageIndex: clampPageIndex(nextPageIndex, state.pagination.pageCount)
       }
       state.data = paginateData(state.transformedData, state.pagination)
+      coordination.reconcile()
     },
     setPageSize(pageSize: number) {
       if (!Number.isFinite(pageSize) || pageSize <= 0) {
@@ -151,10 +158,12 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     getRowCount() {
       return state.data.length
     },
+    getSelectableRowCount: coordination.getSelectableRowCount,
     getVisibleRows(startIndex: number, endIndex: number) {
       return state.data.slice(startIndex, endIndex)
     },
     selectRow(rowIndex: number, intent: SelectionIntent = 'replace') {
+      if (state.config.selection.rowKey !== undefined && !coordination.canSelect(rowIndex)) return
       const nextSelection = getNextRowSelection(
         state.selection,
         state.config.selection.mode,
@@ -164,8 +173,21 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
 
       if (nextSelection) {
         state.selection = nextSelection
+        // Ranges can cross rows with missing or ambiguous keys.
+        for (const index of state.selection.rowIndexes) {
+          if (state.config.selection.rowKey !== undefined && !coordination.canSelect(index)) state.selection.rowIndexes.delete(index)
+        }
+        coordination.commit()
       }
     },
+    selectRowByKey(key, intent = 'replace') {
+      const index = coordination.indexForKey(key)
+      if (index === undefined || !['row', 'multi-row'].includes(state.selection.mode)) return false
+      engine.selectRow(index, intent)
+      return true
+    },
+    getSelectionSnapshot: coordination.getSnapshot,
+    onSelectionChange: coordination.subscribe,
     selectAllRows() {
       if (state.config.selection.mode !== 'multi-row') {
         return
@@ -173,17 +195,19 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
 
       const rowIndexes = new Set<number>()
       for (let rowIndex = 0; rowIndex < state.data.length; rowIndex += 1) {
-        rowIndexes.add(rowIndex)
+        if (coordination.canSelect(rowIndex)) rowIndexes.add(rowIndex)
       }
 
       state.selection = {
         ...createEmptySelection('multi-row'),
-        rowIndex: state.data.length > 0 ? state.data.length - 1 : null,
-        anchorRowIndex: state.data.length > 0 ? 0 : null,
+        rowIndex: [...rowIndexes].at(-1) ?? null,
+        anchorRowIndex: rowIndexes.values().next().value ?? null,
         rowIndexes
       }
+      coordination.commit()
     },
     selectCell(rowIndex: number, columnKey: string) {
+      if (state.config.selection.rowKey !== undefined && !coordination.canSelect(rowIndex)) return
       const nextSelection = getNextCellSelection(
         state.selection,
         state.config.selection.mode,
@@ -193,13 +217,15 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
 
       if (nextSelection) {
         state.selection = nextSelection
+        coordination.commit()
       }
     },
     clearSelection() {
       state.selection = createEmptySelection(state.config.selection.mode)
+      coordination.commit()
     },
     getSelection() {
-      return state.selection
+      return { ...state.selection, rowIndexes: new Set(state.selection.rowIndexes), cells: new Set(state.selection.cells) }
     },
     isRowSelected(rowIndex: number) {
       return (
@@ -214,4 +240,5 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       )
     }
   }
+  return engine
 }

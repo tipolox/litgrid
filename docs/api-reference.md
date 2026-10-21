@@ -69,7 +69,7 @@ React, Vue and Angular accept these same `GridColumn` objects without wrapper-sp
 type SelectionMode = 'none' | 'row' | 'multi-row' | 'cell' | 'multi-cell'
 
 type GridConfig = {
-  selection?: { mode?: SelectionMode; checkboxes?: boolean }
+  selection?: { mode?: SelectionMode; checkboxes?: boolean; rowKey?: string; scopeKey?: string | number }
   rowHeader?: { enabled?: boolean; width?: number }
   pagination?: { enabled?: boolean; pageSize?: number; pageIndex?: number }
 }
@@ -180,11 +180,14 @@ These custom events bubble and are composed, so listeners may be placed on the e
 
 | Event | `detail` |
 | --- | --- |
+| `selection-change` | Frozen `SelectionChangeDetail`: mode/scope, displayed indexes, cells, and selected row/key mappings. See [selection coordination](selection-coordination.md) for transition and no-op rules. |
 | `column-reorder` | `{ columnKey, previousIndex, currentIndex, columnOrder }` |
 | `column-visibility-change` | `{ columnKey, visible, visibleColumnKeys }` |
 | `column-state-change` | `{ reason, state }`, where `reason` is `resize`, `reorder`, `visibility`, `restore`, `reset`, or `set`. |
 
 ## React: `DataGrid`
+
+Selection coordination is available through `onSelectionChange(detail)`, `getSelectionSnapshot()`, and `selectRowByKey(key, intent?)`. See [selection coordination](selection-coordination.md) for stable keys, scope resets, and other framework equivalents.
 
 ```tsx
 import { DataGrid } from '@tipolox/litgrid-react'

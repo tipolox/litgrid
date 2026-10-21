@@ -20,6 +20,8 @@ import type {
   GridFilter,
   GridPaginationState,
   GridSelection,
+  GridRowKey,
+  SelectionChangeDetail,
   GridTheme,
   SelectionIntent
 } from '@tipolox/litgrid-web'
@@ -82,6 +84,8 @@ export type DataGridInstance = {
   selectAllRows(): void
   clearSelection(): void
   getSelection(): GridSelection
+  getSelectionSnapshot(): SelectionChangeDetail
+  selectRowByKey(key: GridRowKey, intent?: SelectionIntent): boolean
   isRowSelected(rowIndex: number): boolean
   isCellSelected(rowIndex: number, columnKey: string): boolean
 }
@@ -108,6 +112,7 @@ export const DataGrid = defineComponent({
     columnStateStorageKey: { type: String, default: undefined }
   },
   emits: {
+    'selection-change': (_detail: SelectionChangeDetail) => true,
     'column-state-change': (_detail: ColumnStateChangeDetail) => true,
     'column-reorder': (_detail: ColumnReorderDetail) => true,
     'column-visibility-change': (_detail: ColumnVisibilityChangeDetail) => true
@@ -146,6 +151,9 @@ export const DataGrid = defineComponent({
     const handleColumnStateChange = (event: Event) => {
       emit('column-state-change', (event as CustomEvent<ColumnStateChangeDetail>).detail)
     }
+    const handleSelectionChange = (event: Event) => {
+      if (event.target === gridRef.value) emit('selection-change', (event as CustomEvent<SelectionChangeDetail>).detail)
+    }
     const handleColumnReorder = (event: Event) => {
       emit('column-reorder', (event as CustomEvent<ColumnReorderDetail>).detail)
     }
@@ -156,6 +164,7 @@ export const DataGrid = defineComponent({
     onMounted(() => {
       syncInputs()
       const grid = requireGridElement()
+      grid.addEventListener('selection-change', handleSelectionChange)
       grid.addEventListener('column-state-change', handleColumnStateChange)
       grid.addEventListener('column-reorder', handleColumnReorder)
       grid.addEventListener('column-visibility-change', handleColumnVisibilityChange)
@@ -164,6 +173,7 @@ export const DataGrid = defineComponent({
     onBeforeUnmount(() => {
       const grid = gridRef.value
       if (!grid) return
+      grid.removeEventListener('selection-change', handleSelectionChange)
       grid.removeEventListener('column-state-change', handleColumnStateChange)
       grid.removeEventListener('column-reorder', handleColumnReorder)
       grid.removeEventListener('column-visibility-change', handleColumnVisibilityChange)
@@ -208,6 +218,8 @@ export const DataGrid = defineComponent({
       selectAllRows: () => requireGridElement().selectAllRows(),
       clearSelection: () => requireGridElement().clearSelection(),
       getSelection: () => requireGridElement().getSelection(),
+      getSelectionSnapshot: () => requireGridElement().getSelectionSnapshot(),
+      selectRowByKey: (key: GridRowKey, intent?: SelectionIntent) => requireGridElement().selectRowByKey(key, intent),
       isRowSelected: (rowIndex: number) => requireGridElement().isRowSelected(rowIndex),
       isCellSelected: (rowIndex: number, columnKey: string) => requireGridElement().isCellSelected(rowIndex, columnKey)
     } satisfies DataGridInstance)
