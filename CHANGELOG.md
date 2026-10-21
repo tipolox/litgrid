@@ -2,6 +2,30 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.2.0
+
+### DataGrid and framework adapters
+
+- Added optional `sortable` and `filterable` column flags to suppress monetary or other unsuitable header-menu sort/filter actions without removing the imperative or server-query APIs. Exact decimal-string values remain strings; applications are responsible for exact comparison where required.
+- Added supported selection-change notifications, typed frozen selection snapshots, `selectRowByKey`, and optional `selection.rowKey` / `scopeKey` coordination across Web Components, React, Vue, Angular, and Blazor. Stable record keys survive permitted row replacement/reordering while duplicate, missing, and invalid identities are unselectable; changing scope clears selection.
+- Added opt-in `queryMode: 'external'` with atomic external-state updates and query intents for search, sort, filter, pagination, page size, and refresh. Known and unknown totals, loading, empty, error, and out-of-range states are supported. Work is bounded by supplied page rows rather than the server's declared total.
+- Optimized keyed selection by reusing validated indexes when the full displayed view matches original order, rechecking identities on every data synchronization to preserve same-reference mutation behavior, and avoiding redundant copies for inactive data transforms.
+- Strengthened adapter event-contract tests, a bounded public API/adapter typecheck in CI, packaged-consumer checks, and checksum verification of downloaded release candidates.
+
+### Upgrade and integration guidance
+
+- Upgrade all six `@tipolox/litgrid-*` npm packages as a coordinated **1.2.0** set, and upgrade Blazor NuGet/bundled JavaScript together when applicable. Rebuild consumers and validate lockfiles, browser caches, and service-worker assets. The first `yc-grid` custom-element registration wins, so an earlier loaded bundle cannot be replaced in the same page.
+- Existing local/index-based selection and pagination remain the default. Opt into stable keyed selection only when record identities are unique, stable finite numbers or strings; `scopeKey` clears UI selection but **does not enforce authorization**.
+- External mode requires immutable external-state replacements; the application owns fetching, cancellation, authorization, response/request identity and account/site-epoch guards. React's `data` prop remains required (use an empty array with external state). In Next.js, register the grid client-side and avoid server-side custom-element registration.
+- Keep decimal values as exact strings through server-query payloads. Do not assume client-side numeric conversions preserve monetary precision. Consult the [proposed release guide](docs/release/v1.2.0-release-notes-draft.md) for detailed integration and scope-switch guidance.
+
+### Verified scope and known limitations
+
+- The integrated pre-version-bump qualification passed **322 JavaScript tests, 129 Blazor tests, scoped API/adapter typechecks, builds**, and packaged Next.js 16/React 19, Vue 3, Angular 22 on supported Node 22.22.3, and .NET 8 Blazor Server scenarios. Exact **1.2.0** packages still require release-candidate validation prior to publication.
+- Stable keyed identity adds cold local-dataset cost relative to historical v1.1.0, which did not implement the same guarantees. In a fixed reference-machine fixture, 100k-row keyed startup p95 was **57.9 ms (120 columns)** and **66.2 ms (200 columns)**; two-frame presentation waits reached **102.0/120.7 ms p95**. These are not cross-device service-level guarantees or direct paint measurements. Explicit unkeyed p95 differences ranged **−1.9 to +2.5 ms** in that fixture. A scoped performance tradeoff was accepted for release preparation; deeper investigation is tracked in [#43](https://github.com/tipolox/litgrid/issues/43).
+- The broad root TypeScript check remains failing under [#31](https://github.com/tipolox/litgrid/issues/31) despite passing package builds and scoped public contract tests. It reported **140 source diagnostics before builds, 150 afterward** in the integrated qualification. No claim that the root check is green is made.
+- Automated Chromium keyboard, focus, DOM and ARIA checks passed in the tested configurations, but **real screen-reader speech is unverified**; no WCAG conformance certification is claimed. Actual Safari, physical touch, Blazor WebAssembly and the full Angular-major support matrix remain outside this qualification.
+
 ## 1.1.0
 
 ### Blazor
