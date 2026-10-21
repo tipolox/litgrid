@@ -60,6 +60,43 @@ try {
   const focusedTrigger = () => page.evaluate(() => document.querySelector('yc-grid').shadowRoot.activeElement?.classList.contains('header-action-button'))
 
   if (!benchmarkOnly) {
+    for (const change of ['remove', 'rename', 'hide', 'hide-all', 'hide-schema']) {
+      await install({ sortable: false, filterable: false })
+      await page.evaluate(() => document.querySelector('yc-grid').setFilter({ columnKey: 'amount', operator: 'isNotEmpty' }))
+      await open()
+      await action('Best Fit').focus()
+      await page.evaluate(async change => {
+        const grid = document.querySelector('yc-grid')
+        if (change === 'hide' || change === 'hide-all') {
+          if (change === 'hide-all') grid.setColumnVisible('name', false)
+          grid.setColumnVisible('amount', false)
+        } else {
+          const next = change === 'remove' ? window.columns.slice(1) : window.columns.map(column => column.key === 'amount'
+            ? { ...column, ...(change === 'rename' ? { key: 'renamed' } : { hidden: true }) } : column)
+          grid.updateColumnSchema(next)
+        }
+        await grid.updateComplete
+      }, change)
+      assert.equal(await page.getByRole('dialog').count(), 0)
+      assert.equal(await page.evaluate(() => {
+        const focused = document.querySelector('yc-grid').shadowRoot.activeElement
+        return focused?.isConnected && focused.matches('.header-action-button, .columns-button') && !focused.disabled
+      }), true)
+      if (change === 'hide-all') assert.equal(await page.getByRole('button', { name: 'Columns', exact: true }).evaluate(button => button === button.getRootNode().activeElement), true)
+      await page.evaluate(async () => {
+        const grid = document.querySelector('yc-grid')
+        grid.updateColumnSchema(window.columns)
+        grid.setColumnVisible('amount', true)
+        await grid.updateComplete
+      })
+      assert.equal(await page.getByRole('dialog').count(), 0, 'restoring the column must not reopen a stale menu')
+      assert.deepEqual(await page.evaluate(() => document.querySelector('yc-grid').getFilters()), [{ columnKey: 'amount', operator: 'isNotEmpty' }])
+      await open()
+      assert.equal(await action('Sort Asc').count(), 0)
+      assert.equal(await action('Apply Filter').count(), 0)
+      await page.keyboard.press('Escape')
+      await settle()
+    }
     for (const options of [{}, { sortable: false }, { filterable: false }, { sortable: false, filterable: false }]) {
       await install(options)
       await open()

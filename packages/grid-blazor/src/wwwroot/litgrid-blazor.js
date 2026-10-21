@@ -2124,6 +2124,9 @@ var DataGrid = class DataGrid extends i$2 {
 	firstUpdated() {
 		this.updateScrollbarWidth();
 	}
+	willUpdate() {
+		this.reconcileHeaderMenuCapabilities();
+	}
 	updated() {
 		this.updateScrollbarWidth();
 		if (this.shouldFocusViewport) {
@@ -2473,7 +2476,7 @@ var DataGrid = class DataGrid extends i$2 {
 	reconcileHeaderMenuCapabilities() {
 		if (this.activeHeaderMenu === null) return;
 		const next = this.getColumnCapabilities(this.activeHeaderMenu);
-		if (next.sortable !== this.headerMenuCapabilities.sortable || next.filterable !== this.headerMenuCapabilities.filterable) this.closeHeaderMenu(true);
+		if (!this.isColumnVisible(this.activeHeaderMenu) || next.sortable !== this.headerMenuCapabilities.sortable || next.filterable !== this.headerMenuCapabilities.filterable) this.closeHeaderMenu(true);
 	}
 	closeHeaderMenu(restoreFocus = false) {
 		if (this.activeHeaderMenu === null && !this.columnChooserOpen) return;
@@ -3465,7 +3468,6 @@ var DataGrid = class DataGrid extends i$2 {
 			this.sourceColumnDefs = columns;
 			this.persistColumnState();
 		}
-		this.reconcileHeaderMenuCapabilities();
 		this.clearBestFitWidths();
 		if (activeCell) {
 			const columnIndex = this.getVisibleColumns().findIndex((column) => column.key === activeColumnKey);
@@ -3480,7 +3482,6 @@ var DataGrid = class DataGrid extends i$2 {
 		const activeCell = this.activeCell;
 		this.sourceColumnDefs = Array.isArray(value) ? [...value] : [];
 		this.columnDefs = [...this.sourceColumnDefs];
-		this.reconcileHeaderMenuCapabilities();
 		this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key));
 		this.clearBestFitWidths();
 		this.restorePersistedColumnState();

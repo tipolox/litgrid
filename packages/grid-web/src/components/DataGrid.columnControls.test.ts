@@ -120,6 +120,70 @@ describe('column query UI capabilities', () => {
     expect([...grid.renderRoot.querySelectorAll('.cell')].map(cell => cell.textContent)).toEqual(before)
   })
 
+  it.each((['columns', 'schema'] as const).flatMap(method =>
+    (['remove', 'rename', 'hide'] as const).map(change => [method, change] as const)
+  ))('closes an opted-out column menu after %s %s and retains queries', async (method, change) => {
+    const grid = await setup()
+    await open(grid)
+    button(grid, 'Sort Asc')!.click()
+    grid.setFilter({ columnKey: 'amount', operator: 'isNotEmpty' })
+    const columns: GridColumn[] = [{ key: 'amount', sortable: false, filterable: false }, { key: 'name' }]
+    grid.columns = columns
+    await grid.updateComplete
+    await open(grid)
+    button(grid, 'Best Fit')!.focus()
+    const next = change === 'remove' ? columns.slice(1) : columns.map(column => column.key === 'amount'
+      ? { ...column, ...(change === 'rename' ? { key: 'renamed' } : { hidden: true }) } : column)
+    if (method === 'schema') grid.updateColumnSchema(next)
+    else grid.columns = next
+    await grid.updateComplete
+
+    expect(grid.renderRoot.querySelector('.header-menu')).toBeNull()
+    const fallback = grid.renderRoot.querySelector<HTMLButtonElement>('.header-action-button')!
+    expect(fallback.isConnected).toBe(true)
+    expect(fallback.disabled).toBe(false)
+    expect((grid.renderRoot as ShadowRoot).activeElement).toBe(fallback)
+    expect(grid.getFilters()).toEqual([{ columnKey: 'amount', operator: 'isNotEmpty' }])
+
+    // Reintroducing the same key must not resurrect a stale open menu.
+    grid.updateColumnSchema(columns)
+    await grid.updateComplete
+    expect(grid.renderRoot.querySelector('.header-menu')).toBeNull()
+    expect(grid.renderRoot.querySelector('[data-column-key="amount"]')!.getAttribute('aria-sort')).toBe('ascending')
+    expect(grid.renderRoot.querySelector('.header-filter-indicator')).not.toBeNull()
+    await open(grid)
+    expect(button(grid, 'Sort Asc')).toBeUndefined()
+    expect(button(grid, 'Apply Filter')).toBeUndefined()
+  })
+
+  it.each(['visibility', 'state', 'persisted-state'] as const)('closes a hidden opted-out column menu through %s and falls back to Columns', async method => {
+    const grid = await setup({ sortable: false, filterable: false })
+    grid.setColumnVisible('name', false)
+    await grid.updateComplete
+    await open(grid)
+    button(grid, 'Best Fit')!.focus()
+    if (method === 'visibility') grid.setColumnVisible('amount', false)
+    else {
+      const state = grid.getColumnState()
+      state.columns.forEach(column => { column.visible = false })
+      if (method === 'state') grid.setColumnState(state)
+      else {
+        localStorage.setItem('hidden-money-menu', JSON.stringify(state))
+        grid.columnStateStorageKey = 'hidden-money-menu'
+      }
+    }
+    await grid.updateComplete
+    expect(grid.renderRoot.querySelector('.header-menu')).toBeNull()
+    const fallback = grid.renderRoot.querySelector<HTMLButtonElement>('.columns-button')!
+    expect(fallback.isConnected).toBe(true)
+    expect(fallback.getAttribute('type')).toBe('button')
+    expect((grid.renderRoot as ShadowRoot).activeElement).toBe(fallback)
+    grid.setColumnVisible('amount', true)
+    await grid.updateComplete
+    expect(grid.renderRoot.querySelector('.header-menu')).toBeNull()
+    expect(grid.renderRoot.querySelector('.header-action-button')!.getAttribute('aria-expanded')).toBe('false')
+  })
+
   it('keeps imperative filters, quick search and exact clipboard strings unchanged', async () => {
     const grid = await setup({ sortable: false, filterable: false,
       render: value => value === null ? '—' : `EUR ${String(value).replace('.', ',')}` })

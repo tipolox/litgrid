@@ -702,6 +702,11 @@ export class DataGrid extends LitElement {
     this.updateScrollbarWidth()
   }
 
+  willUpdate() {
+    // Reconcile after schema and persisted visibility settle, before triggers disappear.
+    this.reconcileHeaderMenuCapabilities()
+  }
+
       updated() {
     this.updateScrollbarWidth()
 
@@ -1181,7 +1186,8 @@ export class DataGrid extends LitElement {
   private reconcileHeaderMenuCapabilities() {
     if (this.activeHeaderMenu === null) return
     const next = this.getColumnCapabilities(this.activeHeaderMenu)
-    if (next.sortable !== this.headerMenuCapabilities.sortable || next.filterable !== this.headerMenuCapabilities.filterable) {
+    if (!this.isColumnVisible(this.activeHeaderMenu)
+        || next.sortable !== this.headerMenuCapabilities.sortable || next.filterable !== this.headerMenuCapabilities.filterable) {
       this.closeHeaderMenu(true)
     }
   }
@@ -2664,7 +2670,6 @@ export class DataGrid extends LitElement {
       this.sourceColumnDefs = columns
       this.persistColumnState()
     }
-    this.reconcileHeaderMenuCapabilities()
     this.clearBestFitWidths()
     if (activeCell) {
       const columnIndex = this.getVisibleColumns().findIndex(column => column.key === activeColumnKey)
@@ -2677,7 +2682,6 @@ export class DataGrid extends LitElement {
     const activeCell = this.activeCell
         this.sourceColumnDefs = Array.isArray(value) ? [...value] : []
     this.columnDefs = [...this.sourceColumnDefs]
-    this.reconcileHeaderMenuCapabilities()
     this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key))
 
     this.clearBestFitWidths()
