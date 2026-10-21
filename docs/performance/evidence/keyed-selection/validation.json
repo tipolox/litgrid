@@ -1,0 +1,101 @@
+{
+  "base": "206192e999a38c6b944944eabe2724ef4e9f8cef",
+  "date": "2026-10-21",
+  "timezone": "Asia/Singapore",
+  "environment": {
+    "os": "10.0.26200",
+    "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+    "logicalCpus": 8,
+    "ramGiB": 29.940074920654297,
+    "node": "v22.14.0",
+    "pnpm": "10.33.0",
+    "typescript": "6.0.3",
+    "chromium": "156.0.8078.4",
+    "dotnetSDK": "10.0.402",
+    "dotnetTarget": "net8.0"
+  },
+  "checks": {
+    "frozenInstall": "PASS",
+    "js": {
+      "result": "PASS",
+      "files": 42,
+      "tests": 322
+    },
+    "build": "PASS",
+    "scopedTypes": {
+      "result": "PASS",
+      "diagnostics": 0,
+      "note": "Executed .private/tsconfig.performance.json using qualification installed Node declarations; original config preserved in evidence."
+    },
+    "rootTypes": {
+      "result": "FAIL (existing issue 31 area)",
+      "exitCode": 2,
+      "diagnosticsBeforeBuild": 162,
+      "diagnosticsAfterBuild": 172
+    },
+    "blazorTests": {
+      "result": "PASS",
+      "tests": 129
+    },
+    "blazorBuild": {
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0
+    },
+    "archives": {
+      "result": "PASS",
+      "npm": 6,
+      "nuget": 1,
+      "version": "1.1.0"
+    },
+    "installedAPI": "PASS",
+    "packagedChromium": "PASS",
+    "sourceSelectionKeyboard": "PASS",
+    "sourceExternalQuery": "PASS"
+  },
+  "ci": "See draft PR checks for exact reviewed head; no CI success is inferred from local validation.",
+  "artifacts": [
+    {
+      "name": "tipolox-litgrid-angular-1.1.0.tgz",
+      "type": "npm",
+      "bytes": 9192,
+      "sha256": "df17f705fb4fc8445fabc28857338aef8833919bff206b09f5d77ed24591fd58"
+    },
+    {
+      "name": "tipolox-litgrid-core-1.1.0.tgz",
+      "type": "npm",
+      "bytes": 32264,
+      "sha256": "08b731c37e7a838763b2bb446e7cc334056d8f28f560de48a2b04a8e034aa4db"
+    },
+    {
+      "name": "tipolox-litgrid-react-1.1.0.tgz",
+      "type": "npm",
+      "bytes": 11727,
+      "sha256": "a3d28c5eb97383fb8ca0b3f53514fba3ed7a3f879ef4608fe3d95a45583e250f"
+    },
+    {
+      "name": "tipolox-litgrid-renderer-1.1.0.tgz",
+      "type": "npm",
+      "bytes": 7973,
+      "sha256": "359d8d02937e5a613589f34be478ffbb2729be23a684bc9c652e416a805be0b1"
+    },
+    {
+      "name": "tipolox-litgrid-vue-1.1.0.tgz",
+      "type": "npm",
+      "bytes": 10779,
+      "sha256": "29319d195f4586f712adcb3a72e34d10da78ed63724793668b0b8d0bc5e9bdca"
+    },
+    {
+      "name": "tipolox-litgrid-web-1.1.0.tgz",
+      "type": "npm",
+      "bytes": 80197,
+      "sha256": "1b56e5043a67f51cac69faa09e78cf3aa3ddbdbbbb2a56115fd3c12f36e0cfd1"
+    },
+    {
+      "name": "Tipolox.LitGrid.Blazor.1.1.0.nupkg",
+      "type": "nuget",
+      "bytes": 161628,
+      "sha256": "cfad0ce153f7c446cbc3e4f23396053f2c1568269dcadd064216537d0197b712"
+    }
+  ]
+}

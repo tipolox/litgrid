@@ -840,7 +840,11 @@ function applySortData(data, sort) {
 //#endregion
 //#region ../grid-core/dist/features/transforms/applyDataTransforms.js
 function applyDataTransforms(data, quickSearchQuery, filters, sort) {
-	return applySortData(applyFilterData(applyQuickSearch(data, quickSearchQuery), filters), sort);
+	let result = data;
+	if (quickSearchQuery.trim()) result = applyQuickSearch(result, quickSearchQuery);
+	if (filters.length) result = applyFilterData(result, filters);
+	if (sort.columnKey && sort.direction) result = applySortData(result, sort);
+	return result === data ? data.slice() : result;
 }
 //#endregion
 //#region ../grid-core/dist/features/pagination/pagination.js
@@ -873,14 +877,19 @@ function readKey(row, property) {
 }
 /** Indexes are rebuilt on data/view transitions, never on individual clicks. */
 function createSelectionCoordination(state) {
-	let uniqueKeys = /* @__PURE__ */ new Set();
+	let sourceIndexes = /* @__PURE__ */ new Map();
+	let sourceKeys = [];
+	let indexedProperty;
+	let sourceSelectableCount = 0;
+	let freshSourceIndexes = false;
+	let displayedSelectableCount = 0;
 	let displayedKeys = /* @__PURE__ */ new Map();
 	const listeners = /* @__PURE__ */ new Set();
 	function keyAt(rowIndex) {
 		const property = state.config.selection.rowKey;
 		if (property === void 0) return null;
 		const key = readKey(state.data[rowIndex], property);
-		return key !== null && uniqueKeys.has(key) ? key : null;
+		return key !== null && (sourceIndexes.get(key) ?? -1) >= 0 ? key : null;
 	}
 	function snapshot() {
 		const selection = state.selection;
@@ -909,28 +918,67 @@ function createSelectionCoordination(state) {
 		for (const listener of [...listeners]) listener(next);
 	}
 	function rebuildKeys() {
-		uniqueKeys = /* @__PURE__ */ new Set();
-		const duplicates = /* @__PURE__ */ new Set();
 		const property = state.config.selection.rowKey;
-		if (property === void 0) return;
-		for (const row of state.originalData) {
-			const key = readKey(row, property);
+		freshSourceIndexes = true;
+		if (property === void 0) {
+			sourceIndexes = /* @__PURE__ */ new Map();
+			sourceKeys = [];
+			indexedProperty = void 0;
+			sourceSelectableCount = 0;
+			return;
+		}
+		const rows = state.originalData;
+		let firstChanged = 0;
+		let changedKey = null;
+		let checkedChangedKey = false;
+		if (property === indexedProperty) {
+			for (; firstChanged < Math.min(rows.length, sourceKeys.length); firstChanged++) {
+				changedKey = readKey(rows[firstChanged], property);
+				if (changedKey !== sourceKeys[firstChanged]) {
+					checkedChangedKey = true;
+					break;
+				}
+			}
+			if (firstChanged === rows.length && rows.length === sourceKeys.length) return;
+		}
+		const nextKeys = sourceKeys.slice(0, firstChanged);
+		const nextIndexes = /* @__PURE__ */ new Map();
+		let selectableCount = 0;
+		for (let index = 0; index < rows.length; index++) {
+			const key = index < firstChanged ? nextKeys[index] : index === firstChanged && checkedChangedKey ? changedKey : readKey(rows[index], property);
+			if (index >= firstChanged) nextKeys.push(key);
 			if (key === null) continue;
-			if (uniqueKeys.has(key)) duplicates.add(key);
-			uniqueKeys.add(key);
+			const previous = nextIndexes.get(key);
+			if (previous === void 0) {
+				nextIndexes.set(key, index);
+				selectableCount++;
+			} else if (previous >= 0) {
+				nextIndexes.set(key, -1);
+				selectableCount--;
+			}
 		}
-		for (const key of duplicates) uniqueKeys.delete(key);
+		sourceKeys = nextKeys;
+		sourceIndexes = nextIndexes;
+		sourceSelectableCount = selectableCount;
+		indexedProperty = property;
 	}
-	function reconcile() {
-		displayedKeys = /* @__PURE__ */ new Map();
-		if (state.config.selection.rowKey !== void 0) for (let index = 0; index < state.data.length; index++) {
-			const key = keyAt(index);
-			if (key !== null) displayedKeys.set(key, index);
+	function reconcile(originalOrder = false) {
+		if (originalOrder && freshSourceIndexes) {
+			displayedKeys = sourceIndexes;
+			displayedSelectableCount = sourceSelectableCount;
+		} else {
+			displayedKeys = /* @__PURE__ */ new Map();
+			if (state.config.selection.rowKey !== void 0) for (let index = 0; index < state.data.length; index++) {
+				const key = keyAt(index);
+				if (key !== null) displayedKeys.set(key, index);
+			}
+			displayedSelectableCount = displayedKeys.size;
 		}
+		freshSourceIndexes = false;
 		if (state.selection.rowIndexes.size) {
 			const remap = /* @__PURE__ */ new Map();
 			for (const row of current.rows) {
-				const index = state.config.selection.rowKey !== void 0 ? row.key === null ? void 0 : displayedKeys.get(row.key) : state.data[row.rowIndex] === row.row ? row.rowIndex : void 0;
+				const index = state.config.selection.rowKey !== void 0 ? row.key === null ? void 0 : indexForKey(row.key) : state.data[row.rowIndex] === row.row ? row.rowIndex : void 0;
 				if (index !== void 0) remap.set(row.rowIndex, index);
 			}
 			state.selection = {
@@ -946,13 +994,17 @@ function createSelectionCoordination(state) {
 		} else if (state.selection.cells.size && current.rows.some((row) => state.data[row.rowIndex] !== row.row || keyAt(row.rowIndex) !== row.key)) state.selection = createEmptySelection(state.selection.mode);
 		commit();
 	}
+	function indexForKey(key) {
+		const index = displayedKeys.get(key);
+		return index !== void 0 && index >= 0 ? index : void 0;
+	}
 	return {
 		rebuildKeys,
 		reconcile,
 		commit,
 		canSelect: (index) => Number.isInteger(index) && index >= 0 && index < state.data.length && (state.config.selection.rowKey === void 0 || keyAt(index) !== null),
-		indexForKey: (key) => displayedKeys.get(key),
-		getSelectableRowCount: () => state.config.selection.rowKey === void 0 ? state.data.length : displayedKeys.size,
+		indexForKey,
+		getSelectableRowCount: () => state.config.selection.rowKey === void 0 ? state.data.length : displayedSelectableCount,
 		getSnapshot: () => current,
 		subscribe(listener) {
 			listeners.add(listener);
@@ -1180,7 +1232,7 @@ function createGridEngine(config = {}) {
 		state.transformedData = rows;
 		state.data = rows;
 		coordination.rebuildKeys();
-		coordination.reconcile();
+		coordination.reconcile(true);
 	});
 	if (external.active()) external.reset();
 	function refreshData() {
@@ -1197,7 +1249,7 @@ function createGridEngine(config = {}) {
 			pageIndex: clampPageIndex(state.pagination.pageIndex, pageCount)
 		};
 		state.data = paginateData(state.transformedData, state.pagination);
-		coordination.reconcile();
+		coordination.reconcile(!state.pagination.enabled && !state.quickSearchQuery.trim() && state.filters.length === 0 && (!state.sort.columnKey || !state.sort.direction));
 	}
 	function resetPage() {
 		state.pagination = {

@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  Restored D:\Work\litgrid-perf\packages\grid-blazor\src\Tipolox.LitGrid.Blazor.csproj (in 4.48 sec).
+  Restored D:\Work\litgrid-perf\packages\grid-blazor\tests\Tipolox.LitGrid.Blazor.Tests.csproj (in 4.59 sec).
+  Tipolox.LitGrid.Blazor -> D:\Work\litgrid-perf\packages\grid-blazor\src\bin\Release\net8.0\Tipolox.LitGrid.Blazor.dll
+  Tipolox.LitGrid.Blazor.Tests -> D:\Work\litgrid-perf\packages\grid-blazor\tests\bin\Release\net8.0\Tipolox.LitGrid.Blazor.Tests.dll
+Test run for D:\Work\litgrid-perf\packages\grid-blazor\tests\bin\Release\net8.0\Tipolox.LitGrid.Blazor.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   129, Skipped:     0, Total:   129, Duration: 3 s - Tipolox.LitGrid.Blazor.Tests.dll (net8.0)

@@ -9,5 +9,11 @@ export function applyDataTransforms(
   filters: GridFilter[],
   sort: GridSortState
 ) {
-  return applySortData(applyFilterData(applyQuickSearch(data, quickSearchQuery), filters), sort)
+  // Each active transform already returns a detached array. Preserve that
+  // contract with one copy, rather than three copies for an unchanged view.
+  let result = data
+  if (quickSearchQuery.trim()) result = applyQuickSearch(result, quickSearchQuery)
+  if (filters.length) result = applyFilterData(result, filters)
+  if (sort.columnKey && sort.direction) result = applySortData(result, sort)
+  return result === data ? data.slice() : result
 }

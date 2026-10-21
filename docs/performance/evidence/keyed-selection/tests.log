@@ -1,0 +1,13 @@
+
+> tipoloX@1.1.0 test D:\Work\litgrid-perf
+> vitest run
+
+
+ RUN  v4.1.10 D:/Work/litgrid-perf
+
+
+ Test Files  42 passed (42)
+      Tests  322 passed (322)
+   Start at  18:18:53
+   Duration  52.55s (transform 6.34s, setup 0ms, import 25.72s, tests 40.86s, environment 213.06s)
+

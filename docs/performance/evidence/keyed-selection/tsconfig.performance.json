@@ -1,0 +1,24 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "D:/Work/litgrid-p0/node_modules/@types",
+      "../node_modules/.pnpm/node_modules/@types"
+    ]
+  },
+  "include": [
+    "../packages/grid-web/tests/*.typecheck.ts",
+    "../packages/grid-react/src/jsx-elements.d.ts",
+    "../packages/grid-react/src/DataGrid.navigationUpdates.test.tsx",
+    "../packages/grid-core/src/core/keyedSelection.performance.test.ts"
+  ]
+}

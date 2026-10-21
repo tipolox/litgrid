@@ -1,0 +1,198 @@
+apps/playground/src/App.tsx(1,21): error TS2305: Module '"react"' has no exported member 'useState'.
+apps/playground/src/App.tsx(32,5): error TS2339: Property 'main' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(33,7): error TS2339: Property 'header' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(34,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(35,11): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(35,52): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(36,11): error TS2339: Property 'h2' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(50,11): error TS2339: Property 'h2' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(51,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(52,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(53,11): error TS2339: Property 'nav' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(54,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(54,89): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(55,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(55,104): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(56,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(56,104): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(57,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(57,95): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(58,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(58,119): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(59,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(59,106): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(60,13): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(60,113): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(61,11): error TS2339: Property 'nav' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(62,11): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(63,13): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(69,13): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(70,13): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(76,13): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(77,11): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(78,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(79,7): error TS2339: Property 'header' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/App.tsx(88,5): error TS2339: Property 'main' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CheckboxSelectionDemo.tsx(20,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CheckboxSelectionDemo.tsx(21,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CheckboxSelectionDemo.tsx(23,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CheckboxSelectionDemo.tsx(35,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ColumnStateDemo.tsx(1,10): error TS2305: Module '"react"' has no exported member 'useCallback'.
+apps/playground/src/ColumnStateDemo.tsx(1,23): error TS2305: Module '"react"' has no exported member 'useState'.
+apps/playground/src/ColumnStateDemo.tsx(33,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ColumnStateDemo.tsx(34,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ColumnStateDemo.tsx(36,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ColumnStateDemo.tsx(37,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ColumnStateDemo.tsx(37,63): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ColumnStateDemo.tsx(48,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CustomRendererDemo.tsx(81,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CustomRendererDemo.tsx(82,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CustomRendererDemo.tsx(84,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/CustomRendererDemo.tsx(93,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(36,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(37,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(39,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(40,7): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(42,11): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(43,13): error TS2339: Property 'h3' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(43,32): error TS2339: Property 'h3' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(44,13): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(44,37): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(45,13): error TS2339: Property 'span' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(45,33): error TS2339: Property 'span' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(46,11): error TS2339: Property 'a' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(48,7): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/ExamplesDemo.tsx(49,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/LargeDatasetDemo.tsx(41,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/LargeDatasetDemo.tsx(42,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/LargeDatasetDemo.tsx(44,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/LargeDatasetDemo.tsx(55,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/PaginationDemo.tsx(27,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/PaginationDemo.tsx(28,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/PaginationDemo.tsx(30,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/PaginationDemo.tsx(43,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/SmallDatasetDemo.tsx(34,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/SmallDatasetDemo.tsx(35,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/SmallDatasetDemo.tsx(37,7): error TS2339: Property 'p' does not exist on type 'JSX.IntrinsicElements'.
+apps/playground/src/SmallDatasetDemo.tsx(49,5): error TS2339: Property 'section' does not exist on type 'JSX.IntrinsicElements'.
+dist/grid-angular/types/tipolox-litgrid-angular.d.ts(4,21): error TS2307: Cannot find module '@angular/core' or its corresponding type declarations.
+dist/grid-angular/types/tipolox-litgrid-angular.d.ts(5,71): error TS2307: Cannot find module '@angular/core' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-angular/src/DataGridComponent.d.ts(2,71): error TS2307: Cannot find module '@angular/core' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-angular/src/DataGridComponent.d.ts(4,21): error TS2307: Cannot find module '@angular/core' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(1,28): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(94,27): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(284,22): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-web/src/theme/darkTheme.d.ts(5,46): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+dist/out-tsc/grid-angular/grid-web/src/theme/lightTheme.d.ts(5,47): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/_debug_node-chunk.d.ts(12,86): error TS2307: Cannot find module '@angular/core/primitives/di' or its corresponding type declarations.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts(18,34): error TS2307: Cannot find module '@angular/core/primitives/signals' or its corresponding type declarations.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-signals.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts(22,8): error TS2882: Cannot find module or type declarations for side-effect import of '@angular/core/primitives/di'.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/primitives-di.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts(31,39): error TS2694: Namespace '"react"' has no exported member 'Component'.
+node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts(51,39): error TS2694: Namespace '"react"' has no exported member 'Component'.
+node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts(62,28): error TS2694: Namespace '"react"' has no exported member 'ReactNode'.
+node_modules/.pnpm/@types+react-dom@19.2.3_@types+react@19.2.14/node_modules/@types/react-dom/client.d.ts(103,28): error TS2694: Namespace '"react"' has no exported member 'ReactNode'.
+node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/expect/dist/index.d.ts(6,27): error TS2307: Cannot find module '@vitest/utils/display' or its corresponding type declarations.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/utils/dist/display.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts(1,34): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts(3,51): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts(2,34): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vitest/dist/index.d.ts(31,8): error TS2882: Cannot find module or type declarations for side-effect import of 'vite/module-runner'.
+  There are types at 'D:/Work/litgrid-perf/node_modules/.pnpm/vitest@4.1.10_jsdom@30.0.1__dfad363b0448ce3e712943e0a2ecf1ea/node_modules/vite/dist/node/module-runner.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+packages/grid-angular/src/DataGridComponent.test.ts(171,39): error TS2353: Object literal may only specify known properties, and 'title' does not exist in type 'GridColumn'.
+packages/grid-angular/src/DataGridComponent.test.ts(196,28): error TS2353: Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'.
+packages/grid-angular/src/DataGridComponent.test.ts(201,7): error TS2353: Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'.
+packages/grid-angular/src/DataGridComponent.test.ts(208,7): error TS2353: Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'.
+packages/grid-angular/src/DataGridComponent.test.ts(242,50): error TS2353: Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'.
+packages/grid-angular/src/DataGridComponent.test.ts(312,75): error TS2353: Object literal may only specify known properties, and 'totalPages' does not exist in type 'GridPaginationState'.
+packages/grid-angular/src/DataGridComponent.test.ts(313,53): error TS2353: Object literal may only specify known properties, and 'selectedRowIndexes' does not exist in type 'GridSelection'.
+packages/grid-blazor/src/navigationUpdates.test.ts(73,3): error TS18048: 'inputs.data' is possibly 'undefined'.
+packages/grid-blazor/src/navigationUpdates.test.ts(74,17): error TS18048: 'inputs.data' is possibly 'undefined'.
+packages/grid-blazor/src/navigationUpdates.test.ts(75,3): error TS18048: 'inputs.columns' is possibly 'undefined'.
+packages/grid-blazor/src/navigationUpdates.test.ts(76,3): error TS18048: 'inputs.columns' is possibly 'undefined'.
+packages/grid-blazor/src/navigationUpdates.test.ts(84,3): error TS18048: 'inputs.data' is possibly 'undefined'.
+packages/grid-blazor/src/navigationUpdates.test.ts(85,3): error TS18048: 'inputs.columns' is possibly 'undefined'.
+packages/grid-blazor/src/partialFailureRetry.test.ts(22,17): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+packages/grid-blazor/src/partialFailureRetry.test.ts(90,63): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+packages/grid-core/src/core/GridEngine.bench.ts(20,30): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.
+  Type 'number' is not assignable to type 'void | Promise<void>'.
+packages/grid-core/src/core/GridEngine.bench.ts(27,79): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.
+  Type 'number' is not assignable to type 'void | Promise<void>'.
+packages/grid-react/dist/DataGrid.d.ts(76,48): error TS2694: Namespace '"react"' has no exported member 'ForwardRefExoticComponent'.
+packages/grid-react/src/DataGrid.externalQuery.test.tsx(2,10): error TS2305: Module '"react"' has no exported member 'act'.
+packages/grid-react/src/DataGrid.externalQuery.test.tsx(2,15): error TS2305: Module '"react"' has no exported member 'StrictMode'.
+packages/grid-react/src/DataGrid.navigationUpdates.test.tsx(2,10): error TS2305: Module '"react"' has no exported member 'act'.
+packages/grid-react/src/DataGrid.selectionChange.test.tsx(2,10): error TS2305: Module '"react"' has no exported member 'act'.
+packages/grid-react/src/DataGrid.test.tsx(2,10): error TS2305: Module '"react"' has no exported member 'act'.
+packages/grid-react/src/DataGrid.test.tsx(143,28): error TS2353: Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'.
+packages/grid-react/src/DataGrid.test.tsx(148,7): error TS2353: Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'.
+packages/grid-react/src/DataGrid.test.tsx(155,7): error TS2353: Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'.
+packages/grid-react/src/DataGrid.test.tsx(199,50): error TS2353: Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'.
+packages/grid-react/src/DataGrid.test.tsx(216,75): error TS2353: Object literal may only specify known properties, and 'totalPages' does not exist in type 'GridPaginationState'.
+packages/grid-react/src/DataGrid.test.tsx(222,53): error TS2353: Object literal may only specify known properties, and 'selectedRowIndexes' does not exist in type 'GridSelection'.
+packages/grid-react/src/DataGrid.tsx(24,3): error TS2305: Module '"react"' has no exported member 'forwardRef'.
+packages/grid-react/src/DataGrid.tsx(26,3): error TS2305: Module '"react"' has no exported member 'useImperativeHandle'.
+packages/grid-react/src/DataGrid.tsx(27,3): error TS2305: Module '"react"' has no exported member 'useLayoutEffect'.
+packages/grid-react/src/DataGrid.tsx(134,3): error TS7006: Parameter 'forwardedRef' implicitly has an 'any' type.
+packages/grid-react/src/DataGrid.tsx(192,24): error TS7006: Parameter 'key' implicitly has an 'any' type.
+packages/grid-react/src/DataGrid.tsx(192,29): error TS7006: Parameter 'intent' implicitly has an 'any' type.
+packages/grid-react/src/jsx-elements.d.ts(1,15): error TS2305: Module '"react"' has no exported member 'DetailedHTMLProps'.
+packages/grid-react/src/jsx-elements.d.ts(1,34): error TS2305: Module '"react"' has no exported member 'HTMLAttributes'.
+packages/grid-renderer/src/viewport/scrollMapping.bench.ts(9,71): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.
+  Type 'number' is not assignable to type 'void | Promise<void>'.
+packages/grid-renderer/src/viewport/scrollMapping.bench.ts(19,70): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.
+  Type 'number' is not assignable to type 'void | Promise<void>'.
+packages/grid-renderer/src/virtualization/virtualizers.bench.ts(23,62): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.
+  Type 'number' is not assignable to type 'void | Promise<void>'.
+packages/grid-renderer/src/virtualization/virtualizers.bench.ts(29,63): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.
+  Type 'number' is not assignable to type 'void | Promise<void>'.
+packages/grid-vue/src/DataGrid.test.ts(83,27): error TS2339: Property 'gridElement' does not exist on type 'never'.
+packages/grid-vue/src/DataGrid.test.ts(85,28): error TS2353: Object literal may only specify known properties, and 'order' does not exist in type 'GridColumnState'.
+packages/grid-vue/src/DataGrid.test.ts(89,24): error TS2353: Object literal may only specify known properties, and 'fromIndex' does not exist in type 'ColumnReorderDetail'.
+packages/grid-vue/src/DataGrid.test.ts(92,40): error TS2353: Object literal may only specify known properties, and 'visibleKeys' does not exist in type 'ColumnVisibilityChangeDetail'.
+packages/grid-vue/src/DataGrid.test.ts(110,27): error TS2339: Property 'gridElement' does not exist on type 'never'.
+packages/grid-vue/src/DataGrid.test.ts(117,14): error TS2339: Property 'setQuickSearch' does not exist on type 'never'.
+packages/grid-vue/src/DataGrid.test.ts(118,14): error TS2339: Property 'setColumnWidth' does not exist on type 'never'.
+packages/grid-vue/src/DataGrid.test.ts(119,21): error TS2339: Property 'getTotalRowCount' does not exist on type 'never'.
+packages/grid-vue/src/DataGrid.test.ts(120,27): error TS2339: Property 'copySelectedRows' does not exist on type 'never'.
+packages/grid-web/src/components/DataGrid.activeCell.test.ts(51,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.activeCell.test.ts(108,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.activeCell.test.ts(140,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.activeCell.test.ts(167,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.activeCell.test.ts(185,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.activeCell.test.ts(219,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.clipboard.test.ts(8,10): error TS2790: The operand of a 'delete' operator must be optional.
+packages/grid-web/src/components/DataGrid.columnFocus.test.ts(44,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.columnFocus.test.ts(59,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.columnFocus.test.ts(74,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.columnFocus.test.ts(85,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.test.ts(611,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.test.ts(621,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.
+  Property 'activeElement' does not exist on type 'DocumentFragment'.
+packages/grid-web/src/components/DataGrid.test.ts(964,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.
+packages/grid-web/src/components/DataGrid.test.ts(965,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.
+packages/grid-web/src/components/DataGrid.test.ts(970,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.
+packages/grid-web/src/components/DataGrid.test.ts(974,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.
+packages/grid-web/src/components/DataGrid.test.ts(978,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.
+scripts/embed-sourcemap-sources.test.ts(1,77): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/embed-sourcemap-sources.test.ts(2,24): error TS2591: Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/embed-sourcemap-sources.test.ts(3,22): error TS2591: Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/embed-sourcemap-sources.test.ts(4,27): error TS2591: Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/embed-sourcemap-sources.test.ts(5,31): error TS2591: Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/embed-sourcemap-sources.test.ts(18,20): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
