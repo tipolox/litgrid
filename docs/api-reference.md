@@ -147,8 +147,8 @@ Assign arrays and configuration as JavaScript properties rather than HTML attrib
 | `overscanCount` | `number` | `4` | Extra rows rendered outside the viewport. |
 | `columnOverscanCount` | `number` | `2` | Extra columns rendered outside the viewport. |
 | `bestFitSampleSize` | `number` | `10` | Values sampled by best-fit sizing. |
-| `quickSearchDebounceThreshold` | `number` | `10000` | Row-count threshold for input debouncing. |
-| `quickSearchDebounceMs` | `number` | `150` | Debounce delay for quick search at or above the threshold. |
+| `quickSearchDebounceThreshold` | `number` | `10000` | Local-mode source-row threshold for input debouncing; ignored in external mode. |
+| `quickSearchDebounceMs` | `number` | `150` | External-mode input debounce delay regardless of page size; local mode uses it at or above the threshold. Zero applies input immediately. |
 | `columnStateStorageKey` | `string \| null` | `null` | `localStorage` key for column state. |
 
 ### Keyboard interaction in custom cells

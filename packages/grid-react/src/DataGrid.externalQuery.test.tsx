@@ -50,3 +50,25 @@ it('keeps controlled external pages across React rerenders, uses fresh callbacks
     expect(b).toHaveBeenCalledTimes(1)
   } finally { act(() => root.unmount()); host.remove(); vi.restoreAllMocks() }
 })
+
+it('cancels a pending external input debounce when React unmounts the grid', async () => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = createRoot(host)
+  const callback = vi.fn()
+  try {
+    act(() => root.render(<DataGrid data={[]} columns={[{ key: 'name' }]} config={{ queryMode: 'external' }} onQueryChange={callback} />))
+    const grid = host.querySelector('yc-grid') as WebGrid
+    await grid.updateComplete
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+    const input = grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')!
+    input.value = 'Pending'
+    act(() => input.dispatchEvent(new Event('input', { bubbles: true })))
+    expect(callback).not.toHaveBeenCalled()
+    expect(vi.getTimerCount()).toBe(1)
+    act(() => root.unmount())
+    expect(vi.getTimerCount()).toBe(0)
+    vi.advanceTimersByTime(300)
+    expect(callback).not.toHaveBeenCalled()
+  } finally { act(() => root.unmount()); host.remove(); vi.useRealTimers() }
+})

@@ -31,6 +31,68 @@ try {
   await page.locator('body[data-ready="true"]').waitFor()
   await page.getByText('Page 3 of 18', { exact: true }).waitFor()
   assert.equal(await page.locator('yc-grid .cell').first().textContent().then(x => x.trim()), 'Zulu')
+  // Real keyboard regression: external debounce is independent of page size,
+  // local threshold, and ignored legacy input assignments.
+  const searchInput = page.getByRole('textbox', { name: 'Quick search' })
+  await page.evaluate(() => {
+    window.grid.quickSearchDebounceMs = 300
+    window.grid.quickSearchDebounceThreshold = 0
+    window.grid.data = new Array(100_000)
+  })
+  await searchInput.pressSequentially('Alpha', { delay: 10 })
+  assert.deepEqual(await page.evaluate(() => window.events), [])
+  await page.evaluate(() => { window.grid.data = [] })
+  await page.waitForFunction(() => window.events.length === 1)
+  assert.deepEqual(await page.evaluate(() => window.events.map(event => [event.requestId, event.query.search])), [[2, 'Alpha']])
+  assert.equal(await page.evaluate(() => window.grid.shadowRoot.activeElement?.getAttribute('aria-label')), 'Quick search')
+  await page.evaluate(() => window.commit())
+  await searchInput.pressSequentially('Beta', { delay: 10 })
+  await page.getByRole('button', { name: 'Clear', exact: true }).click()
+  await page.waitForTimeout(350)
+  assert.deepEqual(await page.evaluate(() => window.events.map(event => [event.requestId, event.query.search])), [[2, 'Alpha'], [3, '']])
+  await page.evaluate(() => { window.grid.quickSearchDebounceMs = 0 })
+  await searchInput.pressSequentially('XY', { delay: 10 })
+  assert.deepEqual(await page.evaluate(() => window.events.map(event => [event.requestId, event.query.search])), [[2, 'Alpha'], [3, ''], [4, 'X'], [5, 'XY']])
+  await page.evaluate(() => { window.commit(); window.grid.quickSearchDebounceMs = 300 })
+  await searchInput.pressSequentially('Pending', { delay: 10 })
+  await page.evaluate(() => window.grid.remove())
+  await page.waitForTimeout(350)
+  assert.equal(await page.evaluate(() => window.events.length), 4)
+  const debounce = { rapidTyping: 'PASS', finalIntentOnly: 'PASS', zeroDelay: 'PASS', clearCancellation: 'PASS', disconnectCleanup: 'PASS', focus: 'PASS', requestIds: await page.evaluate(() => window.events.map(event => event.requestId)) }
+  await page.evaluate(async () => {
+    document.querySelector('#host').append(window.grid)
+    const local = new window.featureGrid()
+    local.id = 'local-debounce'
+    local.columns = [{ key: 'name' }]
+    local.quickSearchDebounceMs = 300
+    local.quickSearchDebounceThreshold = 3
+    local.data = [{ name: 'Alpha' }, { name: 'Beta' }]
+    document.querySelector('#host').append(local)
+    window.localGrid = local
+    await local.updateComplete
+  })
+  const local = page.locator('#local-debounce')
+  await local.getByRole('button', { name: 'Show column actions', exact: true }).click()
+  await local.getByRole('button', { name: 'Show Quick Search', exact: true }).click()
+  const localSearch = local.getByRole('textbox', { name: 'Quick search' })
+  await localSearch.fill('A')
+  assert.equal(await page.evaluate(() => window.localGrid.getQuickSearch()), 'A')
+  await page.evaluate(() => { window.localGrid.data = [{ name: 'Alpha' }, { name: 'Beta' }, { name: 'Gamma' }] })
+  await localSearch.fill('Al')
+  assert.equal(await page.evaluate(() => window.localGrid.getQuickSearch()), 'A')
+  await page.waitForFunction(() => window.localGrid.getQuickSearch() === 'Al')
+  assert.equal(await page.evaluate(() => window.localGrid.shadowRoot.activeElement?.getAttribute('aria-label')), 'Quick search')
+  await page.evaluate(() => { window.localGrid.quickSearchDebounceMs = 0 })
+  await localSearch.fill('Beta')
+  assert.equal(await page.evaluate(() => window.localGrid.getQuickSearch()), 'Beta')
+  debounce.localThreshold = 'PASS'
+  await page.evaluate(() => {
+    window.localGrid.remove()
+    window.grid.externalState = { ...window.initial, requestId: window.grid.getQuery().requestId + 1 }
+    // The remaining suite deliberately exercises immediate A/B request handling.
+    window.grid.quickSearchDebounceMs = 0
+    window.events.length = 0
+  })
   await page.evaluate(() => { window.grid.selectRowByKey('a'); window.order.length = 0 })
   const next = page.getByRole('button', { name: 'Next', exact: true })
   await next.focus()
@@ -140,5 +202,5 @@ try {
   })
   assert.deepEqual(errors, [])
   assert.ok(measurements.every(result => result.maxCells < 1000))
-  console.log(JSON.stringify({ browser: browser.version(), correctness: 'PASS', measurements, external }, null, 2))
+  console.log(JSON.stringify({ browser: browser.version(), correctness: 'PASS', debounce, measurements, external }, null, 2))
 } finally { await browser.close(); await server.close() }

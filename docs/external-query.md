@@ -66,6 +66,13 @@ with a greater ID. Overfull or contradictory server pages are rejected.
 
 `setQuickSearch`, `clearQuickSearch`, `setFilter`, `clearFilter`, `sortBy`,
 `clearSort`, `setPage`, `setPageSize`, and `refreshQuery` request external work.
+External quick-search typing always uses `quickSearchDebounceMs` (default 150ms),
+independent of the returned page size, totals, `quickSearchDebounceThreshold`, or
+ignored legacy `data` assignments. Zero delay deliberately emits input immediately.
+New typing replaces the pending timer; Clear, imperative search replacement,
+accepted controlled results, and disconnect/unmount cancel it. Clear and imperative
+`setQuickSearch`/`clearQuickSearch` remain immediate. Local mode retains its existing
+source-row threshold behavior.
 `sortable: false` / `filterable: false` continue to suppress corresponding UI
 actions; imperative calls remain explicit application intent. Monetary filter
 strings pass through unchanged; exact comparison and allowed operators belong

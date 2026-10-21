@@ -1618,7 +1618,8 @@ export class DataGrid extends LitElement {
     const threshold = Math.max(0, Math.floor(this.quickSearchDebounceThreshold))
     const debounceMs = Math.max(0, Math.floor(this.quickSearchDebounceMs))
 
-    if (this.sourceRowCount < threshold || debounceMs === 0) {
+    const external = this.engine.getConfig().queryMode === 'external'
+    if (debounceMs === 0 || (!external && this.sourceRowCount < threshold)) {
       this.applyQuickSearch(query)
       return
     }

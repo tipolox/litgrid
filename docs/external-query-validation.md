@@ -156,6 +156,48 @@ with 13 mounted rows. External result processing works over the loaded page,
 never the declared total. These are small-page observations, not a performance
 guarantee. Network/server latency is excluded.
 
+## PR #40 review correction: external quick-search debounce
+
+The independent review of `98ac529` identified that a small returned page took
+the local below-threshold path. A focused pre-fix regression reproduced three
+immediate search intents (`A`, `Al`, `Alpha`, request IDs 2/3/4) despite the
+default 150ms delay. The correction makes external typing depend solely on
+`quickSearchDebounceMs`: positive delay debounces, zero remains immediate. Local
+source-row threshold behavior is unchanged. The legacy external `data` setter
+already returned before updating row counts or timers; new tests protect that
+boundary, including ignored inputs of length 0, 1 and 100,000.
+
+The follow-up passed **313 JavaScript tests / 41 files**, **58 focused tests**,
+the scoped external-query API/test typecheck, and **129 Blazor Release tests**.
+Regression coverage includes final-intent-only rapid typing, request identities,
+zero delay, clear and imperative/controlled cancellation, disconnect/reconnect,
+React unmount cleanup, ignored legacy data, local threshold boundaries, and
+keyboard focus retention. The earlier search delegation test now explicitly
+opts into zero delay where immediate dispatch is intended.
+
+Actual **Chromium 156.0.8078.4** passed the updated public browser harness using
+real keyboard input and a 300ms window on a two-row external page with a 352-row
+server total (the unit regression covers the default 150ms window).
+Only the final rapid search emitted after the window; zero delay emitted each
+character, Clear canceled pending input, disconnect canceled the timer, focus
+stayed in search, and IDs were exactly 2/3/4/5 for the four intentional requests.
+Real-browser local-mode checks confirmed below-threshold immediate behavior,
+at-threshold debounce and zero-delay input. Evidence:
+[debounce browser checks](evidence/external-query-debounce-browser.json).
+The earlier paging, header-menu, error/loading, stale-result and scope checks
+also passed in this run. No performance improvement is claimed or benchmark
+qualification changed by this correction.
+
+Standard local package cleanup again encountered Windows `ENOTEMPTY`. An initial
+Release build overlapped the still-running test process and encountered a DLL
+lock; the sequential rerun passed with zero warnings/errors. All package
+compilers/bundlers and the playground passed with cleanup hooks skipped, and
+the tracked Blazor bundle/map were regenerated. Root typechecking still reports
+the same **172 diagnostics** as `98ac529`, with **zero additional diagnostics**
+after normalizing source locations. Exact-head CI results are recorded in the
+PR and delivery response. No network fetching,
+framework redesign, version, release or Property Management change was added.
+
 ## Remaining review and release gates
 
 Independent API/security/concurrency review, broader performance qualification,
