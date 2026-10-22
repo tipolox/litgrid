@@ -88,7 +88,8 @@ it('keeps loading, empty, error and out-of-range messages inside an absolute vie
 
   grid.refreshQuery()
   const recovery = grid.getQuery()
-  expect(grid.setExternalState({ requestId: recovery.requestId, query: recovery.query,
+  expect(grid.setExternalState({ requestId: recovery.requestId + 1,
+    query: { ...recovery.query, pageIndex: 0 },
     rows: [{ id: 'done', name: 'Recovered', amount: '1.00' }], total: { kind: 'known', totalRows: 1 } })).toBe(true)
   await grid.updateComplete
   expect(grid.renderRoot.querySelector('.external-status')).toBeNull()
