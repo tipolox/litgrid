@@ -1,0 +1,43 @@
+name: External Query Visual Regression
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'packages/grid-web/src/components/DataGrid.ts'
+      - 'packages/grid-web/src/components/DataGrid.externalQuery.test.ts'
+      - 'packages/grid-web/src/components/DataGrid.layout.test.ts'
+      - 'scripts/external-query-browser-check.mjs'
+      - '.github/workflows/external-query-visual.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-external-query:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install project dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install isolated Playwright test tools
+        run: npm install --prefix .private/visual-test-tools --no-save --package-lock=false playwright@1.56.1
+
+      - name: Install Chromium
+        run: node .private/visual-test-tools/node_modules/playwright/cli.js install --with-deps chromium
+
+      - name: Verify external-query interactions and zero loading layout shift
+        run: node scripts/external-query-browser-check.mjs ./.private/visual-test-tools/node_modules/playwright/index.mjs

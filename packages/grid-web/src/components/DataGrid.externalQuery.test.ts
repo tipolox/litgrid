@@ -65,6 +65,16 @@ it('keeps loading, empty, error and out-of-range messages inside an absolute vie
   expect(grid.renderRoot.querySelector('.shell')?.getAttribute('aria-busy')).toBe('false')
   expect(grid.renderRoot.querySelector('.header-shell')).toBe(header)
 
+  // Known out-of-range controlled pages use the same body overlay.
+  const current = grid.getQuery()
+  expect(grid.setExternalState({ requestId: current.requestId + 1,
+    query: { ...current.query, pageIndex: 3 }, rows: [],
+    total: { kind: 'known', totalRows: 0 } })).toBe(true)
+  await grid.updateComplete
+  expect(grid.renderRoot.querySelector('.external-status')?.textContent).toContain('out of range')
+  expect(grid.renderRoot.querySelector('.external-status')?.parentElement).toBe(frame)
+  expect(grid.renderRoot.querySelector('.header-shell')).toBe(header)
+
   grid.refreshQuery()
   const next = grid.getQuery()
   expect(grid.setExternalState({ requestId: next.requestId, query: next.query, rows: [],
