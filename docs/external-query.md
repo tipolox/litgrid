@@ -69,6 +69,8 @@ with a greater ID. Overfull or contradictory server pages are rejected.
 External quick-search typing always uses `quickSearchDebounceMs` (default 150ms),
 independent of the returned page size, totals, `quickSearchDebounceThreshold`, or
 ignored legacy `data` assignments. Zero delay deliberately emits input immediately.
+External-mode quick search is always displayed, so the column action menu omits
+the local-only Show/Hide Quick Search toggle; local-mode menu behavior is unchanged.
 New typing replaces the pending timer; Clear, imperative search replacement,
 newer-ID controlled query replacement, and disconnect/unmount cancel it. A same-ID
 result for the current request preserves a newer search draft still within its

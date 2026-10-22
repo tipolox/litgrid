@@ -112,6 +112,33 @@ it('renders server rows in order, exact totals and always-available external sea
   expect(text(grid)).toContain('Page 3 of 18')
 })
 
+it('does not offer a no-op quick-search visibility toggle in external header menus', async () => {
+  const grid = await setup()
+  const search = grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')
+  expect(search).not.toBeNull()
+
+  const menuButtons = grid.renderRoot.querySelectorAll<HTMLButtonElement>('[aria-label="Show column actions"]')
+  expect(menuButtons.length).toBeGreaterThan(0)
+  for (const menuButton of menuButtons) {
+    menuButton.click()
+    await grid.updateComplete
+    const menu = grid.renderRoot.querySelector<HTMLElement>('.header-menu')
+    expect(menu).not.toBeNull()
+    const labels = [...menu!.querySelectorAll('button')].map(el => el.textContent?.trim())
+    expect(labels).not.toContain('Show Quick Search')
+    expect(labels).not.toContain('Hide Quick Search')
+    expect(labels).toContain('Columns')
+    expect(menu!.querySelector('.header-menu-divider')).toBeNull()
+    // The built-in search remains visible and usable in external mode.
+    expect(grid.renderRoot.querySelector('[aria-label="Quick search"]')).toBe(search)
+  }
+
+  grid.setQuickSearch('Northwind')
+  await grid.updateComplete
+  expect(grid.getQuery().query.search).toBe('Northwind')
+  expect(grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')?.value).toBe('Northwind')
+})
+
 it('delegates public search, header sort/filter/clear and respects monetary column flags', async () => {
   const grid = await setup()
   grid.quickSearchDebounceMs = 0

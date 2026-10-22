@@ -3192,10 +3192,12 @@ export class DataGrid extends LitElement {
                             `
                           : html`
                             <div id=${this.getHeaderMenuId(column.key)} class="header-menu ${columnIndex === 0 ? 'header-menu-right' : ''}" role="dialog" aria-label=${`${column.header ?? column.key} column actions`} @click=${(event: Event) => event.stopPropagation()}>
-                              <button type="button" @click=${() => this.toggleQuickSearch()}>
-                                ${this.quickSearchVisible ? 'Hide Quick Search' : 'Show Quick Search'}
-                              </button>
-                              <hr class="header-menu-divider" />
+                              ${external ? '' : html`
+                                <button type="button" @click=${() => this.toggleQuickSearch()}>
+                                  ${this.quickSearchVisible ? 'Hide Quick Search' : 'Show Quick Search'}
+                                </button>
+                                <hr class="header-menu-divider" />
+                              `}
                               ${column.sortable === false ? '' : html`
                                 <button type="button" @click=${() => this.handleSortAscending(column.key)}>
                                   Sort Asc
