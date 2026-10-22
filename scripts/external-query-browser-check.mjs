@@ -32,6 +32,17 @@ try {
   await page.getByText('Page 3 of 18', { exact: true }).waitFor()
   assert.equal(await page.locator('yc-grid .cell').first().textContent().then(x => x.trim()), 'Zulu')
 
+  // External query always shows search, so a Show/Hide menu action is misleading.
+  // Assert the action is absent in real Chromium while ordinary column actions remain.
+  const externalActions = page.getByRole('button', { name: 'Show column actions' }).first()
+  await externalActions.click()
+  const externalMenu = page.locator('yc-grid .header-menu')
+  assert.equal(await externalMenu.getByRole('button', { name: 'Show Quick Search' }).count(), 0)
+  assert.equal(await externalMenu.getByRole('button', { name: 'Hide Quick Search' }).count(), 0)
+  assert.equal(await externalMenu.getByRole('button', { name: 'Columns', exact: true }).count(), 1)
+  await externalActions.click()
+  assert.equal(await page.getByRole('textbox', { name: 'Quick search' }).count(), 1)
+
   // Verify actual browser geometry: the external-status overlay must sit in
   // the viewport body without shifting the search, header, or footer.
   const captureLayout = () => page.evaluate(() => {
