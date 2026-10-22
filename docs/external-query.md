@@ -70,7 +70,10 @@ External quick-search typing always uses `quickSearchDebounceMs` (default 150ms)
 independent of the returned page size, totals, `quickSearchDebounceThreshold`, or
 ignored legacy `data` assignments. Zero delay deliberately emits input immediately.
 New typing replaces the pending timer; Clear, imperative search replacement,
-accepted controlled results, and disconnect/unmount cancel it. Clear and imperative
+newer-ID controlled query replacement, and disconnect/unmount cancel it. A same-ID
+result for the current request preserves a newer search draft still within its
+debounce window instead of erasing typed characters or canceling the pending intent.
+Clear and imperative
 `setQuickSearch`/`clearQuickSearch` remain immediate. Local mode retains its existing
 source-row threshold behavior.
 `sortable: false` / `filterable: false` continue to suppress corresponding UI
