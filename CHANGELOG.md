@@ -2,6 +2,20 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.2.2
+
+### External-query typing and column-menu fixes
+
+- Fixed a remote-search race where a response to an earlier query (for example `Nor`) could overwrite a more recent, still-debouncing input draft (`Nort`), silently deleting typed characters and canceling the newer intent. Accepted same-request-ID responses now preserve newer pending search text and its timer while retaining existing stale-response guards and explicit controlled-query replacement behavior.
+- Removed the ineffective **Show Quick Search / Hide Quick Search** actions from external-query column menus because external search is always visible. Local-mode quick-search visibility, menus and filtering behavior remain unchanged.
+- Added Web Component success/error timing-race regression tests, React controlled-response coverage, and Chromium real-keyboard and menu checks. Exact-head PR #48 GitHub Verify and Chromium external-query checks passed. The owner independently tested the patched source using the existing remote demo (327 unit tests reported across an initial run and retries; 28 browser check groups; 10/10 delayed-typing repetitions).
+
+### Compatibility and coordinated upgrade
+
+- No new public APIs, breaking options or behavior changes to the local-query path. The shared Web Component fix applies to direct Web Component, React, Vue, Angular, and Blazor use when consumers upgrade the shared package and wrapper together.
+- Publish the six public `@tipolox/litgrid-*` npm packages and `Tipolox.LitGrid.Blazor` NuGet package together at **1.2.2**. Consumers should rebuild, update package lockfiles using **published npm registry integrity metadata**, and invalidate stale browser/service-worker caches. The first `yc-grid` custom-element registration wins on a page; do not mix older and newer bundles.
+- The deferred keyed-local performance follow-up [#43](https://github.com/tipolox/litgrid/issues/43), broad root TypeScript backlog [#31](https://github.com/tipolox/litgrid/issues/31), and spoken assistive-technology testing [#14](https://github.com/tipolox/litgrid/issues/14) remain outside this patch. No universal browser, accessibility-certification, or performance claim is made.
+
 ## 1.2.1
 
 ### External-query loading and result states
