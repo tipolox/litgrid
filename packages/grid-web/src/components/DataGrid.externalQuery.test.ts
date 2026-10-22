@@ -128,7 +128,8 @@ it('does not offer a no-op quick-search visibility toggle in external header men
     expect(labels).not.toContain('Show Quick Search')
     expect(labels).not.toContain('Hide Quick Search')
     expect(labels).toContain('Columns')
-    expect(menu!.querySelector('.header-menu-divider')).toBeNull()
+    // Retain the Best Fit separator, but do not insert an extra search-toggle separator.
+    expect(menu!.querySelectorAll('.header-menu-divider')).toHaveLength(1)
     // The built-in search remains visible and usable in external mode.
     expect(grid.renderRoot.querySelector('[aria-label="Quick search"]')).toBe(search)
   }
