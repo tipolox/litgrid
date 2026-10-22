@@ -80,6 +80,23 @@ try {
   assert.equal(overlay.role, 'status')
   assert.equal(overlay.loading, 'Loading results.')
   assert.equal(overlay.pointerEvents, 'none')
+  // The overlay also centers within the body at mobile width in dark theme,
+  // without changing the toolbar/header/footer flow.
+  await page.setViewportSize({ width: 420, height: 800 })
+  await page.evaluate(async () => { window.grid.theme = 'dark'; await window.grid.updateComplete })
+  const mobileLayout = await captureLayout()
+  const mobileOverlay = await page.locator('yc-grid .external-status').evaluate(node => {
+    const { top, bottom, left, right } = node.getBoundingClientRect()
+    const body = node.parentElement.getBoundingClientRect()
+    return { dx: Math.abs((left + right) / 2 - (body.left + body.right) / 2),
+      dy: Math.abs((top + bottom) / 2 - (body.top + body.bottom) / 2) }
+  })
+  assert.ok(mobileOverlay.dx < 1 && mobileOverlay.dy < 1, 'mobile overlay must be body-centered')
+  assert.ok(mobileLayout.search.bottom <= mobileLayout.header.top + 1)
+  assert.ok(mobileLayout.header.bottom <= mobileLayout.viewport.top + 1)
+  assert.ok(mobileLayout.viewport.bottom <= mobileLayout.footer.top + 1)
+  await page.setViewportSize({ width: 1150, height: 850 })
+  await page.evaluate(async () => { window.grid.theme = 'light'; await window.grid.updateComplete })
   await page.evaluate(() => window.commit())
   await searchInput.pressSequentially('Beta', { delay: 10 })
   await page.getByRole('button', { name: 'Clear', exact: true }).click()
