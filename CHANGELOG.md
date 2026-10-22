@@ -2,6 +2,20 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.2.1
+
+### External-query loading and result states
+
+- Fixed remote-query status messages ("Loading results", empty results, errors, and out-of-range pages) occupying normal layout space above the search bar and column headers. Messages now appear centered over the **grid body**, without pushing the search, header, viewport or pagination vertically during a request.
+- Added a subtle loading spinner with a reduced-motion fallback, theme-aware colors, and non-interactive overlay pointer behavior. Existing `role="status"` / `role="alert"`, `aria-atomic`, and `aria-busy` semantics are preserved.
+- Added external-state DOM regression coverage for loading, empty, error, out-of-range and recovery; a focused Chromium regression verifies header/footer positions and overlay geometry in desktop/mobile viewports and dark/light themes.
+
+### Compatibility and coordinated upgrade
+
+- No new APIs, configuration options, query behavior, selection semantics, or changes to the local-mode rendering path. The correction is in the shared LitGrid Web Component and benefits direct Web Component, React, Angular, Vue, and Blazor consumers after upgrading.
+- Upgrade all six public `@tipolox/litgrid-*` npm packages and the `Tipolox.LitGrid.Blazor` NuGet package to **1.2.1** together where used. In apps using multiple wrappers on one page, ensure the Web Component bundle/registration is 1.2.1; the first `yc-grid` registration wins and cannot be replaced in-place. Rebuild consumers and invalidate stale browser/service-worker caches as appropriate.
+- This patch does not address deferred keyed-local performance research [#43](https://github.com/tipolox/litgrid/issues/43), broad root TypeScript backlog [#31](https://github.com/tipolox/litgrid/issues/31), or spoken assistive-technology testing [#14](https://github.com/tipolox/litgrid/issues/14). No WCAG certification or new cross-device performance claim is made.
+
 ## 1.2.0
 
 ### DataGrid and framework adapters
