@@ -40,4 +40,15 @@ jobs:
         run: node .private/visual-test-tools/node_modules/playwright/cli.js install --with-deps chromium
 
       - name: Verify external-query interactions and zero loading layout shift
+        env:
+          LITGRID_VISUAL_SCREENSHOTS: '1'
         run: node scripts/external-query-browser-check.mjs ../.private/visual-test-tools/node_modules/playwright/index.mjs
+
+      - name: Upload loading-state screenshots for visual sign-off
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-external-loading-visuals
+          path: artifacts/litgrid-external-query-visual/*.png
+          if-no-files-found: warn
+          retention-days: 14

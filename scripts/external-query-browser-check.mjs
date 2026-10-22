@@ -1,7 +1,7 @@
 // node scripts/external-query-browser-check.mjs <playwright-module> <main-source-directory>
 // Snapshot main with git archive into an ignored directory. No other worktree is changed.
 import assert from 'node:assert/strict'
-import { existsSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { createServer } from 'vite'
 const { chromium } = await import(process.argv[2] || 'playwright')
@@ -44,6 +44,17 @@ try {
       viewport: box('.viewport'), footer: box('.pagination') }
   })
   const originalLayout = await captureLayout()
+  // Save real Chromium screenshots for release sign-off when requested by CI.
+  // These depict the shared Web Component fixture, not the public website demo.
+  const screenshotDir = process.env.LITGRID_VISUAL_SCREENSHOTS === '1'
+    ? 'artifacts/litgrid-external-query-visual'
+    : null
+  if (screenshotDir) {
+    mkdirSync(screenshotDir, { recursive: true })
+    await page.locator('yc-grid').screenshot({
+      path: `${screenshotDir}/desktop-light-loaded.png`, animations: 'disabled'
+    })
+  }
   // Real keyboard regression: external debounce is independent of page size,
   // local threshold, and ignored legacy input assignments.
   const searchInput = page.getByRole('textbox', { name: 'Quick search' })
@@ -80,6 +91,11 @@ try {
   assert.equal(overlay.role, 'status')
   assert.equal(overlay.loading, 'Loading results.')
   assert.equal(overlay.pointerEvents, 'none')
+  if (screenshotDir) {
+    await page.locator('yc-grid').screenshot({
+      path: `${screenshotDir}/desktop-light-loading.png`, animations: 'disabled'
+    })
+  }
   // The overlay also centers within the body at mobile width in dark theme,
   // without changing the toolbar/header/footer flow.
   await page.setViewportSize({ width: 420, height: 800 })
@@ -92,6 +108,11 @@ try {
       dy: Math.abs((top + bottom) / 2 - (body.top + body.bottom) / 2) }
   })
   assert.ok(mobileOverlay.dx < 1 && mobileOverlay.dy < 1, 'mobile overlay must be body-centered')
+  if (screenshotDir) {
+    await page.locator('yc-grid').screenshot({
+      path: `${screenshotDir}/mobile-dark-loading.png`, animations: 'disabled'
+    })
+  }
   assert.ok(mobileLayout.search.bottom <= mobileLayout.header.top + 1)
   assert.ok(mobileLayout.header.bottom <= mobileLayout.viewport.top + 1)
   assert.ok(mobileLayout.viewport.bottom <= mobileLayout.footer.top + 1)
