@@ -112,6 +112,34 @@ it('renders server rows in order, exact totals and always-available external sea
   expect(text(grid)).toContain('Page 3 of 18')
 })
 
+it('does not offer a no-op quick-search visibility toggle in external header menus', async () => {
+  const grid = await setup()
+  const search = grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')
+  expect(search).not.toBeNull()
+
+  const menuButtons = grid.renderRoot.querySelectorAll<HTMLButtonElement>('[aria-label="Show column actions"]')
+  expect(menuButtons.length).toBeGreaterThan(0)
+  for (const menuButton of menuButtons) {
+    menuButton.click()
+    await grid.updateComplete
+    const menu = grid.renderRoot.querySelector<HTMLElement>('.header-menu')
+    expect(menu).not.toBeNull()
+    const labels = [...menu!.querySelectorAll('button')].map(el => el.textContent?.trim())
+    expect(labels).not.toContain('Show Quick Search')
+    expect(labels).not.toContain('Hide Quick Search')
+    expect(labels).toContain('Columns')
+    // Retain the Best Fit separator, but do not insert an extra search-toggle separator.
+    expect(menu!.querySelectorAll('.header-menu-divider')).toHaveLength(1)
+    // The built-in search remains visible and usable in external mode.
+    expect(grid.renderRoot.querySelector('[aria-label="Quick search"]')).toBe(search)
+  }
+
+  grid.setQuickSearch('Northwind')
+  await grid.updateComplete
+  expect(grid.getQuery().query.search).toBe('Northwind')
+  expect(grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')?.value).toBe('Northwind')
+})
+
 it('delegates public search, header sort/filter/clear and respects monetary column flags', async () => {
   const grid = await setup()
   grid.quickSearchDebounceMs = 0
@@ -209,6 +237,45 @@ it('debounces rapid external typing on a small page and preserves focus and requ
   vi.advanceTimersByTime(150)
   expect(events).toHaveLength(1)
   expect(grid.getQuery().requestId).toBe(2)
+})
+
+it.each(['success', 'error'] as const)('preserves a newer pending search while the prior %s response settles', async responseType => {
+  const grid = await setup()
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  const events: GridQueryChangeDetail[] = []
+  grid.addEventListener('query-change', event => events.push(event.detail))
+
+  grid.setQuickSearch('Nor')
+  const previous = grid.getQuery()
+  expect(previous).toMatchObject({ requestId: 2, query: { search: 'Nor' } })
+  const input = typeSearch(grid, 'Nort')
+  input.focus()
+  await grid.updateComplete
+  expect(vi.getTimerCount()).toBe(1)
+
+  vi.advanceTimersByTime(50)
+  const response: GridExternalState = responseType === 'success'
+    ? { requestId: previous.requestId, query: previous.query,
+        rows: [{ id: 'northwind', name: 'Northwind', amount: '12.00' }],
+        total: { kind: 'known', totalRows: 1 } }
+    : { requestId: previous.requestId, query: previous.query,
+        rows: [], total: { kind: 'unknown', hasMore: false }, error: 'Server failed' }
+  expect(grid.setExternalState(response)).toBe(true)
+  await grid.updateComplete
+
+  // The response to "Nor" may update the rows/status, but not the "Nort" draft.
+  expect(grid.getQuery()).toMatchObject({ requestId: 2, query: { search: 'Nor' } })
+  expect(input.value).toBe('Nort')
+  expect(grid.shadowRoot?.activeElement).toBe(input)
+  expect(vi.getTimerCount()).toBe(1)
+  vi.advanceTimersByTime(99)
+  expect(events).toHaveLength(1)
+  vi.advanceTimersByTime(1)
+  await grid.updateComplete
+  expect(events.map(event => [event.requestId, event.query.search])).toEqual([[2, 'Nor'], [3, 'Nort']])
+  expect(grid.getQuery()).toMatchObject({ requestId: 3, query: { search: 'Nort' } })
+  expect(grid.setExternalState(response)).toBe(false)
+  expect(grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')!.value).toBe('Nort')
 })
 
 it('emits immediate external typing intents only when delay is zero', async () => {

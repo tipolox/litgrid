@@ -51,6 +51,49 @@ it('keeps controlled external pages across React rerenders, uses fresh callbacks
   } finally { act(() => root.unmount()); host.remove(); vi.restoreAllMocks() }
 })
 
+it('keeps a newer debounced search when React supplies the prior server result', async () => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = createRoot(host)
+  const config = { queryMode: 'external' as const }
+  const columns = [{ key: 'name' }]
+  let state: GridExternalState = {
+    requestId: 1,
+    query: { search: '', filters: [], sort: { columnKey: null, direction: null }, pageIndex: 0, pageSize: 20 },
+    rows: [], total: { kind: 'known', totalRows: 0 }
+  }
+  const callback = vi.fn()
+  const render = () => act(() => root.render(
+    <DataGrid data={[]} columns={columns} config={config} externalState={state} onQueryChange={callback} />
+  ))
+  try {
+    render()
+    const grid = host.querySelector('yc-grid') as WebGrid
+    await grid.updateComplete
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+    act(() => grid.setQuickSearch('Nor'))
+    const previous = grid.getQuery()
+    const input = grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')!
+    act(() => {
+      input.value = 'Nort'
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    state = { requestId: previous.requestId, query: previous.query,
+      rows: [{ id: 'northwind', name: 'Northwind' }], total: { kind: 'known', totalRows: 1 } }
+    render()
+    await grid.updateComplete
+    expect(input.value).toBe('Nort')
+    act(() => vi.advanceTimersByTime(150))
+    await grid.updateComplete
+    expect(callback).toHaveBeenCalledTimes(2)
+    expect(callback.mock.lastCall?.[0]).toMatchObject({ requestId: 3, query: { search: 'Nort' } })
+  } finally {
+    act(() => root.unmount())
+    host.remove()
+    vi.useRealTimers()
+  }
+})
+
 it('cancels a pending external input debounce when React unmounts the grid', async () => {
   const host = document.createElement('div')
   document.body.append(host)

@@ -1731,9 +1731,17 @@ export class DataGrid extends LitElement {
     if (value) this.setExternalState(value)
   }
   setExternalState(value: GridExternalState): boolean {
+    // An earlier request may finish while the user is typing the next debounced
+    // search. Its same-ID result must not erase the newer draft or its timer.
+    // A higher-ID controlled query is an explicit replacement and still cancels it.
+    const preservePendingSearch = this.quickSearchDebounceId !== null
+      && this.engine.getConfig().queryMode === 'external'
+      && value.requestId === this.engine.getQuery().requestId
     if (!this.engine.setExternalState(value)) return false
-    this.clearQuickSearchDebounce()
-    this.quickSearchDraft = this.engine.getQuickSearch()
+    if (!preservePendingSearch) {
+      this.clearQuickSearchDebounce()
+      this.quickSearchDraft = this.engine.getQuickSearch()
+    }
     this.filterDrafts = new Map(this.engine.getFilters().map(filter => [filter.columnKey, filter]))
     this.sourceRowCount = this.engine.getRowCount()
     this.clearBestFitWidths()
@@ -3184,10 +3192,12 @@ export class DataGrid extends LitElement {
                             `
                           : html`
                             <div id=${this.getHeaderMenuId(column.key)} class="header-menu ${columnIndex === 0 ? 'header-menu-right' : ''}" role="dialog" aria-label=${`${column.header ?? column.key} column actions`} @click=${(event: Event) => event.stopPropagation()}>
-                              <button type="button" @click=${() => this.toggleQuickSearch()}>
-                                ${this.quickSearchVisible ? 'Hide Quick Search' : 'Show Quick Search'}
-                              </button>
-                              <hr class="header-menu-divider" />
+                              ${external ? '' : html`
+                                <button type="button" @click=${() => this.toggleQuickSearch()}>
+                                  ${this.quickSearchVisible ? 'Hide Quick Search' : 'Show Quick Search'}
+                                </button>
+                                <hr class="header-menu-divider" />
+                              `}
                               ${column.sortable === false ? '' : html`
                                 <button type="button" @click=${() => this.handleSortAscending(column.key)}>
                                   Sort Asc

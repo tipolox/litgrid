@@ -32,6 +32,17 @@ try {
   await page.getByText('Page 3 of 18', { exact: true }).waitFor()
   assert.equal(await page.locator('yc-grid .cell').first().textContent().then(x => x.trim()), 'Zulu')
 
+  // External query always shows search, so a Show/Hide menu action is misleading.
+  // Assert the action is absent in real Chromium while ordinary column actions remain.
+  const externalActions = page.getByRole('button', { name: 'Show column actions' }).first()
+  await externalActions.click()
+  const externalMenu = page.locator('yc-grid .header-menu')
+  assert.equal(await externalMenu.getByRole('button', { name: 'Show Quick Search' }).count(), 0)
+  assert.equal(await externalMenu.getByRole('button', { name: 'Hide Quick Search' }).count(), 0)
+  assert.equal(await externalMenu.getByRole('button', { name: 'Columns', exact: true }).count(), 1)
+  await externalActions.click()
+  assert.equal(await page.getByRole('textbox', { name: 'Quick search' }).count(), 1)
+
   // Verify actual browser geometry: the external-status overlay must sit in
   // the viewport body without shifting the search, header, or footer.
   const captureLayout = () => page.evaluate(() => {
@@ -55,6 +66,51 @@ try {
       path: `${screenshotDir}/desktop-light-loaded.png`, animations: 'disabled'
     })
   }
+  // Real Chromium regression for typed characters being replaced by a
+  // successful response to the previous debounced query (e.g. Nor -> Nort).
+  await page.evaluate(async () => {
+    const probe = new window.featureGrid()
+    probe.id = 'external-typing-race'
+    probe.config = { queryMode: 'external' }
+    probe.columns = [{ key: 'name' }]
+    probe.externalState = {
+      requestId: 1,
+      query: { search: '', filters: [], sort: { columnKey: null, direction: null }, pageIndex: 0, pageSize: 20 },
+      rows: [], total: { kind: 'known', totalRows: 0 }
+    }
+    document.querySelector('#host').append(probe)
+    await probe.updateComplete
+    probe.quickSearchDebounceMs = 150
+    window.typingRaceGrid = probe
+    window.typingRaceEvents = []
+    probe.addEventListener('query-change', event => {
+      window.typingRaceEvents.push([event.detail.requestId, event.detail.query.search])
+    })
+    probe.setQuickSearch('Nor')
+    await probe.updateComplete
+  })
+  const raceInput = page.locator('#external-typing-race').getByRole('textbox', { name: 'Quick search' })
+  await raceInput.focus()
+  await raceInput.press('End')
+  await raceInput.press('t')
+  assert.equal(await raceInput.inputValue(), 'Nort')
+  const acceptedPriorResult = await page.evaluate(async () => {
+    const probe = window.typingRaceGrid
+    const earlier = probe.getQuery()
+    const accepted = probe.setExternalState({
+      requestId: earlier.requestId, query: earlier.query,
+      rows: [{ id: 'nor', name: 'Northwind' }], total: { kind: 'known', totalRows: 1 }
+    })
+    await probe.updateComplete
+    return accepted
+  })
+  assert.equal(acceptedPriorResult, true)
+  assert.equal(await raceInput.inputValue(), 'Nort', 'prior result must not delete the last typed character')
+  assert.equal(await page.evaluate(() => window.typingRaceGrid.shadowRoot.activeElement?.getAttribute('aria-label')), 'Quick search')
+  await page.waitForFunction(() => window.typingRaceEvents.length === 2)
+  assert.deepEqual(await page.evaluate(() => window.typingRaceEvents), [[2, 'Nor'], [3, 'Nort']])
+  await page.evaluate(() => { window.typingRaceGrid.remove(); delete window.typingRaceGrid; delete window.typingRaceEvents })
+
   // Real keyboard regression: external debounce is independent of page size,
   // local threshold, and ignored legacy input assignments.
   const searchInput = page.getByRole('textbox', { name: 'Quick search' })
