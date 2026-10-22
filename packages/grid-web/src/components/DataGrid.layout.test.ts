@@ -25,8 +25,10 @@ describe('DataGrid footer layout', () => {
     const select = summary.querySelector('select') as HTMLSelectElement
     const [previous, next] = Array.from(navigation.querySelectorAll('button'))
 
-    expect(footer.parentElement).toBe(viewport.parentElement)
-    expect(viewport.contains(footer)).toBe(false)
+    const frame = viewport.parentElement as HTMLElement
+    expect(frame.classList.contains('viewport-frame')).toBe(true)
+    expect(footer.parentElement).toBe(frame.parentElement)
+    expect(frame.contains(footer)).toBe(false)
     expect(footer.getAttribute('aria-label')).toBe('Pagination')
     expect(summary.textContent).toContain('61 rows')
     expect(select.getAttribute('aria-label')).toBe('Rows per page')

@@ -213,9 +213,66 @@ export class DataGrid extends LitElement {
       overflow: hidden;
     }
 
+    .viewport-frame {
+      position: relative;
+      min-width: 0;
+    }
+
     .viewport {
       overflow: auto;
       height: var(--grid-height, 320px);
+    }
+
+    /* The transient external status covers only the body and never enters the
+       normal layout flow. Header/search/footer positions remain unchanged. */
+    .external-status {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: var(--litgrid-color-surface);
+      color: var(--litgrid-color-text-strong);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .external-status-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      max-width: 100%;
+      border: 1px solid var(--litgrid-color-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: var(--litgrid-color-surface-subtle);
+      font-weight: 600;
+    }
+
+    .external-status.loading .external-status-label::before {
+      content: '';
+      box-sizing: border-box;
+      flex: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--litgrid-color-border-strong);
+      border-top-color: var(--litgrid-color-accent);
+      border-radius: 50%;
+      animation: litgrid-external-loading-spin 0.8s linear infinite;
+    }
+
+    @keyframes litgrid-external-loading-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .external-status.loading .external-status-label::before {
+        animation: none;
+      }
     }
 
     .screen-reader-only {
@@ -3010,7 +3067,6 @@ export class DataGrid extends LitElement {
         @keydown=${this.handleShellKeyDown}
         >
         <p id=${`${this.gridId}-description`} class="screen-reader-only">${this.getScreenReaderDescription()}</p>
-        ${external && externalStatus ? html`<div class="external-status" role=${externalState?.error ? 'alert' : 'status'}>${externalStatus}</div>` : nothing}
         ${this.screenReaderAnnouncements
           ? html`<div class="screen-reader-only" role="status" aria-live="polite" aria-atomic="true">${this.screenReaderMessage}</div>`
           : ''}
@@ -3218,6 +3274,7 @@ export class DataGrid extends LitElement {
               <button class="columns-button" type="button" @click=${(event: MouseEvent) => this.toggleColumnChooser(event)}>Columns</button>
             </div>`
           : ''}
+        <div class="viewport-frame">
                 <div
                     class="viewport"
           role="grid"
@@ -3270,6 +3327,10 @@ export class DataGrid extends LitElement {
               })}
             </div>
           </div>
+        </div>
+        ${external && externalStatus
+          ? html`<div class=${externalState?.loading ? 'external-status loading' : 'external-status'} role=${externalState?.error ? 'alert' : 'status'} aria-atomic="true"><span class="external-status-label">${externalStatus}</span></div>`
+          : nothing}
         </div>
         ${pagination.enabled
           ? html`

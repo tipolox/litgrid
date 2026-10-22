@@ -31,6 +31,19 @@ try {
   await page.locator('body[data-ready="true"]').waitFor()
   await page.getByText('Page 3 of 18', { exact: true }).waitFor()
   assert.equal(await page.locator('yc-grid .cell').first().textContent().then(x => x.trim()), 'Zulu')
+
+  // Verify actual browser geometry: the external-status overlay must sit in
+  // the viewport body without shifting the search, header, or footer.
+  const captureLayout = () => page.evaluate(() => {
+    const root = window.grid.shadowRoot
+    const box = (selector) => {
+      const { top, bottom, left, right, height, width } = root.querySelector(selector).getBoundingClientRect()
+      return { top, bottom, left, right, height, width }
+    }
+    return { search: box('.quick-search'), header: box('.header-shell'),
+      viewport: box('.viewport'), footer: box('.pagination') }
+  })
+  const originalLayout = await captureLayout()
   // Real keyboard regression: external debounce is independent of page size,
   // local threshold, and ignored legacy input assignments.
   const searchInput = page.getByRole('textbox', { name: 'Quick search' })
@@ -45,6 +58,45 @@ try {
   await page.waitForFunction(() => window.events.length === 1)
   assert.deepEqual(await page.evaluate(() => window.events.map(event => [event.requestId, event.query.search])), [[2, 'Alpha']])
   assert.equal(await page.evaluate(() => window.grid.shadowRoot.activeElement?.getAttribute('aria-label')), 'Quick search')
+
+  await page.locator('yc-grid .external-status').waitFor({ state: 'visible' })
+  const pendingLayout = await captureLayout()
+  for (const region of ['search', 'header', 'viewport', 'footer']) {
+    assert.ok(Math.abs(pendingLayout[region].top - originalLayout[region].top) < 1,
+      region + ' shifts vertically during loading')
+    assert.ok(Math.abs(pendingLayout[region].height - originalLayout[region].height) < 1,
+      region + ' changes height during loading')
+  }
+  const overlay = await page.locator('yc-grid .external-status').evaluate(node => {
+    const a = node.getBoundingClientRect()
+    const b = node.parentElement.getBoundingClientRect()
+    return { centerX: (a.left + a.right) / 2, centerY: (a.top + a.bottom) / 2,
+      bodyX: (b.left + b.right) / 2, bodyY: (b.top + b.bottom) / 2,
+      role: node.getAttribute('role'), loading: node.textContent.trim(),
+      pointerEvents: getComputedStyle(node).pointerEvents }
+  })
+  assert.ok(Math.abs(overlay.centerX - overlay.bodyX) < 1)
+  assert.ok(Math.abs(overlay.centerY - overlay.bodyY) < 1)
+  assert.equal(overlay.role, 'status')
+  assert.equal(overlay.loading, 'Loading results.')
+  assert.equal(overlay.pointerEvents, 'none')
+  // The overlay also centers within the body at mobile width in dark theme,
+  // without changing the toolbar/header/footer flow.
+  await page.setViewportSize({ width: 420, height: 800 })
+  await page.evaluate(async () => { window.grid.theme = 'dark'; await window.grid.updateComplete })
+  const mobileLayout = await captureLayout()
+  const mobileOverlay = await page.locator('yc-grid .external-status').evaluate(node => {
+    const { top, bottom, left, right } = node.getBoundingClientRect()
+    const body = node.parentElement.getBoundingClientRect()
+    return { dx: Math.abs((left + right) / 2 - (body.left + body.right) / 2),
+      dy: Math.abs((top + bottom) / 2 - (body.top + body.bottom) / 2) }
+  })
+  assert.ok(mobileOverlay.dx < 1 && mobileOverlay.dy < 1, 'mobile overlay must be body-centered')
+  assert.ok(mobileLayout.search.bottom <= mobileLayout.header.top + 1)
+  assert.ok(mobileLayout.header.bottom <= mobileLayout.viewport.top + 1)
+  assert.ok(mobileLayout.viewport.bottom <= mobileLayout.footer.top + 1)
+  await page.setViewportSize({ width: 1150, height: 850 })
+  await page.evaluate(async () => { window.grid.theme = 'light'; await window.grid.updateComplete })
   await page.evaluate(() => window.commit())
   await searchInput.pressSequentially('Beta', { delay: 10 })
   await page.getByRole('button', { name: 'Clear', exact: true }).click()

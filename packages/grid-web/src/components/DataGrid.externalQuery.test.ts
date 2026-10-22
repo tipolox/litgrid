@@ -20,6 +20,82 @@ async function setup(state = initial()) {
 const text = (grid: DataGrid) => grid.renderRoot.textContent!
 const button = (grid: DataGrid, label: string) => [...grid.renderRoot.querySelectorAll<HTMLButtonElement>('button')].find(el => el.textContent!.trim() === label)!
 
+
+it('keeps loading, empty, error and out-of-range messages inside an absolute viewport overlay', async () => {
+  const grid = await setup()
+  grid.theme = 'dark'
+  await grid.updateComplete
+  const frame = grid.renderRoot.querySelector('.viewport-frame') as HTMLElement
+  const viewport = frame.querySelector('.viewport') as HTMLElement
+  const header = grid.renderRoot.querySelector('.header-shell') as HTMLElement
+  const footer = grid.renderRoot.querySelector('.pagination') as HTMLElement
+  const search = grid.renderRoot.querySelector('.quick-search') as HTMLElement
+  expect(frame.parentElement).toBe(header.parentElement)
+  expect(frame.parentElement).toBe(footer.parentElement)
+  expect(search.parentElement).toBe(frame.parentElement)
+  expect(frame.contains(header)).toBe(false)
+  expect(frame.contains(footer)).toBe(false)
+  expect(viewport.getAttribute('role')).toBe('grid')
+
+  // This checks DOM/CSS contracts. Actual box geometry needs a real browser.
+  const cssText = DataGrid.styles.map(style => style.cssText).join('\n')
+  expect(cssText).toMatch(/\.viewport-frame\s*\{[^}]*position:\s*relative/s)
+  expect(cssText).toMatch(/\.external-status\s*\{[^}]*position:\s*absolute/s)
+  expect(cssText).toMatch(/\.external-status\s*\{[^}]*pointer-events:\s*none/s)
+  expect(cssText).toContain('prefers-reduced-motion: reduce')
+
+  grid.setQuickSearch('Alpha')
+  await grid.updateComplete
+  const pending = grid.renderRoot.querySelector('.external-status') as HTMLElement
+  expect(pending.parentElement).toBe(frame)
+  expect(pending.classList.contains('loading')).toBe(true)
+  expect(pending.getAttribute('role')).toBe('status')
+  expect(pending.textContent).toBe('Loading results.')
+  expect(grid.renderRoot.querySelector('.shell')?.getAttribute('aria-busy')).toBe('true')
+  expect(grid.renderRoot.querySelector('.header-shell')).toBe(header)
+  expect(grid.renderRoot.querySelector('.viewport')).toBe(viewport)
+  expect(grid.renderRoot.querySelector('.pagination')).toBe(footer)
+  expect(grid.renderRoot.querySelector('.quick-search')).toBe(search)
+
+  const { requestId, query } = grid.getQuery()
+  expect(grid.setExternalState({ requestId, query, rows: [], total: { kind: 'known', totalRows: 0 } })).toBe(true)
+  await grid.updateComplete
+  expect(grid.renderRoot.querySelector('.external-status')?.textContent).toBe('No results.')
+  expect(grid.renderRoot.querySelector('.external-status')?.getAttribute('role')).toBe('status')
+  expect(grid.renderRoot.querySelector('.shell')?.getAttribute('aria-busy')).toBe('false')
+  expect(grid.renderRoot.querySelector('.header-shell')).toBe(header)
+
+  // Known out-of-range controlled pages use the same body overlay.
+  const current = grid.getQuery()
+  expect(grid.setExternalState({ requestId: current.requestId + 1,
+    query: { ...current.query, pageIndex: 3 }, rows: [],
+    total: { kind: 'known', totalRows: 0 } })).toBe(true)
+  await grid.updateComplete
+  expect(grid.renderRoot.querySelector('.external-status')?.textContent).toContain('out of range')
+  expect(grid.renderRoot.querySelector('.external-status')?.parentElement).toBe(frame)
+  expect(grid.renderRoot.querySelector('.header-shell')).toBe(header)
+
+  grid.refreshQuery()
+  const next = grid.getQuery()
+  expect(grid.setExternalState({ requestId: next.requestId, query: next.query, rows: [],
+    total: { kind: 'unknown', hasMore: false }, error: 'Server unavailable' })).toBe(true)
+  await grid.updateComplete
+  expect(grid.renderRoot.querySelector('.external-status')?.getAttribute('role')).toBe('alert')
+  expect(grid.renderRoot.querySelector('.external-status')?.textContent).toBe('Server unavailable')
+  expect(grid.renderRoot.querySelector('.external-status')?.parentElement).toBe(frame)
+  expect(grid.renderRoot.querySelector('.header-shell')).toBe(header)
+  expect(grid.renderRoot.querySelector('.viewport')).toBe(viewport)
+
+  grid.refreshQuery()
+  const recovery = grid.getQuery()
+  expect(grid.setExternalState({ requestId: recovery.requestId + 1,
+    query: { ...recovery.query, pageIndex: 0 },
+    rows: [{ id: 'done', name: 'Recovered', amount: '1.00' }], total: { kind: 'known', totalRows: 1 } })).toBe(true)
+  await grid.updateComplete
+  expect(grid.renderRoot.querySelector('.external-status')).toBeNull()
+  expect(text(grid)).toContain('Recovered')
+})
+
 it('renders server rows in order, exact totals and always-available external search', async () => {
   const grid = await setup()
   expect(text(grid)).toContain('352 rows')
