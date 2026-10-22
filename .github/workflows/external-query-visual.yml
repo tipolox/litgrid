@@ -40,4 +40,4 @@ jobs:
         run: node .private/visual-test-tools/node_modules/playwright/cli.js install --with-deps chromium
 
       - name: Verify external-query interactions and zero loading layout shift
-        run: node scripts/external-query-browser-check.mjs ./.private/visual-test-tools/node_modules/playwright/index.mjs
+        run: node scripts/external-query-browser-check.mjs ../.private/visual-test-tools/node_modules/playwright/index.mjs
