@@ -1,6 +1,6 @@
 {
   "name": "@tipolox/litgrid-renderer",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Virtualization and scroll-mapping utilities for LitGrid.",
   "type": "module",
   "main": "./dist/index.js",
