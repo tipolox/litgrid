@@ -51,6 +51,8 @@ export function syncGridInputs(
   const config = inputs.config
   const configKey = JSON.stringify([
     config.queryMode ?? 'local',
+    config.quickSearch?.visible ?? true, config.quickSearch?.label ?? 'Quick search',
+    config.quickSearch?.placeholder ?? 'Search all columns', config.quickSearch?.description ?? '',
     config.selection?.mode ?? 'none', config.selection?.checkboxes ?? false,
     config.selection?.rowKey, config.selection?.scopeKey,
     config.rowHeader?.enabled ?? false, config.rowHeader?.width ?? 56,
