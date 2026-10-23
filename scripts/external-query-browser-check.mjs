@@ -43,6 +43,38 @@ try {
   await externalActions.click()
   assert.equal(await page.getByRole('textbox', { name: 'Quick search' }).count(), 1)
 
+
+  // Verify the newly supported external search presentation against real Chromium.
+  await page.evaluate(async () => {
+    window.grid.config = { queryMode: 'external',
+      selection: { mode: 'multi-row', rowKey: 'id', scopeKey: 'site-a', checkboxes: true },
+      quickSearch: { label: 'Code or name search', placeholder: 'Code or name starts with…',
+        description: 'Path and status are excluded.' } }
+    await window.grid.updateComplete
+  })
+  const scopeSearch = page.getByRole('textbox', { name: 'Code or name search' })
+  assert.equal(await scopeSearch.count(), 1)
+  assert.equal(await scopeSearch.getAttribute('placeholder'), 'Code or name starts with…')
+  const describedBy = await scopeSearch.getAttribute('aria-describedby')
+  assert.ok(describedBy)
+  assert.equal(await page.locator(`[id="${describedBy}"]`).textContent(), 'Path and status are excluded.')
+  await scopeSearch.focus()
+  await page.evaluate(async () => {
+    window.grid.config = { queryMode: 'external',
+      selection: { mode: 'multi-row', rowKey: 'id', scopeKey: 'site-a', checkboxes: true },
+      quickSearch: { visible: false } }
+    await window.grid.updateComplete
+  })
+  assert.equal(await page.locator('yc-grid .quick-search').count(), 0)
+  assert.ok(await page.getByRole('button', { name: 'Show column actions' }).count() > 0)
+  assert.ok(await page.getByRole('combobox', { name: 'Rows per page' }).count() > 0)
+  await page.evaluate(async () => {
+    window.grid.config = { queryMode: 'external',
+      selection: { mode: 'multi-row', rowKey: 'id', scopeKey: 'site-a', checkboxes: true } }
+    await window.grid.updateComplete
+  })
+  assert.equal(await page.getByRole('textbox', { name: 'Quick search' }).count(), 1)
+
   // Verify actual browser geometry: the external-status overlay must sit in
   // the viewport body without shifting the search, header, or footer.
   const captureLayout = () => page.evaluate(() => {

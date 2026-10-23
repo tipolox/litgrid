@@ -69,8 +69,25 @@ with a greater ID. Overfull or contradictory server pages are rejected.
 External quick-search typing always uses `quickSearchDebounceMs` (default 150ms),
 independent of the returned page size, totals, `quickSearchDebounceThreshold`, or
 ignored legacy `data` assignments. Zero delay deliberately emits input immediately.
-External-mode quick search is always displayed, so the column action menu omits
-the local-only Show/Hide Quick Search toggle; local-mode menu behavior is unchanged.
+External-mode built-in quick search remains visible **by default**; the column
+menu omits the local-only Show/Hide Quick Search toggle. Consumers may set
+`config.quickSearch.visible: false` to omit the built-in search input, Clear
+button and toolbar while retaining external query state, sorting, filtering and
+pagination. Local-mode Show/Hide remains authoritative and ignores this
+external visibility option. The shared optional `config.quickSearch.label`
+(default `Quick search`), `placeholder` (default `Search all columns`), and
+`description` (default empty) control search wording in both modes when shown.
+The description renders as visible help linked to the input by
+`aria-describedby`; each grid generates a unique association.
+
+A change to search wording does not cancel the pending search draft or generate
+an external query intent. Hiding the built-in external search cancels only a
+still-debouncing *uncommitted draft*; it never clears the committed server search,
+increments a request ID or changes supplied results. Showing it again reflects
+the committed search. Imperative `setQuickSearch` / `clearQuickSearch` and
+application-supplied controlled `externalState` keep working while hidden.
+The application must use server-accurate wording: LitGrid does not expand
+server-side search scope or run local transforms in external mode.
 New typing replaces the pending timer; Clear, imperative search replacement,
 newer-ID controlled query replacement, and disconnect/unmount cancel it. A same-ID
 result for the current request preserves a newer search draft still within its
@@ -89,6 +106,27 @@ reassign page data. Local mode's legacy same-reference data/column synchronizati
 is preserved. In external mode replace external-state/column references to signal
 updates. In Next.js use a client component; do not import the custom element in
 a server component. Vue/Angular/Blazor forward the same contract where supported.
+
+## Scoped search examples
+
+An application-owned Code/Name-prefix field can provide the sole toolbar
+search while LitGrid retains native server sorting and pagination:
+
+```tsx
+<DataGrid data={[]} config={{ queryMode: 'external', quickSearch: { visible: false } }}
+  columns={columns} externalState={externalState} onQueryChange={onQueryChange} />
+```
+
+If using LitGrid's built-in input, explain the authorized server scope:
+
+```tsx
+<DataGrid data={[]} config={{ queryMode: 'external', quickSearch: {
+  label: 'Search code or name', placeholder: 'Code or name starts with…',
+  description: 'Path, type and status are excluded from server search.'
+} }} columns={columns} externalState={externalState} onQueryChange={onQueryChange} />
+```
+
+Neither setting changes authorization, query semantics or backend filtering.
 
 ## Concurrency and security responsibilities
 

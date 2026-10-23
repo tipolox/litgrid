@@ -94,6 +94,48 @@ it('keeps a newer debounced search when React supplies the prior server result',
   }
 })
 
+
+it('forwards mutable typed quick-search config changes without resetting external queries', async () => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = createRoot(host)
+  const config: import('@tipolox/litgrid-web').GridConfig = {
+    queryMode: 'external', quickSearch: { label: 'Code prefix', placeholder: 'Code starts with' }
+  }
+  const state: GridExternalState = {
+    requestId: 1,
+    query: { search: 'ABC', filters: [], sort: { columnKey: null, direction: null }, pageIndex: 0, pageSize: 20 },
+    rows: [{ name: 'ABC property' }], total: { kind: 'unknown', hasMore: false }
+  }
+  const callback = vi.fn()
+  const render = () => act(() => root.render(
+    <DataGrid data={[]} columns={[{ key: 'name' }]} config={config}
+      externalState={state} onQueryChange={callback} />
+  ))
+  try {
+    render()
+    const grid = host.querySelector('yc-grid') as WebGrid
+    await grid.updateComplete
+    expect(grid.renderRoot.querySelector<HTMLInputElement>('.quick-search input')?.placeholder).toBe('Code starts with')
+    config.quickSearch!.visible = false
+    render()
+    await grid.updateComplete
+    expect(grid.renderRoot.querySelector('.quick-search')).toBeNull()
+    expect(grid.getQuery()).toMatchObject({ requestId: 1, query: { search: 'ABC' } })
+    expect(callback).not.toHaveBeenCalled()
+    config.quickSearch!.visible = true
+    config.quickSearch!.label = 'Code or name prefix'
+    config.quickSearch!.description = 'Not path or status'
+    render()
+    await grid.updateComplete
+    const input = grid.renderRoot.querySelector<HTMLInputElement>('.quick-search input')!
+    expect(input.value).toBe('ABC')
+    expect(input.getAttribute('aria-label')).toBe('Code or name prefix')
+    expect(grid.renderRoot.querySelector('[id="' + input.getAttribute('aria-describedby') + '"]')?.textContent).toBe('Not path or status')
+    expect(callback).not.toHaveBeenCalled()
+  } finally { act(() => root.unmount()); host.remove() }
+})
+
 it('cancels a pending external input debounce when React unmounts the grid', async () => {
   const host = document.createElement('div')
   document.body.append(host)

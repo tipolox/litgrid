@@ -466,11 +466,19 @@ export class DataGrid extends LitElement {
 
     .quick-search {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 8px;
       padding: 8px 12px;
       border-bottom: 1px solid var(--litgrid-color-border);
       background: var(--litgrid-color-surface-subtle);
+    }
+
+    .quick-search-description {
+      flex-basis: 100%;
+      color: var(--litgrid-color-text);
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     .quick-search input {
@@ -2862,9 +2870,29 @@ export class DataGrid extends LitElement {
   }
 
   set config(value: GridConfig) {
-
+    const wasVisible = this.isQuickSearchDisplayed()
+    const inputFocused = !!this.renderRoot?.querySelector<HTMLInputElement>('.quick-search input:focus')
     this.engine.setConfig(value ?? {})
+    const nowVisible = this.isQuickSearchDisplayed()
+    if (wasVisible && !nowVisible) {
+      // Do not emit a surprise remote intent from a now-hidden pending draft.
+      this.clearQuickSearchDebounce()
+      this.quickSearchDraft = this.engine.getQuickSearch()
+    }
     this.requestUpdate()
+    if (inputFocused && !nowVisible) {
+      void this.updateComplete.then(() => {
+        if (!this.isConnected || this.isQuickSearchDisplayed()) return
+        this.renderRoot.querySelector<HTMLElement>(
+          '.header-action-button, .pagination select, .pagination button, .viewport'
+        )?.focus()
+      })
+    }
+  }
+
+  private isQuickSearchDisplayed() {
+    const config = this.engine.getConfig()
+    return config.queryMode === 'external' ? config.quickSearch.visible : this.quickSearchVisible
   }
 
   set viewportHeight(value: number) {
@@ -3078,17 +3106,21 @@ export class DataGrid extends LitElement {
         ${this.screenReaderAnnouncements
           ? html`<div class="screen-reader-only" role="status" aria-live="polite" aria-atomic="true">${this.screenReaderMessage}</div>`
           : ''}
-        ${this.quickSearchVisible || external
+        ${this.isQuickSearchDisplayed()
           ? html`
               <div class="quick-search" role="search">
                 <input
-                  aria-label="Quick search"
-                  placeholder="Search all columns"
+                  aria-label=${this.engine.getConfig().quickSearch.label}
+                  aria-describedby=${this.engine.getConfig().quickSearch.description ? `${this.gridId}-quick-search-description` : nothing}
+                  placeholder=${this.engine.getConfig().quickSearch.placeholder}
                   .value=${this.quickSearchDraft}
                   @input=${(event: Event) =>
                     this.handleQuickSearchInput((event.target as HTMLInputElement).value)}
                 />
                 <button type="button" @click=${() => this.clearQuickSearch()}>Clear</button>
+                ${this.engine.getConfig().quickSearch.description
+                  ? html`<span class="quick-search-description" id=${`${this.gridId}-quick-search-description`}>${this.engine.getConfig().quickSearch.description}</span>`
+                  : ''}
               </div>
             `
           : ''}
