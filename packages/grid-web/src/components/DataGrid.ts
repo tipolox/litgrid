@@ -2871,7 +2871,7 @@ export class DataGrid extends LitElement {
 
   set config(value: GridConfig) {
     const wasVisible = this.isQuickSearchDisplayed()
-    const inputFocused = !!this.renderRoot.querySelector<HTMLInputElement>('.quick-search input:focus')
+    const inputFocused = !!this.renderRoot?.querySelector<HTMLInputElement>('.quick-search input:focus')
     this.engine.setConfig(value ?? {})
     const nowVisible = this.isQuickSearchDisplayed()
     if (wasVisible && !nowVisible) {
