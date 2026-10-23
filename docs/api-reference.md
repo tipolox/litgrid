@@ -83,6 +83,34 @@ type GridConfig = {
 
 Defaults are selection disabled, row header disabled, and pagination disabled. When pagination is enabled, the default page size is `50` and the default page index is `0`. `checkboxes` displays row-header selection checkboxes when used with `multi-row` selection.
 
+### Quick-search presentation (issues #51 and #52)
+
+The optional typed `GridConfig.quickSearch` object accepts `visible?: boolean`,
+`label?: string`, `placeholder?: string`, and `description?: string`. Defaults
+are: external search visible, accessible name `Quick search`, placeholder
+`Search all columns`, and no description. A nonempty description is rendered
+as visible text associated to the input using `aria-describedby`.
+
+In **external mode**, `visible: false` hides the search field and Clear
+button without clearing a committed search, emitting query intents or removing
+sorting, filtering and pagination. Hiding while the input contains uncommitted
+debounced typing cancels that draft only. Imperative search and application-level
+controlled search continue working. In **local mode**, existing menu Show/Hide
+behavior remains unchanged; `visible` is ignored. All three wording inputs apply
+to the built-in search in both modes when visible.
+
+```tsx
+<DataGrid data={[]} columns={columns}
+  config={{ queryMode: 'external', quickSearch: { visible: false } }}
+  externalState={externalState} onQueryChange={onQueryChange} />
+```
+
+When the server only searches code/name prefixes, keep the built-in search with
+truthful wording via `label: 'Search property code or name'`,
+`placeholder: 'Code or name starts with…'`, and
+`description: 'Full path and status are not searched.'`. These options are
+presentation-only and never broaden backend search or authorize records.
+
 ### Filters, selection, and pagination
 
 ```ts

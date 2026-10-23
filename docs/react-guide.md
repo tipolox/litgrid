@@ -249,3 +249,31 @@ For controlled server paging, sorting, filtering and search, see the
 Use `config.queryMode: 'external'`, immutable `externalState`, and
 `onQueryChange`. The application owns fetching, cancellation, scope and BFF
 authorization. No network requests are made by LitGrid.
+
+
+## External-query quick-search wording and visibility
+
+LitGrid's built-in search is visible in external mode by default. Hide it when
+an application already renders one server-scoped search field:
+
+```tsx
+<DataGrid data={[]} columns={columns}
+  config={{ queryMode: 'external', quickSearch: { visible: false } }}
+  externalState={externalState} onQueryChange={onQueryChange} />
+```
+
+Or keep it with truthful server-scope text and accessible help:
+
+```tsx
+<DataGrid data={[]} columns={columns} config={{ queryMode: 'external', quickSearch: {
+  label: 'Search code or name',
+  placeholder: 'Code or name starts with…',
+  description: 'Type, status and full path are not included in this server search.'
+} }} externalState={externalState} onQueryChange={onQueryChange} />
+```
+
+The options are part of typed `GridConfig` and update without new search
+intents. Hiding the control does not hide the grid's sorting, filtering or
+pagination, or prevent an application from using `setQuickSearch`.
+Local-mode Show/Hide menu behavior is unchanged. Both examples require
+the existing authorized query handler and controlled external state.
