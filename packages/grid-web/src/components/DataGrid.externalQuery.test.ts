@@ -143,7 +143,7 @@ it('does not offer a no-op quick-search visibility toggle in external header men
 
 it('exposes truthfully scoped labels, placeholders and uniquely associated visible help', async () => {
   const grid = await setup()
-  grid.config = { queryMode: 'external', quickSearch: {
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: {
     label: 'Search code or name', placeholder: 'Code or name starts with…',
     description: 'Path and status are not included.'
   } }
@@ -155,10 +155,10 @@ it('exposes truthfully scoped labels, placeholders and uniquely associated visib
   expect(id).toBeTruthy()
   expect(grid.renderRoot.querySelector('[id="' + id + '"]')?.textContent).toBe('Path and status are not included.')
   const other = await setup()
-  other.config = { queryMode: 'external', quickSearch: { description: 'Different server scope' } }
+  other.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: { description: 'Different server scope' } }
   await other.updateComplete
   expect(other.renderRoot.querySelector('.quick-search input')?.getAttribute('aria-describedby')).not.toBe(id)
-  grid.config = { queryMode: 'external', quickSearch: { label: 'New search scope', placeholder: '' } }
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: { label: 'New search scope', placeholder: '' } }
   await grid.updateComplete
   expect(input.getAttribute('aria-label')).toBe('New search scope')
   expect(input.placeholder).toBe('')
@@ -173,7 +173,7 @@ it('hides the external search without mutating committed server state, paginatio
   grid.setQuickSearch('Nor')
   await grid.updateComplete
   const before = grid.getQuery()
-  grid.config = { queryMode: 'external', quickSearch: { visible: false } }
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: { visible: false } }
   await grid.updateComplete
   expect(grid.renderRoot.querySelector('.quick-search')).toBeNull()
   expect(grid.renderRoot.querySelector('[aria-label="Quick search"]')).toBeNull()
@@ -185,7 +185,7 @@ it('hides the external search without mutating committed server state, paginatio
   await grid.updateComplete
   expect(grid.getQuery().query.search).toBe('Nort')
   expect(events).toHaveLength(2)
-  grid.config = { queryMode: 'external', quickSearch: { visible: true } }
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: { visible: true } }
   await grid.updateComplete
   expect(grid.renderRoot.querySelector<HTMLInputElement>('[aria-label="Quick search"]')?.value).toBe('Nort')
   expect(events).toHaveLength(2)
@@ -199,12 +199,12 @@ it('preserves a pending draft on wording updates but cancels it on hiding withou
   const input = typeSearch(grid, 'Nor')
   input.focus()
   expect(vi.getTimerCount()).toBe(1)
-  grid.config = { queryMode: 'external', quickSearch: { label: 'Search code', placeholder: 'Starts with' } }
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: { label: 'Search code', placeholder: 'Starts with' } }
   await grid.updateComplete
   expect(input.value).toBe('Nor')
   expect(input.getAttribute('aria-label')).toBe('Search code')
   expect(vi.getTimerCount()).toBe(1)
-  grid.config = { queryMode: 'external', quickSearch: { visible: false } }
+  grid.config = { queryMode: 'external', selection: { mode: 'row', rowKey: 'id', scopeKey: 'site-a' }, quickSearch: { visible: false } }
   await grid.updateComplete
   expect(vi.getTimerCount()).toBe(0)
   vi.advanceTimersByTime(250)
