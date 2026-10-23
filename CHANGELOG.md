@@ -2,6 +2,21 @@
 
 Notable changes to LitGrid are recorded here.
 
+## 1.2.3
+
+### Property Management P0 — truthful search semantics and optional external search visibility
+
+- Added optional, typed `GridConfig.quickSearch` presentation options to address [#51](https://github.com/tipolox/litgrid/issues/51) and [#52](https://github.com/tipolox/litgrid/issues/52). Consumers can configure `label`, `placeholder`, and `description` to describe exactly which fields an authorized server searches. The visible description is associated to the actual search input with `aria-describedby` and an instance-specific ID.
+- In `queryMode: 'external'`, `quickSearch: { visible: false }` removes LitGrid's redundant search field, Clear button, and toolbar so applications can supply a single scoped Code/Name search. This does **not** clear committed search state or disable controlled external querying, sorting, filtering, page controls, or imperative search methods.
+- Omitted options preserve 1.2.2 defaults, including an initially visible external search, unchanged `Quick search` accessible label / `Search all columns` placeholder, and the local grid's existing Show/Hide Quick Search menu behavior. This is a presentation-only additive API and does not broaden server search scope.
+- Preserved the v1.2.2 pending-draft/same-request-ID result race fix. Wording changes leave pending input intact; hiding an external input cancels only its uncommitted debounce draft without generating a new server query. The React adapter recognizes changes to the typed configuration even when callers reuse the same object; existing Vue/Angular shared configuration paths continue forwarding the options.
+
+### Validation and coordinated upgrade
+
+- [PR #53](https://github.com/tipolox/litgrid/pull/53) passed 333 JavaScript tests in 43 files, 129 Blazor tests, TypeScript adapter-contract checks, package builds and real Chromium external-query regression checks. The founder's isolated local website integration reported 18 browser check groups, seven focused tests, website typecheck/build, package file-identity checks, a single `yc-grid` registration, and no console errors.
+- Upgrade the six public `@tipolox/litgrid-*` npm packages and `Tipolox.LitGrid.Blazor` NuGet package together to **1.2.3**. Consumers should regenerate lockfiles using **published npm tarball integrity metadata** (rather than candidate archive hashes), rebuild, and invalidate stale caches as needed. The first custom-element registration wins: do not mix older `yc-grid` bundles with newer wrappers.
+- This release does not change Property Management or the separately deployed marketing site, authorize backend search scope, or close deferred performance and accessibility research; integration requires a distinct consumer upgrade.
+
 ## 1.2.2
 
 ### External-query typing and column-menu fixes
