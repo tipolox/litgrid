@@ -7,7 +7,7 @@ const VIEWPORT_SIZE = 720
 
 describe('scroll mapping performance', () => {
   bench('maps a capped display scroll offset near the browser limit', () => {
-    return mapDisplayScrollOffset({
+    void mapDisplayScrollOffset({
       displayScrollOffset: DISPLAY_SIZE - VIEWPORT_SIZE,
       previousDisplayScrollOffset: DISPLAY_SIZE - VIEWPORT_SIZE - 36,
       displaySize: DISPLAY_SIZE,
@@ -17,7 +17,7 @@ describe('scroll mapping performance', () => {
   })
 
   bench('calculates a capped display layout near the browser limit', () => {
-    return calculateDisplayLayout({
+    void calculateDisplayLayout({
       totalSize: TOTAL_SIZE,
       displaySize: DISPLAY_SIZE,
       virtualOffsetTop: TOTAL_SIZE - 1_440,

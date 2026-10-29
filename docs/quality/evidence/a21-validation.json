@@ -1,0 +1,676 @@
+{
+  "baseline": "66a1d3982b1ec5b53dbab867fe754016ddc82cb3",
+  "issue": 57,
+  "toolchain": {
+    "node": "22.22.3",
+    "pnpm": "10.33.0",
+    "typescript": "6.0.3",
+    "dotnetSdk": "10.0.403",
+    "dotnetRuntime": "8.0.12"
+  },
+  "baselinePrerequisites": [
+    "pnpm install --frozen-lockfile",
+    "pnpm build"
+  ],
+  "baselineBuild": {
+    "exitCode": 0,
+    "packageAndApplicationBuilds": 8
+  },
+  "baselineRoot": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit --pretty false",
+    "exitCode": 2,
+    "total": 52,
+    "codes": {
+      "TS2307": 12,
+      "TS2882": 2,
+      "TS18048": 6,
+      "TS2683": 2,
+      "TS2345": 6,
+      "TS2339": 12,
+      "TS2790": 1,
+      "TS2341": 5,
+      "TS2591": 6
+    },
+    "categories": {
+      "moduleResolution": 14,
+      "strictFixturesAndBenchmarks": 32,
+      "nodeTypeDiscovery": 6
+    },
+    "diagnostics": [
+      "dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(1,28): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(94,27): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(288,22): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/theme/darkTheme.d.ts(5,46): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/theme/lightTheme.d.ts(5,47): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/_debug_node-chunk.d.ts(12,86): error TS2307: Cannot find module '@angular/core/primitives/di' or its corresponding type declarations.",
+      "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts(18,34): error TS2307: Cannot find module '@angular/core/primitives/signals' or its corresponding type declarations.",
+      "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts(22,8): error TS2882: Cannot find module or type declarations for side-effect import of '@angular/core/primitives/di'.",
+      "node_modules/.pnpm/@angular+platform-browser@2_49839d027ab9cb794a33a6120b97830c/node_modules/@angular/platform-browser/types/platform-browser.d.ts(10,42): error TS2307: Cannot find module '@angular/common/http' or its corresponding type declarations.",
+      "node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/expect/dist/index.d.ts(6,27): error TS2307: Cannot find module '@vitest/utils/display' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts(1,34): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts(3,51): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts(2,34): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/index.d.ts(31,8): error TS2882: Cannot find module or type declarations for side-effect import of 'vite/module-runner'.",
+      "packages/grid-blazor/src/navigationUpdates.test.ts(73,3): error TS18048: 'inputs.data' is possibly 'undefined'.",
+      "packages/grid-blazor/src/navigationUpdates.test.ts(74,17): error TS18048: 'inputs.data' is possibly 'undefined'.",
+      "packages/grid-blazor/src/navigationUpdates.test.ts(75,3): error TS18048: 'inputs.columns' is possibly 'undefined'.",
+      "packages/grid-blazor/src/navigationUpdates.test.ts(76,3): error TS18048: 'inputs.columns' is possibly 'undefined'.",
+      "packages/grid-blazor/src/navigationUpdates.test.ts(84,3): error TS18048: 'inputs.data' is possibly 'undefined'.",
+      "packages/grid-blazor/src/navigationUpdates.test.ts(85,3): error TS18048: 'inputs.columns' is possibly 'undefined'.",
+      "packages/grid-blazor/src/partialFailureRetry.test.ts(22,17): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.",
+      "packages/grid-blazor/src/partialFailureRetry.test.ts(90,63): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.",
+      "packages/grid-core/src/core/GridEngine.bench.ts(20,30): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.",
+      "packages/grid-core/src/core/GridEngine.bench.ts(27,79): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.",
+      "packages/grid-renderer/src/viewport/scrollMapping.bench.ts(9,71): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.",
+      "packages/grid-renderer/src/viewport/scrollMapping.bench.ts(19,70): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.",
+      "packages/grid-renderer/src/virtualization/virtualizers.bench.ts(23,62): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.",
+      "packages/grid-renderer/src/virtualization/virtualizers.bench.ts(29,63): error TS2345: Argument of type '() => number' is not assignable to parameter of type 'BenchFunction'.",
+      "packages/grid-web/src/components/DataGrid.activeCell.test.ts(51,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.activeCell.test.ts(108,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.activeCell.test.ts(140,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.activeCell.test.ts(167,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.activeCell.test.ts(185,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.activeCell.test.ts(219,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.clipboard.test.ts(8,10): error TS2790: The operand of a 'delete' operator must be optional.",
+      "packages/grid-web/src/components/DataGrid.columnFocus.test.ts(44,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.columnFocus.test.ts(59,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.columnFocus.test.ts(74,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.columnFocus.test.ts(85,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(611,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(621,28): error TS2339: Property 'activeElement' does not exist on type 'DocumentFragment | HTMLElement'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(964,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(965,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(970,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(974,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.",
+      "packages/grid-web/src/components/DataGrid.test.ts(978,10): error TS2341: Property 'computeColumnBestFit' is private and only accessible within class 'DataGrid'.",
+      "scripts/embed-sourcemap-sources.test.ts(1,77): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(2,24): error TS2591: Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(3,22): error TS2591: Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(4,27): error TS2591: Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(5,31): error TS2591: Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(18,20): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+    ],
+    "equivalentRepositoryCommand": "pnpm exec tsc --noEmit --pretty false"
+  },
+  "qualityGate": {
+    "command": "pnpm typecheck:all",
+    "authoredFiles": 113,
+    "legacyGeneratedDeclarations": 29,
+    "projectCount": 2,
+    "initialSuccessfulRun": {
+      "exitCode": 0,
+      "diagnostics": 0
+    },
+    "negativeProbes": [
+      {
+        "case": "unowned authored root TypeScript file",
+        "exitCode": 1,
+        "expected": "ownership failure",
+        "file": "quality-ownership-probe.ts"
+      },
+      {
+        "case": "invalid assignment in an owned browser fixture",
+        "exitCode": 2,
+        "expected": "TS2322",
+        "file": "tests/contracts/quality-error-probe.ts"
+      }
+    ],
+    "noBuildVerification": {
+      "exitCode": 0,
+      "diagnostics": 0,
+      "temporarilyAbsentOutputDirectories": [
+        "dist",
+        "packages/grid-core/dist",
+        "packages/grid-renderer/dist",
+        "packages/grid-web/dist",
+        "packages/grid-react/dist",
+        "packages/grid-vue/dist",
+        "apps/playground/dist"
+      ]
+    }
+  },
+  "baselineDeclarationHashes": {
+    "packages/grid-core/dist/core/createGridEngine.d.ts": "1e2ed84bb8bf61411a23c27acf598497ac843007323d0547de3e3456ae0a9275",
+    "packages/grid-core/dist/core/GridEngine.d.ts": "98672c528c157cb0c52d66fab382a67639f98ce13d825a7f80cd0c5591546207",
+    "packages/grid-core/dist/features/filtering/filtering.d.ts": "e102761fe1506f3e95969f613d34f6b80551cf220c1046dc7972aee1592b5942",
+    "packages/grid-core/dist/features/pagination/pagination.d.ts": "4cd73acac190c488ab6b4661d90339b97d0f196d52821409dcd2a5c8664e4ad5",
+    "packages/grid-core/dist/features/query/externalQuery.d.ts": "546a3110b234dfd1edbe451e927787fb6e1b142ac6dde335d0f0e64451c9f36d",
+    "packages/grid-core/dist/features/quick-search/quickSearch.d.ts": "d6a560f34c53650b0cd0e7d6bf5a023921bad626c56d181c0c808790122e3b80",
+    "packages/grid-core/dist/features/selection/selection.d.ts": "30cad36b7f5c2ca0d79d6ecb01c7075a22b8aec3e7fce83aec0ad87db6e293e5",
+    "packages/grid-core/dist/features/selection/selectionCoordination.d.ts": "004f6205d703ef00ec62d3d92da4a741e0e9a5672d26d9ea2ea5b267ce6afb77",
+    "packages/grid-core/dist/features/sorting/sorting.d.ts": "dee3ca3f186440e5a957e2d4beb2baab64d390b61d7cf128a12109a3c0f396c6",
+    "packages/grid-core/dist/features/transforms/applyDataTransforms.d.ts": "8cfa898254a5c07e2ea30249ac38599afde26eececba0c89a45e092b4238e586",
+    "packages/grid-core/dist/index.d.ts": "d58b9153ce750088ac70b580afcdcf1ba5caf8e452cb0d1dbb5e794bfa00de3a",
+    "packages/grid-core/dist/model/GridConfig.d.ts": "fa0086f20fd8bba6ca565162423bc44c9bbef6676d6003b2f1718ff054f2a65c",
+    "packages/grid-core/dist/model/GridQuery.d.ts": "976cd4e499548aae778e95baf76a3915b852748157a39ea54b769fb85824d029",
+    "packages/grid-core/dist/model/GridState.d.ts": "9fcee4ad68a2f1a662049fb5799c2a326e3d05ace65429406f2fb42c9e676243",
+    "packages/grid-core/dist/utils/range.d.ts": "45338bb0104d8edba27a3e92bdce21515b9b09eebd344c54a04ecbaa675d76d2",
+    "packages/grid-renderer/dist/index.d.ts": "0023929a0572198b653246f98e2927661cf01d2013e93af13811830e4e4c4aa3",
+    "packages/grid-renderer/dist/utils/math.d.ts": "6f05ebc153af6b4e29fdedac3f0b12aa5f2f5216bb002567ad836edc0510fbe6",
+    "packages/grid-renderer/dist/viewport/scrollMapping.d.ts": "3346c3695e34ae548af717e6c2e218481674e64b755c5f6f8e50242043c68027",
+    "packages/grid-renderer/dist/virtualization/createVariableVirtualizer.d.ts": "4c6f00732c69483781aca3b0d9d38415bb4da5ad42fc609eba03456f83239d37",
+    "packages/grid-renderer/dist/virtualization/createVirtualizer.d.ts": "b7d17a7c8c7b2d2bae60f947f5b23a91f89fe30ed2c285439e4da212bbd1c8c3",
+    "packages/grid-renderer/dist/virtualization/types.d.ts": "4f54288b46210f4505618e2801d1020b0e6a31bfd2f0e593810c3aa7cdf5d1df",
+    "packages/grid-web/dist/clipboard/serializeSelectedCells.d.ts": "4a546452bf35c1f38c4f40e4b727df17e285e04918cd8b77cc6e0459dbc2794a",
+    "packages/grid-web/dist/clipboard/serializeSelectedRows.d.ts": "418ab80b70936107a091f834e56746248446aedd2d6f47ff7f01a251bc9a2c66",
+    "packages/grid-web/dist/columnState/columnState.d.ts": "9c8d05d291ee855f933910e97eeeab7536fd6e4fadd0bb91809e2b25286b8535",
+    "packages/grid-web/dist/components/DataGrid.d.ts": "bb209557fae31d14c948a58ce0d7e5b36f138053a780f92ba9bfa39630b203c4",
+    "packages/grid-web/dist/DataGrid.d.ts": "730210c9bcc8cc33ba8586c293d6539d81d49c60251e20b298cea3fa77d0be19",
+    "packages/grid-web/dist/index.d.ts": "2159db92f4877c8d1a19856fbd324591723fe9f05bc643d93f0c93f50ca30417",
+    "packages/grid-web/dist/sizing/columnSizing.d.ts": "6d004e159cc71c4c04c257fb7a6ba2c31ae02a6c09f32a018f88b0f7d412a803",
+    "packages/grid-web/dist/sizing/constants.d.ts": "4058ba68472c4c7bdff02cb97bfc7fb5184f95b819b7b2b7f634fb85aee4ece7",
+    "packages/grid-web/dist/sizing/rowSizing.d.ts": "a38a2311e0d8f9d621fd81c83cc301d556c133c9beac53d03f525f0f459a85db",
+    "packages/grid-web/dist/theme/darkTheme.d.ts": "6b70409d0e0d8bf2a4b24b196e2bdbbeac9ea8d3c699b1847f841334bdd331e2",
+    "packages/grid-web/dist/theme/lightTheme.d.ts": "3bf99a559d7495beb07eaf415ad7af7722f89cb18a5a5f93ded1f8a87dc2c06e",
+    "packages/grid-web/dist/types.d.ts": "75ad2048d7f25091c72ff444da28a68348d42daaa0ff90e4edf18ffeb7d3520b",
+    "packages/grid-react/dist/DataGrid.d.ts": "9c729678683ebd4035f3ffc46f6bdb41a5423523e494b70eef362b6bf1b9a007",
+    "packages/grid-react/dist/gridBindings.d.ts": "562a4f86f90a5b2022b8306d74664fb517977af6bdd709fbbb6c9064e7b4685d",
+    "packages/grid-react/dist/index.d.ts": "2153b1678976cc638af44b4ef69dd58e0b147e29bca830fd3bb554fbd9cb7299",
+    "packages/grid-vue/dist/DataGrid.d.ts": "dafe92995ac2144fb447ef9ee4b6609db62d4d6f11d5922787e895596664205c",
+    "packages/grid-vue/dist/gridBindings.d.ts": "0da18fcc6954f4762ff4865297197f17278c803f0fda10e7a594012fcdf2488f",
+    "packages/grid-vue/dist/index.d.ts": "027803ab279ac54fd5dd9a5c26a311be7e6312cf8b7bb3a9c9474ffbb9851b0c",
+    "dist/grid-angular/types/tipolox-litgrid-angular.d.ts": "df44a396730235e2ce0b19c2debf3f4ef8ee78f312f7145ed2a531b8c848c226"
+  },
+  "javascriptInitial": {
+    "command": "pnpm test --maxWorkers=2 --reporter=default --reporter=json --outputFile.json=.private/a21/js-tests.json",
+    "exitCode": 1,
+    "totalExecuted": 272,
+    "passed": 272,
+    "failedAssertions": 0,
+    "completedFiles": 45,
+    "workerStartupErrors": [
+      "packages/grid-web/src/components/DataGrid.test.ts",
+      "packages/grid-web/src/components/DataGrid.externalQuery.test.ts",
+      "packages/grid-web/src/components/DataGrid.adapterSync.test.ts",
+      "packages/grid-blazor/src/index.test.ts"
+    ],
+    "note": "Four files never started due to worker startup timeouts under sandbox instrumentation. Unchanged two-worker rerun requested outside instrumentation.",
+    "virtualization": [
+      {
+        "name": "keeps row and column virtualization bounded for 30,000 rows and 120 columns",
+        "status": "passed",
+        "durationMs": 4136.575800000002
+      }
+    ]
+  },
+  "ownership": {
+    "authoredFileCount": 113,
+    "projects": {
+      "tsconfig.quality.browser.json": [
+        "apps/playground/src/App.tsx",
+        "apps/playground/src/CheckboxSelectionDemo.tsx",
+        "apps/playground/src/ColumnStateDemo.tsx",
+        "apps/playground/src/CustomRendererDemo.tsx",
+        "apps/playground/src/ExamplesDemo.tsx",
+        "apps/playground/src/LargeDatasetDemo.tsx",
+        "apps/playground/src/PaginationDemo.tsx",
+        "apps/playground/src/SmallDatasetDemo.tsx",
+        "packages/grid-angular/src/DataGridComponent.synchronization.test.ts",
+        "packages/grid-angular/src/DataGridComponent.test.ts",
+        "packages/grid-angular/src/DataGridComponent.ts",
+        "packages/grid-angular/src/gridBindings.ts",
+        "packages/grid-angular/src/index.ts",
+        "packages/grid-blazor/src/dataSynchronization.test.ts",
+        "packages/grid-blazor/src/declarativeColumns.test.ts",
+        "packages/grid-blazor/src/gridBindings.ts",
+        "packages/grid-blazor/src/index.test.ts",
+        "packages/grid-blazor/src/index.ts",
+        "packages/grid-blazor/src/navigationUpdates.test.ts",
+        "packages/grid-blazor/src/partialFailureRetry.test.ts",
+        "packages/grid-blazor/src/persistenceTransitions.test.ts",
+        "packages/grid-core/src/core/GridEngine.bench.ts",
+        "packages/grid-core/src/core/GridEngine.ts",
+        "packages/grid-core/src/core/configSynchronization.test.ts",
+        "packages/grid-core/src/core/createGridEngine.test.ts",
+        "packages/grid-core/src/core/createGridEngine.ts",
+        "packages/grid-core/src/core/externalQuery.baseline.test.ts",
+        "packages/grid-core/src/core/externalQuery.test.ts",
+        "packages/grid-core/src/core/keyedSelection.performance.test.ts",
+        "packages/grid-core/src/core/numericScopeSynchronization.test.ts",
+        "packages/grid-core/src/core/selectionCoordination.test.ts",
+        "packages/grid-core/src/features/features.test.ts",
+        "packages/grid-core/src/features/filtering/filtering.ts",
+        "packages/grid-core/src/features/pagination/pagination.ts",
+        "packages/grid-core/src/features/query/externalQuery.ts",
+        "packages/grid-core/src/features/quick-search/quickSearch.ts",
+        "packages/grid-core/src/features/selection/selection.ts",
+        "packages/grid-core/src/features/selection/selectionCoordination.ts",
+        "packages/grid-core/src/features/sorting/sorting.ts",
+        "packages/grid-core/src/features/transforms/applyDataTransforms.ts",
+        "packages/grid-core/src/index.ts",
+        "packages/grid-core/src/model/GridConfig.quickSearch.test.ts",
+        "packages/grid-core/src/model/GridConfig.ts",
+        "packages/grid-core/src/model/GridQuery.ts",
+        "packages/grid-core/src/model/GridState.ts",
+        "packages/grid-core/src/utils/range.ts",
+        "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
+        "packages/grid-react/src/DataGrid.navigationUpdates.test.tsx",
+        "packages/grid-react/src/DataGrid.selectionChange.test.tsx",
+        "packages/grid-react/src/DataGrid.synchronization.test.tsx",
+        "packages/grid-react/src/DataGrid.test.tsx",
+        "packages/grid-react/src/DataGrid.tsx",
+        "packages/grid-react/src/gridBindings.ts",
+        "packages/grid-react/src/index.ts",
+        "packages/grid-react/src/jsx-elements.d.ts",
+        "packages/grid-renderer/src/index.ts",
+        "packages/grid-renderer/src/utils/math.ts",
+        "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+        "packages/grid-renderer/src/viewport/scrollMapping.test.ts",
+        "packages/grid-renderer/src/viewport/scrollMapping.ts",
+        "packages/grid-renderer/src/virtualization/createVariableVirtualizer.ts",
+        "packages/grid-renderer/src/virtualization/createVirtualizer.ts",
+        "packages/grid-renderer/src/virtualization/types.ts",
+        "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+        "packages/grid-renderer/src/virtualization/virtualizers.test.ts",
+        "packages/grid-vue/src/DataGrid.synchronization.test.ts",
+        "packages/grid-vue/src/DataGrid.test.ts",
+        "packages/grid-vue/src/DataGrid.ts",
+        "packages/grid-vue/src/externalQuery.adapters.test.ts",
+        "packages/grid-vue/src/gridBindings.ts",
+        "packages/grid-vue/src/index.ts",
+        "packages/grid-vue/src/selection.adapters.test.ts",
+        "packages/grid-web/src/DataGrid.ts",
+        "packages/grid-web/src/clipboard/serializeSelectedCells.test.ts",
+        "packages/grid-web/src/clipboard/serializeSelectedCells.ts",
+        "packages/grid-web/src/clipboard/serializeSelectedRows.test.ts",
+        "packages/grid-web/src/clipboard/serializeSelectedRows.ts",
+        "packages/grid-web/src/columnControls.adapters.test.ts",
+        "packages/grid-web/src/columnState/columnState.ts",
+        "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+        "packages/grid-web/src/components/DataGrid.adapterSync.test.ts",
+        "packages/grid-web/src/components/DataGrid.clipboard.test.ts",
+        "packages/grid-web/src/components/DataGrid.columnControls.test.ts",
+        "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+        "packages/grid-web/src/components/DataGrid.columnState.test.ts",
+        "packages/grid-web/src/components/DataGrid.columnVisibility.test.ts",
+        "packages/grid-web/src/components/DataGrid.externalQuery.test.ts",
+        "packages/grid-web/src/components/DataGrid.keyboardSelection.test.ts",
+        "packages/grid-web/src/components/DataGrid.layout.test.ts",
+        "packages/grid-web/src/components/DataGrid.multiAria.test.ts",
+        "packages/grid-web/src/components/DataGrid.nativeActivation.test.ts",
+        "packages/grid-web/src/components/DataGrid.selectionAnnouncements.test.ts",
+        "packages/grid-web/src/components/DataGrid.selectionChange.test.ts",
+        "packages/grid-web/src/components/DataGrid.test.ts",
+        "packages/grid-web/src/components/DataGrid.theme.test.ts",
+        "packages/grid-web/src/components/DataGrid.ts",
+        "packages/grid-web/src/index.ts",
+        "packages/grid-web/src/sizing/columnSizing.ts",
+        "packages/grid-web/src/sizing/constants.ts",
+        "packages/grid-web/src/sizing/rowSizing.ts",
+        "packages/grid-web/src/sizing/sizingAndColumnState.test.ts",
+        "packages/grid-web/src/theme/darkTheme.ts",
+        "packages/grid-web/src/theme/lightTheme.ts",
+        "packages/grid-web/src/types.ts",
+        "packages/grid-web/tests/adapterSync.typecheck.ts",
+        "packages/grid-web/tests/columnControls.typecheck.ts",
+        "packages/grid-web/tests/externalQuery.typecheck.ts",
+        "packages/grid-web/tests/oldShape.typecheck.ts",
+        "packages/grid-web/tests/selection.typecheck.ts",
+        "tests/contracts/adapter-events.browser.ts",
+        "tests/contracts/public-api.typecheck.ts"
+      ],
+      "tsconfig.quality.tools.json": [
+        "scripts/embed-sourcemap-sources.test.ts",
+        "vitest.config.ts"
+      ]
+    },
+    "legacyGeneratedDeclarations": [
+      "packages/grid-core/src/core/GridEngine.d.ts",
+      "packages/grid-core/src/core/createGridEngine.d.ts",
+      "packages/grid-core/src/features/filtering/filtering.d.ts",
+      "packages/grid-core/src/features/pagination/pagination.d.ts",
+      "packages/grid-core/src/features/quick-search/quickSearch.d.ts",
+      "packages/grid-core/src/features/selection/selection.d.ts",
+      "packages/grid-core/src/features/sorting/sorting.d.ts",
+      "packages/grid-core/src/features/transforms/applyDataTransforms.d.ts",
+      "packages/grid-core/src/index.d.ts",
+      "packages/grid-core/src/model/GridConfig.d.ts",
+      "packages/grid-core/src/model/GridState.d.ts",
+      "packages/grid-core/src/utils/range.d.ts",
+      "packages/grid-renderer/src/index.d.ts",
+      "packages/grid-renderer/src/utils/math.d.ts",
+      "packages/grid-renderer/src/viewport/scrollMapping.d.ts",
+      "packages/grid-renderer/src/virtualization/createVariableVirtualizer.d.ts",
+      "packages/grid-renderer/src/virtualization/createVirtualizer.d.ts",
+      "packages/grid-renderer/src/virtualization/types.d.ts",
+      "packages/grid-web/src/clipboard/serializeSelectedCells.d.ts",
+      "packages/grid-web/src/clipboard/serializeSelectedRows.d.ts",
+      "packages/grid-web/src/columnState/columnState.d.ts",
+      "packages/grid-web/src/components/DataGrid.d.ts",
+      "packages/grid-web/src/index.d.ts",
+      "packages/grid-web/src/sizing/columnSizing.d.ts",
+      "packages/grid-web/src/sizing/constants.d.ts",
+      "packages/grid-web/src/sizing/rowSizing.d.ts",
+      "packages/grid-web/src/theme/darkTheme.d.ts",
+      "packages/grid-web/src/theme/lightTheme.d.ts",
+      "packages/grid-web/src/types.d.ts"
+    ]
+  },
+  "javascriptVerified": {
+    "command": "pnpm test --maxWorkers=2 --reporter=default --reporter=json --outputFile.json=.private/a21/js-tests-verified.json",
+    "exitCode": 0,
+    "total": 378,
+    "passed": 378,
+    "failed": 0,
+    "files": 49,
+    "externalQueryFiles": [
+      {
+        "file": "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
+        "tests": 4
+      },
+      {
+        "file": "packages/grid-vue/src/externalQuery.adapters.test.ts",
+        "tests": 3
+      },
+      {
+        "file": "packages/grid-core/src/core/externalQuery.baseline.test.ts",
+        "tests": 1
+      },
+      {
+        "file": "packages/grid-core/src/core/externalQuery.test.ts",
+        "tests": 17
+      },
+      {
+        "file": "packages/grid-web/src/components/DataGrid.externalQuery.test.ts",
+        "tests": 23
+      }
+    ],
+    "virtualization": [
+      {
+        "name": "keeps row and column virtualization bounded for 30,000 rows and 120 columns",
+        "status": "passed",
+        "durationMs": 3312.5215000000007
+      }
+    ]
+  },
+  "blazorInitial": {
+    "exitCode": 1,
+    "note": "NuGet restore failed before tests in two sandbox attempts: GetRestoreSettingsTask path1 null. Explicit APPDATA/cache settings did not resolve Windows profile discovery. Unchanged commands passed outside the sandbox.",
+    "attempts": [
+      {
+        "name": "blazor-release",
+        "exitCode": 1
+      },
+      {
+        "name": "blazor-release-verified",
+        "exitCode": 1
+      }
+    ]
+  },
+  "rootAfter": {
+    "command": "pnpm exec tsc --noEmit --pretty false",
+    "exitCode": 2,
+    "total": 20,
+    "codes": {
+      "TS2307": 12,
+      "TS2882": 2,
+      "TS2591": 6
+    },
+    "diagnostics": [
+      "dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(1,28): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(94,27): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/components/DataGrid.d.ts(288,22): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/theme/darkTheme.d.ts(5,46): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "dist/out-tsc/grid-angular/grid-web/src/theme/lightTheme.d.ts(5,47): error TS2307: Cannot find module 'lit' or its corresponding type declarations.",
+      "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/_debug_node-chunk.d.ts(12,86): error TS2307: Cannot find module '@angular/core/primitives/di' or its corresponding type declarations.",
+      "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts(18,34): error TS2307: Cannot find module '@angular/core/primitives/signals' or its corresponding type declarations.",
+      "node_modules/.pnpm/@angular+core@22.1.3_@angular+compiler@22.1.3_rxjs@7.8.2/node_modules/@angular/core/types/core.d.ts(22,8): error TS2882: Cannot find module or type declarations for side-effect import of '@angular/core/primitives/di'.",
+      "node_modules/.pnpm/@angular+platform-browser@2_49839d027ab9cb794a33a6120b97830c/node_modules/@angular/platform-browser/types/platform-browser.d.ts(10,42): error TS2307: Cannot find module '@angular/common/http' or its corresponding type declarations.",
+      "node_modules/.pnpm/@vitest+expect@4.1.10/node_modules/@vitest/expect/dist/index.d.ts(6,27): error TS2307: Cannot find module '@vitest/utils/display' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/evaluatedModules.d.BxJ5omdx.d.ts(1,34): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/rpc.d.B_8sPU0w.d.ts(3,51): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/chunks/worker.d.ZpHpO4yb.d.ts(2,34): error TS2307: Cannot find module 'vite/module-runner' or its corresponding type declarations.",
+      "node_modules/.pnpm/vitest@4.1.10_@types+node@2_2948ae9db907895245be8a9d62d3e82c/node_modules/vitest/dist/index.d.ts(31,8): error TS2882: Cannot find module or type declarations for side-effect import of 'vite/module-runner'.",
+      "scripts/embed-sourcemap-sources.test.ts(1,77): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(2,24): error TS2591: Cannot find name 'node:os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(3,22): error TS2591: Cannot find name 'node:path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(4,27): error TS2591: Cannot find name 'node:child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(5,31): error TS2591: Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+      "scripts/embed-sourcemap-sources.test.ts(18,20): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+    ],
+    "postFinalBuild": true
+  },
+  "blazorRelease": {
+    "testCommand": "dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release --logger \"trx;LogFileName=blazor-release.trx\" --results-directory .private/a21/dotnet-results",
+    "buildCommand": "dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release",
+    "exitCode": 0,
+    "passed": 129,
+    "failed": 0,
+    "skipped": 0,
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "trxCounters": {
+      "total": 129,
+      "executed": 129,
+      "passed": 129,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    }
+  },
+  "sourceContractGates": [
+    {
+      "name": "source-contracts",
+      "command": "node scripts/typecheck-contracts.mjs",
+      "exitCode": 0,
+      "diagnostics": []
+    },
+    {
+      "name": "web-compatibility",
+      "command": "node node_modules/typescript/bin/tsc -p packages/grid-web/tests/tsconfig.compatibility.json --pretty false",
+      "exitCode": 0,
+      "diagnostics": []
+    },
+    {
+      "name": "web-columnControls",
+      "command": "node node_modules/typescript/bin/tsc -p packages/grid-web/tests/tsconfig.columnControls.json --pretty false",
+      "exitCode": 0,
+      "diagnostics": []
+    },
+    {
+      "name": "web-selection",
+      "command": "node node_modules/typescript/bin/tsc -p packages/grid-web/tests/tsconfig.selection.json --pretty false",
+      "exitCode": 0,
+      "diagnostics": []
+    },
+    {
+      "name": "web-externalQuery",
+      "command": "node node_modules/typescript/bin/tsc -p packages/grid-web/tests/tsconfig.externalQuery.json --pretty false",
+      "exitCode": 0,
+      "diagnostics": []
+    }
+  ],
+  "finalBuild": {
+    "command": "pnpm build",
+    "exitCode": 0,
+    "packageAndApplicationBuilds": 8
+  },
+  "publicDeclarations": {
+    "files": 40,
+    "byteIdenticalToBaseline": true,
+    "changedFiles": [],
+    "finalHashes": {
+      "packages/grid-core/dist/core/createGridEngine.d.ts": "1e2ed84bb8bf61411a23c27acf598497ac843007323d0547de3e3456ae0a9275",
+      "packages/grid-core/dist/core/GridEngine.d.ts": "98672c528c157cb0c52d66fab382a67639f98ce13d825a7f80cd0c5591546207",
+      "packages/grid-core/dist/features/filtering/filtering.d.ts": "e102761fe1506f3e95969f613d34f6b80551cf220c1046dc7972aee1592b5942",
+      "packages/grid-core/dist/features/pagination/pagination.d.ts": "4cd73acac190c488ab6b4661d90339b97d0f196d52821409dcd2a5c8664e4ad5",
+      "packages/grid-core/dist/features/query/externalQuery.d.ts": "546a3110b234dfd1edbe451e927787fb6e1b142ac6dde335d0f0e64451c9f36d",
+      "packages/grid-core/dist/features/quick-search/quickSearch.d.ts": "d6a560f34c53650b0cd0e7d6bf5a023921bad626c56d181c0c808790122e3b80",
+      "packages/grid-core/dist/features/selection/selection.d.ts": "30cad36b7f5c2ca0d79d6ecb01c7075a22b8aec3e7fce83aec0ad87db6e293e5",
+      "packages/grid-core/dist/features/selection/selectionCoordination.d.ts": "004f6205d703ef00ec62d3d92da4a741e0e9a5672d26d9ea2ea5b267ce6afb77",
+      "packages/grid-core/dist/features/sorting/sorting.d.ts": "dee3ca3f186440e5a957e2d4beb2baab64d390b61d7cf128a12109a3c0f396c6",
+      "packages/grid-core/dist/features/transforms/applyDataTransforms.d.ts": "8cfa898254a5c07e2ea30249ac38599afde26eececba0c89a45e092b4238e586",
+      "packages/grid-core/dist/index.d.ts": "d58b9153ce750088ac70b580afcdcf1ba5caf8e452cb0d1dbb5e794bfa00de3a",
+      "packages/grid-core/dist/model/GridConfig.d.ts": "fa0086f20fd8bba6ca565162423bc44c9bbef6676d6003b2f1718ff054f2a65c",
+      "packages/grid-core/dist/model/GridQuery.d.ts": "976cd4e499548aae778e95baf76a3915b852748157a39ea54b769fb85824d029",
+      "packages/grid-core/dist/model/GridState.d.ts": "9fcee4ad68a2f1a662049fb5799c2a326e3d05ace65429406f2fb42c9e676243",
+      "packages/grid-core/dist/utils/range.d.ts": "45338bb0104d8edba27a3e92bdce21515b9b09eebd344c54a04ecbaa675d76d2",
+      "packages/grid-renderer/dist/index.d.ts": "0023929a0572198b653246f98e2927661cf01d2013e93af13811830e4e4c4aa3",
+      "packages/grid-renderer/dist/utils/math.d.ts": "6f05ebc153af6b4e29fdedac3f0b12aa5f2f5216bb002567ad836edc0510fbe6",
+      "packages/grid-renderer/dist/viewport/scrollMapping.d.ts": "3346c3695e34ae548af717e6c2e218481674e64b755c5f6f8e50242043c68027",
+      "packages/grid-renderer/dist/virtualization/createVariableVirtualizer.d.ts": "4c6f00732c69483781aca3b0d9d38415bb4da5ad42fc609eba03456f83239d37",
+      "packages/grid-renderer/dist/virtualization/createVirtualizer.d.ts": "b7d17a7c8c7b2d2bae60f947f5b23a91f89fe30ed2c285439e4da212bbd1c8c3",
+      "packages/grid-renderer/dist/virtualization/types.d.ts": "4f54288b46210f4505618e2801d1020b0e6a31bfd2f0e593810c3aa7cdf5d1df",
+      "packages/grid-web/dist/clipboard/serializeSelectedCells.d.ts": "4a546452bf35c1f38c4f40e4b727df17e285e04918cd8b77cc6e0459dbc2794a",
+      "packages/grid-web/dist/clipboard/serializeSelectedRows.d.ts": "418ab80b70936107a091f834e56746248446aedd2d6f47ff7f01a251bc9a2c66",
+      "packages/grid-web/dist/columnState/columnState.d.ts": "9c8d05d291ee855f933910e97eeeab7536fd6e4fadd0bb91809e2b25286b8535",
+      "packages/grid-web/dist/components/DataGrid.d.ts": "bb209557fae31d14c948a58ce0d7e5b36f138053a780f92ba9bfa39630b203c4",
+      "packages/grid-web/dist/DataGrid.d.ts": "730210c9bcc8cc33ba8586c293d6539d81d49c60251e20b298cea3fa77d0be19",
+      "packages/grid-web/dist/index.d.ts": "2159db92f4877c8d1a19856fbd324591723fe9f05bc643d93f0c93f50ca30417",
+      "packages/grid-web/dist/sizing/columnSizing.d.ts": "6d004e159cc71c4c04c257fb7a6ba2c31ae02a6c09f32a018f88b0f7d412a803",
+      "packages/grid-web/dist/sizing/constants.d.ts": "4058ba68472c4c7bdff02cb97bfc7fb5184f95b819b7b2b7f634fb85aee4ece7",
+      "packages/grid-web/dist/sizing/rowSizing.d.ts": "a38a2311e0d8f9d621fd81c83cc301d556c133c9beac53d03f525f0f459a85db",
+      "packages/grid-web/dist/theme/darkTheme.d.ts": "6b70409d0e0d8bf2a4b24b196e2bdbbeac9ea8d3c699b1847f841334bdd331e2",
+      "packages/grid-web/dist/theme/lightTheme.d.ts": "3bf99a559d7495beb07eaf415ad7af7722f89cb18a5a5f93ded1f8a87dc2c06e",
+      "packages/grid-web/dist/types.d.ts": "75ad2048d7f25091c72ff444da28a68348d42daaa0ff90e4edf18ffeb7d3520b",
+      "packages/grid-react/dist/DataGrid.d.ts": "9c729678683ebd4035f3ffc46f6bdb41a5423523e494b70eef362b6bf1b9a007",
+      "packages/grid-react/dist/gridBindings.d.ts": "562a4f86f90a5b2022b8306d74664fb517977af6bdd709fbbb6c9064e7b4685d",
+      "packages/grid-react/dist/index.d.ts": "2153b1678976cc638af44b4ef69dd58e0b147e29bca830fd3bb554fbd9cb7299",
+      "packages/grid-vue/dist/DataGrid.d.ts": "dafe92995ac2144fb447ef9ee4b6609db62d4d6f11d5922787e895596664205c",
+      "packages/grid-vue/dist/gridBindings.d.ts": "0da18fcc6954f4762ff4865297197f17278c803f0fda10e7a594012fcdf2488f",
+      "packages/grid-vue/dist/index.d.ts": "027803ab279ac54fd5dd9a5c26a311be7e6312cf8b7bb3a9c9474ffbb9851b0c",
+      "dist/grid-angular/types/tipolox-litgrid-angular.d.ts": "df44a396730235e2ce0b19c2debf3f4ef8ee78f312f7145ed2a531b8c848c226"
+    }
+  },
+  "publishedContracts": {
+    "command": "pnpm exec tsc -p tsconfig.published-contracts.json --pretty false",
+    "exitCode": 0,
+    "diagnostics": 0
+  },
+  "chromium": {
+    "command": "node scripts/check-adapter-events.mjs .private/a21/adapter-events.json",
+    "exitCode": 0,
+    "browser": "156.0.8078.4",
+    "node": "v22.22.3",
+    "results": [
+      {
+        "framework": "react",
+        "mode": "local",
+        "status": "PASS",
+        "mount": 1
+      },
+      {
+        "framework": "react",
+        "mode": "local",
+        "status": "PASS",
+        "mount": 2
+      },
+      {
+        "framework": "react",
+        "mode": "external",
+        "status": "PASS",
+        "mount": 1
+      },
+      {
+        "framework": "react",
+        "mode": "external",
+        "status": "PASS",
+        "mount": 2
+      },
+      {
+        "framework": "vue",
+        "mode": "local",
+        "status": "PASS",
+        "mount": 1
+      },
+      {
+        "framework": "vue",
+        "mode": "local",
+        "status": "PASS",
+        "mount": 2
+      },
+      {
+        "framework": "vue",
+        "mode": "external",
+        "status": "PASS",
+        "mount": 1
+      },
+      {
+        "framework": "vue",
+        "mode": "external",
+        "status": "PASS",
+        "mount": 2
+      },
+      {
+        "framework": "angular",
+        "mode": "local",
+        "status": "PASS",
+        "mount": 1
+      },
+      {
+        "framework": "angular",
+        "mode": "local",
+        "status": "PASS",
+        "mount": 2
+      },
+      {
+        "framework": "angular",
+        "mode": "external",
+        "status": "PASS",
+        "mount": 1
+      },
+      {
+        "framework": "angular",
+        "mode": "external",
+        "status": "PASS",
+        "mount": 2
+      }
+    ],
+    "errors": []
+  },
+  "ci": {
+    "workflows": [
+      ".github/workflows/verify.yml",
+      ".github/workflows/release.yml"
+    ],
+    "command": "pnpm typecheck:all",
+    "existingA2GatesRetained": true
+  },
+  "publicCompatibility": {
+    "productionSourcesChanged": false,
+    "packageBuildConfigurationsChanged": false,
+    "publishedManifestsChanged": false,
+    "versionsChanged": false,
+    "runtimeAlgorithmsChanged": false,
+    "publishedDeclarationFilesByteIdentical": 40
+  },
+  "limitations": [
+    "Bare root tsc remains red with 20 diagnostics; use the documented project gate.",
+    "Ownership uses tracked and nonignored untracked TypeScript; ignored build/cache files are generated artifacts. Git and installed dependencies are required.",
+    "Historical source-adjacent declarations remain unchanged; fresh shipping declarations are regenerated and validated.",
+    "Local Blazor uses supported SDK 10.0.403 with .NET 8.0.12 runtime; CI uses SDK 8.0.x.",
+    "Current framework versions and Chromium only; no new older-peer or cross-browser compatibility claim.",
+    "Remote CI will run after the draft PR is opened; local validation results are reported here."
+  ],
+  "filesChanged": [
+    ".github/workflows/release.yml",
+    ".github/workflows/verify.yml",
+    "CONTRIBUTING.md",
+    "docs/quality/evidence/a21-validation.json",
+    "docs/quality/root-typescript-a21.md",
+    "package.json",
+    "packages/grid-blazor/src/navigationUpdates.test.ts",
+    "packages/grid-blazor/src/partialFailureRetry.test.ts",
+    "packages/grid-core/src/core/GridEngine.bench.ts",
+    "packages/grid-renderer/src/viewport/scrollMapping.bench.ts",
+    "packages/grid-renderer/src/virtualization/virtualizers.bench.ts",
+    "packages/grid-web/src/components/DataGrid.activeCell.test.ts",
+    "packages/grid-web/src/components/DataGrid.clipboard.test.ts",
+    "packages/grid-web/src/components/DataGrid.columnFocus.test.ts",
+    "packages/grid-web/src/components/DataGrid.test.ts",
+    "scripts/typecheck-all.mjs",
+    "scripts/typecheck-contracts.mjs",
+    "tsconfig.quality.browser.json",
+    "tsconfig.quality.tools.json"
+  ]
+}
