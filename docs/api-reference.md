@@ -2,6 +2,9 @@
 
 This reference describes LitGrid's current public packages and APIs. For installation and task-oriented setup, see the [Installation guide](installation.md), [Web Component guide](vanilla-js-guide.md), [React guide](react-guide.md), [Angular guide](angular-guide.md), and [Vue guide](vue-guide.md).
 
+See [Framework event contracts](event-contracts.md) for callback names, payload
+types, listener cleanup, and repeatable source/published-package checks.
+
 ## Packages
 
 | Package | Public entry point | Use it when |

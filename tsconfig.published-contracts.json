@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.contracts.json",
+  "compilerOptions": {
+    "paths": { "@tipolox/litgrid-angular": ["dist/grid-angular"] }
+  },
+  "include": ["tests/contracts/**/*.ts"]
+}

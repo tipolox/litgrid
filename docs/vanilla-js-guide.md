@@ -1,5 +1,7 @@
 # Web Component Guide
 
+For typed event payloads and listener cleanup, see [Framework event contracts](event-contracts.md).
+
 LitGrid can be used directly as the `yc-grid` custom element in any
 standards-based application. Import the package once, assign complex values as
 JavaScript properties, and use the typed element interface for imperative

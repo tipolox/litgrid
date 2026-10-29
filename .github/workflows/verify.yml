@@ -28,7 +28,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.22.3
           cache: pnpm
 
       - uses: actions/setup-dotnet@v4
@@ -36,9 +36,15 @@ jobs:
           dotnet-version: '8.0.x'
 
       - run: pnpm install --frozen-lockfile
-      - name: Typecheck public API and adapter contracts (root baseline tracked in issue 31)
+      - name: Typecheck public API and adapter fixtures
         run: node scripts/typecheck-contracts.mjs
-      - run: pnpm test
+      - run: pnpm test --maxWorkers=2
       - run: pnpm run build
+      - name: Typecheck published declarations and framework integrations
+        run: pnpm exec tsc -p tsconfig.published-contracts.json --pretty false
+      - name: Install Chromium for adapter lifecycle checks
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Check real framework event lifecycles against built packages
+        run: node scripts/check-adapter-events.mjs
       - run: dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release
       - run: dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release

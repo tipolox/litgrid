@@ -65,7 +65,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 22.22.3
           cache: pnpm
 
       - uses: actions/setup-dotnet@v6
@@ -78,8 +78,9 @@ jobs:
       - name: Run JavaScript quality gates
         run: |
           node scripts/typecheck-contracts.mjs
-          pnpm test
+          pnpm test --maxWorkers=2
           pnpm build
+          pnpm exec tsc -p tsconfig.published-contracts.json --pretty false
 
       - name: Run Blazor quality gates
         run: |
