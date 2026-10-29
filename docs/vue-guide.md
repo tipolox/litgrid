@@ -1,5 +1,8 @@
 # Vue Guide
 
+For data change signals, reactive update batching, and column preference
+guarantees, see [Framework input synchronization](adapter-synchronization.md).
+
 LitGrid's Vue integration is a thin Vue 3 wrapper around the `yc-grid` Web
 Component. It provides declarative props, typed emits, and a typed component
 ref while leaving grid state, interaction, and rendering in LitGrid.
@@ -64,6 +67,7 @@ keeps updates predictable and avoids expensive deep watchers for large grids.
 | Prop | Default | Purpose |
 | --- | --- | --- |
 | `data` | required | Rows to display. |
+| `dataRevision` | omitted | Optional string/number change signal for in-place data edits; stable reference + revision skips row processing. |
 | `columns` | `[]` | Column definitions; omitted columns are inferred from the first object row. |
 | `config` | `{}` | Selection, row-header, and pagination configuration. |
 | `height` | `320` | Virtualized viewport height in pixels. |

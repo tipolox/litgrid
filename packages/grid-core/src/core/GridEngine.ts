@@ -19,7 +19,7 @@ export type GridEngine = {
   onQueryChange: (listener: (detail: GridQueryChangeDetail) => void) => () => void
   setConfig: (config: GridConfig) => void
   getConfig: () => ResolvedGridConfig
-  setData: (data: unknown[]) => void
+  setData: (data: unknown[], preservePage?: boolean) => void
   getRows: () => unknown[]
   setQuickSearch: (query: string) => void
   clearQuickSearch: () => void

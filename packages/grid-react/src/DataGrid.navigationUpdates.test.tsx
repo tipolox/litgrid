@@ -26,7 +26,7 @@ it('retains active navigation through unrelated React rerenders and synchronizes
     viewport.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
     await grid.updateComplete
     const id = viewport.getAttribute('aria-activedescendant')
-    const setData = vi.spyOn(WebGrid.prototype, 'data', 'set')
+    const setData = vi.spyOn(WebGrid.prototype, 'updateData')
     const setColumns = vi.spyOn(WebGrid.prototype, 'columns', 'set')
     const setConfig = vi.spyOn(WebGrid.prototype, 'config', 'set')
     const setHeight = vi.spyOn(WebGrid.prototype, 'viewportHeight', 'set')
@@ -36,7 +36,7 @@ it('retains active navigation through unrelated React rerenders and synchronizes
       expect(viewport.getAttribute('aria-activedescendant')).toBe(id)
     }
     expect(setData).toHaveBeenCalledTimes(4)
-    expect(setColumns).toHaveBeenCalledTimes(4)
+    expect(setColumns).not.toHaveBeenCalled()
     expect(setConfig).not.toHaveBeenCalled()
     expect(setHeight).not.toHaveBeenCalled()
     data.push({ name: 'Katherine' })
@@ -55,7 +55,7 @@ it('retains active navigation through unrelated React rerenders and synchronizes
     render()
     await grid.updateComplete
     expect(setData).toHaveBeenCalledTimes(1)
-    expect(setColumns).toHaveBeenCalledTimes(1)
+    expect(setColumns).not.toHaveBeenCalled()
     expect(grid.renderRoot.querySelector('.cell')!.textContent).toContain('Lin')
     expect(grid.renderRoot.querySelector('.header-label')!.textContent).toContain('Person')
     render({ config: { selection: { mode: 'cell' } } })
@@ -79,7 +79,7 @@ it('preserves legacy same-reference mutation synchronization when column/config 
     data.push({ name: 'Grace' })
     act(() => root.render(<DataGrid data={data} />))
     await grid.updateComplete
-    expect(setColumns).toHaveBeenCalledTimes(1)
+    expect(setColumns).not.toHaveBeenCalled()
     expect(grid.renderRoot.querySelector('.cell')!.textContent).toContain('Updated Ada')
     expect(grid.renderRoot.querySelector('.viewport')!.getAttribute('aria-rowcount')).toBe('3')
   } finally { act(() => root.unmount()) }

@@ -664,6 +664,12 @@ function normalizePageIndex(value) {
 function normalizeConfig(config = {}) {
 	return {
 		queryMode: config.queryMode === "external" ? "external" : "local",
+		quickSearch: {
+			visible: config.quickSearch?.visible !== false,
+			label: typeof config.quickSearch?.label === "string" && config.quickSearch.label.trim() ? config.quickSearch.label : "Quick search",
+			placeholder: typeof config.quickSearch?.placeholder === "string" ? config.quickSearch.placeholder : "Search all columns",
+			description: typeof config.quickSearch?.description === "string" ? config.quickSearch.description.trim() : ""
+		},
 		selection: {
 			mode: config.selection?.mode ?? "none",
 			checkboxes: config.selection?.checkboxes ?? false,
@@ -1267,6 +1273,7 @@ function createGridEngine(config = {}) {
 		},
 		setConfig(config) {
 			const nextConfig = normalizeConfig(config);
+			const previousConfig = state.config;
 			const modeChanged = state.config.queryMode !== nextConfig.queryMode;
 			const reset = state.selection.mode !== nextConfig.selection.mode || state.config.selection.rowKey !== nextConfig.selection.rowKey || state.config.selection.scopeKey !== nextConfig.selection.scopeKey;
 			const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey;
@@ -1287,17 +1294,21 @@ function createGridEngine(config = {}) {
 				};
 			}
 			if (keyChanged) coordination.rebuildKeys();
-			state.pagination = createPaginationState(nextConfig.pagination.enabled, nextConfig.pagination.pageSize, nextConfig.pagination.pageIndex, state.transformedData.length);
-			refreshData();
+			if (modeChanged || previousConfig.pagination.enabled !== nextConfig.pagination.enabled || previousConfig.pagination.pageSize !== nextConfig.pagination.pageSize || previousConfig.pagination.pageIndex !== nextConfig.pagination.pageIndex) state.pagination = createPaginationState(nextConfig.pagination.enabled, nextConfig.pagination.pageSize, nextConfig.pagination.pageIndex, state.transformedData.length);
+			if (modeChanged) refreshData();
+			else {
+				state.data = paginateData(state.transformedData, state.pagination);
+				coordination.reconcile();
+			}
 		},
 		getConfig() {
 			return state.config;
 		},
-		setData(data) {
+		setData(data, preservePage = false) {
 			if (external.active()) return;
 			state.originalData = data ?? [];
 			coordination.rebuildKeys();
-			resetPage();
+			if (!preservePage) resetPage();
 			refreshData();
 		},
 		getRows() {
@@ -2116,9 +2127,66 @@ var DataGrid = class DataGrid extends i$2 {
       overflow: hidden;
     }
 
+    .viewport-frame {
+      position: relative;
+      min-width: 0;
+    }
+
     .viewport {
       overflow: auto;
       height: var(--grid-height, 320px);
+    }
+
+    /* The transient external status covers only the body and never enters the
+       normal layout flow. Header/search/footer positions remain unchanged. */
+    .external-status {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: var(--litgrid-color-surface);
+      color: var(--litgrid-color-text-strong);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .external-status-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      max-width: 100%;
+      border: 1px solid var(--litgrid-color-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: var(--litgrid-color-surface-subtle);
+      font-weight: 600;
+    }
+
+    .external-status.loading .external-status-label::before {
+      content: '';
+      box-sizing: border-box;
+      flex: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--litgrid-color-border-strong);
+      border-top-color: var(--litgrid-color-accent);
+      border-radius: 50%;
+      animation: litgrid-external-loading-spin 0.8s linear infinite;
+    }
+
+    @keyframes litgrid-external-loading-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .external-status.loading .external-status-label::before {
+        animation: none;
+      }
     }
 
     .screen-reader-only {
@@ -2312,11 +2380,19 @@ var DataGrid = class DataGrid extends i$2 {
 
     .quick-search {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 8px;
       padding: 8px 12px;
       border-bottom: 1px solid var(--litgrid-color-border);
       background: var(--litgrid-color-surface-subtle);
+    }
+
+    .quick-search-description {
+      flex-basis: 100%;
+      color: var(--litgrid-color-text);
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     .quick-search input {
@@ -2694,6 +2770,9 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	getResolvedColumns() {
 		if (this.columnDefs.length > 0 || !this._inferColumns) return this.columnDefs;
+		return this.inferColumnSchema();
+	}
+	inferColumnSchema() {
 		const firstRow = this.engine.getRows()[0];
 		if (firstRow && typeof firstRow === "object" && !Array.isArray(firstRow)) return Object.keys(firstRow).map((key) => ({
 			key,
@@ -2707,6 +2786,31 @@ var DataGrid = class DataGrid extends i$2 {
 	}
 	getVisibleColumns() {
 		return this.getResolvedColumns().filter((column) => !this.hiddenColumnKeys.has(column.key));
+	}
+	captureInferredColumnState() {
+		if (this.sourceColumnDefs.length || !this._inferColumns) return null;
+		const state = this.getColumnState();
+		return {
+			state,
+			activeColumnKey: this.activeCell ? state.columns.filter((column) => column.visible)[this.activeCell.columnIndex]?.key : void 0
+		};
+	}
+	reconcileInferredColumnState(previous) {
+		if (!previous || this.sourceColumnDefs.length || !this._inferColumns) return;
+		const next = this.inferColumnSchema();
+		const keys = new Set(previous.state.columns.map((column) => column.key));
+		if (next.length === previous.state.columns.length && next.every((column) => keys.has(column.key))) return;
+		const state = resolveColumnState(previous.state, next);
+		if (this.columnDefs.length) this.columnDefs = state.columns;
+		this.columnWidths = state.widths;
+		this.hiddenColumnKeys = state.hiddenKeys;
+		if (this.activeCell) {
+			const index = this.getVisibleColumns().findIndex((column) => column.key === previous.activeColumnKey);
+			if (index >= 0) this.activeCell = {
+				...this.activeCell,
+				columnIndex: index
+			};
+		}
 	}
 	getColumnWidth(column) {
 		return resolveColumnWidth(column, this.columnWidths.get(column.key));
@@ -3309,9 +3413,14 @@ var DataGrid = class DataGrid extends i$2 {
 		if (value) this.setExternalState(value);
 	}
 	setExternalState(value) {
+		const preservePendingSearch = this.quickSearchDebounceId !== null && this.engine.getConfig().queryMode === "external" && value.requestId === this.engine.getQuery().requestId;
+		const inferred = this.captureInferredColumnState();
 		if (!this.engine.setExternalState(value)) return false;
-		this.clearQuickSearchDebounce();
-		this.quickSearchDraft = this.engine.getQuickSearch();
+		this.reconcileInferredColumnState(inferred);
+		if (!preservePendingSearch) {
+			this.clearQuickSearchDebounce();
+			this.quickSearchDraft = this.engine.getQuickSearch();
+		}
 		this.filterDrafts = new Map(this.engine.getFilters().map((filter) => [filter.columnKey, filter]));
 		this.sourceRowCount = this.engine.getRowCount();
 		this.clearBestFitWidths();
@@ -3966,10 +4075,16 @@ var DataGrid = class DataGrid extends i$2 {
     `;
 	}
 	set data(value) {
+		this.updateData(value);
+	}
+	/** Adopt local rows; same-reference adapter refreshes may retain the page. */
+	updateData(value, preservePage = false) {
 		if (this.engine.getConfig().queryMode === "external") return;
 		this.clearQuickSearchDebounce();
+		const inferred = this.captureInferredColumnState();
 		this.sourceRowCount = Array.isArray(value) ? value.length : 0;
-		this.engine.setData(value ?? []);
+		this.engine.setData(value ?? [], preservePage);
+		this.reconcileInferredColumnState(inferred);
 		this.quickSearchDraft = this.engine.getQuickSearch();
 		this.clearBestFitWidths();
 		this.announceScreenReader(this.engine.getRowCount() === 0 ? "Grid is empty." : `${this.engine.getRowCount()} ${this.engine.getRowCount() === 1 ? "row" : "rows"} loaded.`);
@@ -4012,7 +4127,8 @@ var DataGrid = class DataGrid extends i$2 {
 		const columns = value.map((column) => ({ ...column }));
 		const nextByKey = new Map(columns.map((column) => [column.key, column]));
 		if (nextByKey.size !== columns.length) throw new Error("Duplicate column schema keys.");
-		const previousByKey = new Map(this.sourceColumnDefs.map((column) => [column.key, column]));
+		const previousSchema = this.sourceColumnDefs.length ? this.sourceColumnDefs : this.getResolvedColumns();
+		const previousByKey = new Map(previousSchema.map((column) => [column.key, column]));
 		const activeCell = this.activeCell;
 		const activeColumnKey = activeCell ? this.getVisibleColumns()[activeCell.columnIndex]?.key : void 0;
 		const nextStorageKey = typeof storageKey === "string" && storageKey.trim() ? storageKey : null;
@@ -4071,8 +4187,23 @@ var DataGrid = class DataGrid extends i$2 {
 		this.restorePersistedColumnState();
 	}
 	set config(value) {
+		const wasVisible = this.isQuickSearchDisplayed();
+		const inputFocused = !!this.renderRoot?.querySelector(".quick-search input:focus");
 		this.engine.setConfig(value ?? {});
+		const nowVisible = this.isQuickSearchDisplayed();
+		if (wasVisible && !nowVisible) {
+			this.clearQuickSearchDebounce();
+			this.quickSearchDraft = this.engine.getQuickSearch();
+		}
 		this.requestUpdate();
+		if (inputFocused && !nowVisible) this.updateComplete.then(() => {
+			if (!this.isConnected || this.isQuickSearchDisplayed()) return;
+			this.renderRoot.querySelector(".header-action-button, .pagination select, .pagination button, .viewport")?.focus();
+		});
+	}
+	isQuickSearchDisplayed() {
+		const config = this.engine.getConfig();
+		return config.queryMode === "external" ? config.quickSearch.visible : this.quickSearchVisible;
 	}
 	set viewportHeight(value) {
 		this.updateVirtualizer({ viewportHeight: Number(value) });
@@ -4191,17 +4322,18 @@ var DataGrid = class DataGrid extends i$2 {
         @keydown=${this.handleShellKeyDown}
         >
         <p id=${`${this.gridId}-description`} class="screen-reader-only">${this.getScreenReaderDescription()}</p>
-        ${external && externalStatus ? b`<div class="external-status" role=${externalState?.error ? "alert" : "status"}>${externalStatus}</div>` : A}
         ${this.screenReaderAnnouncements ? b`<div class="screen-reader-only" role="status" aria-live="polite" aria-atomic="true">${this.screenReaderMessage}</div>` : ""}
-        ${this.quickSearchVisible || external ? b`
+        ${this.isQuickSearchDisplayed() ? b`
               <div class="quick-search" role="search">
                 <input
-                  aria-label="Quick search"
-                  placeholder="Search all columns"
+                  aria-label=${this.engine.getConfig().quickSearch.label}
+                  aria-describedby=${this.engine.getConfig().quickSearch.description ? `${this.gridId}-quick-search-description` : A}
+                  placeholder=${this.engine.getConfig().quickSearch.placeholder}
                   .value=${this.quickSearchDraft}
                   @input=${(event) => this.handleQuickSearchInput(event.target.value)}
                 />
                 <button type="button" @click=${() => this.clearQuickSearch()}>Clear</button>
+                ${this.engine.getConfig().quickSearch.description ? b`<span class="quick-search-description" id=${`${this.gridId}-quick-search-description`}>${this.engine.getConfig().quickSearch.description}</span>` : ""}
               </div>
             ` : ""}
                         ${this.columnChooserOpen ? b`<div
@@ -4284,10 +4416,12 @@ var DataGrid = class DataGrid extends i$2 {
                               </div>
                             ` : b`
                             <div id=${this.getHeaderMenuId(column.key)} class="header-menu ${columnIndex === 0 ? "header-menu-right" : ""}" role="dialog" aria-label=${`${column.header ?? column.key} column actions`} @click=${(event) => event.stopPropagation()}>
-                              <button type="button" @click=${() => this.toggleQuickSearch()}>
-                                ${this.quickSearchVisible ? "Hide Quick Search" : "Show Quick Search"}
-                              </button>
-                              <hr class="header-menu-divider" />
+                              ${external ? "" : b`
+                                <button type="button" @click=${() => this.toggleQuickSearch()}>
+                                  ${this.quickSearchVisible ? "Hide Quick Search" : "Show Quick Search"}
+                                </button>
+                                <hr class="header-menu-divider" />
+                              `}
                               ${column.sortable === false ? "" : b`
                                 <button type="button" @click=${() => this.handleSortAscending(column.key)}>
                                   Sort Asc
@@ -4360,6 +4494,7 @@ var DataGrid = class DataGrid extends i$2 {
                 ${visibleColumns.length === 0 ? b`<div class="column-chooser-empty">
               <button class="columns-button" type="button" @click=${(event) => this.toggleColumnChooser(event)}>Columns</button>
             </div>` : ""}
+        <div class="viewport-frame">
                 <div
                     class="viewport"
           role="grid"
@@ -4410,6 +4545,8 @@ var DataGrid = class DataGrid extends i$2 {
 		})}
             </div>
           </div>
+        </div>
+        ${external && externalStatus ? b`<div class=${externalState?.loading ? "external-status loading" : "external-status"} role=${externalState?.error ? "alert" : "status"} aria-atomic="true"><span class="external-status-label">${externalStatus}</span></div>` : A}
         </div>
         ${pagination.enabled ? b`
               <div class="pagination" role="navigation" aria-label="Pagination">

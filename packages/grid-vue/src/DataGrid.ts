@@ -34,6 +34,8 @@ import { syncGridInputs } from './gridBindings.js'
 export type DataGridProps = {
   externalState?: GridExternalState
   data: unknown[]
+  /** Change after in-place edits to opt into explicit data synchronization. */
+  dataRevision?: string | number
   columns?: GridColumn[]
   config?: GridConfig
   theme?: GridTheme
@@ -105,6 +107,7 @@ const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the Vue compon
 export const DataGrid = defineComponent({
   name: 'LitGridDataGrid',
   props: {
+    dataRevision: { type: [String, Number] as PropType<string | number>, default: undefined },
     externalState: { type: Object as PropType<GridExternalState>, default: undefined },
     data: { type: Array as PropType<unknown[]>, required: true },
     columns: { type: Array as PropType<GridColumn[]>, default: () => [] },
@@ -144,22 +147,15 @@ export const DataGrid = defineComponent({
       syncGridInputs(grid, props)
     }
 
-    watch(() => props.data, syncInputs)
-    watch(() => props.externalState, syncInputs)
-    watch(() => props.columns, syncInputs)
-    watch(() => props.config, syncInputs)
-    watch(() => props.theme, syncInputs)
-    watch(() => props.ariaLabel, syncInputs)
-    watch(() => props.ariaDescription, syncInputs)
-    watch(() => props.screenReaderAnnouncements, syncInputs)
-    watch(() => props.height, syncInputs)
-    watch(() => props.rowHeight, syncInputs)
-    watch(() => props.overscan, syncInputs)
-    watch(() => props.columnOverscan, syncInputs)
-    watch(() => props.bestFitSampleSize, syncInputs)
-    watch(() => props.quickSearchDebounceThreshold, syncInputs)
-    watch(() => props.quickSearchDebounceMs, syncInputs)
-    watch(() => props.columnStateStorageKey, syncInputs)
+    // One job per Vue update, even when several props change together.
+    watch([
+      () => props.data, () => props.dataRevision, () => props.externalState,
+      () => props.columns, () => props.config, () => props.theme,
+      () => props.ariaLabel, () => props.ariaDescription, () => props.screenReaderAnnouncements,
+      () => props.height, () => props.rowHeight, () => props.overscan, () => props.columnOverscan,
+      () => props.bestFitSampleSize, () => props.quickSearchDebounceThreshold,
+      () => props.quickSearchDebounceMs, () => props.columnStateStorageKey
+    ], syncInputs)
 
     const handleColumnStateChange = (event: Event) => {
       emit('column-state-change', (event as CustomEvent<ColumnStateChangeDetail>).detail)

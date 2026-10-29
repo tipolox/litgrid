@@ -1,5 +1,8 @@
 # Angular Guide
 
+For data change signals, change-detection behavior, and column preference
+guarantees, see [Framework input synchronization](adapter-synchronization.md).
+
 LitGrid's Angular integration is a thin standalone component around the
 `yc-grid` Web Component. It uses the same data, configuration, and grid
 features while providing Angular inputs, typed outputs, and an imperative
@@ -76,6 +79,7 @@ using Angular-friendly viewport names.
 | Input | Default | Purpose |
 | --- | --- | --- |
 | `data` | `[]` | Rows to display. |
+| `dataRevision` | omitted | Optional string/number change signal for in-place data edits; stable reference + revision skips row processing. |
 | `columns` | `[]` | Column definitions; omitted columns are inferred from the first object row. |
 | `config` | `{}` | Selection, row-header, and pagination configuration. |
 | `height` | `320` | Virtualized viewport height in pixels. |

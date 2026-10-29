@@ -33,6 +33,8 @@ export type DataGridProps = {
   externalState?: GridExternalState
   onQueryChange?: (detail: GridQueryChangeDetail) => void
   data: unknown[]
+  /** Change after in-place edits to opt into explicit data synchronization. */
+  dataRevision?: string | number
   columns?: GridColumn[]
   config?: GridConfig
   theme?: GridTheme
@@ -110,6 +112,7 @@ const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the React comp
 export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid(
   {
     data,
+    dataRevision,
     externalState,
     onQueryChange,
     columns = [],
@@ -134,6 +137,8 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   forwardedRef
 ) {
   const gridRef = useRef<DataGridElement | null>(null)
+  const synchronizedRender = useRef<object | null>(null)
+  const renderToken = {}
 
   const requireGridElement = (): DataGridElement => {
     if (!gridRef.current) throw new Error(GRID_UNAVAILABLE_MESSAGE)
@@ -227,10 +232,13 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   useEffect(() => {
     const grid = gridRef.current
     if (!grid) return
+    // StrictMode replays this effect with the same closure and DOM element.
+    if (synchronizedRender.current === renderToken) return
 
     syncGridInputs(grid, {
       externalState,
       data,
+      dataRevision,
       columns,
       config,
       theme,
@@ -246,9 +254,11 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
       quickSearchDebounceMs,
       columnStateStorageKey
     })
+    synchronizedRender.current = renderToken
   }, [
     externalState,
     data,
+    dataRevision,
     columns,
     config,
     theme,

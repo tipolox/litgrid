@@ -69,6 +69,8 @@ export type DataGridElement = HTMLElement & {
   sortBy?: (columnKey: string, direction: SortDirection) => void
   clearSort?: () => void
   data: unknown[]
+  /** Refresh local rows, optionally retaining and clamping the current page. */
+  updateData?: (data: unknown[], preservePage?: boolean) => void
   columns: GridColumn[]
   config: GridConfig
   theme: GridTheme
