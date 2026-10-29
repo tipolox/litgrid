@@ -56,7 +56,7 @@ import { syncGridInputs } from './gridBindings'
 })
 export class DataGridComponent implements AfterViewInit, OnChanges {
   @Input() externalState?: GridExternalState
-  @Output() readonly queryChange = new EventEmitter<GridQueryChangeDetail>()
+  @Output() readonly queryChange: EventEmitter<GridQueryChangeDetail> = new EventEmitter<GridQueryChangeDetail>()
 
   handleQueryChange(event: Event): void {
     if (event.target === this.gridElement) this.queryChange.emit((event as CustomEvent<GridQueryChangeDetail>).detail)
@@ -83,7 +83,7 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
   @Input() columnStateStorageKey?: string
 
   @Output() readonly columnStateChange = new EventEmitter<ColumnStateChangeDetail>()
-  @Output() readonly selectionChange = new EventEmitter<SelectionChangeDetail>()
+  @Output() readonly selectionChange: EventEmitter<SelectionChangeDetail> = new EventEmitter<SelectionChangeDetail>()
   @Output() readonly columnReorder = new EventEmitter<ColumnReorderDetail>()
   @Output() readonly columnVisibilityChange = new EventEmitter<ColumnVisibilityChangeDetail>()
 

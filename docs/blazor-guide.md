@@ -1,5 +1,7 @@
 # Blazor Guide
 
+For event names and their shared Web Component payloads, see [Framework event contracts](event-contracts.md).
+
 LitGrid's Blazor integration provides a strongly-typed, high-performance Razor component (`DataGrid<TItem>`) wrapping the LitGrid engine and Web Component. It delivers virtualization, sorting, filtering, selection, keyboard navigation, column sizing, ordering, and state persistence for .NET 8+ Blazor WebAssembly and Blazor Server applications.
 
 For the full reference of public models and methods, see the [API Reference](api-reference.md#blazor-datagridtitem). For copyable code snippets, see [Blazor Examples](blazor-examples.md).

@@ -1,5 +1,7 @@
 # Angular Guide
 
+For event payloads and callback lifecycles, see [Framework event contracts](event-contracts.md).
+
 For data change signals, change-detection behavior, and column preference
 guarantees, see [Framework input synchronization](adapter-synchronization.md).
 
@@ -150,7 +152,8 @@ import type { ColumnStateChangeDetail } from '@tipolox/litgrid-angular'
   `
 })
 export class UsersGridComponent {
-  // data and columns omitted
+  readonly users = [{ id: 1, name: 'Ada' }]
+  readonly columns = [{ key: 'id' }, { key: 'name' }]
 
   saveColumnState(detail: ColumnStateChangeDetail): void {
     console.log(detail.state)

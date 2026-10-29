@@ -1,5 +1,7 @@
 # Vue Guide
 
+For event payloads and callback lifecycles, see [Framework event contracts](event-contracts.md).
+
 For data change signals, reactive update batching, and column preference
 guarantees, see [Framework input synchronization](adapter-synchronization.md).
 

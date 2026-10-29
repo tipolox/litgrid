@@ -9,12 +9,10 @@
   "include": [
     "packages/grid-web/tests/*.typecheck.ts",
     "packages/grid-react/src/jsx-elements.d.ts",
-    "packages/grid-react/src/DataGrid.test.tsx",
-    "packages/grid-react/src/DataGrid.externalQuery.test.tsx",
-    "packages/grid-react/src/DataGrid.selectionChange.test.tsx",
-    "packages/grid-react/src/DataGrid.navigationUpdates.test.tsx",
-    "packages/grid-react/src/DataGrid.synchronization.test.tsx",
-    "packages/grid-vue/src/*.test.ts",
-    "packages/grid-angular/src/*.test.ts"
+    "packages/grid-react/src/**/*.test.tsx",
+    "packages/grid-react/src/**/*.test.ts",
+    "packages/grid-vue/src/**/*.test.ts",
+    "packages/grid-angular/src/**/*.test.ts",
+    "tests/contracts/**/*.ts"
   ]
 }

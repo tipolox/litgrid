@@ -1,5 +1,7 @@
 # React Guide
 
+For event payloads and callback lifecycles, see [Framework event contracts](event-contracts.md).
+
 For data change signals, same-reference mutations, and column preference
 guarantees, see [Framework input synchronization](adapter-synchronization.md).
 
