@@ -79,7 +79,6 @@ using Angular-friendly viewport names.
 | Input | Default | Purpose |
 | --- | --- | --- |
 | `data` | `[]` | Rows to display. |
-| `dataRevision` | omitted | Optional string/number change signal for in-place data edits; stable reference + revision skips row processing. |
 | `columns` | `[]` | Column definitions; omitted columns are inferred from the first object row. |
 | `config` | `{}` | Selection, row-header, and pagination configuration. |
 | `height` | `320` | Virtualized viewport height in pixels. |

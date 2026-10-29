@@ -63,7 +63,6 @@ contents change.
 | Prop | Default | Purpose |
 | --- | --- | --- |
 | `data` | required | Rows to display. |
-| `dataRevision` | omitted | Optional string/number change signal for in-place data edits; stable reference + revision skips row processing. |
 | `columns` | `[]` | Column definitions. If omitted, columns are inferred from the first object row. |
 | `config` | `{}` | Selection, row-header, and pagination configuration. |
 | `height` | `320` | Virtualized viewport height in pixels. |

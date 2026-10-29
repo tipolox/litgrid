@@ -232,7 +232,6 @@ import { DataGrid } from '@tipolox/litgrid-react'
 | Prop | Default | Corresponding Web Component property |
 | --- | --- | --- |
 | `data` | required | `data` |
-| `dataRevision` | omitted | Adapter-only optional string/number change signal; see [synchronization rules](adapter-synchronization.md). |
 | `columns` | `[]` | `columns` |
 | `config` | `{}` | `config` |
 | `theme` | `'light'` | `theme` |

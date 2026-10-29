@@ -75,9 +75,11 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       const nextConfig = normalizeConfig(config)
       const previousConfig = state.config
       const modeChanged = state.config.queryMode !== nextConfig.queryMode
+      const scopeChanged = state.config.selection.scopeKey !== nextConfig.selection.scopeKey &&
+        !Object.is(state.config.selection.scopeKey, nextConfig.selection.scopeKey)
       const reset = state.selection.mode !== nextConfig.selection.mode ||
         state.config.selection.rowKey !== nextConfig.selection.rowKey ||
-        state.config.selection.scopeKey !== nextConfig.selection.scopeKey
+        scopeChanged
       const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey
       if (reset) state.selection = createEmptySelection(nextConfig.selection.mode)
       state.config = nextConfig
@@ -115,11 +117,13 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     getConfig() {
       return state.config
     },
-    setData(data: unknown[], preservePage = false) {
+    setData(data: unknown[]) {
       if (external.active()) return
+      // A repeated source is a supported mutable-data refresh, not a new dataset.
+      const sameSource = state.originalData === data
       state.originalData = data ?? []
       coordination.rebuildKeys()
-      if (!preservePage) resetPage()
+      if (!sameSource) resetPage()
       refreshData()
     },
     getRows() {

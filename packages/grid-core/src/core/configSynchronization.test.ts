@@ -26,7 +26,7 @@ it('retains pagination and cached transforms on presentation and selection-scope
     expect(grid.getPagination()).toMatchObject({ pageIndex: 1, pageSize: 50 })
     expect(grid.getRows()[0]).toMatchObject({ id: 149 })
     rows.splice(30)
-    grid.setData(rows, true)
+    grid.setData(rows)
     expect(grid.getPagination()).toMatchObject({ pageIndex: 0, totalRows: 30, pageCount: 1 })
     expect(grid.getRows()[0]).toMatchObject({ id: 29 })
     expect(transform).toHaveBeenCalledTimes(1)

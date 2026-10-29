@@ -1,237 +1,239 @@
 # Milestone A1: adapter synchronization and column state
 
-## 1. Executive summary
+## Executive summary
 
-This change addresses [#28](https://github.com/tipolox/litgrid/issues/28) and
-[#29](https://github.com/tipolox/litgrid/issues/29) together under
-[#27](https://github.com/tipolox/litgrid/issues/27). Both problems originate at
-the adapter input boundary, so one shared synchronizer is appropriate.
+A1 addresses [#28](https://github.com/tipolox/litgrid/issues/28) and
+[#29](https://github.com/tipolox/litgrid/issues/29), under
+[#27](https://github.com/tipolox/litgrid/issues/27), in the existing feature
+worktree and [draft PR #55](https://github.com/tipolox/litgrid/pull/55).
+Baseline main was fetched and verified as v1.2.3 commit
+`6a0df7b01fd3de0b7e7f5dc386de469f3531d210`.
 
-Baseline `main` was fetched and verified as
-`6a0df7b01fd3de0b7e7f5dc386de469f3531d210` (v1.2.3). Work was isolated on
-`fix/adapter-sync-state-preservation` in a new worktree. Existing worktrees,
-experiments, and consuming applications were preserved.
+The final architectural decision preserves the released public API. The
+exploratory revision input, public local-data update method, synchronization
+helper export, normalizer export and core synchronization argument were
+removed. No replacement refresh/transaction API or public flag is introduced.
+Existing `refreshQuery()` remains intact.
 
-Confirmed defects were page/selection loss on unrelated updates, unsaved
-column order/visibility loss, and outgoing widths appearing in an unsaved
-storage namespace. The patch preserves valid interaction state, reconciles
-actual schemas, batches Vue updates, and avoids React StrictMode effect replay.
-No external-query protocol, virtualization algorithm, package version, or
-publication behavior changes.
+Confirmed pagination/selection loss, unsaved column order/visibility loss,
+namespace width carryover, stale React external inferred schemas and numeric
+scope resets are corrected. Structural/presentation setters are guarded, Vue
+updates are batched, and React StrictMode does not replay the same adoption.
+Supported mutable-data synchronization still validates keys and processes rows.
 
-Optional `dataRevision` enables zero row processing on unrelated updates.
-Omitting it retains supported mutation-on-synchronization behavior. This
-compatibility mode cannot prove arbitrary mutable content unchanged and still
-processes rows. The recommendation is **READY WITH LIMITATIONS**.
-
-## 2. Root causes and reproduction
+## Root cause and reproduction
 
 ### Issue #28
 
-- React's `gridBindings.ts` reapplied local `columns` and `data` whenever its
-  input effect ran, even though configuration and presentation setters already
-  had guards. Stable inputs do not run the effect; omitted columns/config
-  create new default references and retain the existing parent-update signal.
-- Vue registered a separate shallow watcher for each prop. Multiple prop
-  changes in one update could invoke the whole binding repeatedly. Each call
-  assigned configuration, columns, and local data.
-- Angular calls the binding after view initialization and on `ngOnChanges`.
-  Its binding likewise assigned every input. Ordinary change detection with
-  unchanged inputs does not invoke `ngOnChanges`; that case was already safe.
-- Core `setData` reset the page and refreshed transforms. Local `setConfig`
-  rebuilt pagination and refreshed transforms even for presentation changes.
-  Vue/Angular could therefore transform the same dataset repeatedly per update.
+React reapplied local columns and data whenever its input effect ran, although
+configuration/presentation setters already had guards. Stable explicit inputs
+did not run that effect; fresh default columns/configuration retained the
+existing parent-update mutation opportunity.
 
-The initial 12 regression tests failed against unchanged baseline code. The
-paired Chromium run reproduced page and selection changes in all adapters at
-10k, 30k, and 100k rows. It retained filters and DOM focus/active-descendant IDs;
-those suspected independent losses were not reproduced. A retained active ID
-does not prevent pagination from changing the row underneath it.
+Vue registered a shallow watcher for each prop, so one reactive update could
+run the whole binding repeatedly. Angular ran its whole binding after view
+initialization and on input changes. Ordinary Angular change detection with
+unchanged inputs was already safe. Both bindings assigned configuration,
+columns and local data on each call.
+
+Core `setData` reset pagination on every assignment, including the same source.
+Local `setConfig` rebuilt pagination and transformed rows even for presentation
+changes. Vue/Angular therefore repeated transforms unnecessarily, while data
+replays could move the page and invalidate displayed selection.
+
+The initial 12 regression cases failed before implementation. Chromium
+reproduces baseline page/selection loss at 10k/30k/100k rows. Baseline retained
+filters and DOM focus/active-descendant IDs in those cases: an independent
+focus-loss defect was not reproduced. Keeping an active ID does not prevent
+the old pagination reset from changing the row underneath it.
+
+Two additional failing core regressions established that an unchanged `NaN`
+scope was treated as different: a search-label change advanced the external
+request ID, and a local refresh emitted an unchanged selection snapshot.
+Core scope comparison now treats repeated `NaN` as stable, distinguishes
+infinities, and retains the released signed-zero equality semantics. No query
+wire format or intent protocol changes.
 
 ### Issue #29
 
-The Web Component's replacement `columns` setter rebuilds source order and
-hidden defaults and restores persisted state. Replaying it loses unsaved
-order/visibility. Resized widths are held separately and were **not** generally
-lost in the no-storage case. A saved, unchanged namespace restored its own
-preferences successfully in baseline browser checks.
+The replacement `columns` setter rebuilds order/hidden defaults and restores
+saved state. Replaying it loses unsaved order and visibility; widths are stored
+separately and were not generally lost without storage. A saved unchanged
+namespace restored its preferences successfully in baseline browser checks.
 
-Changing to an unsaved storage key was different: a failed/empty restore did
-not clear outgoing widths. The supplemental Chromium comparison reproduces
-this in all three baseline adapters: a 240px width survives into an unsaved
-namespace whose default is 160px. The patch resets to target defaults and
-restores saved namespaces without copying or writing outgoing preferences.
+Switching to an unsaved namespace did not clear outgoing widths when restoration
+found no saved state. All three baseline adapters carry a 240px width into a
+namespace whose default is 160px. Patched adapters install target defaults and
+restore its own saved state without copying/writing outgoing preferences.
 
-React's baseline external binding also left a reordered inferred schema stale
-after an accepted server result changed the fields. The supplemental browser
-case fails on baseline React and passes after accepted-result reconciliation.
-Vue/Angular baseline passed that case by replaying their structural setters.
+React's baseline external binding also leaves reordered inferred columns stale
+when an accepted result changes fields. Vue/Angular avoid that case by replaying
+their structural setters. Accepted-result reconciliation now handles it directly.
 
-Baseline external parent updates did not reproduce duplicate query events or
-request-ID changes in these cases. The controller and protocol remain intact.
+## Implementation
 
-## 3. Implementation and compatibility
+- The three existing `gridBindings.ts` modules retain their package boundaries
+  and local snapshots; no new public shared helper or internal package entry
+  point is needed. Each implements the same tested contract. Fixed-size value
+  snapshots normalize configuration defaults and use `Object.is`, without JSON
+  equality, deep row comparisons or array hashing. Cross-adapter tests cover
+  default normalization, numeric edges, changes and replacements.
+- Supported column fields are snapshotted shallowly, including callback identity
+  and same-array edits. Genuine changes use existing
+  `updateColumnSchema(columns, false, storageKey)`; equivalent replacements and
+  unrelated updates do not replay the schema.
+- `DataGrid.ts` reconciles inferred shapes on local data adoption and accepted
+  external results, using the existing column-state model. Surviving keys retain
+  preferences, removed keys disappear, inferred-to-explicit matches retain
+  state, and stale external results cannot change the schema.
+- Existing core `setData(data)` now retains/clamps pagination when the source
+  array is identical; replacement arrays still reset to page zero. Every call
+  still validates all identities and runs active transforms. This is the
+  intentional correction to the old reset behavior, not a new synchronization
+  argument or an assumption that same-reference contents are unchanged.
+- Local configuration changes reuse the transformed view and apply genuine
+  pagination defaults deliberately. Scope/mode/key changes keep selection and
+  query invalidation ordering. Repeated `NaN` scopes no longer cause spurious
+  resets/notifications; signed zero retains existing core scope semantics.
+- Vue watches the prop sources as one scheduled job. React guards replay of
+  the same effect closure. Initial query/selection subscriptions precede inputs
+  and teardown removes them. Angular's input/view lifecycle stays unchanged.
+- The Blazor embedded JS/source map is regenerated for shared Web Component/core
+  changes. No C# synchronization or consuming-application code is changed.
 
-`grid-web/src/adapters/synchronizeGridInputs.ts` holds the previous synchronized
-inputs in a WeakMap keyed by element. All three existing `gridBindings.ts`
-modules delegate to it. Configuration uses exported core `normalizeConfig`;
-its fixed-size supported values are compared independently of object identity.
-Presentation setters run only for changed values. Column snapshots compare
-the eight supported fields, including callback identity, without traversing
-rows or cells.
+## Performance
 
-Actual schemas use existing `updateColumnSchema(columns, false, storageKey)`.
-Its existing rules retain surviving user order/preferences, append new keys,
-remove retired keys, apply changed width/hidden defaults, and follow active
-column identity. Renames are remove/add operations. Namespace changes install
-target defaults before restoring that namespace and perform no switch-only
-write. Empty schemas retain inference. Direct replacement `columns` setters
-keep their existing behavior.
+Only existing public inputs are benchmarked; there is no opt-in optimization
+mechanism. The same Windows machine (Ryzen 5 3550H, 8 logical CPUs, 32GB RAM),
+Node 22.14.0, Chromium 156.0.8078.4 and pinned dependencies serve both versions.
+Framework versions are React 19.2.5, Vue 3.5.41, Angular 22.1.3 and Lit 3.3.2.
 
-Inferred shapes are reconciled on accepted row adoption so removing structural
-setter replays does not pin an inferred schema after user reordering. Matching
-inferred-to-explicit columns retain their preferences. Removed inferred active
-columns keep the existing positional clamping contract.
+Each of 18 baseline/patched workloads uses 10k/30k/100k rows and 120 accessor
+columns with active filters/sorting/pagination. Unchanged parent updates and
+unrelated updates with stable/fresh references have 30 samples each. Genuine
+configuration changes, replacements, same-reference edits and schema edits
+have 10 each: **2,340 timed updates**. Event-loop yields and fixture construction
+are outside update timers. Tests/builds are stopped during timing. p50/p95 use
+nearest rank and include framework flush plus Lit completion.
 
-The additive `updateData(rows, preservePage?)` Web Component capability and
-optional core `setData` argument retain/clamp pagination during same-reference
-adapter refreshes. Direct data assignment and genuine dataset replacement
-still reset to page zero. Key validation and active transforms remain intact.
-Local configuration changes repaginate the cached transformed view; changing
-selection scope clears selection, and changed pagination defaults apply
-deliberately. Mode changes retain their existing reset behavior.
+100k rows, p50 / p95 milliseconds (30 unrelated samples and 10 configuration samples per version):
 
-Optional `dataRevision: string | number` exists in React props, Vue props and
-Angular inputs. Stable data reference + stable supplied revision skips adoption;
-array replacement, revision changes, leaving external mode, and returning to
-legacy mode synchronize appropriately. Unsignaled mutations in revision mode
-are unsupported. Legacy mode still validates offscreen identity mutations.
-
-Vue now schedules one watcher job per update. React guards only replay of the
-same effect closure, preserving later mutation signals and fresh mounts.
-Selection/query listeners are still subscribed before initial inputs and
-removed on teardown. Controlled external state is replayed only on a new state
-reference or a controller-resetting mode/selection configuration change.
-
-Older structural `DataGridElement` implementations remain valid: the new
-methods are optional, with the prior setter fallback. Their older state
-semantics are retained. The generated Blazor JS bundle/source map was rebuilt
-because it embeds the shared Web Component/core; no Blazor synchronization API
-was changed.
-
-See [the developer contract and examples](adapter-synchronization.md). Guides
-and bounded public-contract fixtures include the new input/capabilities.
-
-## 4. Performance
-
-One paired source-development run used the same Windows machine (Ryzen 5
-3550H, 8 logical CPUs, 32GB RAM), Node 22.14.0, Chromium 156.0.8078.4, React
-19.2.5, Vue 3.5.41, Angular 22.1.3 and Lit 3.3.2. Versions alternated order by
-framework. Each page/version was isolated, with GC before workloads and natural
-GC during samples. Tests/builds were stopped during timing.
-
-Each workload uses 120 columns with accessors over compact keyed rows, active
-sorting/filtering and pagination. There are 30 stable-reference unrelated
-updates, 30 fresh-config/column unrelated updates, and 10 each of dataset
-replacement, same-reference edit and schema edit: **3,240 timed updates** across
-both versions/frameworks/row counts/modes. Latency includes framework flush
-and Lit completion, excluding two-frame waits. Percentiles use nearest rank.
-
-100k rows, stable-reference unrelated updates (p50 / p95 milliseconds):
-
-| Adapter | Mode | Baseline | Patched | Transforms across 30 updates |
+| Adapter | Operation | Baseline | Patched | Transforms before → after |
 | --- | --- | ---: | ---: | ---: |
-| React | Legacy | 21.80 / 24.60 | 24.40 / 26.20 | 30 → 30 |
-| Vue | Legacy | 150.80 / 225.70 | 22.70 / 28.40 | 294 → 30 |
-| Angular | Legacy | 35.50 / 49.70 | 26.60 / 36.40 | 60 → 30 |
-| React | Revision | 21.80 / 29.80 | 7.40 / 10.30 | 30 → 0 |
-| Vue | Revision | 149.50 / 176.50 | 6.30 / 9.90 | 294 → 0 |
-| Angular | Revision | 35.50 / 45.10 | 6.50 / 8.40 | 60 → 0 |
+| react | Unrelated | 38.00 / 81.70 | 32.80 / 40.30 | 30 → 30 |
+| react | Configuration | 52.90 / 67.70 | 19.60 / 25.70 | 20 → 10 |
+| vue | Unrelated | 153.70 / 266.00 | 26.70 / 38.00 | 294 → 30 |
+| vue | Configuration | 31.90 / 44.20 | 17.90 / 25.90 | 20 → 10 |
+| angular | Unrelated | 36.50 / 61.80 | 39.30 / 55.40 | 60 → 30 |
+| angular | Configuration | 34.30 / 94.00 | 27.90 / 31.00 | 20 → 10 |
 
-The baseline ignores the new revision input. React legacy did not improve in
-this run; no speedup is claimed for it. Baseline also loses state, so these
-results do not establish equivalent-correctness performance.
+Angular's unrelated-update median was higher in this run despite reduced
+structural/transform work; no universal latency speedup is claimed. Sample
+sizes and natural GC/scheduling remain visible in the full evidence.
 
-Across these 30 legacy updates, measured transform time totals were
-408.2 → 428.7ms (React), 4231.2 → 417.6ms (Vue), and 846.2 → 488.2ms (Angular).
-All patched unrelated cases invoked zero configuration/column reconciliation
-setters; revision cases also invoked zero data adoption methods/transforms.
+Unchanged stable inputs invoke zero row/structural setters in both versions.
+All patched unrelated-update workloads invoke zero configuration/column-schema
+setters. Their local data setters and transforms still run once per existing
+synchronization opportunity to preserve mutation compatibility.
 
-[Full tables](performance/evidence/adapter-sync/summary.md) include 10k/30k/100k,
-fresh references, actual replacements/mutations/schemas, initial mount/first
-selection, scroll waits, main-thread task duration and whole-page heap.
-[Raw samples](performance/evidence/adapter-sync/browser.json) retain counters
-and latency values. Mount/selection/scroll observations are single samples per
-workload, not distributions. Heap deltas do not prove retained allocation,
-leaks, or memory savings.
+[Complete tables](performance/evidence/adapter-sync/summary.md) include all row
+counts/operations, setter counts, transform totals, mount/first selection,
+scroll waits, CDP task duration, PerformanceObserver long tasks and whole-page
+heap. [Raw samples](performance/evidence/adapter-sync/browser.json) retain every
+latency and counter. Baseline loses state, so timing does not establish
+equivalent-correctness performance. Single workload observations and heap
+deltas do not establish production budgets, retained allocation or memory savings.
 
-## 5. Validation
+## Tests and validation
 
-- JavaScript: **375/375 tests, 48 files**, no failures. This adds 42 tests and
-  updates existing React setter expectations while retaining behavioral and
-  offscreen duplicate-key mutation assertions.
-- Blazor Release: **129/129 tests**, zero skipped/failed; Release build has
-  zero warnings/errors.
-- All eight package/application builds pass. Final builds also pass under the
-  existing Node **22.22.3** runtime required by Angular's engine declaration.
-- Five bounded TypeScript gates pass: `node scripts/typecheck-contracts.mjs`
+- **378/378 JavaScript tests, 49 files**, including existing offscreen identity
+  mutation checks and focused lifecycle/state coverage across all adapters.
+- **129/129 Blazor Release tests**, none skipped, on the final run. One initial
+  run failed the unchanged
+  `FrameworkTimeoutReleasesGateAndQueuedRefreshRetriesLatestValues(Automatic)`
+  test with a completed `TaskCompletionSource` error. Its two targeted cases and
+  subsequent full runs passed. That failure is retained in the evidence; no
+  unrelated C# timing-test change is made.
+- All eight package/application builds pass under supported Node **22.22.3**;
+  Blazor Release build has zero warnings/errors.
+- All five bounded TypeScript gates pass: `node scripts/typecheck-contracts.mjs`
   and `pnpm exec tsc -p packages/grid-web/tests/tsconfig.{compatibility,columnControls,selection,externalQuery}.json --pretty false`.
-- Chromium: **18/18 patched local workloads** pass page, selection, column
-  state, focus, active cell, filter, mutation, replacement, schema and
-  virtualization checks. The 36 total baseline/patched workloads retain
-  bounded rendered cells/columns and complete scroll checks.
-- External adapter cases pass **3/3 frameworks** (and baseline controls):
-  controlled state, unknown totals, monotonic intent identity, unrelated parent
-  updates, late-response rejection, search ordering/wording and teardown.
-- Supplemental storage/schema Chromium cases pass **3/3 patched frameworks**;
-  all three baseline controls reproduce unsaved-namespace width carryover.
-- The existing `scripts/external-query-browser-check.mjs` suite passes,
-  including DOM `Nor` → `Nort` typing while accepting the prior response,
-  visibility/wording/focus, debouncing and large declared totals.
+  Type fixtures assert that revision inputs/new local refresh methods/core flags
+  are unavailable. The published entry points and structural input types are
+  unchanged from v1.2.3.
+- Chromium: **9/9 patched local workloads** pass unchanged-input, configuration,
+  pagination, selection, columns, focus, active-cell, mutation, replacement,
+  schema and virtualization checks. There are 18 total baseline/patched controls.
+- All three patched adapters pass controlled-query and storage/schema cases,
+  including stable numeric scopes, late rejection, inferred schemas, event
+  ordering and teardown. Baseline ordinary unrelated updates did not reproduce
+  duplicate query intents; its numeric-scope configuration defect is recorded.
+- The released external-query browser suite passes, including loading/error
+  presentation, known/unknown totals, search wording/visibility, debouncing,
+  focus and the DOM `Nor` → `Nort` typing race.
 
-Commands, per-file test counts, initial regression failures, versions and
-machine details are in [validation.json](performance/evidence/adapter-sync/validation.json).
-Additional browser evidence is in
+[validation.json](performance/evidence/adapter-sync/validation.json) records
+commands, counts, failures, versions and machine details. Supplemental evidence:
 [behavior.json](performance/evidence/adapter-sync/behavior.json) and
 [external-browser.json](performance/evidence/adapter-sync/external-browser.json).
 
-## 6. Risks and deferred work
+## Compatibility assessment and limits
 
-Legacy implicit mutation support necessarily retains row processing. Explicit
-revision mode is required for zero row work; references alone cannot preserve
-arbitrary edits and skip validation simultaneously. React legacy showed a
-small latency increase in this single run, requiring broader production
-profiling before setting a performance budget.
+The API shape remains unchanged. Immutable replacements synchronize normally.
+Legacy same-reference mutations still process whenever the framework invokes
+its existing synchronization path; identities are never trusted solely by
+reference. Only the undesired same-source page reset changes intentionally.
+Use existing `setPage(0)` for an explicit reset.
 
-The browser matrix is Chromium and development source adapters, with Angular
-JIT/bootstrap and actual change detection. It is not a production packaged
-consumer, cross-browser, physical-device, or assistive-technology matrix.
-Dense 12-million-property row allocation is not measured. Initial Angular
-timings include root bootstrap followed by `setInput`, rather than a parent
-template's initial binding. Single-run timing and whole-page heap measurements
-have the limits described above.
+Unchanged explicit inputs avoid synchronization, but arbitrary mutable edits
+cannot be detected while also skipping all row inspection. Unrelated prop
+changes can therefore still incur identity checks and active transforms. This
+unavoidable cost is measured, not hidden behind an unsupported immutability
+assumption. No guaranteed zero-cost mutable-data updates are advertised.
 
-Saved inferred-column preferences still do not restore on a fresh mount in the
-existing Web Component. Both versions are checked explicitly in supplemental
-browser evidence. Use explicit column definitions for cross-mount persistence;
-this requires a separate inference/persistence lifecycle change.
+Selection mode/key/scope invalidation occurs before incoming rows. Controlled
+external states still obey monotonic request IDs, atomic acceptance and stale
+rejection, including loading/error states and unknown totals. No implicit
+network fetching is added; existing `refreshQuery()` stays distinct.
 
-Selection scopes and column persistence namespaces remain distinct. Consumers
-must remove unauthorized columns and choose account/site storage keys where
-isolation is required; hiding columns is not authorization. No speculative
-protocol/focus/virtualization changes were made. Root TypeScript backlog stays
-with #31. No consuming application or website changes, publishing, version
-bump, tags, deployment, merge, or manual Actions dispatch are included.
+Surviving explicit columns retain user order/width/visibility; additions append,
+removals/renames prune preferences, and changed width/hidden defaults override
+the corresponding preference. Namespace switches restore target preferences or
+defaults without contamination. Use distinct account/site storage keys and
+remove unauthorized columns; hiding columns is not authorization.
 
-## 7. Pull request
+Saved inferred preferences still do not restore on a fresh mount in either
+version. Use explicit schemas for cross-mount persistence. This existing
+inference/persistence lifecycle limitation is recorded rather than expanded
+into another architecture change.
 
-One draft PR from `fix/adapter-sync-state-preservation` to `main`; its URL and
-commit are provided in the delivery message. The issues share one input
-synchronization implementation, so a split is unnecessary.
+The browser matrix is one final paired development-source Chromium run. Angular
+uses real JIT bootstrap, input changes, outputs and change detection; initial
+timings include root bootstrap followed by `setInput`. Production packaged
+consumers, cross-browser/devices and dense 12-million-field allocation are not
+established by this matrix. Root TypeScript backlog stays under #31.
 
-## 8. Recommendation
+## Deferred data-update API
 
-**READY WITH LIMITATIONS.** Confirmed state defects are fixed across all three
-frameworks, real browser checks pass, and released query behavior remains
-covered. Revision mode provides measured zero-row-work updates; legacy mode
-preserves compatibility and must not be advertised as avoiding all row work.
+[Design notes only](data-update-api-design-notes.md) evaluate local dataset
+refresh, identified-row reevaluation, visual cell refresh and transactions,
+separately from released external `refreshQuery()`. Recommendations define
+ownership, key validation, batch atomicity, selection/page preservation and
+transform invalidation before incremental optimization. A sorted/filtered value
+change may require broader model recalculation rather than a repaint. No such
+APIs are implemented in A1.
+
+## Pull request
+
+Continue [draft PR #55](https://github.com/tipolox/litgrid/pull/55) on
+`fix/adapter-sync-state-preservation` against `main`. The final commit SHA is
+provided in the delivery message. The fixes share the adapter input/state
+boundary; no second competing implementation or PR is needed.
+
+## Final recommendation
+
+**READY WITH LIMITATIONS.** Supported state behavior is corrected consistently,
+default-use measurements show where redundant work falls, and validation passes.
+Legacy row-processing costs, existing inferred cold-mount persistence and the
+single-run browser/performance scope remain explicit. No package versions,
+publication, tags, deployment, merge or manual Actions dispatch are included.

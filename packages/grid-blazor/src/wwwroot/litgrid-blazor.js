@@ -919,7 +919,7 @@ function createSelectionCoordination(state) {
 	let current = snapshot();
 	function commit() {
 		const next = snapshot();
-		if (next.scopeKey === current.scopeKey && next.mode === current.mode && next.rowIndex === current.rowIndex && next.columnKey === current.columnKey && next.anchorRowIndex === current.anchorRowIndex && next.rowIndexes.length === current.rowIndexes.length && next.rowIndexes.every((index, i) => index === current.rowIndexes[i]) && next.cells.length === current.cells.length && next.cells.every((cell, i) => cell === current.cells[i]) && next.rows.length === current.rows.length && next.rows.every((row, i) => row.rowIndex === current.rows[i].rowIndex && row.key === current.rows[i].key && row.row === current.rows[i].row)) return;
+		if ((next.scopeKey === current.scopeKey || Object.is(next.scopeKey, current.scopeKey)) && next.mode === current.mode && next.rowIndex === current.rowIndex && next.columnKey === current.columnKey && next.anchorRowIndex === current.anchorRowIndex && next.rowIndexes.length === current.rowIndexes.length && next.rowIndexes.every((index, i) => index === current.rowIndexes[i]) && next.cells.length === current.cells.length && next.cells.every((cell, i) => cell === current.cells[i]) && next.rows.length === current.rows.length && next.rows.every((row, i) => row.rowIndex === current.rows[i].rowIndex && row.key === current.rows[i].key && row.row === current.rows[i].row)) return;
 		current = next;
 		for (const listener of [...listeners]) listener(next);
 	}
@@ -1275,7 +1275,8 @@ function createGridEngine(config = {}) {
 			const nextConfig = normalizeConfig(config);
 			const previousConfig = state.config;
 			const modeChanged = state.config.queryMode !== nextConfig.queryMode;
-			const reset = state.selection.mode !== nextConfig.selection.mode || state.config.selection.rowKey !== nextConfig.selection.rowKey || state.config.selection.scopeKey !== nextConfig.selection.scopeKey;
+			const scopeChanged = state.config.selection.scopeKey !== nextConfig.selection.scopeKey && !Object.is(state.config.selection.scopeKey, nextConfig.selection.scopeKey);
+			const reset = state.selection.mode !== nextConfig.selection.mode || state.config.selection.rowKey !== nextConfig.selection.rowKey || scopeChanged;
 			const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey;
 			if (reset) state.selection = createEmptySelection(nextConfig.selection.mode);
 			state.config = nextConfig;
@@ -1304,11 +1305,12 @@ function createGridEngine(config = {}) {
 		getConfig() {
 			return state.config;
 		},
-		setData(data, preservePage = false) {
+		setData(data) {
 			if (external.active()) return;
+			const sameSource = state.originalData === data;
 			state.originalData = data ?? [];
 			coordination.rebuildKeys();
-			if (!preservePage) resetPage();
+			if (!sameSource) resetPage();
 			refreshData();
 		},
 		getRows() {
@@ -4075,15 +4077,11 @@ var DataGrid = class DataGrid extends i$2 {
     `;
 	}
 	set data(value) {
-		this.updateData(value);
-	}
-	/** Adopt local rows; same-reference adapter refreshes may retain the page. */
-	updateData(value, preservePage = false) {
 		if (this.engine.getConfig().queryMode === "external") return;
 		this.clearQuickSearchDebounce();
 		const inferred = this.captureInferredColumnState();
 		this.sourceRowCount = Array.isArray(value) ? value.length : 0;
-		this.engine.setData(value ?? [], preservePage);
+		this.engine.setData(value ?? []);
 		this.reconcileInferredColumnState(inferred);
 		this.quickSearchDraft = this.engine.getQuickSearch();
 		this.clearBestFitWidths();

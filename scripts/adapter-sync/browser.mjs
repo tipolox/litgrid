@@ -76,17 +76,17 @@ try {
       await page.waitForFunction(() => window.a1Ready, null, { timeout: 60000 })
       const cdp = await page.context().newCDPSession(page)
       await cdp.send('Performance.enable')
-      for (const count of behaviorOnly ? [] : [10000, 30000, 100000]) for (const revision of [false, true]) {
+      for (const count of behaviorOnly ? [] : [10000, 30000, 100000]) {
         await cdp.send('HeapProfiler.collectGarbage')
         const before = await cdp.send('Performance.getMetrics')
-        const result = await page.evaluate(input => window.runA1(input), { count, revision, samples: 30 })
+        const result = await page.evaluate(input => window.runA1(input), { count, samples: 30 })
         const after = await cdp.send('Performance.getMetrics')
         const metric = (snapshot, name) => snapshot.metrics.find(item => item.name === name)?.value
         result.taskDurationMs = 1000 * (metric(after, 'TaskDuration') - metric(before, 'TaskDuration'))
         result.heapBefore = metric(before, 'JSHeapUsedSize')
         result.heapAfter = metric(after, 'JSHeapUsedSize')
         results.push({ framework, variant, ...result })
-        console.log(framework, variant, count, revision ? 'revision' : 'legacy', JSON.stringify(result.checks))
+        console.log(framework, variant, count, JSON.stringify(result.checks))
       }
       results.push({ framework, variant, external: await page.evaluate(() => window.checkExternal()) })
       if (behaviorOnly) {
@@ -98,7 +98,7 @@ try {
     }
   }
   fs.mkdirSync(path.dirname(output), { recursive: true })
-  fs.writeFileSync(output, JSON.stringify({ browser: browser.version(), node: process.version, baseline, candidate, notes: 'Source adapters; Angular JIT with real bootstrapApplication/change detection. 120 columns use accessors over compact rows. CPU update includes framework flush and Lit updateComplete, excludes two-frame waits. Transform timers instrument both versions equally. Heap is whole-page before/after, not retained allocation or leak evidence. Each cell is isolated by a fresh page per framework/version; GC before workloads, natural GC during each workload.', results, errors }, null, 2))
+  fs.writeFileSync(output, JSON.stringify({ browser: browser.version(), node: process.version, baseline, candidate, notes: 'Source adapters; Angular JIT with real bootstrapApplication/change detection. 120 columns use accessors over compact rows. Default public inputs only. CPU update includes framework flush and Lit updateComplete, excludes two-frame waits. Transform timers instrument both versions equally. Heap is whole-page before/after, not retained allocation or leak evidence. Each cell is isolated by a fresh page per framework/version; GC before workloads, natural GC during each workload.', results, errors }, null, 2))
   if (errors.length) throw new Error(JSON.stringify(errors))
   const failures = results.filter(result => result.variant === 'candidate' && (result.checks && Object.values(result.checks).some(value => value === false) || result.external?.passed === false || result.columns?.passed === false))
   if (failures.length) throw new Error(`${failures.length} candidate behavior checks failed; see ${output}`)

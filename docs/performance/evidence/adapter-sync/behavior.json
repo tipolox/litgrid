@@ -3,18 +3,21 @@
   "node": "v22.14.0",
   "baseline": "D:\\Work\\litgrid-p0\\.private\\a1-baseline",
   "candidate": "D:\\Work\\litgrid-p0\\.private\\a1-adapter-sync",
-  "notes": "Source adapters; Angular JIT with real bootstrapApplication/change detection. 120 columns use accessors over compact rows. CPU update includes framework flush and Lit updateComplete, excludes two-frame waits. Transform timers instrument both versions equally. Heap is whole-page before/after, not retained allocation or leak evidence. Each cell is isolated by a fresh page per framework/version; GC before workloads, natural GC during each workload.",
+  "notes": "Source adapters; Angular JIT with real bootstrapApplication/change detection. 120 columns use accessors over compact rows. Default public inputs only. CPU update includes framework flush and Lit updateComplete, excludes two-frame waits. Transform timers instrument both versions equally. Heap is whole-page before/after, not retained allocation or leak evidence. Each cell is isolated by a fresh page per framework/version; GC before workloads, natural GC during each workload.",
   "results": [
     {
       "framework": "react",
       "variant": "baseline",
       "external": {
-        "passed": true,
+        "passed": false,
         "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
         "lateRejected": true,
         "norRejected": true,
         "nortAccepted": true,
         "wording": true,
+        "numericScope": false,
         "cleanup": true,
         "events": 3
       }
@@ -45,10 +48,13 @@
       "external": {
         "passed": true,
         "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
         "lateRejected": true,
         "norRejected": true,
         "nortAccepted": true,
         "wording": true,
+        "numericScope": true,
         "cleanup": true,
         "events": 3
       }
@@ -79,10 +85,13 @@
       "external": {
         "passed": true,
         "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
         "lateRejected": true,
         "norRejected": true,
         "nortAccepted": true,
         "wording": true,
+        "numericScope": true,
         "cleanup": true,
         "events": 3
       }
@@ -113,10 +122,13 @@
       "external": {
         "passed": false,
         "stable": false,
+        "stableEvents": true,
+        "skippedResultReplay": false,
         "lateRejected": true,
         "norRejected": true,
         "nortAccepted": true,
         "wording": true,
+        "numericScope": false,
         "cleanup": true,
         "events": 3
       }
@@ -147,10 +159,13 @@
       "external": {
         "passed": false,
         "stable": false,
+        "stableEvents": true,
+        "skippedResultReplay": false,
         "lateRejected": true,
         "norRejected": true,
         "nortAccepted": true,
         "wording": true,
+        "numericScope": false,
         "cleanup": true,
         "events": 3
       }
@@ -181,10 +196,13 @@
       "external": {
         "passed": true,
         "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
         "lateRejected": true,
         "norRejected": true,
         "nortAccepted": true,
         "wording": true,
+        "numericScope": true,
         "cleanup": true,
         "events": 3
       }

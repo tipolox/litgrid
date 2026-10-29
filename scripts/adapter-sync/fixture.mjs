@@ -9,13 +9,16 @@ const params = new URLSearchParams(location.search)
 const framework = params.get('framework'), root = window.a1Roots[params.get('variant')]
 const entry = framework === 'react' ? 'grid-react/src/DataGrid.tsx' : framework === 'vue' ? 'grid-vue/src/DataGrid.ts' : 'grid-angular/src/DataGridComponent.ts'
 const adapter = await import(/* @vite-ignore */ `/@fs/${root}/packages/${entry}`)
-const { DataGrid: WebGrid } = await import(/* @vite-ignore */ `/@fs/${root}/packages/grid-web/src/components/DataGrid.ts`)
+// Instrument the registered class, not a second /@fs import of an in-root
+// module that Vite can expose under another URL.
+const WebGrid = customElements.get('yc-grid')
+if (!WebGrid) throw new Error('The adapter did not register its Web Component')
 let counts = {}, transforms = []
 for (const key of ['data', 'columns', 'config', 'externalState']) {
   const descriptor = Object.getOwnPropertyDescriptor(WebGrid.prototype, key)
   Object.defineProperty(WebGrid.prototype, key, { ...descriptor, set(value) { counts[key] = (counts[key] ?? 0) + 1; descriptor.set.call(this, value) } })
 }
-for (const key of ['updateData', 'updateColumnSchema']) {
+for (const key of ['updateColumnSchema']) {
   const original = WebGrid.prototype[key]
   if (original) WebGrid.prototype[key] = function (...args) { counts[key] = (counts[key] ?? 0) + 1; return original.apply(this, args) }
 }
@@ -46,7 +49,7 @@ async function mount(initial) {
     ref.instance.queryChange.subscribe(initial.onQueryChange ?? (() => {}))
     update = async props => {
       for (const [key, value] of Object.entries(props)) {
-        if (key === 'onQueryChange' || key === 'dataRevision' && params.get('variant') === 'baseline') continue
+        if (key === 'onQueryChange') continue
         ref.setInput(key, value)
       }
       ref.changeDetectorRef.detectChanges(); grid = ref.instance.gridElement; await grid.updateComplete
@@ -54,14 +57,20 @@ async function mount(initial) {
     destroy = () => { app.destroy(); host.remove() }
   }
   await update(initial)
+  if (grid.constructor !== WebGrid) throw new Error('Setter instrumentation does not match the mounted grid')
   return { get grid() { return grid }, update, destroy }
 }
 
-window.runA1 = async ({ count, revision, samples }) => {
+window.runA1 = async ({ count, samples }) => {
   let data = Array.from({ length: count }, (_, id) => ({ id, name: `Person ${id}`, role: 'Engineer' }))
   let columns = [{ key: 'id', width: 100 }, { key: 'name', width: 160 }, { key: 'role', width: 160 }, ...Array.from({ length: 117 }, (_, id) => ({ key: `c${id}`, width: 100, accessor: row => row.id + id }))]
   const config = { selection: { mode: 'multi-row', rowKey: 'id', scopeKey: 'a' }, pagination: { enabled: true, pageSize: 50 } }
-  let props = { data, columns, config, ...(revision ? { dataRevision: 0 } : {}) }
+  let props = { data, columns, config }
+  const longTasks = []
+  const longTaskObserver = PerformanceObserver.supportedEntryTypes.includes('longtask') ? new PerformanceObserver(list => {
+    longTasks.push(...list.getEntries().map(entry => ({ startTime: entry.startTime, duration: entry.duration })))
+  }) : null
+  longTaskObserver?.observe({ entryTypes: ['longtask'] })
   reset()
   const start = performance.now(), mounted = await mount(props), grid = mounted.grid
   await frames()
@@ -84,13 +93,21 @@ window.runA1 = async ({ count, revision, samples }) => {
   await grid.updateComplete
   const state = JSON.stringify(grid.getColumnState()), selection = JSON.stringify(grid.getSelectionSnapshot())
   const focus = grid.shadowRoot.activeElement, active = viewport.getAttribute('aria-activedescendant')
-  const checks = { page: true, columns: true, selection: true, focus: true, active: true, filter: true, mutation: true, replacement: true, schema: true, virtualized: true }
+  const checks = { configPage: true, unchanged: true, page: true, columns: true, selection: true, focus: true, active: true, filter: true, mutation: true, replacement: true, schema: true, virtualized: true }
   const operations = {}
+  reset(); const unchanged = []
+  for (let index = 0; index < samples; index++) {
+    await new Promise(resolve => setTimeout(resolve, 0))
+    const start = performance.now(); await mounted.update({ ...props }); unchanged.push(performance.now() - start)
+  }
+  operations.unchanged = { latencyMs: stats(unchanged), ...capture() }
+  checks.unchanged = Object.values(counts).every(value => value === 0) && transforms.length === 0
   for (const fresh of [false, true]) {
     reset(); const times = []
     for (let index = 0; index < samples; index++) {
       props = { ...props, ariaLabel: `People ${fresh}-${index}`, theme: index % 2 ? 'dark' : 'light', ariaDescription: `Help ${index}`, screenReaderAnnouncements: index % 2 === 0, height: index % 2 ? 360 : 320,
         config: fresh ? { ...config } : config, columns: fresh ? columns.map(column => ({ ...column })) : columns }
+      await new Promise(resolve => setTimeout(resolve, 0))
       const start = performance.now(); await mounted.update(props); times.push(performance.now() - start)
       checks.page &&= grid.getPagination().pageIndex === 2
       checks.columns &&= JSON.stringify(grid.getColumnState()) === state
@@ -101,9 +118,18 @@ window.runA1 = async ({ count, revision, samples }) => {
     }
     operations[fresh ? 'unrelatedFresh' : 'unrelatedStable'] = { latencyMs: stats(times), ...capture() }
   }
+  reset(); const configuration = []
+  for (let index = 0; index < 10; index++) {
+    props = { ...props, config: { ...config, quickSearch: { label: 'Find people ' + index } } }
+    await new Promise(resolve => setTimeout(resolve, 0))
+    const start = performance.now(); await mounted.update(props); configuration.push(performance.now() - start)
+    checks.configPage &&= grid.getPagination().pageIndex === 2
+  }
+  operations.configuration = { latencyMs: stats(configuration), ...capture() }
   reset(); const replace = []
   for (let index = 0; index < 10; index++) {
     data = [...data]; props = { ...props, data }
+    await new Promise(resolve => setTimeout(resolve, 0))
     const start = performance.now(); await mounted.update(props); replace.push(performance.now() - start)
     checks.replacement &&= grid.getTotalRowCount() === count && grid.getPagination().pageIndex === 0
   }
@@ -111,7 +137,8 @@ window.runA1 = async ({ count, revision, samples }) => {
   reset(); const mutate = []
   for (let index = 0; index < 10; index++) {
     data[0].name = `Edited ${index}`
-    props = { ...props, ariaLabel: `Mutation ${index}`, ...(revision ? { dataRevision: index + 1 } : {}) }
+    props = { ...props, ariaLabel: `Mutation ${index}` }
+    await new Promise(resolve => setTimeout(resolve, 0))
     const start = performance.now(); await mounted.update(props); mutate.push(performance.now() - start)
     checks.mutation &&= grid.shadowRoot.textContent.includes(`Edited ${index}`)
   }
@@ -120,6 +147,7 @@ window.runA1 = async ({ count, revision, samples }) => {
   for (let index = 0; index < 10; index++) {
     columns[1].header = `Name ${index}`
     props = { ...props, columns: [...columns] }
+    await new Promise(resolve => setTimeout(resolve, 0))
     const start = performance.now(); await mounted.update(props); schema.push(performance.now() - start)
     checks.schema &&= grid.getColumnWidth(columns[1]) === 240 && grid.getColumnOrder()[0] === 'c116' && !grid.isColumnVisible('role')
   }
@@ -132,7 +160,9 @@ window.runA1 = async ({ count, revision, samples }) => {
   checks.virtualized = grid.shadowRoot.querySelectorAll('.cell').length < 2000 && grid.shadowRoot.querySelectorAll('.column-header').length < 120
   const visibleCells = grid.shadowRoot.querySelectorAll('.cell').length
   mounted.destroy()
-  return { count, revision, columnCount: 120, mountMs, mountWork, firstSelectionMs, operations, scrollFrameWaitMs, visibleCells, checks }
+  await frames()
+  longTaskObserver?.disconnect()
+  return { longTasks, count, columnCount: 120, mountMs, mountWork, firstSelectionMs, operations, scrollFrameWaitMs, visibleCells, checks }
 }
 
 window.checkExternal = async () => {
@@ -146,7 +176,9 @@ window.checkExternal = async () => {
   const pending = grid.getQuery()
   reset()
   for (let index = 0; index < 10; index++) await mounted.update({ ...props, config: { ...config }, ariaLabel: `External ${index}` })
-  const stable = events.length === 1 && grid.getQuery().requestId === pending.requestId && !counts.externalState
+  const stableEvents = events.length === 1 && grid.getQuery().requestId === pending.requestId
+  const skippedResultReplay = !counts.externalState
+  const stable = stableEvents && skippedResultReplay
   props = { ...props, externalState: { ...externalState, ...pending } }
   await mounted.update(props)
   const lateRejected = grid.setExternalState(externalState) === false
@@ -155,16 +187,23 @@ window.checkExternal = async () => {
   const norRejected = grid.setExternalState({ ...externalState, ...nor }) === false
   const nortAccepted = grid.setExternalState({ ...externalState, ...nort }) === true
   const wording = grid.shadowRoot.querySelector('input')?.getAttribute('aria-label') === 'Search names'
+  const scopedConfig = { ...config, selection: { ...config.selection, scopeKey: Number.NaN } }
+  props = { ...props, config: scopedConfig, externalState: { ...externalState, requestId: grid.getQuery().requestId + 2, query: grid.getQuery().query } }
+  await mounted.update(props)
+  grid.selectRowByKey(1)
+  const scopedQuery = grid.getQuery(), scopedEvents = events.length
+  await mounted.update({ ...props, config: { ...scopedConfig, quickSearch: { ...scopedConfig.quickSearch, label: 'Find scoped names' } } })
+  const numericScope = grid.getQuery().requestId === scopedQuery.requestId && grid.getSelectionSnapshot().rows[0]?.key === 1 && events.length === scopedEvents
   const beforeDestroy = events.length
   mounted.destroy(); grid.refreshQuery()
   const cleanup = events.length === beforeDestroy
-  return { passed: stable && lateRejected && norRejected && nortAccepted && wording && cleanup, stable, lateRejected, norRejected, nortAccepted, wording, cleanup, events: beforeDestroy }
+  return { passed: stable && lateRejected && norRejected && nortAccepted && wording && numericScope && cleanup, stable, stableEvents, skippedResultReplay, lateRejected, norRejected, nortAccepted, wording, numericScope, cleanup, events: beforeDestroy }
 }
 window.checkColumns = async () => {
   localStorage.clear()
   const data = Array.from({ length: 400 }, (_, id) => ({ id, name: `Person ${id}`, role: 'Engineer' }))
   const columns = [{ key: 'id' }, { key: 'name' }, { key: 'role' }]
-  let props = { data, columns, dataRevision: 0, config: { selection: { mode: 'row', rowKey: 'id' }, pagination: { enabled: true, pageSize: 50 } }, columnStateStorageKey: 'namespace/a' }
+  let props = { data, columns, config: { selection: { mode: 'row', rowKey: 'id' }, pagination: { enabled: true, pageSize: 50 } }, columnStateStorageKey: 'namespace/a' }
   const mounted = await mount(props), grid = mounted.grid
   grid.setColumnWidth('name', 240); grid.moveColumn('role', 0); grid.setColumnVisible('role', false)
   grid.setPage(2); grid.selectRowByKey(101)
@@ -196,9 +235,9 @@ window.checkColumns = async () => {
   await mounted.update({ ...props, columns: [{ key: 'role' }] })
   const removedActiveCleared = !viewport.hasAttribute('aria-activedescendant')
   mounted.destroy(); localStorage.clear()
-  const inferred = await mount({ data, columns: [], dataRevision: 0 })
+  const inferred = await mount({ data, columns: [] })
   inferred.grid.setColumnWidth('name', 240); inferred.grid.moveColumn('role', 0); inferred.grid.setColumnVisible('id', false)
-  await inferred.update({ data: [{ name: 'New schema', added: 'New field' }], columns: [], dataRevision: 0 })
+  await inferred.update({ data: [{ name: 'New schema', added: 'New field' }], columns: [] })
   const inferredSchema = inferred.grid.getColumnOrder().join() === 'name,added' && inferred.grid.getColumnWidth({ key: 'name' }) === 240
   inferred.destroy()
   const initial = { requestId: 1, query: { search: '', filters: [], sort: { columnKey: null, direction: null }, pageIndex: 0, pageSize: 25 }, rows: data.slice(0, 25), total: { kind: 'unknown', hasMore: true } }
@@ -208,7 +247,7 @@ window.checkColumns = async () => {
   await remote.update({ ...remoteProps, externalState: { ...initial, requestId: 2, rows: [{ id: 999, name: 'Remote', added: 'New field' }] } })
   const inferredExternalSchema = remote.grid.getColumnOrder().join() === 'id,name,added' && remote.grid.getColumnWidth({ key: 'name' }) === 240 && remote.grid.setExternalState(initial) === false
   remote.destroy()
-  const savedInferredProps = { data, columns: [], dataRevision: 0, columnStateStorageKey: 'inferred/saved' }
+  const savedInferredProps = { data, columns: [], columnStateStorageKey: 'inferred/saved' }
   const savedInferred = await mount(savedInferredProps)
   savedInferred.grid.setColumnWidth('name', 240)
   savedInferred.destroy()

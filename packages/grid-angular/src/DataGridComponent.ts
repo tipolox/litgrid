@@ -56,8 +56,6 @@ import { syncGridInputs } from './gridBindings'
 })
 export class DataGridComponent implements AfterViewInit, OnChanges {
   @Input() externalState?: GridExternalState
-  /** Change after in-place edits to opt into explicit data synchronization. */
-  @Input() dataRevision?: string | number
   @Output() readonly queryChange = new EventEmitter<GridQueryChangeDetail>()
 
   handleQueryChange(event: Event): void {

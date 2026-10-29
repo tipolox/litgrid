@@ -33,8 +33,6 @@ export type DataGridProps = {
   externalState?: GridExternalState
   onQueryChange?: (detail: GridQueryChangeDetail) => void
   data: unknown[]
-  /** Change after in-place edits to opt into explicit data synchronization. */
-  dataRevision?: string | number
   columns?: GridColumn[]
   config?: GridConfig
   theme?: GridTheme
@@ -112,7 +110,6 @@ const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the React comp
 export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid(
   {
     data,
-    dataRevision,
     externalState,
     onQueryChange,
     columns = [],
@@ -238,7 +235,6 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     syncGridInputs(grid, {
       externalState,
       data,
-      dataRevision,
       columns,
       config,
       theme,
@@ -258,7 +254,6 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   }, [
     externalState,
     data,
-    dataRevision,
     columns,
     config,
     theme,

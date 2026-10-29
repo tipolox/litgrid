@@ -21,28 +21,28 @@
     {
       "totalRows": 352,
       "loadedRows": 20,
-      "medianMs": 0.599999999627471,
-      "p95Ms": 1.299999998882413,
+      "medianMs": 0.40000000037252903,
+      "p95Ms": 1.300000000745058,
       "mountedRows": 13
     },
     {
       "totalRows": 30000,
       "loadedRows": 20,
-      "medianMs": 0.40000000037252903,
-      "p95Ms": 1.200000001117587,
+      "medianMs": 0.30000000074505806,
+      "p95Ms": 0.7999999988824129,
       "mountedRows": 13
     },
     {
       "totalRows": 100000,
       "loadedRows": 20,
       "medianMs": 0.30000000074505806,
-      "p95Ms": 1,
+      "p95Ms": 0.6000000014901161,
       "mountedRows": 13
     },
     {
       "totalRows": 1000000000,
       "loadedRows": 20,
-      "medianMs": 0.2000000011175871,
+      "medianMs": 0.2999999988824129,
       "p95Ms": 0.5,
       "mountedRows": 13
     }

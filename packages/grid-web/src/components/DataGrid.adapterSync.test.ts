@@ -19,6 +19,25 @@ function inputs(pageSize = 25): ReactGridInputs {
 afterEach(() => { vi.restoreAllMocks(); localStorage.clear(); document.body.replaceChildren() })
 
 describe.each([['React', react], ['Vue', vue], ['Angular', angular]] as const)('%s input synchronization', (_name, sync) => {
+  it('normalizes supported configuration values without replaying equivalent defaults', () => {
+    const grid = new DataGrid()
+    const value = { ...inputs(), config: {} }
+    sync(grid, value)
+    const config = vi.spyOn(DataGrid.prototype, 'config', 'set')
+    sync(grid, { ...value, config: {
+      queryMode: 'local', selection: { mode: 'none', checkboxes: false }, rowHeader: { enabled: false, width: 56 },
+      pagination: { enabled: false, pageSize: Number.NaN, pageIndex: Number.POSITIVE_INFINITY },
+      quickSearch: { visible: true, label: ' ', placeholder: 'Search all columns', description: ' ' }
+    } })
+    sync(grid, { ...value, config: { pagination: { pageSize: -1, pageIndex: -1 } } })
+    expect(config).not.toHaveBeenCalled()
+    sync(grid, { ...value, config: { pagination: { enabled: true, pageSize: 25.9, pageIndex: 1.9 } } })
+    expect(config).toHaveBeenCalledTimes(1)
+    sync(grid, { ...value, config: { pagination: { enabled: true, pageSize: 25, pageIndex: 1 } } })
+    expect(config).toHaveBeenCalledTimes(1)
+    expect(grid.getPagination()).toMatchObject({ pageSize: 25, pageIndex: 1 })
+  })
+
   it.each([25, 50, 100])('preserves page, selection, navigation and unsaved columns on unrelated updates (%i rows/page)', async pageSize => {
     const grid = new DataGrid()
     document.body.append(grid)
@@ -81,40 +100,54 @@ describe.each([['React', react], ['Vue', vue], ['Angular', angular]] as const)('
     expect(localStorage.getItem('other')).toBeNull()
   })
 
-  it('skips row adoption with a stable revision, processes explicit mutations and replacements, and clears scoped selection', () => {
+  it('processes legacy refreshes and replacements without structural replays and clears scoped selection', () => {
     const grid = new DataGrid()
-    const value = { ...inputs(), dataRevision: 0 }
+    const value = { ...inputs() }
     sync(grid, value)
     grid.setPage(2)
     grid.selectRow(1)
-    const adopt = vi.spyOn(grid, 'updateData')
+    const adopt = vi.spyOn(DataGrid.prototype, 'data', 'set')
     const schema = vi.spyOn(grid, 'updateColumnSchema')
     const config = vi.spyOn(DataGrid.prototype, 'config', 'set')
     sync(grid, { ...value, config: structuredClone(value.config), columns: value.columns.map(column => ({ ...column })), theme: 'dark' })
-    expect(adopt).not.toHaveBeenCalled()
+    expect(adopt).toHaveBeenCalledTimes(1)
     expect(schema).not.toHaveBeenCalled()
     expect(config).not.toHaveBeenCalled()
     expect(grid.getPagination().pageIndex).toBe(2)
     value.data.push({ id: 400, name: 'Added', role: 'Engineer' })
-    sync(grid, { ...value, dataRevision: 1 })
-    expect(adopt).toHaveBeenCalledTimes(1)
+    sync(grid, { ...value })
+    expect(adopt).toHaveBeenCalledTimes(2)
     expect(grid.getTotalRowCount()).toBe(401)
     expect(grid.getPagination().pageIndex).toBe(2)
     value.config.selection!.scopeKey = 'b'
-    sync(grid, { ...value, dataRevision: 1 })
+    sync(grid, { ...value })
     expect(grid.getSelectionSnapshot()).toMatchObject({ scopeKey: 'b', rows: [] })
     // Numeric scope keys must not collide through JSON's null encoding.
     grid.selectRowByKey(51)
     value.config.selection!.scopeKey = Number.NaN
-    sync(grid, { ...value, dataRevision: 1 })
+    sync(grid, { ...value })
     expect(grid.getSelectionSnapshot().rows).toEqual([])
     grid.selectRowByKey(51)
     value.config.selection!.scopeKey = Number.POSITIVE_INFINITY
-    sync(grid, { ...value, dataRevision: 1 })
+    sync(grid, { ...value })
     expect(grid.getSelectionSnapshot().rows).toEqual([])
-    // Replacements synchronize even if the revision did not change.
-    sync(grid, { ...value, dataRevision: 1, data: [{ id: 900, name: 'Replacement' }] })
-    expect(adopt).toHaveBeenCalledTimes(2)
+    grid.selectRowByKey(51)
+    value.config.selection!.scopeKey = Number.NEGATIVE_INFINITY
+    sync(grid, { ...value })
+    expect(grid.getSelectionSnapshot().rows).toEqual([])
+    value.config.selection!.scopeKey = -0
+    sync(grid, { ...value })
+    grid.selectRowByKey(51)
+    config.mockClear()
+    value.config.selection!.scopeKey = 0
+    sync(grid, { ...value })
+    expect(config).toHaveBeenCalledTimes(1)
+    // The core's existing scope equality treats signed zero as one scope.
+    expect(grid.getSelectionSnapshot().rows[0].key).toBe(51)
+    // Immutable replacements synchronize and reset pagination.
+    adopt.mockClear()
+    sync(grid, { ...value, data: [{ id: 900, name: 'Replacement' }] })
+    expect(adopt).toHaveBeenCalledTimes(1)
     expect(grid.getPagination().pageIndex).toBe(0)
     expect(grid.getTotalRowCount()).toBe(1)
   })
@@ -215,12 +248,12 @@ describe.each([['React', react], ['Vue', vue], ['Angular', angular]] as const)('
     expect(grid.getQuery().requestId).toBe(pending.requestId)
   })
 
-  it('adopts local data after leaving external mode even with an unchanged revision', () => {
+  it('adopts local data after leaving external mode even with the same array', () => {
     const grid = new DataGrid()
-    const value = { ...inputs(), dataRevision: 0 }
+    const value = { ...inputs() }
     sync(grid, value)
     sync(grid, { ...value, config: { ...value.config, queryMode: 'external' } })
-    const adopt = vi.spyOn(grid, 'updateData')
+    const adopt = vi.spyOn(DataGrid.prototype, 'data', 'set')
     sync(grid, value)
     expect(adopt).toHaveBeenCalledTimes(1)
     expect(grid.getTotalRowCount()).toBe(400)

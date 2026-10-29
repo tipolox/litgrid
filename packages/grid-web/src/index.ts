@@ -1,5 +1,4 @@
 export * from './components/DataGrid.js'
-export { synchronizeGridInputs, type GridAdapterInputs } from './adapters/synchronizeGridInputs.js'
 export type { GridQuery, GridQueryFilter, GridQueryReason, GridQueryChangeDetail, GridQuerySnapshot, GridExternalTotal, GridExternalState, SortDirection } from './types.js'
 export type {
   BestFitColumnWidth,

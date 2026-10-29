@@ -26,7 +26,7 @@ it('retains active navigation through unrelated React rerenders and synchronizes
     viewport.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
     await grid.updateComplete
     const id = viewport.getAttribute('aria-activedescendant')
-    const setData = vi.spyOn(WebGrid.prototype, 'updateData')
+    const setData = vi.spyOn(WebGrid.prototype, 'data', 'set')
     const setColumns = vi.spyOn(WebGrid.prototype, 'columns', 'set')
     const setConfig = vi.spyOn(WebGrid.prototype, 'config', 'set')
     const setHeight = vi.spyOn(WebGrid.prototype, 'viewportHeight', 'set')

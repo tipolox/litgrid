@@ -2766,18 +2766,13 @@ export class DataGrid extends LitElement {
   }
 
   set data(value: unknown[]) {
-    this.updateData(value)
-  }
-
-  /** Adopt local rows; same-reference adapter refreshes may retain the page. */
-  updateData(value: unknown[], preservePage = false) {
     if (this.engine.getConfig().queryMode === 'external') return
     this.clearQuickSearchDebounce()
 
     const inferred = this.captureInferredColumnState()
 
     this.sourceRowCount = Array.isArray(value) ? value.length : 0
-    this.engine.setData(value ?? [], preservePage)
+    this.engine.setData(value ?? [])
     this.reconcileInferredColumnState(inferred)
     this.quickSearchDraft = this.engine.getQuickSearch()
     this.clearBestFitWidths()

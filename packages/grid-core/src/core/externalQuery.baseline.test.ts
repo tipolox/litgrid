@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { createGridEngine } from './createGridEngine.js'
 
-it('records the local-only baseline for a 20-row page from a 352-record server', () => {
+it('keeps local totals distinct from server totals and preserves same-source refresh pagination', () => {
   const grid = createGridEngine({ pagination: { enabled: true, pageSize: 20 } })
   const page = Array.from({ length: 20 }, (_, id) => ({ id, name: `Property ${19 - id}` }))
   grid.setData(page)
@@ -18,5 +18,7 @@ it('records the local-only baseline for a 20-row page from a 352-record server',
   grid.setPage(2)
   expect(grid.getPagination().pageIndex).toBe(2)
   grid.setData(page)
+  expect(grid.getPagination().pageIndex).toBe(2)
+  grid.setData([...page])
   expect(grid.getPagination().pageIndex).toBe(0)
 })
