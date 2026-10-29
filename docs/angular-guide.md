@@ -1,5 +1,8 @@
 # Angular Guide
 
+For data change signals, change-detection behavior, and column preference
+guarantees, see [Framework input synchronization](adapter-synchronization.md).
+
 LitGrid's Angular integration is a thin standalone component around the
 `yc-grid` Web Component. It uses the same data, configuration, and grid
 features while providing Angular inputs, typed outputs, and an imperative

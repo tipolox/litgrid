@@ -46,7 +46,8 @@ export function createSelectionCoordination(state: GridState) {
   let current = snapshot()
   function commit() {
     const next = snapshot()
-    if (next.scopeKey === current.scopeKey && next.mode === current.mode && next.rowIndex === current.rowIndex &&
+    const sameScope = next.scopeKey === current.scopeKey || Object.is(next.scopeKey, current.scopeKey)
+    if (sameScope && next.mode === current.mode && next.rowIndex === current.rowIndex &&
       next.columnKey === current.columnKey && next.anchorRowIndex === current.anchorRowIndex &&
       next.rowIndexes.length === current.rowIndexes.length &&
       next.rowIndexes.every((index, i) => index === current.rowIndexes[i]) &&

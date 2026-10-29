@@ -1,5 +1,8 @@
 # Vue Guide
 
+For data change signals, reactive update batching, and column preference
+guarantees, see [Framework input synchronization](adapter-synchronization.md).
+
 LitGrid's Vue integration is a thin Vue 3 wrapper around the `yc-grid` Web
 Component. It provides declarative props, typed emits, and a typed component
 ref while leaving grid state, interaction, and rendering in LitGrid.

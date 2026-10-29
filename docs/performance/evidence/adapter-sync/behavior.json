@@ -1,0 +1,232 @@
+{
+  "browser": "156.0.8078.4",
+  "node": "v22.14.0",
+  "baseline": "D:\\Work\\litgrid-p0\\.private\\a1-baseline",
+  "candidate": "D:\\Work\\litgrid-p0\\.private\\a1-adapter-sync",
+  "notes": "Source adapters; Angular JIT with real bootstrapApplication/change detection. 120 columns use accessors over compact rows. Default public inputs only. CPU update includes framework flush and Lit updateComplete, excludes two-frame waits. Transform timers instrument both versions equally. Heap is whole-page before/after, not retained allocation or leak evidence. Each cell is isolated by a fresh page per framework/version; GC before workloads, natural GC during each workload.",
+  "results": [
+    {
+      "framework": "react",
+      "variant": "baseline",
+      "external": {
+        "passed": false,
+        "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
+        "lateRejected": true,
+        "norRejected": true,
+        "nortAccepted": true,
+        "wording": true,
+        "numericScope": false,
+        "cleanup": true,
+        "events": 3
+      }
+    },
+    {
+      "framework": "react",
+      "variant": "baseline",
+      "columns": {
+        "passed": false,
+        "savedPreferences": true,
+        "metadata": true,
+        "namespaceDefaults": false,
+        "namespaceWidth": 240,
+        "noContamination": true,
+        "restoredOwnNamespace": true,
+        "navigationByKey": true,
+        "removedActiveCleared": true,
+        "inferredSchema": true,
+        "inferredExternalSchema": false,
+        "knownLimitations": {
+          "inferredPersistenceRestored": false
+        }
+      }
+    },
+    {
+      "framework": "react",
+      "variant": "candidate",
+      "external": {
+        "passed": true,
+        "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
+        "lateRejected": true,
+        "norRejected": true,
+        "nortAccepted": true,
+        "wording": true,
+        "numericScope": true,
+        "cleanup": true,
+        "events": 3
+      }
+    },
+    {
+      "framework": "react",
+      "variant": "candidate",
+      "columns": {
+        "passed": true,
+        "savedPreferences": true,
+        "metadata": true,
+        "namespaceDefaults": true,
+        "namespaceWidth": 160,
+        "noContamination": true,
+        "restoredOwnNamespace": true,
+        "navigationByKey": true,
+        "removedActiveCleared": true,
+        "inferredSchema": true,
+        "inferredExternalSchema": true,
+        "knownLimitations": {
+          "inferredPersistenceRestored": false
+        }
+      }
+    },
+    {
+      "framework": "vue",
+      "variant": "candidate",
+      "external": {
+        "passed": true,
+        "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
+        "lateRejected": true,
+        "norRejected": true,
+        "nortAccepted": true,
+        "wording": true,
+        "numericScope": true,
+        "cleanup": true,
+        "events": 3
+      }
+    },
+    {
+      "framework": "vue",
+      "variant": "candidate",
+      "columns": {
+        "passed": true,
+        "savedPreferences": true,
+        "metadata": true,
+        "namespaceDefaults": true,
+        "namespaceWidth": 160,
+        "noContamination": true,
+        "restoredOwnNamespace": true,
+        "navigationByKey": true,
+        "removedActiveCleared": true,
+        "inferredSchema": true,
+        "inferredExternalSchema": true,
+        "knownLimitations": {
+          "inferredPersistenceRestored": false
+        }
+      }
+    },
+    {
+      "framework": "vue",
+      "variant": "baseline",
+      "external": {
+        "passed": false,
+        "stable": false,
+        "stableEvents": true,
+        "skippedResultReplay": false,
+        "lateRejected": true,
+        "norRejected": true,
+        "nortAccepted": true,
+        "wording": true,
+        "numericScope": false,
+        "cleanup": true,
+        "events": 3
+      }
+    },
+    {
+      "framework": "vue",
+      "variant": "baseline",
+      "columns": {
+        "passed": false,
+        "savedPreferences": true,
+        "metadata": true,
+        "namespaceDefaults": false,
+        "namespaceWidth": 240,
+        "noContamination": true,
+        "restoredOwnNamespace": true,
+        "navigationByKey": true,
+        "removedActiveCleared": true,
+        "inferredSchema": true,
+        "inferredExternalSchema": true,
+        "knownLimitations": {
+          "inferredPersistenceRestored": false
+        }
+      }
+    },
+    {
+      "framework": "angular",
+      "variant": "baseline",
+      "external": {
+        "passed": false,
+        "stable": false,
+        "stableEvents": true,
+        "skippedResultReplay": false,
+        "lateRejected": true,
+        "norRejected": true,
+        "nortAccepted": true,
+        "wording": true,
+        "numericScope": false,
+        "cleanup": true,
+        "events": 3
+      }
+    },
+    {
+      "framework": "angular",
+      "variant": "baseline",
+      "columns": {
+        "passed": false,
+        "savedPreferences": true,
+        "metadata": true,
+        "namespaceDefaults": false,
+        "namespaceWidth": 240,
+        "noContamination": true,
+        "restoredOwnNamespace": true,
+        "navigationByKey": true,
+        "removedActiveCleared": true,
+        "inferredSchema": true,
+        "inferredExternalSchema": true,
+        "knownLimitations": {
+          "inferredPersistenceRestored": false
+        }
+      }
+    },
+    {
+      "framework": "angular",
+      "variant": "candidate",
+      "external": {
+        "passed": true,
+        "stable": true,
+        "stableEvents": true,
+        "skippedResultReplay": true,
+        "lateRejected": true,
+        "norRejected": true,
+        "nortAccepted": true,
+        "wording": true,
+        "numericScope": true,
+        "cleanup": true,
+        "events": 3
+      }
+    },
+    {
+      "framework": "angular",
+      "variant": "candidate",
+      "columns": {
+        "passed": true,
+        "savedPreferences": true,
+        "metadata": true,
+        "namespaceDefaults": true,
+        "namespaceWidth": 160,
+        "noContamination": true,
+        "restoredOwnNamespace": true,
+        "navigationByKey": true,
+        "removedActiveCleared": true,
+        "inferredSchema": true,
+        "inferredExternalSchema": true,
+        "knownLimitations": {
+          "inferredPersistenceRestored": false
+        }
+      }
+    }
+  ],
+  "errors": []
+}

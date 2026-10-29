@@ -898,6 +898,10 @@ export class DataGrid extends LitElement {
       return this.columnDefs
     }
 
+    return this.inferColumnSchema()
+  }
+
+  private inferColumnSchema(): GridColumn[] {
     const firstRow = this.engine.getRows()[0]
 
     if (firstRow && typeof firstRow === 'object' && !Array.isArray(firstRow)) {
@@ -920,6 +924,33 @@ export class DataGrid extends LitElement {
     return this.getResolvedColumns().filter((column) => !this.hiddenColumnKeys.has(column.key))
   }
 
+
+  private captureInferredColumnState() {
+    if (this.sourceColumnDefs.length || !this._inferColumns) return null
+    const state = this.getColumnState()
+    const activeColumnKey = this.activeCell
+      ? state.columns.filter(column => column.visible)[this.activeCell.columnIndex]?.key : undefined
+    return { state, activeColumnKey }
+  }
+
+  private reconcileInferredColumnState(previous: { state: GridColumnState; activeColumnKey?: string } | null) {
+    if (!previous || this.sourceColumnDefs.length || !this._inferColumns) return
+    const next = this.inferColumnSchema()
+    const keys = new Set(previous.state.columns.map(column => column.key))
+    if (next.length === previous.state.columns.length && next.every(column => keys.has(column.key))) return
+    // Reordering materializes inferred columns. Reconcile an adopted result's
+    // genuine shape change using the existing column-state model.
+    const state = resolveColumnState(previous.state, next)!
+    if (this.columnDefs.length) this.columnDefs = state.columns
+    this.columnWidths = state.widths
+    this.hiddenColumnKeys = state.hiddenKeys
+    if (this.activeCell) {
+      const index = this.getVisibleColumns().findIndex(column => column.key === previous.activeColumnKey)
+      // Retain a surviving key; removed inferred columns keep the established
+      // positional clamping behavior performed during rendering.
+      if (index >= 0) this.activeCell = { ...this.activeCell, columnIndex: index }
+    }
+  }
 
   getColumnWidth(column: GridColumn) {
     return resolveColumnWidth(column, this.columnWidths.get(column.key))
@@ -1745,7 +1776,9 @@ export class DataGrid extends LitElement {
     const preservePendingSearch = this.quickSearchDebounceId !== null
       && this.engine.getConfig().queryMode === 'external'
       && value.requestId === this.engine.getQuery().requestId
+    const inferred = this.captureInferredColumnState()
     if (!this.engine.setExternalState(value)) return false
+    this.reconcileInferredColumnState(inferred)
     if (!preservePendingSearch) {
       this.clearQuickSearchDebounce()
       this.quickSearchDraft = this.engine.getQuickSearch()
@@ -2732,12 +2765,15 @@ export class DataGrid extends LitElement {
     `
   }
 
-    set data(value: unknown[]) {
+  set data(value: unknown[]) {
     if (this.engine.getConfig().queryMode === 'external') return
     this.clearQuickSearchDebounce()
 
+    const inferred = this.captureInferredColumnState()
+
     this.sourceRowCount = Array.isArray(value) ? value.length : 0
     this.engine.setData(value ?? [])
+    this.reconcileInferredColumnState(inferred)
     this.quickSearchDraft = this.engine.getQuickSearch()
     this.clearBestFitWidths()
     this.announceScreenReader(this.engine.getRowCount() === 0 ? 'Grid is empty.' : `${this.engine.getRowCount()} ${this.engine.getRowCount() === 1 ? 'row' : 'rows'} loaded.`)
@@ -2788,7 +2824,8 @@ export class DataGrid extends LitElement {
     const columns = value.map(column => ({ ...column }))
     const nextByKey = new Map(columns.map(column => [column.key, column]))
     if (nextByKey.size !== columns.length) throw new Error('Duplicate column schema keys.')
-    const previousByKey = new Map(this.sourceColumnDefs.map(column => [column.key, column]))
+    const previousSchema = this.sourceColumnDefs.length ? this.sourceColumnDefs : this.getResolvedColumns()
+    const previousByKey = new Map(previousSchema.map(column => [column.key, column]))
     const activeCell = this.activeCell
     const activeColumnKey = activeCell
       ? this.getVisibleColumns()[activeCell.columnIndex]?.key

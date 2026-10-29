@@ -134,6 +134,8 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   forwardedRef
 ) {
   const gridRef = useRef<DataGridElement | null>(null)
+  const synchronizedRender = useRef<object | null>(null)
+  const renderToken = {}
 
   const requireGridElement = (): DataGridElement => {
     if (!gridRef.current) throw new Error(GRID_UNAVAILABLE_MESSAGE)
@@ -227,6 +229,8 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
   useEffect(() => {
     const grid = gridRef.current
     if (!grid) return
+    // StrictMode replays this effect with the same closure and DOM element.
+    if (synchronizedRender.current === renderToken) return
 
     syncGridInputs(grid, {
       externalState,
@@ -246,6 +250,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
       quickSearchDebounceMs,
       columnStateStorageKey
     })
+    synchronizedRender.current = renderToken
   }, [
     externalState,
     data,

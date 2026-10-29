@@ -73,10 +73,13 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     refreshQuery() { if (external.active()) external.intent({}, 'refresh') },
     setConfig(config: GridConfig) {
       const nextConfig = normalizeConfig(config)
+      const previousConfig = state.config
       const modeChanged = state.config.queryMode !== nextConfig.queryMode
+      const scopeChanged = state.config.selection.scopeKey !== nextConfig.selection.scopeKey &&
+        !Object.is(state.config.selection.scopeKey, nextConfig.selection.scopeKey)
       const reset = state.selection.mode !== nextConfig.selection.mode ||
         state.config.selection.rowKey !== nextConfig.selection.rowKey ||
-        state.config.selection.scopeKey !== nextConfig.selection.scopeKey
+        scopeChanged
       const keyChanged = state.config.selection.rowKey !== nextConfig.selection.rowKey
       if (reset) state.selection = createEmptySelection(nextConfig.selection.mode)
       state.config = nextConfig
@@ -92,13 +95,23 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
         state.sort = { columnKey: null, direction: null }
       }
       if (keyChanged) coordination.rebuildKeys()
-      state.pagination = createPaginationState(
-        nextConfig.pagination.enabled,
-        nextConfig.pagination.pageSize,
-        nextConfig.pagination.pageIndex,
-        state.transformedData.length
-      )
-      refreshData()
+      if (modeChanged || previousConfig.pagination.enabled !== nextConfig.pagination.enabled ||
+        previousConfig.pagination.pageSize !== nextConfig.pagination.pageSize ||
+        previousConfig.pagination.pageIndex !== nextConfig.pagination.pageIndex) {
+        state.pagination = createPaginationState(
+          nextConfig.pagination.enabled,
+          nextConfig.pagination.pageSize,
+          nextConfig.pagination.pageIndex,
+          state.transformedData.length
+        )
+      }
+      if (modeChanged) refreshData()
+      else {
+        // Configuration does not alter local transforms. Repaginate the cached
+        // view and reconcile selection without sorting/filtering every row again.
+        state.data = paginateData(state.transformedData, state.pagination)
+        coordination.reconcile()
+      }
 
     },
     getConfig() {
@@ -106,9 +119,11 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     },
     setData(data: unknown[]) {
       if (external.active()) return
+      // A repeated source is a supported mutable-data refresh, not a new dataset.
+      const sameSource = state.originalData === data
       state.originalData = data ?? []
       coordination.rebuildKeys()
-      resetPage()
+      if (!sameSource) resetPage()
       refreshData()
     },
     getRows() {
