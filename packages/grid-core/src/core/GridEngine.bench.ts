@@ -21,7 +21,7 @@ describe('GridEngine performance', () => {
     const engine = createGridEngine()
     engine.setData(rows)
 
-    return engine.getTotalRowCount()
+    void engine.getTotalRowCount()
   })
 
   bench('applies quick search, filter, sort, and pagination to 100,000 rows', () => {
@@ -35,6 +35,6 @@ describe('GridEngine performance', () => {
     engine.sortBy('amount', 'desc')
     engine.setPage(10)
 
-    return engine.getRows().length
+    void engine.getRows().length
   })
 })

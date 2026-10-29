@@ -48,7 +48,7 @@ describe('active cell reconciliation', () => {
     await grid.updateComplete
     expect(active(grid)?.dataset.rowIndex).toBe('2')
     expect(active(grid)?.dataset.columnIndex).toBe('1')
-    expect(grid.renderRoot.activeElement).toBe(input)
+    expect(grid.shadowRoot!.activeElement).toBe(input)
     grid.setFilter({ columnKey: 'id', operator: 'equals', value: -1 })
     await grid.updateComplete
     expect(active(grid)).toBeNull()
@@ -105,7 +105,7 @@ describe('active cell reconciliation', () => {
     grid.data = []
     await grid.updateComplete
     expect(active(grid)).toBeNull()
-    expect(grid.renderRoot.activeElement).toBe(viewport(grid))
+    expect(grid.shadowRoot!.activeElement).toBe(viewport(grid))
 
     const inferred = new DataGrid()
     inferred.data = [{ a: 1, b: 2, c: 3 }]
@@ -137,7 +137,7 @@ describe('active cell reconciliation', () => {
     }
     await scroll(direction === 'vertical' ? 900 : 480)
     expect(active(grid)).toBeNull()
-    expect(grid.renderRoot.activeElement).toBe(viewport(grid))
+    expect(grid.shadowRoot!.activeElement).toBe(viewport(grid))
     expect(render).toHaveBeenCalledTimes(1)
     expect(grid.renderRoot.querySelectorAll('.row').length).toBeLessThan(10)
     expect(grid.renderRoot.querySelectorAll('.row .cell').length).toBeLessThan(30)
@@ -164,7 +164,7 @@ describe('active cell reconciliation', () => {
     frame!(0)
     await grid.updateComplete
     expect(active(grid)?.dataset.rowIndex).toBe('2')
-    expect(grid.renderRoot.activeElement).toBe(viewport(grid))
+    expect(grid.shadowRoot!.activeElement).toBe(viewport(grid))
   })
 
   it('fulfills keyboard focus after the requested virtual range arrives', async () => {
@@ -182,7 +182,7 @@ describe('active cell reconciliation', () => {
     frame!(0)
     await grid.updateComplete
     expect(active(grid)?.dataset.rowIndex).toBe('999')
-    expect(grid.renderRoot.activeElement).toBe(active(grid))
+    expect(grid.shadowRoot!.activeElement).toBe(active(grid))
   })
 
   it('uses valid fallback row coordinates after custom-height virtualization and data shrink', async () => {
@@ -216,6 +216,6 @@ describe('active cell reconciliation', () => {
     await grid.updateComplete
     expect(active(grid)).toBeNull()
     expect(viewport(grid).hasAttribute('aria-activedescendant')).toBe(false)
-    expect(grid.renderRoot.activeElement).toBe(viewport(grid))
+    expect(grid.shadowRoot!.activeElement).toBe(viewport(grid))
   })
 })

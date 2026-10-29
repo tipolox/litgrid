@@ -57,7 +57,7 @@ it('preserves navigation for full serialized parameter updates and syncs replace
 it.each([false, true])('synchronizes same-reference row/column mutations (serialized: %s)', async (serialize) => {
   const grid = new DataGrid()
   document.body.append(grid)
-  const inputs: BlazorGridInputs = {
+  const inputs: BlazorGridInputs & Required<Pick<BlazorGridInputs, 'data' | 'columns'>> = {
     data: [{ name: 'Ada' }, { name: 'Grace' }], columns: [{ key: 'name' }],
     config: {}, theme: 'light', ariaLabel: 'People', ariaDescription: '',
     screenReaderAnnouncements: true, height: 320, rowHeight: 36, overscan: 4,

@@ -23,12 +23,12 @@ describe('virtualizer performance', () => {
   bench('calculates fixed-height ranges for 1,000,000 rows', () => {
     fixedVirtualizer.setScrollOffset(18_000_000)
 
-    return fixedVirtualizer.getState(ROW_COUNT).endIndex
+    void fixedVirtualizer.getState(ROW_COUNT).endIndex
   })
 
   bench('calculates variable-height ranges for 100,000 rows', () => {
     variableVirtualizer.setScrollOffset(1_800_000)
 
-    return variableVirtualizer.getState().endIndex
+    void variableVirtualizer.getState().endIndex
   })
 })

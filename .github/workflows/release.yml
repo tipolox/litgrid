@@ -77,6 +77,7 @@ jobs:
 
       - name: Run JavaScript quality gates
         run: |
+          pnpm typecheck:all
           node scripts/typecheck-contracts.mjs
           pnpm test --maxWorkers=2
           pnpm build

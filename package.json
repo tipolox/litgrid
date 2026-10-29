@@ -8,7 +8,8 @@
     "build": "pnpm -r build",
     "release:version": "node scripts/set-version.mjs",
     "test": "vitest run",
-    "benchmark": "vitest bench --run"
+    "benchmark": "vitest bench --run",
+    "typecheck:all": "node scripts/typecheck-all.mjs"
   },
   "keywords": [
     "data-grid",

@@ -41,7 +41,7 @@ describe('column action focus recovery', () => {
     button(grid, label).click()
     await grid.updateComplete
     expect(grid.renderRoot.querySelector('.header-menu')).toBeNull()
-    expect(grid.renderRoot.activeElement).toBe(trigger)
+    expect(grid.shadowRoot!.activeElement).toBe(trigger)
   })
 
   it.each([false, true])('falls back when the originating column is hidden (all: %s)', async (all) => {
@@ -56,7 +56,7 @@ describe('column action focus recovery', () => {
     await grid.updateComplete
     grid.renderRoot.querySelector<HTMLButtonElement>('.column-chooser-close')!.click()
     await grid.updateComplete
-    expect(grid.renderRoot.activeElement).toBe(grid.renderRoot.querySelector(all ? '.columns-button' : '.header-action-button'))
+    expect(grid.shadowRoot!.activeElement).toBe(grid.renderRoot.querySelector(all ? '.columns-button' : '.header-action-button'))
   })
 
   it.each([false, true])('restores standalone Columns focus with Escape (show column: %s)', async (show) => {
@@ -71,7 +71,7 @@ describe('column action focus recovery', () => {
     grid.renderRoot.querySelector('.column-chooser-dialog')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }))
     await grid.updateComplete
     expect(grid.renderRoot.querySelector('.column-chooser-dialog')).toBeNull()
-    expect(grid.renderRoot.activeElement).toBe(show ? grid.renderRoot.querySelector('.header-action-button') : trigger)
+    expect(grid.shadowRoot!.activeElement).toBe(show ? grid.renderRoot.querySelector('.header-action-button') : trigger)
   })
 
   it('does not steal focus after pointer dismissal', async () => {
@@ -82,6 +82,6 @@ describe('column action focus recovery', () => {
     cell.focus()
     cell.click()
     await grid.updateComplete
-    expect(grid.renderRoot.activeElement).toBe(cell)
+    expect(grid.shadowRoot!.activeElement).toBe(cell)
   })
 })

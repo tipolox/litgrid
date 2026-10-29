@@ -77,6 +77,17 @@ Run the TypeScript unit and integration test suite:
 pnpm test
 ```
 
+Run the repository TypeScript quality gate (no package build required):
+
+```bash
+pnpm typecheck:all
+```
+
+This audits ownership of authored TypeScript and checks the browser/source and
+Node-tooling projects. It replaces the broad root `tsc --noEmit` quality check;
+package builds and A2 source/published-contract checks remain required. See
+[TypeScript project boundaries and validation](docs/quality/root-typescript-a21.md).
+
 Run the Blazor package unit and interop tests:
 
 ```bash

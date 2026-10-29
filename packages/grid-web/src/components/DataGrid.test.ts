@@ -608,7 +608,7 @@ describe('DataGrid keyboard navigation', () => {
     await grid.updateComplete
 
     const menu = grid.renderRoot.querySelector('.header-menu') as HTMLElement
-    expect(grid.renderRoot.activeElement).toBe(menu.querySelector('button'))
+    expect(grid.shadowRoot!.activeElement).toBe(menu.querySelector('button'))
 
     const escapeEvent = new KeyboardEvent('keydown', {
       key: 'Escape', bubbles: true, composed: true, cancelable: true
@@ -618,7 +618,7 @@ describe('DataGrid keyboard navigation', () => {
 
     expect(escapeEvent.defaultPrevented).toBe(true)
     expect(grid.renderRoot.querySelector('.header-menu')).toBeNull()
-    expect(grid.renderRoot.activeElement).toBe(trigger)
+    expect(grid.shadowRoot!.activeElement).toBe(trigger)
   })
 })
 
@@ -961,21 +961,21 @@ describe('DataGrid best-fit sizing', () => {
 
     grid.data = [{ name: 'Ada' }]
     grid.columns = [{ key: 'name', render: firstRenderer }]
-    grid.computeColumnBestFit('name')
-    grid.computeColumnBestFit('name')
+    grid.bestFitColumn('name')
+    grid.bestFitColumn('name')
 
     expect(firstRenderer).toHaveBeenCalledTimes(1)
 
     grid.data = [{ name: 'Grace' }]
-    grid.computeColumnBestFit('name')
+    grid.bestFitColumn('name')
     expect(firstRenderer).toHaveBeenCalledTimes(2)
 
     grid.columns = [{ key: 'name', render: secondRenderer }]
-    grid.computeColumnBestFit('name')
+    grid.bestFitColumn('name')
     expect(secondRenderer).toHaveBeenCalledTimes(1)
 
     grid.bestFitSampleSize = 1
-    grid.computeColumnBestFit('name')
+    grid.bestFitColumn('name')
     expect(secondRenderer).toHaveBeenCalledTimes(2)
   })
 

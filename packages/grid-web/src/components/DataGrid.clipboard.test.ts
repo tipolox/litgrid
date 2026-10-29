@@ -5,7 +5,7 @@ import { DataGrid } from './DataGrid.js'
 afterEach(() => {
   document.body.replaceChildren()
   vi.restoreAllMocks()
-  delete (navigator as Navigator & { clipboard?: Clipboard }).clipboard
+  Reflect.deleteProperty(navigator, 'clipboard')
 })
 
 describe('DataGrid clipboard', () => {

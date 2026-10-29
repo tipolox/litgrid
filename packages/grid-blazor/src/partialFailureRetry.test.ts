@@ -18,7 +18,7 @@ async function mount(declarative = true) {
 }
 function failConfigAfterApplying() {
   const setter = Object.getOwnPropertyDescriptor(DataGrid.prototype, 'config')!.set!
-  return vi.spyOn(DataGrid.prototype, 'config', 'set').mockImplementationOnce(function(value) {
+  return vi.spyOn(DataGrid.prototype, 'config', 'set').mockImplementationOnce(function(this: DataGrid, value) {
     setter.call(this, value); throw new Error('config after apply')
   })
 }
@@ -87,7 +87,7 @@ it('retains uncertainty across a second failure and restores the original scalar
   const grid = await mount(); const config = failConfigAfterApplying()
   expect(() => updateInputs(grid, { ariaLabel: 'Changed', config: { selection: { mode: 'row' } } })).toThrow()
   const setter = Object.getOwnPropertyDescriptor(DataGrid.prototype, 'config')!.set!
-  config.mockImplementationOnce(function(value) { setter.call(this, value); throw new Error('second failure') })
+  config.mockImplementationOnce(function(this: DataGrid, value) { setter.call(this, value); throw new Error('second failure') })
   expect(() => updateInputs(grid, { ariaLabel: 'Second', config: original().config })).toThrow('second failure')
   updateInputs(grid, {}); await grid.updateComplete
   expect(grid.ariaLabel).toBe('Original'); expect(grid.getSelection().mode).toBe('cell')

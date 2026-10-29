@@ -36,6 +36,8 @@ jobs:
           dotnet-version: '8.0.x'
 
       - run: pnpm install --frozen-lockfile
+      - name: Typecheck all authored TypeScript and verify project ownership
+        run: pnpm typecheck:all
       - name: Typecheck public API and adapter fixtures
         run: node scripts/typecheck-contracts.mjs
       - run: pnpm test --maxWorkers=2
