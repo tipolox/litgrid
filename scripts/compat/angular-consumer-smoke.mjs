@@ -17,8 +17,8 @@ function run(command, args, cwd = root) {
   if (result.status !== 0) throw new Error('Command exited ' + result.status + ': ' + command + ' ' + args.join(' '))
 }
 console.log(JSON.stringify({ major, version, node: process.version, fixture: dir }))
-run('npx', ['--yes', '@angular/cli@' + major, 'new', 'litgrid-compat', '--directory', dir,
-  '--skip-git', '--skip-install', '--defaults', '--standalone', '--routing=false', '--style=css', '--ssr=false'])
+run('npx', ['--yes', '@angular/cli@' + major, 'new', 'litgrid-compat', '--directory', '.',
+  '--skip-git', '--skip-install', '--defaults', '--standalone', '--routing=false', '--style=css', '--ssr=false'], dir)
 run('npm', ['install', '--no-audit', '--no-fund'], dir)
 run('npm', ['install', '--save', '--no-audit', '--no-fund', '@tipolox/litgrid-angular@' + version], dir)
 run('npm', ['install', '--save-dev', '--no-audit', '--no-fund', 'playwright@1.64.1'], dir)
