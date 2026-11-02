@@ -1,5 +1,5 @@
 import { spawn, spawnSync } from 'node:child_process'
-import { mkdtempSync, writeFileSync, copyFileSync } from 'node:fs'
+import { mkdtempSync, writeFileSync, readFileSync, copyFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
@@ -22,6 +22,10 @@ run('npx', ['--yes', '@angular/cli@' + major, 'new', 'litgrid-compat', '--direct
 if (major === 21) {
   // npm 10.9.8 on Node 22 may crash in Arborist (edgesOut) before installing any package.
   // Use pnpm only for this consumer; the Angular/TypeScript versions remain from its CLI scaffold.
+  const manifest = join(dir, 'package.json')
+  const packageJson = JSON.parse(readFileSync(manifest, 'utf8'))
+  packageJson.packageManager = 'pnpm@10.33.0'
+  writeFileSync(manifest, JSON.stringify(packageJson, null, 2) + '\n')
   run('npx', ['--yes', 'pnpm@10.33.0', 'install'], dir)
   run('npx', ['--yes', 'pnpm@10.33.0', 'add', '@tipolox/litgrid-angular@' + version], dir)
   run('npx', ['--yes', 'pnpm@10.33.0', 'add', '-D', 'playwright@1.64.1'], dir)
