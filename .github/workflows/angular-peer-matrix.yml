@@ -1,0 +1,46 @@
+name: Angular peer compatibility matrix (issue 30)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/compat/**'
+      - '.github/workflows/angular-peer-matrix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  published-consumer:
+    name: Angular ${{ matrix.angular }} published v1.2.3 consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - angular: 17
+            node: '20.19.0'
+          - angular: 18
+            node: '20.19.0'
+          - angular: 19
+            node: '20.19.0'
+          - angular: 20
+            node: '22.22.3'
+          - angular: 21
+            node: '22.22.3'
+          - angular: 22
+            node: '22.22.3'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Report Node and Chrome toolchain
+        run: |
+          node --version
+          npm --version
+          google-chrome --version
+      - name: Install clean consumer, build AOT, exercise in browser
+        run: node scripts/compat/angular-consumer-smoke.mjs ${{ matrix.angular }}
