@@ -1,0 +1,47 @@
+import { spawn, spawnSync } from 'node:child_process'
+import { mkdtempSync, writeFileSync, copyFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
+import { setTimeout as delay } from 'node:timers/promises'
+
+const major = Number(process.argv[2])
+if (![17, 18, 19, 20, 21, 22].includes(major)) throw new Error('Expected Angular major 17–22')
+const version = '1.2.3'
+const dir = mkdtempSync(join(process.env.RUNNER_TEMP || tmpdir(), 'litgrid-angular-' + major + '-'))
+const cli = join(dir, 'node_modules', '@angular', 'cli', 'bin', 'ng.js')
+const root = resolve(new URL('../../', import.meta.url).pathname)
+function run(command, args, cwd = root) {
+  console.log('\n> ' + command + ' ' + args.join(' ') + ' (cwd: ' + cwd + ')')
+  const result = spawnSync(command, args, { cwd, stdio: 'inherit', env: { ...process.env, CI: 'true' }, shell: process.platform === 'win32' })
+  if (result.error) throw result.error
+  if (result.status !== 0) throw new Error('Command exited ' + result.status + ': ' + command + ' ' + args.join(' '))
+}
+console.log(JSON.stringify({ major, version, node: process.version, fixture: dir }))
+run('npx', ['--yes', '@angular/cli@' + major, 'new', 'litgrid-compat', '--directory', dir,
+  '--skip-git', '--skip-install', '--defaults', '--standalone', '--routing=false', '--style=css', '--ssr=false'])
+run('npm', ['install', '--no-audit', '--no-fund'], dir)
+run('npm', ['install', '--save', '--no-audit', '--no-fund', '@tipolox/litgrid-angular@' + version], dir)
+run('npm', ['install', '--save-dev', '--no-audit', '--no-fund', 'playwright@1.64.1'], dir)
+run('npm', ['ls', '@angular/core', '@angular/compiler-cli', '@angular/cli',
+  '@tipolox/litgrid-angular', 'typescript', '--depth=0'], dir)
+writeFileSync(join(dir, 'src', 'main.ts'), "import { bootstrapApplication } from '@angular/platform-browser'\nimport { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core'\nimport { DataGridComponent } from '@tipolox/litgrid-angular'\nimport type { GridColumn, GridConfig } from '@tipolox/litgrid-angular'\ndeclare global {\n  interface Window {\n    litgridSmoke?: { count(): number; update(): void; select(): void; columnOrder(): string[] }\n    litgridEvents?: number\n  }\n}\n@Component({\n  selector: 'app-root',\n  standalone: true,\n  imports: [DataGridComponent],\n  template: `<litgrid-data-grid #grid [data]=\"rows\" [columns]=\"columns\" [config]=\"config\" [height]=\"320\" (selectionChange)=\"onSelectionChange()\"></litgrid-data-grid>`\n})\nclass SmokeApplication implements AfterViewInit {\n  @ViewChild('grid') grid?: DataGridComponent\n  rows = [{ id: 1, name: 'Ada' }, { id: 2, name: 'Grace' }]\n  columns: GridColumn[] = [{ key: 'id' }, { key: 'name' }]\n  config: GridConfig = { selection: { mode: 'row' }, pagination: { enabled: true, pageSize: 2 } }\n  constructor(private readonly changes: ChangeDetectorRef) {}\n  onSelectionChange(): void { window.litgridEvents = (window.litgridEvents ?? 0) + 1 }\n  ngAfterViewInit(): void {\n    window.litgridEvents = 0\n    window.litgridSmoke = {\n      count: () => this.grid?.getTotalRowCount() ?? -1,\n      columnOrder: () => this.grid?.getColumnOrder() ?? [],\n      select: () => this.grid?.selectRow(0),\n      update: () => {\n        this.rows = [...this.rows, { id: 3, name: 'Katherine' }]\n        this.columns = [...this.columns, { key: 'status' }]\n        this.changes.detectChanges()\n      }\n    }\n  }\n}\nbootstrapApplication(SmokeApplication).catch(error => console.error(error))\n")
+copyFileSync(new URL('./angular-browser.cjs', import.meta.url), join(dir, 'browser-smoke.cjs'))
+run(process.execPath, [cli, 'build', '--configuration', 'production'], dir)
+const server = spawn(process.execPath, [cli, 'serve', '--host', '127.0.0.1', '--port', '4317'], {
+  cwd: dir, env: { ...process.env, CI: 'true' }, stdio: ['ignore', 'inherit', 'inherit']
+})
+try {
+  let ready = false
+  for (let attempt = 0; attempt < 100; attempt++) {
+    if (server.exitCode !== null) throw new Error('ng serve exited ' + server.exitCode)
+    try {
+      if ((await fetch('http://127.0.0.1:4317')).ok) { ready = true; break }
+    } catch {}
+    await delay(1000)
+  }
+  if (!ready) throw new Error('Angular development server did not start within 100 seconds')
+  run(process.execPath, ['browser-smoke.cjs'], dir)
+} finally {
+  server.kill('SIGTERM')
+}
+console.log('ANGULAR ' + major + ' + LitGrid ' + version + ': AOT production build and browser smoke PASS')
