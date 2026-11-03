@@ -4154,7 +4154,7 @@ var DataGrid = class DataGrid extends i$3 {
 		return mode;
 	}
 	needsFullLocalRefresh() {
-		return this.lastAdoptedLocalData.length !== this.sourceRowCount || !!this.engine.getQuickSearch().trim() || this.engine.getFilters().length > 0 || this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null;
+		return this._inferColumns && this.sourceColumnDefs.length === 0 || this.lastAdoptedLocalData.length !== this.sourceRowCount || !!this.engine.getQuickSearch().trim() || this.engine.getFilters().length > 0 || this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null;
 	}
 	displayedKeyMatches(index) {
 		const property = this.engine.getConfig().selection.rowKey;
@@ -4190,6 +4190,7 @@ var DataGrid = class DataGrid extends i$3 {
 		if (!Array.isArray(keys)) throw new TypeError("refreshRows expects row keys");
 		const mode = this.refreshMode(options);
 		const external = this.engine.getConfig().queryMode === "external";
+		if (this._inferColumns && this.sourceColumnDefs.length === 0 && (external || mode === "render-only")) return 0;
 		const unique = new Set(keys.filter((key) => typeof key === "string" || typeof key === "number" && Number.isFinite(key)));
 		if (!unique.size) return 0;
 		const resolve = () => {
@@ -4219,6 +4220,7 @@ var DataGrid = class DataGrid extends i$3 {
 		const end = Math.min(count, range.endExclusive);
 		if (start === end) return 0;
 		const external = this.engine.getConfig().queryMode === "external";
+		if (this._inferColumns && this.sourceColumnDefs.length === 0 && (external || mode === "render-only")) return 0;
 		if (!external && mode === "auto" && this.needsFullLocalRefresh()) {
 			this.refreshData();
 			return Math.max(0, Math.min(this.engine.getRowCount(), end) - start);
