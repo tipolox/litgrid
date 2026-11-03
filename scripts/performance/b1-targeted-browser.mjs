@@ -70,14 +70,19 @@ try{
       grid.data=data
       document.getElementById('host').append(grid)
       await grid.updateComplete
+      // Browser-only ResizeObserver and scrollbar-width reconciliation may
+      // legitimately enqueue a full layout update immediately after mount.
+      // Qualify isolated edits only after the ordinary initial layout settles.
+      await new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)))
+      await grid.updateComplete
       const mounted=grid.shadowRoot.querySelectorAll('.row').length
       if(mounted<5||mounted>80)throw Error('unexpected mounted row count '+mounted)
       const firstRow=grid.shadowRoot.querySelector('.row')
       const rowCountBefore=grid.getTotalRowCount()
       const one=[],batch=[],full=[]
       const assertOnly=(allowed,operation)=>{
-        for(const [id,n] of counts)if(n>0&&!allowed.includes(id))throw Error(operation+' touched other accessor row '+id)
-        for(const [id,n] of renderCounts)if(n>0&&!allowed.includes(id))throw Error(operation+' touched other renderer row '+id)
+        for(const [id,n] of counts)if(n>0&&!allowed.includes(id))throw Error(operation+' touched other accessor row '+id+' epoch '+grid.completeRowRenderEpoch)
+        for(const [id,n] of renderCounts)if(n>0&&!allowed.includes(id))throw Error(operation+' touched other renderer row '+id+' epoch '+grid.completeRowRenderEpoch)
       }
       for(let i=0;i<18;i++){
         counts.clear();renderCounts.clear()
