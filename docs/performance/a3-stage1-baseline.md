@@ -34,6 +34,20 @@ Prerequisites: frozen `pnpm install`, then `pnpm --dir packages/grid-core build`
 
 These are **research hypotheses, not approved fixes**. Do not add `dataRevision`, an immutable mode, or new refresh APIs without a separate design decision. Do not weaken accessibility or virtualized row/column bounds.
 
+## First measured Core-only baseline (2026-11-03)
+
+**Run:** https://github.com/tipolox/litgrid/actions/runs/41565136901 (successful; PR head `eea719153ae95bf279a316519debd42f687b32f1`). GitHub Actions uploaded the **raw 400 timing samples** and host metadata as the `litgrid-a3-core-baseline` artifact (14-day retention). All identity correctness probes passed.
+
+| Built-Core operation | 30k p50 / p95 (ms) | 100k p50 / p95 (ms) |
+|---|---:|---:|
+| Cold keyed `setData` | 2.62 / 3.56 | 11.18 / 11.68 |
+| Cold unkeyed `setData` | 0.107 / 0.122 | 0.321 / 0.345 |
+| Repeat unchanged same-array keyed | 0.397 / 1.20 | 1.27 / 1.31 |
+| Same-reference tail-key mutation | 2.57 / 3.98 | 10.62 / 11.16 |
+| Unchanged-config `setConfig` | 2.84 / 4.40 | 12.02 / 13.14 |
+
+**Interpretation:** The config-only path was not cheap in this Core-only fixture (100k p95 ~13.14ms), despite unchanged data and unchanged configuration. `setConfig` calls `reconcile()`, which in the current unpaginated path can reconstruct a displayed key lookup. This is a **source-supported hypothesis**, not yet a CPU-profiled root cause or a product-speed regression. Cold keyed ingestion's higher cost versus unkeyed reflects extra identity validation guarantees; it is not an equivalent-feature competitor comparison. Numbers are one shared Linux CI run and **must not** be compared directly to historical Windows Chromium p95 values, nor treated as user-visible startup/paint latency or a production SLA.
+
 ## Next A3 investigation gate
 
 Only after gathering baseline evidence: run production/browser measurements for 30k/100k × 120/200 columns and external 20-row controls, ideally paired on two environments and with comparable user-visible readiness and first click. Prototype the three options in disposable branches and benchmark each against the **same current main** under equivalent correctness conditions. Stop optimizing if <15–20% user-visible p95 improvement is not reproducible or maintenance/contract risk exceeds the gain.
