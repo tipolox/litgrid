@@ -207,6 +207,23 @@ The earlier major-release recommendation remains in the historical investigation
 report; the [final product-owner decision and review corrections](blazor-b11-review-corrections.md)
 record the approved policy separately.
 
+## Targeted row and displayed-range refresh (B1 source update; not yet published)
+
+`DataGrid<TItem>` now also proposes/implements the following imperative calls in the B1 draft source branch (not v1.2.3 NuGet):
+
+```csharp
+// After the component is initialized, with a configured stable selection.rowKey:
+await grid.RefreshRowAsync(employee.Id);                // one loaded row
+await grid.RefreshRowsAsync(new object[] { 4, 6, 7 });   // deduplicated keys
+await grid.RefreshRangeAsync(0, 10);                    // displayed indices [0,10)
+await grid.RefreshRowAsync(employee.Id, renderOnly: true); // only non-model visual state
+await grid.RefreshDataAsync();                          // existing complete refresh
+```
+
+The first three targeted calls return a `ValueTask<bool>` or `ValueTask<int>` indicating matched/displayed rows, not a server write result. `renderOnly: true` is an explicit caller guarantee that row identity, sorting/filter/search membership and geometry remain unchanged; avoid it after structural/model changes. By default, the Web Component falls back to full local synchronization if model correctness may be affected. External accepted pages can be repainted for client-owned validation/status annotations but this never emits a new server query or revalidates authorization.
+
+`RefreshDataAsync()` remains the existing full-data lifecycle/interop operation and is **not replaced by** row refresh. Do not use targeted repaint as a replacement for data revision signals or notifying collection updates when row membership or primary keys change. Matching generated `litgrid-blazor.js` assets must be packaged alongside corresponding C# and Web Component code before any release.
+
 ## Performance and limits
 
 Unchanged automatic renders do no row work. Non-notifying row types need no
