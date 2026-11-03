@@ -45,8 +45,8 @@ function experiment(name) {
       ? '      if (!external.active() && operationalUnchanged &&\n' + display + ') {\n'
       : '      if (!external.active() && operationalUnchanged) {\n'
     const extra = operational + condition + '        state.config = nextConfig\n        return\n      }\n'
-    engine = replaceOnce(engine, '      const previousConfig = state.config\n',
-      '      const previousConfig = state.config\n' + extra, name)
+    engine = replaceOnce(engine, '      const modeChanged = state.config.queryMode !== nextConfig.queryMode\n',
+      '      const modeChanged = state.config.queryMode !== nextConfig.queryMode\n' + extra, name)
   }
   return { selection, engine }
 }
