@@ -1,12 +1,12 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { cpus, platform, release } from 'node:os'
 import { dirname, resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { pathToFileURL, fileURLToPath } from 'node:url'
 
 // Stage 3 compares *observable* behavior of the unchanged Core engine against
 // H2/H3 built from the same source revision. Differences are evidence, not
 // accepted regressions. Variants remain disposable and are never published.
-const root = resolve(new URL('../../', import.meta.url).pathname)
+const root = resolve(fileURLToPath(new URL('../../', import.meta.url)))
 const out = resolve(process.argv[2] || '.private/a3/stage3-differential.json')
 const variants = ['baseline', 'noop-config', 'presentation-config', 'verified-index-reuse']
 const create = {}
