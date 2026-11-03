@@ -2813,7 +2813,11 @@ export class DataGrid extends LitElement {
   }
 
   private needsFullLocalRefresh(): boolean {
-    return this.lastAdoptedLocalData.length !== this.sourceRowCount ||
+    // Inferred columns may change when callers add/remove object properties.
+    // Until we have explicit per-row schema dependency tracking, an inferred
+    // local grid must take the complete adoption/schema-reconciliation path.
+    return (this._inferColumns && this.sourceColumnDefs.length === 0) ||
+      this.lastAdoptedLocalData.length !== this.sourceRowCount ||
       !!this.engine.getQuickSearch().trim() ||
       this.engine.getFilters().length > 0 ||
       (this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null)
@@ -2861,6 +2865,8 @@ export class DataGrid extends LitElement {
     if (!Array.isArray(keys)) throw new TypeError('refreshRows expects row keys')
     const mode = this.refreshMode(options)
     const external = this.engine.getConfig().queryMode === 'external'
+    if (this._inferColumns && this.sourceColumnDefs.length === 0 &&
+        (external || mode === 'render-only')) return 0
     const unique = new Set(keys.filter(key =>
       typeof key === 'string' || (typeof key === 'number' && Number.isFinite(key))))
     if (!unique.size) return 0
@@ -2896,6 +2902,8 @@ export class DataGrid extends LitElement {
     const end = Math.min(count, range.endExclusive)
     if (start === end) return 0
     const external = this.engine.getConfig().queryMode === 'external'
+    if (this._inferColumns && this.sourceColumnDefs.length === 0 &&
+        (external || mode === 'render-only')) return 0
     if (!external && mode === 'auto' && this.needsFullLocalRefresh()) {
       this.refreshData()
       return Math.max(0, Math.min(this.engine.getRowCount(), end) - start)
