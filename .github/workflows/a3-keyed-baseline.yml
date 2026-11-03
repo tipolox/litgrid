@@ -59,12 +59,16 @@ jobs:
         run: git diff --exit-code -- packages/grid-core/src
       - name: Measure and validate real built Core variants
         run: node --expose-gc scripts/performance/a3-compare-variants.mjs .private/a3/variant-comparison.json
+      - name: Compare observable behavior of baseline and config fast-path variants
+        run: node scripts/performance/a3-differential.mjs .private/a3/stage3-differential.json
       - name: Upload raw comparable samples
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: litgrid-a3-variant-comparison
-          path: .private/a3/variant-comparison.json
+          path: |
+            .private/a3/variant-comparison.json
+            .private/a3/stage3-differential.json
           if-no-files-found: warn
           retention-days: 14
 
