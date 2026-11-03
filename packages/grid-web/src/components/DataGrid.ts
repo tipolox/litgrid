@@ -1,6 +1,7 @@
 // src/components/DataGrid.ts
 import { LitElement, css, html, nothing, render as litRender } from 'lit'
 import { cache } from 'lit/directives/cache.js'
+import { guard } from 'lit/directives/guard.js'
 import {
   createGridEngine,
   type FilterOperator,
@@ -20,7 +21,7 @@ import {
   createVirtualizer,
   mapDisplayScrollOffset
 } from '@tipolox/litgrid-renderer'
-import type { GridColumn, GridTheme } from '../types.js'
+import type { GridColumn, GridTheme, GridRefreshOptions, GridRefreshRange } from '../types.js'
 import { darkThemeStyles } from '../theme/darkTheme.js'
 import { lightThemeStyles } from '../theme/lightTheme.js'
 import { MIN_COLUMN_WIDTH, MIN_ROW_HEIGHT } from '../sizing/constants.js'
@@ -84,6 +85,19 @@ export class DataGrid extends LitElement {
 
   private readonly gridId = `litgrid-${DataGrid.nextInstanceId++}`
   private engine = createGridEngine()
+  // Normal updates invalidate every mounted row. Targeted refresh bypasses
+  // the ordinary requestUpdate override and invalidates only chosen rows.
+  private completeRowRenderEpoch = 0
+  private nextTargetedRowEpoch = 0
+  private targetedRowEpochs = new Map<number, number>()
+  private renderedRowEnd = 0
+  private lastAdoptedLocalData: unknown[] = []
+
+  override requestUpdate(...args: Parameters<LitElement['requestUpdate']>): void {
+    this.completeRowRenderEpoch = (this.completeRowRenderEpoch ?? 0) + 1
+    this.targetedRowEpochs?.clear()
+    super.requestUpdate(...args)
+  }
   private fixedRowVirtualizer = createVirtualizer({
     rowHeight: 36,
     viewportHeight: 320,
@@ -2773,11 +2787,140 @@ export class DataGrid extends LitElement {
 
     this.sourceRowCount = Array.isArray(value) ? value.length : 0
     this.engine.setData(value ?? [])
+    // Update the source reference only after successful Core adoption.
+    this.lastAdoptedLocalData = value ?? []
     this.reconcileInferredColumnState(inferred)
     this.quickSearchDraft = this.engine.getQuickSearch()
     this.clearBestFitWidths()
     this.announceScreenReader(this.engine.getRowCount() === 0 ? 'Grid is empty.' : `${this.engine.getRowCount()} ${this.engine.getRowCount() === 1 ? 'row' : 'rows'} loaded.`)
     this.requestUpdate()
+  }
+
+
+  /** Explicit same-source local synchronization, including sort/filter and identity. */
+  refreshData(): boolean {
+    if (this.engine.getConfig().queryMode === 'external') return false
+    this.data = this.lastAdoptedLocalData
+    return true
+  }
+
+  private refreshMode(options?: GridRefreshOptions): 'auto' | 'render-only' {
+    const mode = options?.mode ?? 'auto'
+    if (mode !== 'auto' && mode !== 'render-only') {
+      throw new TypeError('refresh mode must be auto or render-only')
+    }
+    return mode
+  }
+
+  private needsFullLocalRefresh(): boolean {
+    // Inferred columns may change when callers add/remove object properties.
+    // Until we have explicit per-row schema dependency tracking, an inferred
+    // local grid must take the complete adoption/schema-reconciliation path.
+    return (this._inferColumns && this.sourceColumnDefs.length === 0) ||
+      this.lastAdoptedLocalData.length !== this.sourceRowCount ||
+      !!this.engine.getQuickSearch().trim() ||
+      this.engine.getFilters().length > 0 ||
+      (this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null)
+  }
+
+  private displayedKeyMatches(index: number): boolean {
+    const property = this.engine.getConfig().selection.rowKey
+    if (property === undefined) return true
+    const row = this.engine.getVisibleRows(index, index + 1)[0]
+    if (row === null || typeof row !== 'object') return false
+    const key = Reflect.get(row, property)
+    return (typeof key === 'string' || (typeof key === 'number' && Number.isFinite(key))) &&
+      this.engine.getDisplayedRowIndexForKey(key) === index
+  }
+
+  private invalidateDisplayedRows(indexes: ReadonlySet<number>): void {
+    const start = this.renderedRowStart
+    const end = this.renderedRowEnd
+    let touched = false
+    for (const index of indexes) {
+      if (index < start || index >= end) continue
+      this.targetedRowEpochs.set(index, ++this.nextTargetedRowEpoch)
+      touched = true
+    }
+    if (touched) {
+      // The virtual window is bounded; never keep revisions for offscreen rows.
+      for (const index of this.targetedRowEpochs.keys()) {
+        if (index < start || index >= end) this.targetedRowEpochs.delete(index)
+      }
+      // Skip the full-row render epoch only for an explicitly targeted update.
+      super.requestUpdate()
+    }
+  }
+
+  /**
+   * Update an edited loaded row by globally unique selection.rowKey.
+   * Auto reconciles local transforms; render-only is an application guarantee
+   * that the edit did not change identity, sorting, membership or layout.
+   */
+  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean {
+    return this.refreshRows([key], options) > 0
+  }
+
+  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number {
+    if (!Array.isArray(keys)) throw new TypeError('refreshRows expects row keys')
+    const mode = this.refreshMode(options)
+    const external = this.engine.getConfig().queryMode === 'external'
+    if (this._inferColumns && this.sourceColumnDefs.length === 0 &&
+        (external || mode === 'render-only')) return 0
+    const unique = new Set(keys.filter(key =>
+      typeof key === 'string' || (typeof key === 'number' && Number.isFinite(key))))
+    if (!unique.size) return 0
+    const resolve = (): Set<number> => {
+      const indices = new Set<number>()
+      for (const key of unique) {
+        const index = this.engine.getDisplayedRowIndexForKey(key)
+        if (index !== undefined && this.displayedKeyMatches(index)) indices.add(index)
+      }
+      return indices
+    }
+    const indices = resolve()
+    const incomplete = indices.size !== unique.size
+    if (!external && mode === 'auto' && (incomplete || this.needsFullLocalRefresh())) {
+      this.refreshData()
+      return resolve().size
+    }
+    if (incomplete && mode === 'render-only') return 0
+    this.invalidateDisplayedRows(indices)
+    return indices.size
+  }
+
+  /** Refresh current displayed row indexes; range excludes endExclusive. */
+  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number {
+    const mode = this.refreshMode(options)
+    if (!range || !Number.isSafeInteger(range.start) ||
+      !Number.isSafeInteger(range.endExclusive) || range.start < 0 ||
+      range.endExclusive < range.start) {
+      throw new RangeError('refreshRange requires 0 <= start <= endExclusive (safe integers)')
+    }
+    const count = this.engine.getRowCount()
+    const start = Math.min(count, range.start)
+    const end = Math.min(count, range.endExclusive)
+    if (start === end) return 0
+    const external = this.engine.getConfig().queryMode === 'external'
+    if (this._inferColumns && this.sourceColumnDefs.length === 0 &&
+        (external || mode === 'render-only')) return 0
+    if (!external && mode === 'auto' && this.needsFullLocalRefresh()) {
+      this.refreshData()
+      return Math.max(0, Math.min(this.engine.getRowCount(), end) - start)
+    }
+    const indexes = new Set<number>()
+    for (let index = start; index < end; index++) {
+      if (!this.displayedKeyMatches(index)) {
+        if (!external && mode === 'auto') {
+          this.refreshData()
+          return Math.max(0, Math.min(this.engine.getRowCount(), end) - start)
+        }
+        return 0
+      }
+      indexes.add(index)
+    }
+    this.invalidateDisplayedRows(indexes)
+    return indexes.size
   }
 
   private handleRowCheckboxChange(rowIndex: number) {
@@ -2907,9 +3050,15 @@ export class DataGrid extends LitElement {
   }
 
   set config(value: GridConfig) {
+    const previousQueryMode = this.engine.getConfig().queryMode
     const wasVisible = this.isQuickSearchDisplayed()
     const inputFocused = !!this.renderRoot?.querySelector<HTMLInputElement>('.quick-search input:focus')
     this.engine.setConfig(value ?? {})
+    if (previousQueryMode !== 'external' && this.engine.getConfig().queryMode === 'external') {
+      // Never retain old local tenant data when a controlled remote grid
+      // takes ownership; switching back needs a fresh local data adoption.
+      this.lastAdoptedLocalData = []
+    }
     const nowVisible = this.isQuickSearchDisplayed()
     if (wasVisible && !nowVisible) {
       // Do not emit a surprise remote intent from a now-hidden pending draft.
@@ -3109,6 +3258,7 @@ export class DataGrid extends LitElement {
       this.shouldFocusViewport = this.gridCellHasFocus
     }
     this.renderedRowStart = renderedRowStart
+    this.renderedRowEnd = renderedRowStart + rows.length
     this.renderedColumnStart = columnRange.startIndex
     const visibleColumnWidths = columnWidths.slice(
       columnRange.startIndex,
@@ -3382,9 +3532,13 @@ export class DataGrid extends LitElement {
             >
               ${rows.map((row, index) => {
                 const rowIndex = renderedRowStart + index
-                const height = this.getRowHeight(rowIndex)
-
-                return html`
+                return guard([
+                  this.completeRowRenderEpoch,
+                  this.targetedRowEpochs.get(rowIndex) ?? 0,
+                  rowIndex
+                ], () => {
+                  const height = this.getRowHeight(rowIndex)
+                  return html`
                                     <div
                     class=${this.getRowClass(rowIndex)}
                     role="row"
@@ -3403,6 +3557,7 @@ export class DataGrid extends LitElement {
                     <div class="column-spacer" aria-hidden="true"></div>
                   </div>
                 `
+                })
               })}
             </div>
           </div>

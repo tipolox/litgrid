@@ -15,6 +15,8 @@ export type {
   SelectionIntent,
   GridColumn,
   GridTheme,
+  GridRefreshOptions,
+  GridRefreshRange,
   GridColumnState,
   GridConfig
 } from './types.js'

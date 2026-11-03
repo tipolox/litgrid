@@ -390,6 +390,33 @@ Capture `@ref="gridRef"` on `DataGrid<TItem>` to invoke asynchronous methods (`V
 
 Calls before initial render throw an `InvalidOperationException`. See [Blazor Guide](blazor-guide.md) and [Blazor Examples](blazor-examples.md) for patterns.
 
+## Local data and targeted row refresh (B1 — source API, not yet published)
+
+The following APIs are introduced by draft B1 implementation PR #64 and are **not available in the published v1.2.3 packages**.
+
+```ts
+// Web Component, from the exact matching B1 build:
+rows[5].status = 'validating'
+grid.refreshRow(rows[5].id)
+rows[2].status = 'error'
+rows[3].status = 'valid'
+grid.refreshRows([rows[2].id, rows[3].id])
+grid.refreshRange({start: 0, endExclusive: 10}) // CURRENT DISPLAYED indexes
+grid.refreshData() // complete local identity + transforms + selection
+```
+
+- `refreshData(): boolean`: local mode only; returns true when same-source full adoption occurs, including complete keyed validation and sort/filter/search, with page retention/clamping. External mode returns false without emitting a query event; use existing `refreshQuery()` for a new server request.
+- `refreshRow(key, options?): boolean`: targets a unique, globally valid **currently displayed** `selection.rowKey` string/finite-number identity. False if the requested key is absent after any model fallback; external unloaded keys do not trigger a fetch.
+- `refreshRows(keys, options?): number`: deduplicates keys and batches a single targeted render, returning the number of matching loaded/displayed unique keyed rows.
+- `refreshRange({start,endExclusive}, options?): number`: currently displayed row indices (zero-based, end exclusive), **not** original source, server total, or absolute global pagination offsets. Empty/outside range returns zero; invalid range throws.
+- `options.mode` is `'auto'` (default) or `'render-only'`. Auto performs full local `refreshData()` when search/filter/sort is active, the source array length changed, or a requested key/row identity became invalid. Render-only is a **caller guarantee** that identity, sort/filter/search membership, visible order, derived column schema and row geometry are unchanged; it intentionally does **not** reconcile the model. Use render-only for an async-validation status field **only when** it cannot change derived view state. Invalid/unknown keys are rejected, never redirected to another row.
+- Normal immutable `data` replacement remains the preferred cross-framework data update and correctly resets to the first page. A same-source explicit full refresh never assumes the data is immutable.
+- All four methods are exposed by React and Vue imperative refs, Angular components and Web Component. Blazor's existing `RefreshDataAsync()` remains unchanged; new `RefreshRowAsync`, `RefreshRowsAsync`, and `RefreshRangeAsync` delegate to built assets through JS interop. Matched package/bundle versions are required.
+
+**Scope and performance:** Targeted refresh avoids full local-model reconciliation and preserves unaffected mounted row DOM, cell accessor and renderer callbacks on the safe path. Virtualization bounds mounted elements; a targeted request that crosses model/layout boundaries must use the full fallback. A visible-range call is bounded by the requested displayed rows; server-reported totals are not scanned. No global identity proof is possible without a complete scan if *unreported* rows were also modified; the caller must notify all altered rows or choose `refreshData()`.
+
+**Asynchronous validation:** The caller owns request IDs/cancellation and must ignore responses from stale edits or sites. Neither targeted refresh nor full local refresh fetches data, performs validation, or authorizes a backend update.
+
 ## Core engine
 
 `@tipolox/litgrid-core` exports `createGridEngine()` and the `GridEngine` contract. The engine owns data transforms and selection without browser or UI dependencies.
