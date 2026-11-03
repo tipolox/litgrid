@@ -1,0 +1,41 @@
+name: Temporary B1 Blazor Bundle Regeneration
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/grid-blazor/src/index.ts'
+      - '.github/workflows/b1-bundle-regenerate.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/b1-row-range-refresh-62'
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Compile all workspace assets, including Razor static Web bundle
+        run: pnpm -r build
+      - name: Commit the exact generated Blazor static assets to the draft branch
+        run: |
+          git add packages/grid-blazor/src/wwwroot/litgrid-blazor.js packages/grid-blazor/src/wwwroot/litgrid-blazor.js.map
+          if git diff --cached --quiet; then
+            echo 'Generated Blazor bundle already matches checked-in assets.'
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'build(blazor): regenerate embedded B1 Web Component interop bundle'
+          git push origin HEAD:refs/heads/feat/b1-row-range-refresh-62
