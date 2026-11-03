@@ -67,6 +67,34 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
 
     public async ValueTask<GridQuerySnapshot> GetQueryAsync() => await RequireModule().InvokeAsync<GridQuerySnapshot>("getQuery", elementRef);
     public async ValueTask RefreshQueryAsync() => await RequireModule().InvokeVoidAsync("refreshQuery", elementRef);
+
+    /// <summary>
+    /// Repaint a loaded keyed row after an edit. In renderOnly mode the caller
+    /// guarantees unchanged identity, sort/filter membership and row geometry.
+    /// Use RefreshDataAsync for changes to the data model.
+    /// </summary>
+    public async ValueTask<bool> RefreshRowAsync(object rowKey, bool renderOnly = false)
+    {
+        ArgumentNullException.ThrowIfNull(rowKey);
+        return await RequireModule().InvokeAsync<bool>("refreshRow", elementRef, rowKey,
+            renderOnly ? new { mode = "render-only" } : null);
+    }
+
+    /// <summary>Repaint a deduplicated batch of loaded keyed rows.</summary>
+    public async ValueTask<int> RefreshRowsAsync(IEnumerable<object> rowKeys, bool renderOnly = false)
+    {
+        ArgumentNullException.ThrowIfNull(rowKeys);
+        return await RequireModule().InvokeAsync<int>("refreshRows", elementRef, rowKeys.ToArray(),
+            renderOnly ? new { mode = "render-only" } : null);
+    }
+
+    /// <summary>Refresh displayed rows [start, endExclusive), not source or server row offsets.</summary>
+    public async ValueTask<int> RefreshRangeAsync(int start, int endExclusive, bool renderOnly = false)
+    {
+        if (start < 0 || endExclusive < start) throw new ArgumentOutOfRangeException(nameof(start));
+        return await RequireModule().InvokeAsync<int>("refreshRange", elementRef,
+            new { start, endExclusive }, renderOnly ? new { mode = "render-only" } : null);
+    }
     public async ValueTask<bool> SetExternalStateAsync(GridExternalState<TItem> state) => await RequireModule().InvokeAsync<bool>("setExternalState", elementRef, state);
     public async ValueTask SortByAsync(string columnKey, string direction) => await RequireModule().InvokeVoidAsync("sortBy", elementRef, columnKey, direction);
     public async ValueTask ClearSortAsync() => await RequireModule().InvokeVoidAsync("clearSort", elementRef);

@@ -10,6 +10,8 @@ import type {
   GridConfig,
   GridFilter,
   GridRowKey,
+  GridRefreshOptions,
+  GridRefreshRange,
   SelectionChangeDetail,
   GridExternalState,
   GridQueryChangeDetail,
@@ -294,6 +296,21 @@ export function getTotalRowCount(element: HTMLElement): number {
 
 export function getQuery(element: HTMLElement): GridQuerySnapshot { return requireGrid(element).getQuery!() }
 export function refreshQuery(element: HTMLElement): void { requireGrid(element).refreshQuery!() }
+export function refreshRow(element: HTMLElement, key: GridRowKey, options?: GridRefreshOptions): boolean {
+  const grid = requireGrid(element)
+  if (!grid.refreshRow) throw new Error('LitGrid row refresh requires matching Web Component assets.')
+  return grid.refreshRow(key, options)
+}
+export function refreshRows(element: HTMLElement, keys: GridRowKey[], options?: GridRefreshOptions): number {
+  const grid = requireGrid(element)
+  if (!grid.refreshRows) throw new Error('LitGrid row refresh requires matching Web Component assets.')
+  return grid.refreshRows(keys, options)
+}
+export function refreshRange(element: HTMLElement, range: GridRefreshRange, options?: GridRefreshOptions): number {
+  const grid = requireGrid(element)
+  if (!grid.refreshRange) throw new Error('LitGrid row refresh requires matching Web Component assets.')
+  return grid.refreshRange(range, options)
+}
 export function setExternalState(element: HTMLElement, state: GridExternalState): boolean { return requireGrid(element).setExternalState!(state) }
 export function sortBy(element: HTMLElement, key: string, direction: SortDirection): void { requireGrid(element).sortBy!(key, direction) }
 export function clearSort(element: HTMLElement): void { requireGrid(element).clearSort!() }
