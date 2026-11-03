@@ -8,7 +8,7 @@ import { performance } from 'node:perf_hooks'
 // All operations use an actual compiled Core engine; no published APIs change.
 const root = resolve(new URL('../../', import.meta.url).pathname)
 const out = resolve(process.argv[2] || '.private/a3/variant-comparison.json')
-const names = ['baseline', 'fused-index', 'noop-config', 'presentation-config']
+const names = ['baseline', 'fused-index', 'noop-config', 'presentation-config', 'verified-index-reuse']
 const engines = {}
 for (const name of names) {
   engines[name] = (await import(pathToFileURL(resolve(root, '.private/a3/variants', name, 'index.js')).href)).createGridEngine
