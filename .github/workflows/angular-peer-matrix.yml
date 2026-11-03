@@ -44,3 +44,61 @@ jobs:
           google-chrome --version
       - name: Install clean consumer, build AOT, exercise in browser
         run: node scripts/compat/angular-consumer-smoke.mjs ${{ matrix.angular }}
+
+  pack-current-source:
+    name: Build and pack unreleased main npm artifacts
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build packages, without modifying versions or publishing
+        run: pnpm build
+      - name: Pack core, renderer, web and Angular from current source
+        run: |
+          mkdir -p .private/angular-pack
+          pnpm --dir packages/grid-core pack --pack-destination ../../.private/angular-pack
+          pnpm --dir packages/grid-renderer pack --pack-destination ../../.private/angular-pack
+          pnpm --dir packages/grid-web pack --pack-destination ../../.private/angular-pack
+          pnpm --dir dist/grid-angular pack --pack-destination ../../.private/angular-pack
+          ls -l .private/angular-pack/*.tgz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-angular-current-packs
+          path: .private/angular-pack/*.tgz
+          if-no-files-found: error
+          retention-days: 3
+
+  packed-consumer:
+    name: Angular ${{ matrix.angular }} current-source packed consumer
+    needs: pack-current-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - angular: 17
+            node: '20.19.0'
+          - angular: 22
+            node: '22.22.3'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: litgrid-angular-current-packs
+          path: .private/angular-pack
+      - name: Verify AOT and Chrome against current unreleased source tarballs
+        env:
+          LITGRID_PACKED_DIR: ${{ github.workspace }}/.private/angular-pack
+        run: node scripts/compat/angular-consumer-smoke.mjs ${{ matrix.angular }}
