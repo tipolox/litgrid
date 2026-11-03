@@ -34,8 +34,10 @@ const display = [
   '        previousConfig.quickSearch.description === nextConfig.quickSearch.description'
 ].join('\n')
 function experiment(name) {
-  let selection = originals.get(selectionPath)
-  let engine = originals.get(enginePath)
+  // GitHub Windows checkouts may use CRLF. Normalize disposable copies only;
+  // the finally block restores the original source bytes without conversion.
+  let selection = originals.get(selectionPath).replaceAll('\r\n', '\n')
+  let engine = originals.get(enginePath).replaceAll('\r\n', '\n')
   if (name === 'fused-index') {
     selection = replaceOnce(selection, '    const nextKeys = sourceKeys.slice(0, firstChanged)',
       '    const nextKeys: Array<GridRowKey | null> = new Array(rows.length)\n    for (let i = 0; i < firstChanged; i++) nextKeys[i] = sourceKeys[i]', name)
