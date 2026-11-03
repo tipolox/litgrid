@@ -125,6 +125,10 @@ describe('B1 explicit data refresh and targeted presentation invalidation', () =
     expect(grid.refreshRow(1)).toBe(true)
     await grid.updateComplete
     expect(grid.getColumnOrder()).toContain('extra')
+    // Horizontal virtualization may place the newly inferred column offscreen.
+    // Move it to the first visible position before asserting rendered value.
+    grid.setColumnOrder(['extra','id','name'])
+    await grid.updateComplete
     expect(grid.renderRoot.textContent).toContain('new field')
     expect(grid.refreshRow(1, {mode:'render-only'})).toBe(false)
   })
