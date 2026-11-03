@@ -1,0 +1,86 @@
+name: A3 Verified Index Reuse Qualification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/grid-core/src/features/selection/selectionCoordination.ts'
+      - 'packages/grid-core/src/core/verifiedIndexReuse.test.ts'
+      - 'scripts/performance/a3-production-*'
+      - '.github/workflows/a3-verified-index-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build original main Core and candidate in isolation
+        run: node scripts/performance/a3-production-build.mjs
+      - name: Ensure no authored production source changes from benchmark setup
+        run: git diff --exit-code -- packages/grid-core/src
+      - name: Cross-check 750 state transitions and 50 external query states
+        run: node scripts/performance/a3-production-fuzz.mjs .private/a3/production-linux-fuzz.json
+      - name: Compare timings on original and production Core build
+        run: node --expose-gc scripts/performance/a3-production-compare.mjs .private/a3/production-linux-compare.json
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Compare Web Component configuration update and Lit readiness
+        run: node scripts/performance/a3-production-browser.mjs .private/a3/production-linux-browser.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: litgrid-a3-production-linux
+          path: |
+            .private/a3/production-linux-fuzz.json
+            .private/a3/production-linux-compare.json
+            .private/a3/production-linux-browser.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  windows-core:
+    runs-on: windows-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build original main Core and candidate in isolation
+        run: node scripts/performance/a3-production-build.mjs
+      - name: Ensure authored source is unchanged
+        run: git diff --exit-code -- packages/grid-core/src
+      - name: Cross-check 750 state transitions and 50 external query states
+        run: node scripts/performance/a3-production-fuzz.mjs .private/a3/production-windows-fuzz.json
+      - name: Compare compiled original and candidate Core timing
+        run: node --expose-gc scripts/performance/a3-production-compare.mjs .private/a3/production-windows-compare.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: litgrid-a3-production-windows
+          path: |
+            .private/a3/production-windows-fuzz.json
+            .private/a3/production-windows-compare.json
+          if-no-files-found: warn
+          retention-days: 14

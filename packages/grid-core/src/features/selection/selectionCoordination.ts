@@ -108,14 +108,45 @@ export function createSelectionCoordination(state: GridState) {
       displayedKeys = sourceIndexes
       displayedSelectableCount = sourceSelectableCount
     } else {
-      displayedKeys = new Map()
-      if (state.config.selection.rowKey !== undefined) {
+      // Avoid allocating another large Map when an existing complete display
+      // index still describes every row in precisely the same position.
+      // Never trust array identity: consumers can edit row keys in place.
+      // Partial indexes (invalid or duplicate identities) and newly validated
+      // source indexes use the original rebuild path.
+      const reuseCandidate = !freshSourceIndexes &&
+        state.config.selection.rowKey !== undefined &&
+        state.config.selection.rowKey === indexedProperty &&
+        displayedKeys.size > 0 && displayedKeys.size === state.data.length
+
+      if (reuseCandidate) {
+        let replacement: Map<GridRowKey, number> | null = null
         for (let index = 0; index < state.data.length; index++) {
           const key = keyAt(index)
-          if (key !== null) displayedKeys.set(key, index)
+          if (replacement === null && (key === null || displayedKeys.get(key) !== index)) {
+            // Keys already checked at earlier positions match the old map.
+            // Copy only that verified prefix, then process the remaining
+            // rows once. Do not read getters/proxies a second time on a miss.
+            replacement = new Map()
+            for (const [priorKey, priorIndex] of displayedKeys) {
+              if (priorIndex < index) replacement.set(priorKey, priorIndex)
+            }
+          }
+          if (replacement !== null && key !== null) replacement.set(key, index)
         }
+        if (replacement !== null) {
+          displayedKeys = replacement
+          displayedSelectableCount = replacement.size
+        }
+      } else {
+        displayedKeys = new Map()
+        if (state.config.selection.rowKey !== undefined) {
+          for (let index = 0; index < state.data.length; index++) {
+            const key = keyAt(index)
+            if (key !== null) displayedKeys.set(key, index)
+          }
+        }
+        displayedSelectableCount = displayedKeys.size
       }
-      displayedSelectableCount = displayedKeys.size
     }
     freshSourceIndexes = false
     if (state.selection.rowIndexes.size) {
