@@ -41,12 +41,28 @@ These are observed installed versions recorded in GitHub logs, not claims that a
 
 ## Limitations and follow-up
 
-- **Published package only:** the test matrix installs npm v1.2.3, not tarballs built from the current unreleased A1/A2/A2.1 `main`. Require a current-source packed-package matrix before the next publication, particularly for Angular 17 and 22.
+- **Published package only:** the test matrix installs npm v1.2.3, not tarballs built from the current unreleased A1/A2/A2.1 `main`. The additional Angular 17/22 packed-current-source matrix below addresses this endpoint smoke-test requirement; repeat this qualification for future release candidates.
 - The historical v1.1.0 npm artifact was not independently reconstructed here; v1.2.3 is the relevant presently published baseline.
 - Tests cover production build, bootstrap, input synchronization and selection output in Chrome, not server-side rendering, every grid API, all browser engines, every compiler patch, or backward support for all Angular 17–22 subversions.
 - Angular 17–19 are outside Angular's current official support window; independently decide whether maintaining that broad LitGrid support contract is strategically desirable. See [Angular release policy](https://angular.dev/reference/releases). Do not silently narrow the published peer range in v1.x.
 - Future stable CI could test published packages against the support matrix during release qualification and run a separate packed-`main` subset before release. Retain correct Node and TypeScript versions per [Angular compatibility table](https://angular.dev/reference/versions).
 
+## Current unreleased `main` package qualification
+
+An additional **non-publishing packed-current-source** qualification ran after the published matrix. This builds the current `main` baseline in CI, packs local Core, Renderer, Web, and Angular npm tarballs using the release packaging path (without changing package versions or publishing), installs those tarballs into independent Angular consumer projects, and runs the same AOT + Chrome assertions.
+
+- Source baseline: `b6ce2e7f081dfdc22bd6045db6a3887274a8c9fa` (PR #59 changes only test harness, workflow, and documentation).
+- CI workflow run: https://github.com/tipolox/litgrid/actions/runs/41561065498 (PR branch head `ba2fbe05a47c0c2e94237b9528045a2333ad3b0c`).
+- Build and pack four current-source packages: **PASS**.
+- Angular 17.3.12 / CLI 17.3.17 / TypeScript 5.4.5 / Node 20.19.0: **production AOT and Chrome runtime PASS**.
+- Angular 22.2.4 / CLI 22.2.5 / TypeScript 6.0.3 / Node 22.22.3: **production AOT and Chrome runtime PASS**.
+- Published v1.2.3 matrix (Angular 17–22): **6/6 PASS** at the same workflow run.
+
+This confirms the current unreleased package builds link and run in both the oldest and newest advertised framework majors in tested configurations. It does not extend validation to each intermediate major for *unreleased* artifacts, nor to Angular SSR or full-grid API coverage. **No product code, version, or peer range changes were required.**
+
+## Workflow placement and cost
+
+The compatibility matrix runs only for changes to `scripts/compat/**` or its workflow and may also be manually dispatched after merge. It is not a replacement for every-PR `Verify`. The packed-current-source subset builds once and shares its artifacts between two consumer jobs, avoiding duplicate package builds.
 ## Proposed issue disposition
 
-**Current question answered for published v1.2.3:** no verified older-Angular incompatibility. Keep peer range unchanged and retain the matrix as automated smoke evidence. Review draft PR #59 independently; merge only on owner authorization. Any narrower policy or major-version support change requires a separate product decision.
+**Current question answered for published v1.2.3 and current-source endpoint consumers:** no verified older-Angular incompatibility. Keep peer range unchanged and retain the matrix as automated smoke evidence. Review draft PR #59 independently; merge only on owner authorization. Any narrower policy or major-version support change requires a separate product decision.
