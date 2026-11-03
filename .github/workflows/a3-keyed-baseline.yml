@@ -98,3 +98,17 @@ jobs:
           path: .private/a3/browser-baseline.json
           if-no-files-found: warn
           retention-days: 14
+      - name: Build disposable Core variants for browser comparison
+        run: node scripts/performance/a3-build-variants.mjs
+      - name: Confirm repository product sources are unchanged
+        run: git diff --exit-code -- packages/grid-core/src
+      - name: Compare user-visible configuration changes on real Web Component
+        run: node scripts/performance/a3-browser-config.mjs .private/a3/stage3-browser-config.json
+      - name: Upload configuration browser comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-a3-stage3-browser-config
+          path: .private/a3/stage3-browser-config.json
+          if-no-files-found: warn
+          retention-days: 14
