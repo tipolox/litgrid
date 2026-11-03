@@ -10,7 +10,7 @@ import { chromium } from 'playwright'
 // The original component still drives config setter, requestUpdate and Lit.
 const root = resolve(new URL('../../', import.meta.url).pathname)
 const out = resolve(process.argv[2] || '.private/a3/stage3-browser-config.json')
-const variants = ['baseline', 'noop-config', 'presentation-config']
+const variants = ['baseline', 'noop-config', 'presentation-config', 'verified-index-reuse']
 const cases = [
   { rows:30000, columns:120 },
   { rows:100000, columns:120 },
