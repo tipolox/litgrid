@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url'
 // accepted regressions. Variants remain disposable and are never published.
 const root = resolve(new URL('../../', import.meta.url).pathname)
 const out = resolve(process.argv[2] || '.private/a3/stage3-differential.json')
-const variants = ['baseline', 'noop-config', 'presentation-config']
+const variants = ['baseline', 'noop-config', 'presentation-config', 'verified-index-reuse']
 const create = {}
 for (const name of variants) {
   create[name] = (await import(pathToFileURL(resolve(root, '.private/a3/variants', name, 'index.js')).href)).createGridEngine
@@ -103,12 +103,17 @@ for (const risk of expectedRisks) {
   assert(observed && !observed.equal,
     'Differential risk probe inconclusive: ' + JSON.stringify(risk))
 }
+const provedEquivalences = observations.filter(item =>
+  item.variant === 'verified-index-reuse')
+assert(provedEquivalences.length === scenarios.length &&
+  provedEquivalences.every(item => item.equal),
+  'Verified index reuse changed observable state in one or more differential scenarios')
 const result = {
   purpose: 'A3 Stage 3 semantic-differential research; differences disqualify simple production fast paths',
   revision: process.env.GITHUB_SHA || null,
   environment: { node: process.version, platform: platform(), release: release(), cpu: cpus()[0]?.model },
   variants, scenarios, expectedRisks, observations,
-  decision: 'Naive H2/H3 fast return variants are SEMANTICALLY NON-EQUIVALENT; do not ship without a narrower contract-safe design'
+  decision: 'Naive H2/H3 fast return variants are SEMANTICALLY NON-EQUIVALENT. Verified index reuse must pass this differential matrix; a pass is not full production approval.'
 }
 mkdirSync(dirname(out), {recursive:true})
 writeFileSync(out, JSON.stringify(result,null,2) + '\n')
