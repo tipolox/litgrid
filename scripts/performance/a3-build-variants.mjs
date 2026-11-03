@@ -1,10 +1,11 @@
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 
 // Build disposable hypothesis variants; original authored files are restored
 // even if a compile fails. Run in an isolated CI checkout only.
-const root = resolve(new URL('../../', import.meta.url).pathname)
+const root = resolve(fileURLToPath(new URL('../../', import.meta.url)))
 const selectionPath = resolve(root, 'packages/grid-core/src/features/selection/selectionCoordination.ts')
 const enginePath = resolve(root, 'packages/grid-core/src/core/createGridEngine.ts')
 const output = resolve(root, '.private/a3/variants')
@@ -100,7 +101,7 @@ function build(name) {
   writeFileSync(selectionPath, selection)
   writeFileSync(enginePath, engine)
   const cmd = spawnSync('pnpm', ['--dir', 'packages/grid-core', 'build'], {
-    cwd: root, stdio: 'inherit', env: process.env
+    cwd: root, stdio: 'inherit', env: process.env, shell: process.platform === 'win32'
   })
   if (cmd.error || cmd.status !== 0) throw new Error(name + ': Core build failed: ' + (cmd.error?.message || cmd.status))
   const target = resolve(output, name)
