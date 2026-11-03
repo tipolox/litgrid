@@ -1,0 +1,40 @@
+name: A3 Keyed Selection Baseline (research only)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/performance/a3-*'
+      - '.github/workflows/a3-keyed-baseline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    name: Core keyed/unkeyed baseline and identity correctness
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build unchanged Grid Core package
+        run: pnpm --dir packages/grid-core build
+      - name: Record non-gating baseline and enforce identity correctness probes
+        run: node --expose-gc scripts/performance/a3-core-baseline.mjs .private/a3/core-baseline.json
+      - name: Preserve raw distributions and machine metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-a3-core-baseline
+          path: .private/a3/core-baseline.json
+          if-no-files-found: warn
+          retention-days: 14
