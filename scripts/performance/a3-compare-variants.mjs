@@ -1,12 +1,12 @@
 import { cpus, platform, release, totalmem } from 'node:os'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { pathToFileURL, fileURLToPath } from 'node:url'
 import { performance } from 'node:perf_hooks'
 
 // Compare disposable variants built from the SAME checked-out LitGrid source.
 // All operations use an actual compiled Core engine; no published APIs change.
-const root = resolve(new URL('../../', import.meta.url).pathname)
+const root = resolve(fileURLToPath(new URL('../../', import.meta.url)))
 const out = resolve(process.argv[2] || '.private/a3/variant-comparison.json')
 const names = ['baseline', 'fused-index', 'noop-config', 'presentation-config', 'verified-index-reuse']
 const engines = {}
