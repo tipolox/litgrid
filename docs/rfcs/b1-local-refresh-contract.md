@@ -4,11 +4,11 @@
 
 ## 1. Recommendation
 
-**B1a: design/qualify one explicit full local `refreshData()` capability first. Do not ship `refreshRow`, `refreshCells` or `applyTransaction` in the first implementation.** Their semantics depend on mutable framework input ownership, derived view membership, unique row identity and renderer invalidation. A deceptively fast method that silently leaves search/sort/filter/selection stale is worse than a correct O(n) refresh.
+**Revised with founder feedback: B1 must include first-class row and row-range refresh as a high-priority feature, not defer it indefinitely.** Deliver B1a full local `refreshData()` as the correctness baseline and **B1b targeted `refreshRow` / `refreshRows` / `refreshRange`** in the same planned milestone (staged implementation/validation gates). A common editing and asynchronous-validation update should not rebuild an entire local grid model or reevaluate every mounted cell when the row identity, derived membership and layout stay stable. Keep correctness-preserving fallback for cases that affect those properties.
 
 This is intentionally narrower than adding a suite of methods because ordinary immutable array replacement is already supported, and Blazor already implements `RefreshDataAsync()`. Prior A1 experimentation introduced and then removed a shared `dataRevision`/updateData surface; **do not reintroduce it**. Blazor's independently released `DataRevision` is a framework-specific existing feature, not a reason to add a JS prop.
 
-A public API merits implementation only when at least one real consumer use case benefits beyond reassigning `grid.data`. B1a's value is an explicit, portable signal for locally mutable source data in Web/JS wrappers; it **does not** promise sublinear work.
+The newly identified consumer use cases — editing one row, updating row validation/status asynchronously, and refreshing a contiguous range — justify designing B1b alongside B1a. **The goal is a true targeted path for safe cases**, not a `requestUpdate()` convenience method that still reevaluates all mounted cells. Full `refreshData()` remains O(n) when model-wide reconciliation is necessary.
 
 ## 2. Verified current behavior (main, not proposals)
 
@@ -65,20 +65,21 @@ interface DataGridRef {
 |---|---|---|---|
 | Existing immutable `data` replacement | Adopt consumer-owned source | Correct full transforms; replacement resets page; do not override | **Keep as default** |
 | **Proposed `refreshData()`** | Explicit same-source local re-evaluation | O(n) identity and transforms, selection events, schema/focus/lifecycle | **Recommend B1a** |
-| `refreshRow(rowKey)` | Re-evaluate one *uniquely identified* local row | A changed key has no stable target without old-key policy; row may move across filter/sort/page; off-page duplicate invalidation is global | **Defer B1b** |
-| `refreshCells(rows?, columns?)` | Presentation repaint | Cannot claim model correctness if a cell affects sort/filter/search or row height; DOM and Core have different responsibilities | **Defer B1b** |
+| **Proposed `refreshRow(rowKey)` / `refreshRows(rowKeys)`** | Update one/few edited rows or validation indicators; avoid all-grid work where safe | Require stable identity and derived-view membership; if identity/sort/filter/search/row geometry might change, explicitly promote to full model refresh or reject render-only request | **B1b priority — same milestone, gated** |
+| **Proposed `refreshRange({ start, endExclusive })`** | Refresh a contiguous span of currently displayed row indexes | Define end-exclusive displayed-row coordinates, bounds, offscreen handling and virtualization; do not confuse with source-array or server-total indexes | **B1b priority — same milestone, gated** |
+| `refreshCells(rows?, columns?)` | Targeted individual cell repaint | Requires a separate column dependency, focus/aria and layout contract | **Defer distinct cell API** |
 | `applyTransaction({add, update, remove})` | Atomic batch structural changes | Framework vs grid ownership, conflict resolution, duplicate global keys, page/selection, rollback and event ordering | **Defer B1c** |
 | Existing `refreshQuery()` | Request another server-side fetch | Monotonic request ID and controlled result protocol; no automatic fetch | **Keep unchanged** |
 
-### Why not start with `refreshRow`?
+### Why row/range refresh belongs in B1 (revised)
 
-An update to a value used for sorting/searching/filtering can change the row's position or whether it is displayed. A changed identity can invalidate a key elsewhere, including outside the current page. `refreshRow(rowKey)` cannot truthfully promise only one row scanned under LitGrid's current semantics; it would be a misleading alias for global work until incremental indexes and an explicit old-identity contract exist.
+For a change confined to **presentation-only row state** (e.g., validation spinner, an error annotation or an ordinary field not used by active transforms), **rerunning identity verification and model transforms for all 100k rows is unnecessary**. We should explicitly support fast row/range invalidation while using existing keyed lookup and virtualized rendered rows. However, a changed row key or a sort/filter/search-dependent value can change membership, ordering or selection. In those cases the implementation must fall back to full reconciliation, or clearly reject a caller-requested strict display-only operation. **We will not call a whole-grid `requestUpdate()` a proven targeted-render optimization without measuring unaffected cell-renderer invocation counts.**
 
 ### Why not start with `applyTransaction`?
 
 Current React/Vue/Angular adapters accept **framework-owned** data arrays. A grid-mutating transaction would create two owners; the next framework render could silently overwrite it. Future options to investigate are: (A) a **transaction proposal event** that the framework owner accepts and applies immutably, or (B) explicit *opt-in grid-owned local data* with atomic validation and clear re-adoption rules. Neither is part of B1a.
 
-## 5. Required acceptance tests for a later B1a implementation
+## 5. Required acceptance tests for B1a + targeted B1b implementation gates
 
 **Contract/invariants:**
 1. Local same-reference mutable row edit, insertion, deletion, reorder and identity edit (including duplicates after third occurrence, invalid/missing keys and off-page/filtered duplicates); full validation, no stale selection or resurrected identity.
@@ -93,7 +94,7 @@ Current React/Vue/Angular adapters accept **framework-owned** data arrays. A gri
 
 ## 6. Specific open design decisions (for product-owner approval before code)
 
-1. **Approve only B1a `refreshData(): boolean` as an additive shared local API, or stop after this RFC?** No B1b/B1c method is approved here.
+1. **Approve B1a (full refresh) plus prioritized B1b (row/rows/range) as the implementation scope**, with a mandatory design gate for model vs render-only semantics; the precise signatures below remain unapproved. Cell-specific repaint and transactions remain out of scope.
 2. When an older structural `DataGridElement` lacks this capability, wrappers should report unsupported clearly (preferred) rather than silently falling back; document the error type and package-version pairing.
 3. On local→external→local transitions, decide whether the caller must explicitly rebind the local source (recommended for tenant safety). Do not reuse cached previous-tenant rows.
 4. **Caller timing:** document that imperative refresh acts on the last committed grid adoption, not on a concurrent pending React/Vue/Angular prop change. Build lifecycle tests for this boundary.
@@ -110,6 +111,71 @@ AG Grid documents distinct **refreshCells/redrawRows** for view refresh and **ro
 
 ## 8. Architectural disposition and next gate
 
-**Recommendation: B1a as one small, optional full local refresh method; B1b/B1c remain design-only.** This RFC is **not permission to implement**. Review the proposed `boolean` and local↔external lifecycle contract; only after founder acceptance open a **new isolated implementation draft PR**, with failing tests before editing code and no release/merge without explicit authorization.
+**Revised recommendation:** B1a full local refresh **and B1b row/rows/range refresh as a planned priority**, with separate safety and rendering-performance gates. **This design RFC is not permission to code or merge.** Review the proposed API and trusted-invalidation vs model-fallback contract first; then open isolated implementation draft PR(s) with failing acceptance tests, and require explicit founder approval before merge/release.
 
 Keep [#32](https://github.com/tipolox/litgrid/issues/32) (typed columns) as a separate potentially higher-return DX milestone and [#43](https://github.com/tipolox/litgrid/issues/43) (cold keyed startup/real paint) as unresolved independent performance scope. Do not block ordinary releases solely on this speculative API.
+
+
+## 9. Founder-driven B1b design — targeted row(s) and displayed range (2026-11-03)
+
+### Use cases and performance intent
+
+- **Inline editing:** after editing a cell or row, refresh only that row when its key, row membership, ordering and layout are unchanged.
+- **Asynchronous validation:** refresh a row when it enters `validating`, then refresh again on success/error. Protect against outdated validation results arriving after a later edit; validation status is application-owned.
+- **Small batch:** after receiving 5 changed rows, refresh 5 keyed rows without revalidating 100k unrelated identities.
+- **Visible range:** refresh a displayed interval (e.g., current editor selection or a batch from index 100 through 129), without conflating this with the original source indexes or a server-reported total.
+
+### Tentative surface (unapproved / not implemented)
+
+```ts
+// The following methods DO NOT EXIST in released LitGrid.
+interface ProposedGridRefresh {
+  refreshData(): boolean
+  refreshRow(key: GridRowKey, options?: { mode?: 'auto' | 'render-only' }): boolean
+  refreshRows(keys: readonly GridRowKey[], options?: { mode?: 'auto' | 'render-only' }): number
+  refreshRange(range: { start: number; endExclusive: number }, options?: { mode?: 'auto' | 'render-only' }): number
+}
+```
+
+**Return types, names, overload shapes, and the mode option are proposals for review, not established contracts.** A more explicit distinction between `invalidateRows()` (render-only) and `refreshRows()` (model-aware) remains under consideration. The user's desired behavior is nonnegotiable for B1b: a valid targeted refresh must **not** calculate/render all unrelated visible rows, and untouched logical rows must retain their DOM identity/focus where safe.
+
+**Default `auto` behavior under review:** For a known, uniquely keyed *already loaded* row with unchanged key, unchanged scope, no active membership/order-affecting transforms and no row-geometry/schema invalidation, update its displayed representation only. Under active sort/filter/search, changed key/duplicate, inferred column-shape change or row-height invalidation, the implementation must perform the correct model-wide refresh or explicitly signal that targeted-only operation is unsupported. Do **not** silently leave stale ordering, membership, or selection. Unknown external source keys and off-page targets must never trigger synthetic selection or unauthorized fetching.
+
+**Strict `render-only` behavior under review:** An advanced caller could promise that the key, derived order/membership and layout have not changed; perform only presentation invalidation and **never** implicitly change the model. An unsupported/unsafe scenario should be rejected rather than silently returning a misleading success. If we offer this option, documentation must explain the trust boundary and why it is inappropriate for key/sort/filter/search edits.
+
+**Batching:** `refreshRows(keys)` should deduplicate keys and commit one scheduled render, not k unrelated component-wide updates. `refreshRange({start,endExclusive})` addresses *current displayed-row indexes*, inclusive start/exclusive end; bounds clamped or rejected by a documented policy. If rows are offscreen, update no unnecessary DOM now and render correct values when scrolled into view; the same call should not visit server-side unloaded rows.
+
+### Render architecture gate
+
+Current `DataGrid.render()` maps its virtualized visible rows to `renderCell()` for visible columns. A simple `requestUpdate()` therefore risks recalculating **every mounted cell**, even though virtualization prevents creation of the entire 100k-row DOM. B1b must add selective invalidation/caching (or an equivalently bounded render mechanism) with correct invalidation when any of these change: data source, visible row indices, columns/column widths, column visibility/order, selection and focus/ARIA state, theme, row height, scrolling/virtual window, filtered/sorted ordering or scope. Never cache unauthorized data across sites or use a stale index after a reordering.
+
+**Acceptance metric:** instrument `accessor`/`render` callback counts and row element identity. With, say, 100k loaded rows / 200 logical columns but ~15 virtualized visible rows, refreshing one visible row should reevaluate **only that row's visible cells** (or fewer) and retain unaffected row DOM/focus, absent an intentional fallback. A 20-row loaded external-page case must be inexpensive and must not request a server refresh. Benchmark 1, 5 and 50 row keys, a contiguous displayed range, offscreen keys, and an active-filter fallback; capture p50/p95, allocations and first interaction. This is a target, **not a measured claim**.
+
+### Async validation correctness example (illustrative only)
+
+```ts
+// Fictional application state: validation is owned by the caller.
+const version = new Map<string, number>()
+async function checkName(row: { id: string; name: string; validation?: string }) {
+  const generation = (version.get(row.id) ?? 0) + 1
+  version.set(row.id, generation)
+  row.validation = 'validating'
+  grid.refreshRow(row.id) // proposed API
+  const outcome = await validateNameOnServer(row.name)
+  if (version.get(row.id) !== generation) return // older result
+  row.validation = outcome.ok ? 'valid' : 'invalid'
+  grid.refreshRow(row.id) // proposed API; no query-change
+}
+```
+
+**Caveat:** if validation mutates a column used in active sort/filter/search, or updates a row identity, call full model refresh (or use the approved model-reconciliation path), not an unchecked render-only invalidation. The grid does not manage network cancellation or authorize validation responses.
+
+### Additional B1b tests and release gates
+
+1. Targeted refresh of one edited visible keyed row; invoke callbacks only for that row's currently visible columns, with **no full source identity scan** on the proven fast path; verify DOM stability of other rows and keyboard focus.
+2. Two or more rows and an interval; dedupe overlap, batch a single render, verify boundaries, counts and offscreen behavior. Invalid/duplicate/not-loaded keys never target a different row.
+3. Sorting/filtering/search changes and rowKey mutation trigger safe model fallback or explicit rejection, with existing selection, pagination and event semantics; no cross-scope leakage.
+4. Async validation renders pending/error/success, ignores stale results at the app boundary, preserves selection and does not trigger a new external query/request identity.
+5. React StrictMode, Vue batching, Angular changes, Web Component, Blazor integration: no double refresh, stale ref, hidden copy, or premature refresh; older structural implementations fail clearly if an optional method is absent.
+6. Virtualization, A11y/ARIA, screen-reader announcements, focused editing cells and variable row height/column changes invalidate affected visual caches correctly.
+7. Verify actual per-row performance and memory behavior against current `main`; no unmeasured O(1) claims. **Production implementation requires its own owner-approved scope and draft PR.**
