@@ -1,5 +1,7 @@
 # Future data-update API: design notes only
 
+> **B1 design update (2026-11-03):** See [B1 local-refresh contract RFC](rfcs/b1-local-refresh-contract.md) and [Issue #62](https://github.com/tipolox/litgrid/issues/62). The RFC recommends scoping a first implementation to an explicit full local refresh, while row/cell refresh and transactions remain unapproved. No API is implemented by this documentation update. Blazor's existing `RefreshDataAsync()` is a separate, already-released capability.
+
 These concepts are not approved contracts and are not implemented in A1.
 The goal is the clear separation used by mature grids between repainting a
 view and recalculating its data model, while keeping normal immutable framework
