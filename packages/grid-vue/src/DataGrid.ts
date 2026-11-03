@@ -21,6 +21,8 @@ import type {
   GridPaginationState,
   GridSelection,
   GridRowKey,
+  GridRefreshOptions,
+  GridRefreshRange,
   SelectionChangeDetail,
   GridExternalState,
   GridQueryChangeDetail,
@@ -54,6 +56,10 @@ export type DataGridInstance = {
   setExternalState(state: GridExternalState): boolean
   getQuery(): GridQuerySnapshot
   refreshQuery(): void
+  refreshData(): boolean
+  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean
+  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number
+  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number
   sortBy(key: string, direction: SortDirection): void
   clearSort(): void
   readonly gridElement: DataGridElement | null
@@ -195,6 +201,10 @@ export const DataGrid = defineComponent({
       setExternalState: (state: GridExternalState) => requireGridElement().setExternalState!(state),
       getQuery: () => requireGridElement().getQuery!(),
       refreshQuery: () => requireGridElement().refreshQuery!(),
+      refreshData: () => requireGridElement().refreshData!(),
+      refreshRow: (key: GridRowKey, options?: GridRefreshOptions) => requireGridElement().refreshRow!(key, options),
+      refreshRows: (keys: readonly GridRowKey[], options?: GridRefreshOptions) => requireGridElement().refreshRows!(keys, options),
+      refreshRange: (range: GridRefreshRange, options?: GridRefreshOptions) => requireGridElement().refreshRange!(range, options),
       sortBy: (key: string, direction: SortDirection) => requireGridElement().sortBy!(key, direction),
       clearSort: () => requireGridElement().clearSort!(),
       get gridElement() { return gridRef.value },
