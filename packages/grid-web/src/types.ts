@@ -29,6 +29,11 @@ export type {
 
 export type GridTheme = 'light' | 'dark'
 
+/** Targeted updates are presentation-only unless the full-model fallback is chosen. */
+export type GridRefreshOptions = { mode?: 'auto' | 'render-only' }
+/** Current displayed indices, start inclusive and end exclusive (not source positions). */
+export type GridRefreshRange = { start: number; endExclusive: number }
+
 export type GridColumn = {
   key: string
   header?: string
@@ -66,6 +71,11 @@ export type DataGridElement = HTMLElement & {
   setExternalState?: (state: GridExternalState) => boolean
   getQuery?: () => GridQuerySnapshot
   refreshQuery?: () => void
+  /** Optional additive local refresh capability (Blazor already offers RefreshDataAsync). */
+  refreshData?: () => boolean
+  refreshRow?: (key: GridRowKey, options?: GridRefreshOptions) => boolean
+  refreshRows?: (keys: readonly GridRowKey[], options?: GridRefreshOptions) => number
+  refreshRange?: (range: GridRefreshRange, options?: GridRefreshOptions) => number
   sortBy?: (columnKey: string, direction: SortDirection) => void
   clearSort?: () => void
   data: unknown[]
