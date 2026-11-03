@@ -40,6 +40,51 @@ function experiment(name) {
       '    const nextKeys: Array<GridRowKey | null> = new Array(rows.length)\n    for (let i = 0; i < firstChanged; i++) nextKeys[i] = sourceKeys[i]', name)
     selection = replaceOnce(selection, '      if (index >= firstChanged) nextKeys.push(key)', '      nextKeys[index] = key', name)
   }
+  if (name === 'verified-index-reuse') {
+    const old = [
+      '    } else {',
+      '      displayedKeys = new Map()',
+      '      if (state.config.selection.rowKey !== undefined) {',
+      '        for (let index = 0; index < state.data.length; index++) {',
+      '          const key = keyAt(index)',
+      '          if (key !== null) displayedKeys.set(key, index)',
+      '        }',
+      '      }',
+      '      displayedSelectableCount = displayedKeys.size',
+      '    }'
+    ].join('\n')
+    const replacement = [
+      '    } else {',
+      '      // Reuse a previous display index only after checking every visible',
+      '      // identity against its original index. Never trust array identity.',
+      '      let reuse = !freshSourceIndexes && displayedKeys.size > 0 &&',
+      '        state.config.selection.rowKey !== undefined &&',
+      '        displayedKeys.size <= state.data.length',
+      '      if (reuse) {',
+      '        let valid = 0',
+      '        for (let index = 0; index < state.data.length; index++) {',
+      '          const key = keyAt(index)',
+      '          if (key !== null) {',
+      '            valid++',
+      '            if (displayedKeys.get(key) !== index) { reuse = false; break }',
+      '          }',
+      '        }',
+      '        if (valid !== displayedKeys.size) reuse = false',
+      '      }',
+      '      if (!reuse) {',
+      '        displayedKeys = new Map()',
+      '        if (state.config.selection.rowKey !== undefined) {',
+      '          for (let index = 0; index < state.data.length; index++) {',
+      '            const key = keyAt(index)',
+      '            if (key !== null) displayedKeys.set(key, index)',
+      '          }',
+      '        }',
+      '        displayedSelectableCount = displayedKeys.size',
+      '      }',
+      '    }'
+    ].join('\n')
+    selection = replaceOnce(selection, old, replacement, name)
+  }
   if (name === 'noop-config' || name === 'presentation-config') {
     const condition = name === 'noop-config'
       ? '      if (!external.active() && operationalUnchanged &&\n' + display + ') {\n'
@@ -65,7 +110,7 @@ function build(name) {
 }
 mkdirSync(output, { recursive: true })
 try {
-  for (const name of ['baseline', 'fused-index', 'noop-config', 'presentation-config']) {
+  for (const name of ['baseline', 'fused-index', 'noop-config', 'presentation-config', 'verified-index-reuse']) {
     console.log('A3 disposable build:', name)
     build(name)
   }
