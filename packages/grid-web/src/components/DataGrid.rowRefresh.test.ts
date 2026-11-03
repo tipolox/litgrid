@@ -111,6 +111,24 @@ describe('B1 explicit data refresh and targeted presentation invalidation', () =
     expect(grid.getQuery().requestId).toBe(query.requestId)
   })
 
+  it('reconciles inferred schema instead of leaving cached unaffected row cells stale', async () => {
+    const rows: Array<{id:number; name:string; extra?:string}> = [
+      {id:1,name:'Ada'}, {id:2,name:'Grace'}
+    ]
+    const grid = new DataGrid()
+    grid.config = {selection:{mode:'row',rowKey:'id'}}
+    grid.data = rows
+    document.body.append(grid)
+    await grid.updateComplete
+    expect(grid.getColumnOrder()).not.toContain('extra')
+    rows[0].extra = 'new field'
+    expect(grid.refreshRow(1)).toBe(true)
+    await grid.updateComplete
+    expect(grid.getColumnOrder()).toContain('extra')
+    expect(grid.renderRoot.textContent).toContain('new field')
+    expect(grid.refreshRow(1, {mode:'render-only'})).toBe(false)
+  })
+
   it('never uses a stale source from a previous external-mode tenancy', async () => {
     const {grid,rows} = await mount()
     grid.config={queryMode:'external',selection:{mode:'multi-row',rowKey:'id',scopeKey:'site-2'}}
