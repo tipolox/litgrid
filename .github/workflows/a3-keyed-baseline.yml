@@ -38,3 +38,32 @@ jobs:
           path: .private/a3/core-baseline.json
           if-no-files-found: warn
           retention-days: 14
+
+  hypotheses:
+    name: Compare three disposable Core optimization hypotheses
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Compile unmodified baseline and three temporary hypotheses
+        run: node scripts/performance/a3-build-variants.mjs
+      - name: Confirm real production sources are unchanged
+        run: git diff --exit-code -- packages/grid-core/src
+      - name: Measure and validate real built Core variants
+        run: node --expose-gc scripts/performance/a3-compare-variants.mjs .private/a3/variant-comparison.json
+      - name: Upload raw comparable samples
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-a3-variant-comparison
+          path: .private/a3/variant-comparison.json
+          if-no-files-found: warn
+          retention-days: 14
