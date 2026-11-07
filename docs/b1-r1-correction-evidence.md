@@ -40,6 +40,7 @@ Render-only requires unchanged source slots, row objects, keys, derived membersh
 | `packages/grid-web/src/components/DataGrid.ts` | Index-only range source validation and render-only clarification |
 | `packages/grid-web/src/components/DataGrid.rowRefresh.test.ts` | Row/batch/range replacement, identities, transforms, pages, virtualization, scope and trust-boundary regressions |
 | `scripts/performance/b1-targeted-browser.mjs` | Real Chromium regressions and replacement-fallback measurements; optional performance-only comparison |
+| `scripts/performance/a3-production-build.mjs` | Compatibility alias only in the historical A3 baseline fixture; candidate source remains unchanged |
 | `packages/grid-blazor/src/wwwroot/litgrid-blazor.js` | Actual workspace build of corrected Core/Web code |
 | `packages/grid-blazor/src/wwwroot/litgrid-blazor.js.map` | Matching generated source map |
 | `docs/api-reference.md` | Caller guarantees, structural refresh and external snapshot ownership |
@@ -72,6 +73,10 @@ Commands below ran in the isolated correction worktree unless marked baseline. W
 | `git diff --check` | PASS |
 
 The baseline and correction worktrees retain ignored local JSON/log evidence under `.private/b1`; original-head browser reproduction also retains `baseline-regressions.log`. GitHub Actions status/links are recorded in the updated PR after pushing; historical runs are not substituted for correction-head checks.
+
+The first correction commit, `ee916751f2fa42aac8dc2ba0ff84d3ad74d2e39e`, passed Verify, B1 Chromium, and External Visual CI. A3 qualification exposed a baseline-harness mismatch: it substitutes only the pre-A3 selection module into the current engine, so the historical module lacked B1's new internal `currentIndexForKey` entry point (TS2339). A narrow follow-up aliases that entry point to the historical `indexForKey` **only in the baseline fixture**, preserving its old lookup behavior and all measured A3 config/reconciliation algorithms. Candidate bytes are unchanged. Local `node scripts/performance/a3-production-build.mjs` then passed; `git diff --exit-code -- packages/grid-core/src` confirmed production source restoration, and `node scripts/performance/a3-production-fuzz.mjs .private/b1/a3-fuzz.json` passed 750 state transitions plus 50 external commits. The changed-file table includes this necessary validation-harness repair (13 files total).
+
+The follow-up also passed `pnpm typecheck:all`, `node --expose-gc scripts/performance/a3-production-compare.mjs .private/b1/a3-compare.json`, and `node scripts/performance/a3-production-browser.mjs .private/b1/a3-browser.json` (via `cmd /c` for reliable native stderr/exit handling in Windows PowerShell). The comparison outputs are additional A3 qualification, not the B1 targeted timings reported below. No production implementation changed after the 415-test and 129-test validation.
 
 ## Performance comparison and limits
 
