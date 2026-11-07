@@ -2825,8 +2825,18 @@ export class DataGrid extends LitElement {
 
   private displayedKeyMatches(index: number): boolean {
     const property = this.engine.getConfig().selection.rowKey
-    if (property === undefined) return true
     const row = this.engine.getVisibleRows(index, index + 1)[0]
+    if (property === undefined) {
+      if (this.engine.getConfig().queryMode === 'external') return true
+      // Without keys, only an untransformed local view has a bounded source
+      // mapping. Auto already reconciles transforms; render-only must decline.
+      if (this.engine.getQuickSearch().trim() || this.engine.getFilters().length ||
+          this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null) return false
+      const page = this.engine.getPagination()
+      const sourceIndex = index + (page.enabled ? page.pageIndex * page.pageSize : 0)
+      return this.lastAdoptedLocalData.length === this.sourceRowCount &&
+        Object.is(this.lastAdoptedLocalData[sourceIndex], row)
+    }
     if (row === null || typeof row !== 'object') return false
     const key = Reflect.get(row, property)
     return (typeof key === 'string' || (typeof key === 'number' && Number.isFinite(key))) &&
@@ -2855,7 +2865,8 @@ export class DataGrid extends LitElement {
   /**
    * Update an edited loaded row by globally unique selection.rowKey.
    * Auto reconciles local transforms; render-only is an application guarantee
-   * that the edit did not change identity, sorting, membership or layout.
+   * that the edit did not change source slots/objects, identity, sorting,
+   * membership or layout. Detected source mismatches decline render-only.
    */
   refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean {
     return this.refreshRows([key], options) > 0

@@ -222,6 +222,8 @@ await grid.RefreshDataAsync();                          // existing complete ref
 
 The first three targeted calls return a `ValueTask<bool>` or `ValueTask<int>` indicating matched/displayed rows, not a server write result. `renderOnly: true` is an explicit caller guarantee that row identity, sorting/filter/search membership and geometry remain unchanged; avoid it after structural/model changes. By default, the Web Component falls back to full local synchronization if model correctness may be affected. External accepted pages can be repainted for client-owned validation/status annotations but this never emits a new server query or revalidates authorization.
 
+Render-only also requires unchanged row object references and source positions; detected replacements or moves reject the batch/range. Default auto refresh reconciles reported same-key replacements. Use `RefreshDataAsync()` for structural changes or edits beyond the reported rows; bounded targeted refresh does not scan unrelated rows to discover key collisions or reorders. External replacement pages must follow the existing controlled-state lifecycle.
+
 `RefreshDataAsync()` remains the existing full-data lifecycle/interop operation and is **not replaced by** row refresh. Do not use targeted repaint as a replacement for data revision signals or notifying collection updates when row membership or primary keys change. Matching generated `litgrid-blazor.js` assets must be packaged alongside corresponding C# and Web Component code before any release.
 
 ## Performance and limits

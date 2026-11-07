@@ -43,6 +43,103 @@ try{
       window.B1Cases[count]=Array.from({length:count},(_,id)=>({id,name:'Fictional '+id,status:'idle'}))
     }
   })
+  const regressions=process.argv.includes('--performance-only')?[]:await page.evaluate(async()=>{
+    const checks=[]
+    const assert=(ok,message)=>{if(!ok)throw Error('B1 regression: '+message)}
+    const settle=async grid=>{
+      await grid.updateComplete
+      await new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)))
+      await grid.updateComplete
+    }
+    const mount=async(config={selection:{mode:'multi-row',rowKey:'id'}})=>{
+      const rows=Array.from({length:1000},(_,id)=>({id,name:'Person '+id,status:'idle'}))
+      const grid=new window.B1Grid()
+      grid.columns=[{key:'name',width:200},{key:'status',width:200}]
+      grid.config=config;grid.data=rows;grid.viewportHeight=400
+      document.getElementById('host').append(grid)
+      await settle(grid)
+      return {grid,rows}
+    }
+    const text=(grid,index)=>grid.shadowRoot.querySelector('.cell[data-row-index="'+index+'"]')?.textContent
+    for(const kind of ['row','batch','range']){
+      const {grid,rows}=await mount()
+      grid.selectRowByKey(1);await settle(grid)
+      rows[1]={...rows[1],name:'Maria'}
+      const result=kind==='row'?Number(grid.refreshRow(1)):kind==='batch'?grid.refreshRows([1,1]):grid.refreshRange({start:1,endExclusive:2})
+      assert(result===1,kind+' replacement count');await settle(grid)
+      assert(text(grid,1)?.includes('Maria'),kind+' replacement remained stale')
+      assert(grid.getSelectionSnapshot().rows[0].row===rows[1],kind+' selected object stale')
+      rows[1]={...rows[1],name:'Render-only replacement'}
+      assert(grid.refreshRow(1,{mode:'render-only'})===false,'render-only accepted replaced object')
+      assert(grid.refreshRow(1),'auto recovery');await settle(grid)
+      ;[rows[1],rows[2]]=[rows[2],rows[1]]
+      assert(grid.refreshRows([1,2])===2,'reorder count');await settle(grid)
+      assert(text(grid,1)?.includes('Person 2'),'reorder remained stale')
+      assert(grid.getSelectionSnapshot().rows[0].rowIndex===2,'selection did not follow key')
+      rows[2]={...rows[2],id:2}
+      assert(grid.refreshRows([1,2])===0,'duplicate accepted');await settle(grid)
+      assert(grid.getSelectionSnapshot().rows.length===0,'duplicate selection retained')
+      rows[2]={...rows[2],id:NaN}
+      assert(grid.refreshRange({start:2,endExclusive:3})===1,'invalid identity range reconciliation')
+      await settle(grid)
+      assert(grid.refreshRow(1)===false,'obsolete identity accepted')
+      grid.remove();checks.push(kind+' replacement/reorder/selection/identities/render-only')
+    }
+    for(const transform of ['sort','filter','search']){
+      const {grid,rows}=await mount({selection:{mode:'multi-row',rowKey:'id'},pagination:{enabled:true,pageSize:3}})
+      if(transform==='sort')grid.sortBy('id','asc')
+      else if(transform==='filter')grid.setFilter({columnKey:'name',operator:'startsWith',value:'Person'})
+      else grid.setQuickSearch('Person')
+      grid.setPage(1);await settle(grid)
+      rows[4].status='validating'
+      assert(grid.refreshRow(4,{mode:'render-only'}),'safe transformed render-only declined')
+      await settle(grid)
+      assert(grid.shadowRoot.querySelectorAll('.row')[1].textContent.includes('validating'),'transformed render-only stale')
+      rows[4]={...rows[4],name:'Maria'}
+      assert(grid.refreshRow(4)===(transform==='sort'),transform+' membership result')
+      await settle(grid)
+      assert(grid.getPagination().pageIndex===1,transform+' page reset')
+      assert(grid.getTotalRowCount()===(transform==='sort'?1000:999),transform+' count')
+      assert(!!text(grid,1)?.includes('Maria')===(transform==='sort'),transform+' stale display')
+      grid.remove();checks.push(transform+' replacement/page/membership')
+    }
+    {
+      const {grid,rows}=await mount({pagination:{enabled:true,pageSize:3}})
+      grid.setPage(1);await settle(grid)
+      rows[4]={...rows[4],name:'Index replacement'}
+      assert(grid.refreshRange({start:1,endExclusive:2})===1,'index range result');await settle(grid)
+      assert(text(grid,1)?.includes('Index replacement'),'index source offset stale')
+      grid.sortBy('id','desc');await settle(grid)
+      assert(grid.refreshRange({start:0,endExclusive:1},{mode:'render-only'})===0,'unkeyed transformed render-only accepted')
+      grid.remove();checks.push('index-only paginated range and render-only boundary')
+    }
+    {
+      const {grid,rows}=await mount()
+      const viewport=grid.shadowRoot.querySelector('.viewport')
+      viewport.focus();viewport.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}))
+      await settle(grid)
+      const active=viewport.getAttribute('aria-activedescendant')
+      assert(active&&grid.shadowRoot.getElementById(active),'missing active cell')
+      const focused=grid.shadowRoot.activeElement
+      const height=grid.shadowRoot.querySelector('.row').getBoundingClientRect().height
+      rows[1].status='validating';assert(grid.refreshRow(1),'safe focused edit');await settle(grid)
+      assert(grid.shadowRoot.activeElement===focused,'focus lost on selective update')
+      assert(viewport.getAttribute('aria-activedescendant')===active,'ARIA active cell changed')
+      rows[1]={...rows[1],name:'Focused replacement'};assert(grid.refreshRow(1),'focused fallback');await settle(grid)
+      assert(grid.shadowRoot.activeElement===focused,'focus lost on fallback')
+      assert(grid.shadowRoot.getElementById(viewport.getAttribute('aria-activedescendant')),'dangling ARIA after fallback')
+      assert(grid.shadowRoot.querySelector('.row').getBoundingClientRect().height===height,'row layout changed')
+      viewport.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));await settle(grid)
+      assert(viewport.getAttribute('aria-activedescendant')!==active,'keyboard navigation stopped')
+      rows[900]={...rows[900],name:'Offscreen replacement'};assert(grid.refreshRow(900),'offscreen replacement')
+      await settle(grid);viewport.scrollTop=900*36;viewport.dispatchEvent(new Event('scroll'));await settle(grid)
+      assert(text(grid,900)?.includes('Offscreen replacement'),'virtualized replacement stale')
+      assert(grid.shadowRoot.querySelectorAll('.row').length<80,'virtualization unbounded')
+      grid.remove();checks.push('focus/keyboard/ARIA/layout/virtualization')
+    }
+    return checks
+  })
+  console.log('B1 regressions: '+JSON.stringify(regressions))
   const stat = raw => {
     const v=[...raw].sort((a,b)=>a-b)
     return {n:v.length,min:v[0],p50:v[Math.ceil(v.length*.5)-1],p95:v[Math.ceil(v.length*.95)-1],max:v.at(-1)}
@@ -79,7 +176,7 @@ try{
       if(mounted<5||mounted>80)throw Error('unexpected mounted row count '+mounted)
       const firstRow=grid.shadowRoot.querySelector('.row')
       const rowCountBefore=grid.getTotalRowCount()
-      const one=[],batch=[],full=[]
+      const one=[],batch=[],full=[],replacement=[]
       const assertOnly=(allowed,operation)=>{
         for(const [id,n] of counts)if(n>0&&!allowed.includes(id))throw Error(operation+' touched other accessor row '+id+' epoch '+grid.completeRowRenderEpoch)
         for(const [id,n] of renderCounts)if(n>0&&!allowed.includes(id))throw Error(operation+' touched other renderer row '+id+' epoch '+grid.completeRowRenderEpoch)
@@ -115,14 +212,22 @@ try{
         await grid.updateComplete
         full.push(performance.now()-start)
       }
+      for(let i=0;i<6;i++){
+        data[2]={...data[2],status:'replacement-'+i}
+        const start=performance.now()
+        if(!grid.refreshRow(2))throw Error('same-key replacement declined in auto')
+        await grid.updateComplete
+        replacement.push(performance.now()-start)
+        if(!grid.shadowRoot.querySelector('.cell[data-row-index="2"]')?.textContent.includes(data[2].status))throw Error('same-key replacement remained stale')
+      }
       if(grid.getTotalRowCount()!==rowCountBefore)throw Error('data count changed after refresh')
       const focused=grid.shadowRoot.querySelector('.row')===firstRow
       grid.remove()
-      return {rows,columns,mounted,focused,one,batch,full}
+      return {rows,columns,mounted,focused,one,batch,full,replacement}
     },{rows,columns})
     records.push({
       rows,columns,mounted:result.mounted,unchangedRowDOM:result.focused,
-      refreshRow:stat(result.one),refreshRows:stat(result.batch),fullRefresh:stat(result.full)
+      refreshRow:stat(result.one),refreshRows:stat(result.batch),fullRefresh:stat(result.full),replacementRefresh:stat(result.replacement)
     })
     console.log('B1 TARGETED '+JSON.stringify(records.at(-1)))
   }
@@ -146,13 +251,19 @@ try{
     if(grid.refreshData())throw Error('external full local refresh incorrectly accepted')
     if(intents!==0||grid.getQuery().requestId!==query.requestId)throw Error('targeted repaint caused server query')
     const mounted=grid.shadowRoot.querySelectorAll('.row').length
+    grid.config={queryMode:'external',selection:{mode:'multi-row',rowKey:'id',scopeKey:'next-remote-site'}}
+    if(grid.refreshRow('r0')||grid.refreshRange({start:0,endExclusive:2})!==0)throw Error('old tenant targeted after scope reset')
+    if(grid.setExternalState({requestId:query.requestId,query:query.query,rows:state,
+        total:{kind:'known',totalRows:1000000000}}))throw Error('old tenant response accepted')
+    await grid.updateComplete
+    if(grid.shadowRoot.textContent.includes('validating')||intents!==0)throw Error('tenant data/query leaked')
     grid.remove()
-    return {total:1000000000,loaded:2,mounted,queryIntents:intents}
+    return {total:1000000000,loaded:2,mounted,queryIntents:intents,scopeIsolation:true}
   })
   if(errors.length)throw Error('browser page errors: '+JSON.stringify(errors))
   const result={purpose:'B1 source browser targeted callback and DOM identity safety benchmark (no compositor paint)',
     revision:process.env.GITHUB_SHA||null,environment:{node:process.version,chromium:browser.version(),platform:platform(),cpu:cpus()[0]?.model},
-    cases:records,external,errors}
+    cases:records,external,regressions,errors}
   mkdirSync(dirname(out),{recursive:true})
   writeFileSync(out,JSON.stringify(result,null,2)+'\n')
   console.log('B1 browser evidence: '+out+' remote='+JSON.stringify(external))

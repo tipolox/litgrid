@@ -79,7 +79,7 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
       return true
     },
     getDisplayedRowIndexForKey(key) {
-      return coordination.indexForKey(key)
+      return coordination.currentIndexForKey(key)
     },
     setConfig(config: GridConfig) {
       const nextConfig = normalizeConfig(config)

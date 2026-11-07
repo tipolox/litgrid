@@ -1039,12 +1039,21 @@ function createSelectionCoordination(state) {
 		const index = displayedKeys.get(key);
 		return index !== void 0 && index >= 0 ? index : void 0;
 	}
+	function currentIndexForKey(key) {
+		const index = indexForKey(key);
+		const sourceIndex = sourceIndexes.get(key);
+		const property = state.config.selection.rowKey;
+		if (index === void 0 || sourceIndex === void 0 || sourceIndex < 0 || property === void 0 || state.originalData.length !== sourceKeys.length) return void 0;
+		const row = state.originalData[sourceIndex];
+		return row === state.data[index] && readKey(row, property) === key ? index : void 0;
+	}
 	return {
 		rebuildKeys,
 		reconcile,
 		commit,
 		canSelect: (index) => Number.isInteger(index) && index >= 0 && index < state.data.length && (state.config.selection.rowKey === void 0 || keyAt(index) !== null),
 		indexForKey,
+		currentIndexForKey,
 		getSelectableRowCount: () => state.config.selection.rowKey === void 0 ? state.data.length : displayedSelectableCount,
 		getSnapshot: () => current,
 		subscribe(listener) {
@@ -1312,7 +1321,7 @@ function createGridEngine(config = {}) {
 			return true;
 		},
 		getDisplayedRowIndexForKey(key) {
-			return coordination.indexForKey(key);
+			return coordination.currentIndexForKey(key);
 		},
 		setConfig(config) {
 			const nextConfig = normalizeConfig(config);
@@ -4158,8 +4167,14 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	displayedKeyMatches(index) {
 		const property = this.engine.getConfig().selection.rowKey;
-		if (property === void 0) return true;
 		const row = this.engine.getVisibleRows(index, index + 1)[0];
+		if (property === void 0) {
+			if (this.engine.getConfig().queryMode === "external") return true;
+			if (this.engine.getQuickSearch().trim() || this.engine.getFilters().length || this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null) return false;
+			const page = this.engine.getPagination();
+			const sourceIndex = index + (page.enabled ? page.pageIndex * page.pageSize : 0);
+			return this.lastAdoptedLocalData.length === this.sourceRowCount && Object.is(this.lastAdoptedLocalData[sourceIndex], row);
+		}
 		if (row === null || typeof row !== "object") return false;
 		const key = Reflect.get(row, property);
 		return (typeof key === "string" || typeof key === "number" && Number.isFinite(key)) && this.engine.getDisplayedRowIndexForKey(key) === index;
@@ -4181,7 +4196,8 @@ var DataGrid = class DataGrid extends i$3 {
 	/**
 	* Update an edited loaded row by globally unique selection.rowKey.
 	* Auto reconciles local transforms; render-only is an application guarantee
-	* that the edit did not change identity, sorting, membership or layout.
+	* that the edit did not change source slots/objects, identity, sorting,
+	* membership or layout. Detected source mismatches decline render-only.
 	*/
 	refreshRow(key, options) {
 		return this.refreshRows([key], options) > 0;
