@@ -34,8 +34,14 @@ export type GridRefreshOptions = { mode?: 'auto' | 'render-only' }
 /** Current displayed indices, start inclusive and end exclusive (not source positions). */
 export type GridRefreshRange = { start: number; endExclusive: number }
 
-export type GridColumn = {
-  key: string
+/**
+ * Opt in to checked model keys and typed callback rows with `GridColumn<Person>`.
+ * Custom keys require an accessor; renderer values remain unknown because an
+ * accessor may transform them. The default preserves unrestricted legacy keys.
+ * The non-generic callback boundary is bivariant so typed columns fit existing
+ * props; callers are responsible for supplying data matching TRow.
+ */
+export type GridColumn<TRow = unknown> = {
   header?: string
   width?: number | string
   hidden?: boolean
@@ -43,9 +49,20 @@ export type GridColumn = {
   sortable?: boolean
   /** Show local column filtering controls. Defaults to true; does not affect quick search or imperative APIs. */
   filterable?: boolean
-  accessor?: (row: unknown, rowIndex: number) => unknown
-  render?: (value: unknown, row: unknown, rowIndex: number) => unknown
-}
+} & (unknown extends TRow
+  ? {
+    key: string
+    accessor?(row: TRow, rowIndex: number): unknown
+    render?(value: unknown, row: TRow, rowIndex: number): unknown
+  }
+  : {
+    accessor?: (row: TRow, rowIndex: number) => unknown
+    render?: (value: unknown, row: TRow, rowIndex: number) => unknown
+  } & ({ key: Extract<keyof TRow, string> } | {
+    key: string
+    /** An explicit accessor supplies the value for a computed/synthetic key. */
+    accessor: (row: TRow, rowIndex: number) => unknown
+  }))
 
 export type BestFitColumnWidth = {
   key: string

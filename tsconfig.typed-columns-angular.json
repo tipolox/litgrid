@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.published-contracts.json",
+  "angularCompilerOptions": { "strictTemplates": true },
+  "include": ["tests/contracts/typed-columns-angular.typecheck.ts"]
+}
