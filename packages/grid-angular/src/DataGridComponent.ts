@@ -24,6 +24,8 @@ import type {
   GridPaginationState,
   GridSelection,
   GridRowKey,
+  GridRefreshOptions,
+  GridRefreshRange,
   SelectionChangeDetail,
   GridExternalState,
   GridQueryChangeDetail,
@@ -64,6 +66,10 @@ export class DataGridComponent implements AfterViewInit, OnChanges {
   setExternalState(state: GridExternalState): boolean { return this.requireGridElement().setExternalState!(state) }
   getQuery(): GridQuerySnapshot { return this.requireGridElement().getQuery!() }
   refreshQuery(): void { this.requireGridElement().refreshQuery!() }
+  refreshData(): boolean { return this.requireGridElement().refreshData!() }
+  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean { return this.requireGridElement().refreshRow!(key, options) }
+  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number { return this.requireGridElement().refreshRows!(keys, options) }
+  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number { return this.requireGridElement().refreshRange!(range, options) }
   sortBy(key: string, direction: SortDirection): void { this.requireGridElement().sortBy!(key, direction) }
   clearSort(): void { this.requireGridElement().clearSort!() }
   @Input() data: unknown[] = []

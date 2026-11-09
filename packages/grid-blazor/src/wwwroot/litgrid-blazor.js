@@ -4,7 +4,7 @@
 * Copyright 2019 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
 */
-var t$3 = globalThis, e$4 = t$3.ShadowRoot && (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, s$3 = Symbol(), o$3 = /* @__PURE__ */ new WeakMap();
+var t$3 = globalThis, e$5 = t$3.ShadowRoot && (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, s$3 = Symbol(), o$3 = /* @__PURE__ */ new WeakMap();
 var n$3 = class {
 	constructor(t, e, o) {
 		if (this._$cssResult$ = !0, o !== s$3) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -13,7 +13,7 @@ var n$3 = class {
 	get styleSheet() {
 		let t = this.o;
 		const s = this.t;
-		if (e$4 && void 0 === t) {
+		if (e$5 && void 0 === t) {
 			const e = void 0 !== s && 1 === s.length;
 			e && (t = o$3.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && o$3.set(s, t));
 		}
@@ -23,19 +23,19 @@ var n$3 = class {
 		return this.cssText;
 	}
 };
-var r$3 = (t) => new n$3("string" == typeof t ? t : t + "", void 0, s$3), i$5 = (t, ...e) => {
+var r$3 = (t) => new n$3("string" == typeof t ? t : t + "", void 0, s$3), i$6 = (t, ...e) => {
 	return new n$3(1 === t.length ? t[0] : e.reduce((e, s, o) => e + ((t) => {
 		if (!0 === t._$cssResult$) return t.cssText;
 		if ("number" == typeof t) return t;
 		throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
 	})(s) + t[o + 1], t[0]), t, s$3);
 }, S$1 = (s, o) => {
-	if (e$4) s.adoptedStyleSheets = o.map((t) => t instanceof CSSStyleSheet ? t : t.styleSheet);
+	if (e$5) s.adoptedStyleSheets = o.map((t) => t instanceof CSSStyleSheet ? t : t.styleSheet);
 	else for (const e of o) {
 		const o = document.createElement("style"), n = t$3.litNonce;
 		void 0 !== n && o.setAttribute("nonce", n), o.textContent = e.cssText, s.appendChild(o);
 	}
-}, c$3 = e$4 ? (t) => t : (t) => t instanceof CSSStyleSheet ? ((t) => {
+}, c$3 = e$5 ? (t) => t : (t) => t instanceof CSSStyleSheet ? ((t) => {
 	let e = "";
 	for (const s of t.cssRules) e += s.cssText;
 	return r$3(e);
@@ -46,7 +46,7 @@ var r$3 = (t) => new n$3("string" == typeof t ? t : t + "", void 0, s$3), i$5 = 
 * @license
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
-*/ var { is: i$4, defineProperty: e$3, getOwnPropertyDescriptor: h$3, getOwnPropertyNames: r$2, getOwnPropertySymbols: o$2, getPrototypeOf: n$2 } = Object, a$1 = globalThis, c$2 = a$1.trustedTypes, l$2 = c$2 ? c$2.emptyScript : "", p$2 = a$1.reactiveElementPolyfillSupport, d$3 = (t, s) => t, u$2 = {
+*/ var { is: i$5, defineProperty: e$4, getOwnPropertyDescriptor: h$3, getOwnPropertyNames: r$2, getOwnPropertySymbols: o$2, getPrototypeOf: n$2 } = Object, a$1 = globalThis, c$2 = a$1.trustedTypes, l$2 = c$2 ? c$2.emptyScript : "", p$2 = a$1.reactiveElementPolyfillSupport, d$3 = (t, s) => t, u$2 = {
 	toAttribute(t, s) {
 		switch (s) {
 			case Boolean:
@@ -75,7 +75,7 @@ var r$3 = (t) => new n$3("string" == typeof t ? t : t + "", void 0, s$3), i$5 = 
 		}
 		return i;
 	}
-}, f$2 = (t, s) => !i$4(t, s), b$1 = {
+}, f$2 = (t, s) => !i$5(t, s), b$1 = {
 	attribute: !0,
 	type: String,
 	converter: u$2,
@@ -94,7 +94,7 @@ var y$1 = class extends HTMLElement {
 	static createProperty(t, s = b$1) {
 		if (s.state && (s.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(t) && ((s = Object.create(s)).wrapped = !0), this.elementProperties.set(t, s), !s.noAccessor) {
 			const i = Symbol(), h = this.getPropertyDescriptor(t, i, s);
-			void 0 !== h && e$3(this.prototype, t, h);
+			void 0 !== h && e$4(this.prototype, t, h);
 		}
 	}
 	static getPropertyDescriptor(t, s, i) {
@@ -277,7 +277,7 @@ y$1.elementStyles = [], y$1.shadowRootOptions = { mode: "open" }, y$1[d$3("eleme
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
 */
-var t$2 = globalThis, i$3 = (t) => t, s$2 = t$2.trustedTypes, e$2 = s$2 ? s$2.createPolicy("lit-html", { createHTML: (t) => t }) : void 0, h$2 = "$lit$", o$1 = `lit$${Math.random().toFixed(9).slice(2)}$`, n$1 = "?" + o$1, r$1 = `<${n$1}>`, l$1 = document, c$1 = () => l$1.createComment(""), a = (t) => null === t || "object" != typeof t && "function" != typeof t, u$1 = Array.isArray, d$2 = (t) => u$1(t) || "function" == typeof t?.[Symbol.iterator], f$1 = "[ 	\n\f\r]", v$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _ = /-->/g, m$1 = />/g, p$1 = RegExp(`>|${f$1}(?:([^\\s"'>=/]+)(${f$1}*=${f$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), g = /'/g, $ = /"/g, y = /^(?:script|style|textarea|title)$/i, x = (t) => (i, ...s) => ({
+var t$2 = globalThis, i$4 = (t) => t, s$2 = t$2.trustedTypes, e$3 = s$2 ? s$2.createPolicy("lit-html", { createHTML: (t) => t }) : void 0, h$2 = "$lit$", o$1 = `lit$${Math.random().toFixed(9).slice(2)}$`, n$1 = "?" + o$1, r$1 = `<${n$1}>`, l$1 = document, c$1 = () => l$1.createComment(""), a = (t) => null === t || "object" != typeof t && "function" != typeof t, u$1 = Array.isArray, d$2 = (t) => u$1(t) || "function" == typeof t?.[Symbol.iterator], f$1 = "[ 	\n\f\r]", v$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _ = /-->/g, m$1 = />/g, p$1 = RegExp(`>|${f$1}(?:([^\\s"'>=/]+)(${f$1}*=${f$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), g = /'/g, $ = /"/g, y = /^(?:script|style|textarea|title)$/i, x = (t) => (i, ...s) => ({
 	_$litType$: t,
 	strings: i,
 	values: s
@@ -287,7 +287,7 @@ x(3);
 var E = Symbol.for("lit-noChange"), A = Symbol.for("lit-nothing"), C = /* @__PURE__ */ new WeakMap(), P = l$1.createTreeWalker(l$1, 129);
 function V(t, i) {
 	if (!u$1(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return void 0 !== e$2 ? e$2.createHTML(i) : i;
+	return void 0 !== e$3 ? e$3.createHTML(i) : i;
 }
 var N = (t, i) => {
 	const s = t.length - 1, e = [];
@@ -441,8 +441,8 @@ var k = class k {
 	}
 	_$AR(t = this._$AA.nextSibling, s) {
 		for (this._$AP?.(!1, !0, s); t !== this._$AB;) {
-			const s = i$3(t).nextSibling;
-			i$3(t).remove(), t = s;
+			const s = i$4(t).nextSibling;
+			i$4(t).remove(), t = s;
 		}
 	}
 	setConnected(t) {
@@ -547,7 +547,7 @@ var D = (t, i, s) => {
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
 */ var s$1 = globalThis;
-var i$2 = class extends y$1 {
+var i$3 = class extends y$1 {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -569,9 +569,9 @@ var i$2 = class extends y$1 {
 		return E;
 	}
 };
-i$2._$litElement$ = !0, i$2["finalized"] = !0, s$1.litElementHydrateSupport?.({ LitElement: i$2 });
+i$3._$litElement$ = !0, i$3["finalized"] = !0, s$1.litElementHydrateSupport?.({ LitElement: i$3 });
 var o = s$1.litElementPolyfillSupport;
-o?.({ LitElement: i$2 });
+o?.({ LitElement: i$3 });
 (s$1.litElementVersions ??= []).push("4.2.2");
 //#endregion
 //#region ../../node_modules/.pnpm/lit-html@3.3.2/node_modules/lit-html/directive.js
@@ -580,11 +580,11 @@ o?.({ LitElement: i$2 });
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
 */
-var e$1 = (t) => (...e) => ({
+var e$2 = (t) => (...e) => ({
 	_$litDirective$: t,
 	values: e
 });
-var i$1 = class {
+var i$2 = class {
 	constructor(t) {}
 	get _$AU() {
 		return this._$AM._$AU;
@@ -598,7 +598,7 @@ var i$1 = class {
 	update(t, e) {
 		return this.render(...e);
 	}
-}, { I: t } = j$1, i = (o) => o, l = (o, t) => void 0 === t ? void 0 !== o?._$litType$ : o?._$litType$ === t, d$1 = (o) => null != o?._$litType$?.h, s = () => document.createComment(""), v = (o, n, e) => {
+}, { I: t } = j$1, i$1 = (o) => o, l = (o, t) => void 0 === t ? void 0 !== o?._$litType$ : o?._$litType$ === t, d$1 = (o) => null != o?._$litType$?.h, s = () => document.createComment(""), v = (o, n, e) => {
 	const l = o._$AA.parentNode, d = void 0 === n ? o._$AB : n._$AA;
 	if (void 0 === e) e = new t(l.insertBefore(s(), d), l.insertBefore(s(), d), o, o.options);
 	else {
@@ -610,8 +610,8 @@ var i$1 = class {
 		if (t !== d || c) {
 			let o = e._$AA;
 			for (; o !== t;) {
-				const t = i(o).nextSibling;
-				i(l).insertBefore(o, d), o = t;
+				const t = i$1(o).nextSibling;
+				i$1(l).insertBefore(o, d), o = t;
 			}
 		}
 	}
@@ -625,7 +625,7 @@ var i$1 = class {
 * @license
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
-*/ var d = (t) => d$1(t) ? t._$litType$.h : t.strings, h = e$1(class extends i$1 {
+*/ var d = (t) => d$1(t) ? t._$litType$.h : t.strings, h = e$2(class extends i$2 {
 	constructor(t) {
 		super(t), this.et = /* @__PURE__ */ new WeakMap();
 	}
@@ -651,6 +651,27 @@ var i$1 = class {
 			this.it = e;
 		} else this.it = void 0;
 		return this.render(e);
+	}
+});
+//#endregion
+//#region ../../node_modules/.pnpm/lit-html@3.3.2/node_modules/lit-html/directives/guard.js
+/**
+* @license
+* Copyright 2018 Google LLC
+* SPDX-License-Identifier: BSD-3-Clause
+*/
+var e = {}, i = e$2(class extends i$2 {
+	constructor() {
+		super(...arguments), this.ot = e;
+	}
+	render(r, t) {
+		return t();
+	}
+	update(t, [s, e]) {
+		if (Array.isArray(s)) {
+			if (Array.isArray(this.ot) && this.ot.length === s.length && s.every((r, t) => r === this.ot[t])) return E;
+		} else if (this.ot === s) return E;
+		return this.ot = Array.isArray(s) ? Array.from(s) : s, this.render(s, e);
 	}
 });
 //#endregion
@@ -972,6 +993,20 @@ function createSelectionCoordination(state) {
 		if (originalOrder && freshSourceIndexes) {
 			displayedKeys = sourceIndexes;
 			displayedSelectableCount = sourceSelectableCount;
+		} else if (!freshSourceIndexes && state.config.selection.rowKey !== void 0 && state.config.selection.rowKey === indexedProperty && displayedKeys.size > 0 && displayedKeys.size === state.data.length) {
+			let replacement = null;
+			for (let index = 0; index < state.data.length; index++) {
+				const key = keyAt(index);
+				if (replacement === null && (key === null || displayedKeys.get(key) !== index)) {
+					replacement = /* @__PURE__ */ new Map();
+					for (const [priorKey, priorIndex] of displayedKeys) if (priorIndex < index) replacement.set(priorKey, priorIndex);
+				}
+				if (replacement !== null && key !== null) replacement.set(key, index);
+			}
+			if (replacement !== null) {
+				displayedKeys = replacement;
+				displayedSelectableCount = replacement.size;
+			}
 		} else {
 			displayedKeys = /* @__PURE__ */ new Map();
 			if (state.config.selection.rowKey !== void 0) for (let index = 0; index < state.data.length; index++) {
@@ -1004,12 +1039,21 @@ function createSelectionCoordination(state) {
 		const index = displayedKeys.get(key);
 		return index !== void 0 && index >= 0 ? index : void 0;
 	}
+	function currentIndexForKey(key) {
+		const index = indexForKey(key);
+		const sourceIndex = sourceIndexes.get(key);
+		const property = state.config.selection.rowKey;
+		if (index === void 0 || sourceIndex === void 0 || sourceIndex < 0 || property === void 0 || state.originalData.length !== sourceKeys.length) return void 0;
+		const row = state.originalData[sourceIndex];
+		return row === state.data[index] && readKey(row, property) === key ? index : void 0;
+	}
 	return {
 		rebuildKeys,
 		reconcile,
 		commit,
 		canSelect: (index) => Number.isInteger(index) && index >= 0 && index < state.data.length && (state.config.selection.rowKey === void 0 || keyAt(index) !== null),
 		indexForKey,
+		currentIndexForKey,
 		getSelectableRowCount: () => state.config.selection.rowKey === void 0 ? state.data.length : displayedSelectableCount,
 		getSnapshot: () => current,
 		subscribe(listener) {
@@ -1270,6 +1314,14 @@ function createGridEngine(config = {}) {
 		onQueryChange: external.subscribe,
 		refreshQuery() {
 			if (external.active()) external.intent({}, "refresh");
+		},
+		refreshData() {
+			if (external.active()) return false;
+			engine.setData(state.originalData);
+			return true;
+		},
+		getDisplayedRowIndexForKey(key) {
+			return coordination.currentIndexForKey(key);
 		},
 		setConfig(config) {
 			const nextConfig = normalizeConfig(config);
@@ -1667,7 +1719,7 @@ function calculateDisplayLayout({ totalSize, displaySize, virtualOffsetTop, visi
 * Dark semantic color tokens for the Community Edition grid.
 * Consumers can override these custom properties on `yc-grid`.
 */
-var darkThemeStyles = i$5`
+var darkThemeStyles = i$6`
   :host([theme='dark']) {
     --litgrid-color-text: #e2e8f0;
     --litgrid-color-text-strong: #f8fafc;
@@ -1701,7 +1753,7 @@ var darkThemeStyles = i$5`
 * Default semantic color tokens for the Community Edition grid.
 * Consumers can override these custom properties on `yc-grid`.
 */
-var lightThemeStyles = i$5`
+var lightThemeStyles = i$6`
   :host,
   :host([theme='light']) {
     --litgrid-color-text: #111827;
@@ -1893,9 +1945,14 @@ var FILTER_OPERATORS = [
 		label: "Less than or equal"
 	}
 ];
-var DataGrid = class DataGrid extends i$2 {
+var DataGrid = class DataGrid extends i$3 {
 	static {
 		this.nextInstanceId = 0;
+	}
+	requestUpdate(...args) {
+		this.completeRowRenderEpoch = (this.completeRowRenderEpoch ?? 0) + 1;
+		this.targetedRowEpochs?.clear();
+		super.requestUpdate(...args);
 	}
 	static {
 		this.properties = {
@@ -1924,6 +1981,11 @@ var DataGrid = class DataGrid extends i$2 {
 		super();
 		this.gridId = `litgrid-${DataGrid.nextInstanceId++}`;
 		this.engine = createGridEngine();
+		this.completeRowRenderEpoch = 0;
+		this.nextTargetedRowEpoch = 0;
+		this.targetedRowEpochs = /* @__PURE__ */ new Map();
+		this.renderedRowEnd = 0;
+		this.lastAdoptedLocalData = [];
 		this.fixedRowVirtualizer = createVirtualizer({
 			rowHeight: 36,
 			viewportHeight: 320,
@@ -2111,7 +2173,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.styles = [
 			lightThemeStyles,
 			darkThemeStyles,
-			i$5`
+			i$6`
     :host {
       display: block;
       min-width: 0;
@@ -4082,11 +4144,116 @@ var DataGrid = class DataGrid extends i$2 {
 		const inferred = this.captureInferredColumnState();
 		this.sourceRowCount = Array.isArray(value) ? value.length : 0;
 		this.engine.setData(value ?? []);
+		this.lastAdoptedLocalData = value ?? [];
 		this.reconcileInferredColumnState(inferred);
 		this.quickSearchDraft = this.engine.getQuickSearch();
 		this.clearBestFitWidths();
 		this.announceScreenReader(this.engine.getRowCount() === 0 ? "Grid is empty." : `${this.engine.getRowCount()} ${this.engine.getRowCount() === 1 ? "row" : "rows"} loaded.`);
 		this.requestUpdate();
+	}
+	/** Explicit same-source local synchronization, including sort/filter and identity. */
+	refreshData() {
+		if (this.engine.getConfig().queryMode === "external") return false;
+		this.data = this.lastAdoptedLocalData;
+		return true;
+	}
+	refreshMode(options) {
+		const mode = options?.mode ?? "auto";
+		if (mode !== "auto" && mode !== "render-only") throw new TypeError("refresh mode must be auto or render-only");
+		return mode;
+	}
+	needsFullLocalRefresh() {
+		return this._inferColumns && this.sourceColumnDefs.length === 0 || this.lastAdoptedLocalData.length !== this.sourceRowCount || !!this.engine.getQuickSearch().trim() || this.engine.getFilters().length > 0 || this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null;
+	}
+	displayedKeyMatches(index) {
+		const property = this.engine.getConfig().selection.rowKey;
+		const row = this.engine.getVisibleRows(index, index + 1)[0];
+		if (property === void 0) {
+			if (this.engine.getConfig().queryMode === "external") return true;
+			if (this.engine.getQuickSearch().trim() || this.engine.getFilters().length || this.engine.getSort().columnKey !== null && this.engine.getSort().direction !== null) return false;
+			const page = this.engine.getPagination();
+			const sourceIndex = index + (page.enabled ? page.pageIndex * page.pageSize : 0);
+			return this.lastAdoptedLocalData.length === this.sourceRowCount && Object.is(this.lastAdoptedLocalData[sourceIndex], row);
+		}
+		if (row === null || typeof row !== "object") return false;
+		const key = Reflect.get(row, property);
+		return (typeof key === "string" || typeof key === "number" && Number.isFinite(key)) && this.engine.getDisplayedRowIndexForKey(key) === index;
+	}
+	invalidateDisplayedRows(indexes) {
+		const start = this.renderedRowStart;
+		const end = this.renderedRowEnd;
+		let touched = false;
+		for (const index of indexes) {
+			if (index < start || index >= end) continue;
+			this.targetedRowEpochs.set(index, ++this.nextTargetedRowEpoch);
+			touched = true;
+		}
+		if (touched) {
+			for (const index of this.targetedRowEpochs.keys()) if (index < start || index >= end) this.targetedRowEpochs.delete(index);
+			super.requestUpdate();
+		}
+	}
+	/**
+	* Update an edited loaded row by globally unique selection.rowKey.
+	* Auto reconciles local transforms; render-only is an application guarantee
+	* that the edit did not change source slots/objects, identity, sorting,
+	* membership or layout. Detected source mismatches decline render-only.
+	*/
+	refreshRow(key, options) {
+		return this.refreshRows([key], options) > 0;
+	}
+	refreshRows(keys, options) {
+		if (!Array.isArray(keys)) throw new TypeError("refreshRows expects row keys");
+		const mode = this.refreshMode(options);
+		const external = this.engine.getConfig().queryMode === "external";
+		if (this._inferColumns && this.sourceColumnDefs.length === 0 && (external || mode === "render-only")) return 0;
+		const unique = new Set(keys.filter((key) => typeof key === "string" || typeof key === "number" && Number.isFinite(key)));
+		if (!unique.size) return 0;
+		const resolve = () => {
+			const indices = /* @__PURE__ */ new Set();
+			for (const key of unique) {
+				const index = this.engine.getDisplayedRowIndexForKey(key);
+				if (index !== void 0 && this.displayedKeyMatches(index)) indices.add(index);
+			}
+			return indices;
+		};
+		const indices = resolve();
+		const incomplete = indices.size !== unique.size;
+		if (!external && mode === "auto" && (incomplete || this.needsFullLocalRefresh())) {
+			this.refreshData();
+			return resolve().size;
+		}
+		if (incomplete && mode === "render-only") return 0;
+		this.invalidateDisplayedRows(indices);
+		return indices.size;
+	}
+	/** Refresh current displayed row indexes; range excludes endExclusive. */
+	refreshRange(range, options) {
+		const mode = this.refreshMode(options);
+		if (!range || !Number.isSafeInteger(range.start) || !Number.isSafeInteger(range.endExclusive) || range.start < 0 || range.endExclusive < range.start) throw new RangeError("refreshRange requires 0 <= start <= endExclusive (safe integers)");
+		const count = this.engine.getRowCount();
+		const start = Math.min(count, range.start);
+		const end = Math.min(count, range.endExclusive);
+		if (start === end) return 0;
+		const external = this.engine.getConfig().queryMode === "external";
+		if (this._inferColumns && this.sourceColumnDefs.length === 0 && (external || mode === "render-only")) return 0;
+		if (!external && mode === "auto" && this.needsFullLocalRefresh()) {
+			this.refreshData();
+			return Math.max(0, Math.min(this.engine.getRowCount(), end) - start);
+		}
+		const indexes = /* @__PURE__ */ new Set();
+		for (let index = start; index < end; index++) {
+			if (!this.displayedKeyMatches(index)) {
+				if (!external && mode === "auto") {
+					this.refreshData();
+					return Math.max(0, Math.min(this.engine.getRowCount(), end) - start);
+				}
+				return 0;
+			}
+			indexes.add(index);
+		}
+		this.invalidateDisplayedRows(indexes);
+		return indexes.size;
 	}
 	handleRowCheckboxChange(rowIndex) {
 		this.selectRow(rowIndex, "toggle");
@@ -4185,9 +4352,11 @@ var DataGrid = class DataGrid extends i$2 {
 		this.restorePersistedColumnState();
 	}
 	set config(value) {
+		const previousQueryMode = this.engine.getConfig().queryMode;
 		const wasVisible = this.isQuickSearchDisplayed();
 		const inputFocused = !!this.renderRoot?.querySelector(".quick-search input:focus");
 		this.engine.setConfig(value ?? {});
+		if (previousQueryMode !== "external" && this.engine.getConfig().queryMode === "external") this.lastAdoptedLocalData = [];
 		const nowVisible = this.isQuickSearchDisplayed();
 		if (wasVisible && !nowVisible) {
 			this.clearQuickSearchDebounce();
@@ -4296,6 +4465,7 @@ var DataGrid = class DataGrid extends i$2 {
 		this.renderedActiveCellId = activeCellIsRendered && this.activeCell ? this.getGridCellId(this.activeCell.rowIndex, this.activeCell.columnIndex) : null;
 		if (!activeCellIsRendered || this.renderedRowStart !== renderedRowStart || this.renderedColumnStart !== columnRange.startIndex) this.shouldFocusViewport = this.gridCellHasFocus;
 		this.renderedRowStart = renderedRowStart;
+		this.renderedRowEnd = renderedRowStart + rows.length;
 		this.renderedColumnStart = columnRange.startIndex;
 		const visibleColumnWidths = columnWidths.slice(columnRange.startIndex, columnRange.endIndex);
 		const gridTemplate = [
@@ -4523,8 +4693,13 @@ var DataGrid = class DataGrid extends i$2 {
             >
               ${rows.map((row, index) => {
 			const rowIndex = renderedRowStart + index;
-			const height = this.getRowHeight(rowIndex);
-			return b`
+			return i([
+				this.completeRowRenderEpoch,
+				this.targetedRowEpochs.get(rowIndex) ?? 0,
+				rowIndex
+			], () => {
+				const height = this.getRowHeight(rowIndex);
+				return b`
                                     <div
                     class=${this.getRowClass(rowIndex)}
                     role="row"
@@ -4540,6 +4715,7 @@ var DataGrid = class DataGrid extends i$2 {
                     <div class="column-spacer" aria-hidden="true"></div>
                   </div>
                 `;
+			});
 		})}
             </div>
           </div>
@@ -4874,6 +5050,21 @@ function getQuery(element) {
 function refreshQuery(element) {
 	requireGrid(element).refreshQuery();
 }
+function refreshRow(element, key, options) {
+	const grid = requireGrid(element);
+	if (!grid.refreshRow) throw new Error("LitGrid row refresh requires matching Web Component assets.");
+	return grid.refreshRow(key, options);
+}
+function refreshRows(element, keys, options) {
+	const grid = requireGrid(element);
+	if (!grid.refreshRows) throw new Error("LitGrid row refresh requires matching Web Component assets.");
+	return grid.refreshRows(keys, options);
+}
+function refreshRange(element, range, options) {
+	const grid = requireGrid(element);
+	if (!grid.refreshRange) throw new Error("LitGrid row refresh requires matching Web Component assets.");
+	return grid.refreshRange(range, options);
+}
 function setExternalState(element, state) {
 	return requireGrid(element).setExternalState(state);
 }
@@ -4927,6 +5118,6 @@ function isCellSelected(element, rowIndex, columnKey) {
 	return requireGrid(element).isCellSelected(rowIndex, columnKey);
 }
 //#endregion
-export { bestFitAllColumns, bestFitColumn, clearFilter, clearQuickSearch, clearSelection, clearSort, copySelectedCells, copySelectedRows, disposeGrid, getColumnOrder, getColumnState, getColumnWidth, getFilters, getPagination, getQuery, getQuickSearch, getRowHeight, getSelection, getSelectionSnapshot, getTotalRowCount, getVisibleColumnKeys, initGrid, isCellSelected, isColumnVisible, isRowSelected, moveColumn, refreshQuery, resetAllColumnWidths, resetAllRowHeights, resetColumnOrder, resetColumnState, resetColumnVisibility, resetColumnWidth, resetRowHeight, selectAllRows, selectRow, selectRowByKey, setColumnOrder, setColumnState, setColumnVisible, setColumnWidth, setExternalState, setFilter, setPage, setPageSize, setQuickSearch, setRowHeight, sortBy, syncGridInputs, updateInputs };
+export { bestFitAllColumns, bestFitColumn, clearFilter, clearQuickSearch, clearSelection, clearSort, copySelectedCells, copySelectedRows, disposeGrid, getColumnOrder, getColumnState, getColumnWidth, getFilters, getPagination, getQuery, getQuickSearch, getRowHeight, getSelection, getSelectionSnapshot, getTotalRowCount, getVisibleColumnKeys, initGrid, isCellSelected, isColumnVisible, isRowSelected, moveColumn, refreshQuery, refreshRange, refreshRow, refreshRows, resetAllColumnWidths, resetAllRowHeights, resetColumnOrder, resetColumnState, resetColumnVisibility, resetColumnWidth, resetRowHeight, selectAllRows, selectRow, selectRowByKey, setColumnOrder, setColumnState, setColumnVisible, setColumnWidth, setExternalState, setFilter, setPage, setPageSize, setQuickSearch, setRowHeight, sortBy, syncGridInputs, updateInputs };
 
 //# sourceMappingURL=litgrid-blazor.js.map

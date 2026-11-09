@@ -179,11 +179,24 @@ export function createSelectionCoordination(state: GridState) {
     return index !== undefined && index >= 0 ? index : undefined
   }
 
+  function currentIndexForKey(key: GridRowKey) {
+    const index = indexForKey(key)
+    const sourceIndex = sourceIndexes.get(key)
+    const property = state.config.selection.rowKey
+    if (index === undefined || sourceIndex === undefined || sourceIndex < 0 ||
+        property === undefined || state.originalData.length !== sourceKeys.length) return undefined
+    // Displayed/transformed arrays are detached. A cached key alone cannot
+    // prove that the reported row still occupies its validated source slot.
+    // Check just that slot; unrelated, unreported mutations require refreshData.
+    const row = state.originalData[sourceIndex]
+    return row === state.data[index] && readKey(row, property) === key ? index : undefined
+  }
+
   return {
     rebuildKeys, reconcile, commit,
     canSelect: (index: number) => Number.isInteger(index) && index >= 0 && index < state.data.length &&
       (state.config.selection.rowKey === undefined || keyAt(index) !== null),
-    indexForKey,
+    indexForKey, currentIndexForKey,
     getSelectableRowCount: () => state.config.selection.rowKey === undefined ? state.data.length : displayedSelectableCount,
     getSnapshot: () => current,
     subscribe(listener: (detail: SelectionChangeDetail) => void) {

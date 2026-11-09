@@ -1,0 +1,38 @@
+name: B1 Targeted Refresh Browser Qualification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/grid-web/src/components/DataGrid.ts'
+      - 'packages/grid-core/src/core/createGridEngine.ts'
+      - 'scripts/performance/b1-targeted-browser.mjs'
+      - '.github/workflows/b1-targeted-refresh.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Assert only edited rows execute accessors/renderers in actual browser
+        run: node scripts/performance/b1-targeted-browser.mjs .private/b1/targeted-browser.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: litgrid-b1-targeted-browser
+          path: .private/b1/targeted-browser.json
+          if-no-files-found: warn
+          retention-days: 14

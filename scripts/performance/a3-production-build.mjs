@@ -11,6 +11,14 @@ const relative='packages/grid-core/src/features/selection/selectionCoordination.
 const sourcePath=resolve(root,relative)
 const saved=readFileSync(sourcePath)
 const previous=execFileSync('git',['show',referenceSha+':'+relative],{cwd:root})
+// The isolated pre-A3 module predates B1's internal targeted-source lookup.
+// Keep its legacy lookup behavior for that entry point; A3 measures config
+// reconciliation, not targeted refresh. Candidate bytes remain untouched.
+const legacyEntry='    indexForKey,'
+const previousText=previous.toString('utf8')
+if(previousText.split(legacyEntry).length!==2)throw new Error('Unexpected A3 baseline lookup export')
+const compatiblePrevious=Buffer.from(previousText.replace(legacyEntry,
+  '    indexForKey, currentIndexForKey: indexForKey,'))
 const directory=resolve(root,'.private/a3/variants')
 function build(name,bytes){
   writeFileSync(sourcePath,bytes)
@@ -28,7 +36,7 @@ function build(name,bytes){
 }
 mkdirSync(directory,{recursive:true})
 try {
-  build('baseline',previous)
+  build('baseline',compatiblePrevious)
   build('candidate',saved)
 }finally{
   writeFileSync(sourcePath,saved)

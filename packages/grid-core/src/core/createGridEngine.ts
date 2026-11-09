@@ -71,6 +71,16 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     getQuery: external.getQuery,
     onQueryChange: external.subscribe,
     refreshQuery() { if (external.active()) external.intent({}, 'refresh') },
+    refreshData() {
+      if (external.active()) return false
+      // setData on the same source revalidates even in-place mutations and
+      // retains the current page. Never expose the filtered/displayed array.
+      engine.setData(state.originalData)
+      return true
+    },
+    getDisplayedRowIndexForKey(key) {
+      return coordination.currentIndexForKey(key)
+    },
     setConfig(config: GridConfig) {
       const nextConfig = normalizeConfig(config)
       const previousConfig = state.config

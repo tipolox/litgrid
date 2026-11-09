@@ -16,6 +16,10 @@ export type GridEngine = {
   getExternalState: () => GridExternalState | null
   getQuery: () => GridQuerySnapshot
   refreshQuery: () => void
+  /** Revalidate the last adopted local source without resetting same-source pagination. */
+  refreshData: () => boolean
+  /** Find a cached unique keyed row only if its validated source slot/object/key still match. Never scans unrelated rows. */
+  getDisplayedRowIndexForKey: (key: GridRowKey) => number | undefined
   onQueryChange: (listener: (detail: GridQueryChangeDetail) => void) => () => void
   setConfig: (config: GridConfig) => void
   getConfig: () => ResolvedGridConfig
