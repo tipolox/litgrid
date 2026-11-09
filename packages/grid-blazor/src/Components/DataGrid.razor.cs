@@ -291,6 +291,15 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
             // An explicit refresh must remain retryable even when its reference and
             // revision already matched the last successful transfer.
             if (forceData || dataAttempted) failedDataPending = true;
+            if (!forceData && (exception is ColumnPresentationException ||
+                exception is JSException interopError && interopError.Message.Contains("GridColumnPresentationError", StringComparison.Ordinal)))
+            {
+                // Unhandled lifecycle exceptions terminate Blazor Server circuits.
+                // Presentation failures retain the last successful snapshot and
+                // retry on a corrected render; explicit refresh still throws.
+                Logger.LogError(exception, "Invalid column presentation; retaining the last valid grid until metadata is corrected.");
+                return;
+            }
             if (!forceData &&
                 exception is JSDisconnectedException or OperationCanceledException)
             {
@@ -424,7 +433,7 @@ public partial class DataGrid<TItem> : ComponentBase, IAsyncDisposable
     }
 
     private DeclaredColumn[] CaptureColumns(bool declarative) => declarative ? columnRegistry.Snapshot() :
-        Columns.Select(column => new DeclaredColumn(column.Key, column.Header, column.Width, column.Hidden, null, column.Sortable, column.Filterable)).ToArray();
+        Columns.Select(column => new DeclaredColumn(column.Key, column.Header, column.Width, column.Hidden, null, column.Sortable, column.Filterable, GridFormatSnapshot.ValidateAlign(column.Align, column.Key), GridFormatSnapshot.Capture(column.Format, column.Key))).ToArray();
 
     private Dictionary<string, object?> CaptureScalars() => new()
     {

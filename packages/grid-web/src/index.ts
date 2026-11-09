@@ -14,6 +14,8 @@ export type {
   SelectionChangeDetail,
   SelectionIntent,
   GridColumn,
+  GridColumnAlign,
+  GridValueFormat,
   GridTheme,
   GridRefreshOptions,
   GridRefreshRange,

@@ -5,6 +5,30 @@ namespace Tipolox.LitGrid.Blazor.Tests;
 public class ColumnRegistryTests
 {
     [Fact]
+    public void PresentationErrorsBlockSnapshotsWithoutReplacingEntriesAndRecoverOrDispose()
+    {
+        var changes=0;
+        var registry=new ColumnRegistry<Employee>(()=>changes++);
+        var identity=new object();
+        var column=new DeclaredColumn("id",null,null,null,null);
+        registry.Update(identity,column);
+        var valid=registry.Snapshot();
+        registry.ReportPresentationError(identity,new("bad format"));
+        Assert.Throws<ColumnPresentationException>(()=>registry.Snapshot());
+        var count=changes;
+        registry.ReportPresentationError(identity,new("bad format"));
+        Assert.Equal(count,changes);
+        registry.Update(identity,column);
+        Assert.Same(valid,registry.Snapshot());
+        registry.ReportPresentationError(identity,new("bad again"));
+        registry.Remove(identity);
+        Assert.Empty(registry.Snapshot());
+        registry.ReportPresentationError(new object(),new("initial error"));
+        registry.Dispose();
+        Assert.Empty(registry.Snapshot());
+    }
+
+    [Fact]
     public void RegistersUpdatesOrdersRemovesAndBoundsLifetime()
     {
         var changes = 0;

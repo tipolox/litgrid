@@ -1714,6 +1714,156 @@ function calculateDisplayLayout({ totalSize, displaySize, virtualOffsetTop, visi
 	};
 }
 //#endregion
+//#region ../grid-web/dist/formatting/columnFormatting.js
+var numberOptions = [
+	"style",
+	"currency",
+	"currencyDisplay",
+	"currencySign",
+	"useGrouping",
+	"minimumFractionDigits",
+	"maximumFractionDigits"
+];
+var dateOptions = [
+	"dateStyle",
+	"timeStyle",
+	"timeZone"
+];
+var monthDays = [
+	31,
+	28,
+	31,
+	30,
+	31,
+	30,
+	31,
+	31,
+	30,
+	31,
+	30,
+	31
+];
+function object(value) {
+	if (!value || typeof value !== "object" || ![Object.prototype, null].includes(Object.getPrototypeOf(value))) throw new TypeError("Expected a plain data object.");
+	for (const key of Reflect.ownKeys(value)) {
+		const descriptor = Object.getOwnPropertyDescriptor(value, key);
+		if (typeof key !== "string" || !descriptor.enumerable || !("value" in descriptor)) throw new TypeError("Only enumerable string-keyed data properties are supported.");
+	}
+	return value;
+}
+/** Validate and detach only bounded presentation metadata. Does not construct Intl. */
+function snapshotColumn$1(column) {
+	const align = Object.getOwnPropertyDescriptor(column, "align");
+	const format = Object.getOwnPropertyDescriptor(column, "format");
+	if (align && !("value" in align) || format && !("value" in format)) throw new TypeError("Presentation metadata cannot use getters.");
+	if (column.align !== void 0 && ![
+		"start",
+		"center",
+		"end",
+		"left",
+		"right"
+	].includes(column.align)) throw new TypeError("Invalid alignment.");
+	if (column.format === void 0) return { ...column };
+	const source = object(column.format);
+	if (Object.keys(source).some((key) => ![
+		"kind",
+		"locale",
+		"options"
+	].includes(key))) throw new TypeError("Unsupported format field.");
+	if (source.kind !== "number" && source.kind !== "dateTime") throw new TypeError("Invalid format kind.");
+	if (typeof source.locale !== "string" || !source.locale.trim()) throw new TypeError("An explicit locale is required.");
+	const options = source.options === void 0 && source.kind === "number" ? {} : object(source.options);
+	const allowed = source.kind === "number" ? numberOptions : dateOptions;
+	for (const key of Object.keys(options)) {
+		const value = options[key];
+		if (!allowed.includes(key)) throw new TypeError("Unsupported option: " + key);
+		if (key === "minimumFractionDigits" || key === "maximumFractionDigits") {
+			if (typeof value !== "number" || !Number.isFinite(value)) throw new TypeError("Expected a finite number: " + key);
+		} else if (key === "useGrouping") {
+			if (typeof value !== "boolean" && ![
+				"auto",
+				"always",
+				"min2"
+			].includes(value)) throw new TypeError("Invalid grouping option.");
+		} else if (typeof value !== "string") throw new TypeError("Expected a string: " + key);
+	}
+	if (source.kind === "number" && options.style !== void 0 && ![
+		"decimal",
+		"currency",
+		"percent"
+	].includes(options.style)) throw new TypeError("Invalid number style.");
+	if (source.kind === "dateTime" && (typeof options.timeZone !== "string" || !options.timeZone.trim())) throw new TypeError("An explicit timezone is required.");
+	return {
+		...column,
+		format: {
+			...source,
+			options: { ...options }
+		}
+	};
+}
+function sameFormat(left, right) {
+	if (!left || !right) return left === right;
+	return left.kind === right.kind && left.locale === right.locale && Object.keys(left.options ?? {}).length === Object.keys(right.options ?? {}).length && Object.entries(left.options ?? {}).every(([key, value]) => Object.is(value, Reflect.get(right.options ?? {}, key)));
+}
+/** All work is staged; failures leave the caller's active schema/cache untouched. */
+function prepareColumns(columns, previous) {
+	const formats = /* @__PURE__ */ new Map();
+	const alignments = /* @__PURE__ */ new Map();
+	const keys = /* @__PURE__ */ new Set();
+	return {
+		columns: columns.map((column) => {
+			try {
+				if (keys.has(column.key)) throw new TypeError("Duplicate column schema key.");
+				keys.add(column.key);
+				const snapshot = snapshotColumn$1(column);
+				if (snapshot.format) {
+					const old = previous.get(column.key);
+					if (old && sameFormat(old.descriptor, snapshot.format)) formats.set(column.key, old);
+					else {
+						const format = snapshot.format;
+						const formatter = format.kind === "number" ? new Intl.NumberFormat(format.locale, format.options) : new Intl.DateTimeFormat(format.locale, format.options);
+						const display = format.kind === "number" ? (value) => typeof value === "number" && Number.isFinite(value) ? formatter.format(value) : "" : (value) => {
+							const instant = dateValue(value);
+							return instant === void 0 ? "" : formatter.format(instant);
+						};
+						formats.set(column.key, {
+							descriptor: format,
+							display
+						});
+					}
+				}
+				if (snapshot.format && !snapshot.render) snapshot.render = formats.get(column.key).display;
+				if (snapshot.align) alignments.set(column.key, "cell-align-" + snapshot.align);
+				return snapshot;
+			} catch (error) {
+				const failure = /* @__PURE__ */ new TypeError(`Column ${JSON.stringify(column.key)}: ${error instanceof Error ? error.message : String(error)}`);
+				failure.name = "GridColumnPresentationError";
+				throw failure;
+			}
+		}),
+		formats,
+		alignments
+	};
+}
+/** Strict offset ISO timestamps, with .NET fractional precision truncated to ms. */
+function dateValue(value) {
+	if (value && typeof value === "object") try {
+		value = Date.prototype.getTime.call(value);
+	} catch {
+		return;
+	}
+	if (typeof value === "number") return Number.isFinite(value) && Math.abs(value) <= 864e13 ? value : void 0;
+	if (typeof value !== "string") return void 0;
+	const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,7}))?(Z|([+-])(\d{2}):(\d{2}))$/.exec(value);
+	if (!match) return void 0;
+	const [, y, mo, d, h, mi, s, fraction = "", offset, , oh = "0", om = "0"] = match;
+	const year = Number(y), month = Number(mo), day = Number(d);
+	const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+	if (month < 1 || month > 12 || day < 1 || day > (month === 2 && leap ? 29 : monthDays[month - 1]) || Number(h) > 23 || Number(mi) > 59 || Number(s) > 59 || Number(oh) > 23 || Number(om) > 59) return void 0;
+	const instant = Date.parse(`${y}-${mo}-${d}T${h}:${mi}:${s}.${fraction.padEnd(3, "0").slice(0, 3)}${offset}`);
+	return Number.isFinite(instant) ? instant : void 0;
+}
+//#endregion
 //#region ../grid-web/dist/theme/darkTheme.js
 /**
 * Dark semantic color tokens for the Community Edition grid.
@@ -2011,6 +2161,10 @@ var DataGrid = class DataGrid extends i$3 {
 		this.scrollbarWidth = 0;
 		this.columnDefs = [];
 		this.sourceColumnDefs = [];
+		this.columnFormats = /* @__PURE__ */ new Map();
+		this.columnAlignments = /* @__PURE__ */ new Map();
+		this.hasColumnAlignment = false;
+		this.needsPresentationReconnect = false;
 		this._inferColumns = true;
 		this.columnWidths = /* @__PURE__ */ new Map();
 		this.hiddenColumnKeys = /* @__PURE__ */ new Set();
@@ -2617,7 +2771,15 @@ var DataGrid = class DataGrid extends i$3 {
       border-right: 1px solid var(--litgrid-color-cell-border);
     }
 
-        .cell-selected {
+        .cell-align-left { justify-content: left; text-align: left; }
+    .cell-align-right { justify-content: right; text-align: right; }
+    .cell-align-center { justify-content: center; text-align: center; }
+    .cell-align-start { justify-content: start; text-align: start; }
+    .cell-align-end { justify-content: end; text-align: end; }
+    .header-cell[class*="cell-align-"] .header-label { flex: 1; }
+    .header-cell[class*="cell-align-"] .header-actions { flex-shrink: 0; }
+
+    .cell-selected {
       background: var(--litgrid-color-accent-selected);
       outline: 2px solid var(--litgrid-color-accent);
       outline-offset: -2px;
@@ -2788,6 +2950,20 @@ var DataGrid = class DataGrid extends i$3 {
 			}
 		} catch (e) {}
 	}
+	connectedCallback() {
+		if (this.needsPresentationReconnect) {
+			const prepared = prepareColumns(this.sourceColumnDefs, this.columnFormats);
+			const byKey = new Map(prepared.columns.map((column) => [column.key, column]));
+			this.sourceColumnDefs = prepared.columns;
+			this.columnDefs = this.columnDefs.map((column) => byKey.get(column.key) ?? column);
+			this.columnFormats = prepared.formats;
+			this.columnAlignments = prepared.alignments;
+			this.hasColumnAlignment = prepared.alignments.size > 0;
+			this.needsPresentationReconnect = false;
+			this.requestUpdate();
+		}
+		super.connectedCallback();
+	}
 	disconnectedCallback() {
 		this.stopColumnResize();
 		this.stopRowResize();
@@ -2803,6 +2979,17 @@ var DataGrid = class DataGrid extends i$3 {
 		this.viewportElement = null;
 		if (this.measureContainer && this.measureContainer.parentNode) this.measureContainer.parentNode.removeChild(this.measureContainer);
 		this.measureContainer = null;
+		if (this.columnFormats.size || this.columnAlignments.size) {
+			this.needsPresentationReconnect = true;
+			const strip = (column) => {
+				if (column.render === this.columnFormats.get(column.key)?.display) delete column.render;
+			};
+			this.sourceColumnDefs.forEach(strip);
+			this.columnDefs.forEach(strip);
+			this.columnFormats.clear();
+			this.columnAlignments.clear();
+			this.hasColumnAlignment = false;
+		}
 		if (super.disconnectedCallback) super.disconnectedCallback();
 	}
 	updateVirtualizer(next = {}) {
@@ -3239,7 +3426,9 @@ var DataGrid = class DataGrid extends i$3 {
 		const column = this.getVisibleColumns()[columnIndex];
 		const row = this.engine.getVisibleRows(rowIndex, rowIndex + 1)[0];
 		if (!column || row === void 0) return "";
-		const value = this.formatCellValue(this.getCellValue(column, row, rowIndex)) || "blank";
+		const cellValue = this.getCellValue(column, row, rowIndex);
+		const compiled = this.columnFormats.get(column.key);
+		const value = (compiled && column.render === compiled.display ? compiled.display(cellValue) : this.formatCellValue(cellValue)) || "blank";
 		const selected = this.isCellSelectionMode() ? this.engine.isCellSelected(rowIndex, column.key) : this.isRowSelectionMode() && this.engine.isRowSelected(rowIndex);
 		return `${this.getColumnLabel(column.key)}, row ${rowIndex + 1} of ${this.engine.getRowCount()}, column ${columnIndex + 1} of ${this.getVisibleColumns().length}, ${value}${selected ? ", selected" : ""}.`;
 	}
@@ -3744,6 +3933,10 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	getHeaderCellClass(column) {
 		const classes = ["header-cell"];
+		if (this.hasColumnAlignment) {
+			const alignment = this.columnAlignments.get(column.key);
+			if (alignment) classes.push(alignment);
+		}
 		const state = this.columnReorderState;
 		if (!state || !state.hasMoved) return classes.join(" ");
 		if (state.columnKey === column.key) classes.push("header-cell-reordering");
@@ -3811,6 +4004,10 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	getCellClass(rowIndex, columnKey) {
 		const classes = ["cell"];
+		if (this.hasColumnAlignment) {
+			const alignment = this.columnAlignments.get(columnKey);
+			if (alignment) classes.push(alignment);
+		}
 		if (this.isCellSelectionMode()) classes.push("cell-selectable");
 		if (this.engine.isCellSelected(rowIndex, columnKey)) classes.push("cell-selected");
 		if (this.activeCell?.rowIndex === rowIndex && this.getVisibleColumns()[this.activeCell.columnIndex]?.key === columnKey) classes.push("cell-active");
@@ -4289,7 +4486,12 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	/** Reconcile an explicit schema, optionally switching its persistence namespace atomically. */
 	updateColumnSchema(value, applyOrder = false, storageKey = this._columnStateStorageKey) {
-		const columns = value.map((column) => ({ ...column }));
+		const prepared = value.some((column) => "align" in column || "format" in column) ? prepareColumns(value, this.columnFormats) : {
+			columns: value.map((column) => ({ ...column })),
+			formats: this.columnFormats.size ? /* @__PURE__ */ new Map() : this.columnFormats,
+			alignments: this.columnAlignments.size ? /* @__PURE__ */ new Map() : this.columnAlignments
+		};
+		const columns = prepared.columns;
 		const nextByKey = new Map(columns.map((column) => [column.key, column]));
 		if (nextByKey.size !== columns.length) throw new Error("Duplicate column schema keys.");
 		const previousSchema = this.sourceColumnDefs.length ? this.sourceColumnDefs : this.getResolvedColumns();
@@ -4298,6 +4500,10 @@ var DataGrid = class DataGrid extends i$3 {
 		const activeColumnKey = activeCell ? this.getVisibleColumns()[activeCell.columnIndex]?.key : void 0;
 		const nextStorageKey = typeof storageKey === "string" && storageKey.trim() ? storageKey : null;
 		const storageChanged = nextStorageKey !== this._columnStateStorageKey;
+		this.columnFormats = prepared.formats;
+		this.columnAlignments = prepared.alignments;
+		this.hasColumnAlignment = prepared.alignments.size > 0;
+		this.needsPresentationReconnect = false;
 		this.finishColumnResize(false);
 		this.finishColumnReorder(false);
 		if (storageChanged) {
@@ -4333,8 +4539,18 @@ var DataGrid = class DataGrid extends i$3 {
 		this.requestUpdate();
 	}
 	set columns(value) {
+		const input = Array.isArray(value) ? value : [];
+		const prepared = input.some((column) => "align" in column || "format" in column) ? prepareColumns(input, this.columnFormats) : {
+			columns: [...input],
+			formats: this.columnFormats.size ? /* @__PURE__ */ new Map() : this.columnFormats,
+			alignments: this.columnAlignments.size ? /* @__PURE__ */ new Map() : this.columnAlignments
+		};
 		const activeCell = this.activeCell;
-		this.sourceColumnDefs = Array.isArray(value) ? [...value] : [];
+		this.columnFormats = prepared.formats;
+		this.columnAlignments = prepared.alignments;
+		this.hasColumnAlignment = prepared.alignments.size > 0;
+		this.needsPresentationReconnect = false;
+		this.sourceColumnDefs = prepared.columns;
 		this.columnDefs = [...this.sourceColumnDefs];
 		this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key));
 		this.clearBestFitWidths();
@@ -4766,8 +4982,17 @@ var synchronizedInputs = /* @__PURE__ */ new WeakMap();
 function supportsDeclarations(grid) {
 	return typeof grid.inferColumns === "boolean" && typeof grid.updateColumnSchema === "function";
 }
+function snapshotColumn(column) {
+	return column.format === void 0 ? { ...column } : {
+		...column,
+		format: {
+			...column.format,
+			...column.format.options === void 0 ? {} : { options: { ...column.format.options } }
+		}
+	};
+}
 function captureValue(key, value) {
-	if (key === "columns") return value.map((column) => ({ ...column }));
+	if (key === "columns") return value.map(snapshotColumn);
 	if (key !== "config" || !value) return value;
 	const config = value;
 	return {
@@ -4795,10 +5020,6 @@ function syncGridInputs(grid, inputs) {
 		const declarative = effective.declarativeColumns ?? previous.declarativeColumns === true;
 		const extended = supportsDeclarations(grid) ? grid : void 0;
 		if (declarative && !extended) throw new Error("LitGrid declarative columns require inferColumns and updateColumnSchema support.");
-		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
-			touched.add("declarativeColumns");
-			extended.inferColumns = !declarative;
-		}
 		const keyInput = "columnStateStorageKey" in effective ? effective.columnStateStorageKey : previous.columnStateStorageKey;
 		const storageKey = typeof keyInput === "string" && keyInput.trim() ? keyInput : null;
 		if (declarative && extended) {
@@ -4808,15 +5029,23 @@ function syncGridInputs(grid, inputs) {
 				touched.add("columnStateStorageKey");
 				const applyOrder = effective.columnOrderChanged === true || state.uncertain.has("columnOrderChanged");
 				if (applyOrder) touched.add("columnOrderChanged");
-				const snapshot = columns.map((column) => ({ ...column }));
+				const snapshot = columns.map(snapshotColumn);
 				extended.updateColumnSchema(columns, applyOrder, storageKey);
 				captured.columns = snapshot;
 			}
 		} else if (effective.columns !== void 0) {
 			touched.add("columns");
-			const snapshot = effective.columns.map((column) => ({ ...column }));
-			grid.columns = effective.columns;
+			const snapshot = effective.columns.map(snapshotColumn);
+			const previousColumns = captured.columns;
+			if (extended && (snapshot.some((column) => column.align !== void 0 || column.format !== void 0) || previousColumns?.some((column) => column.align !== void 0 || column.format !== void 0))) {
+				const orderChanged = !!previousColumns && (previousColumns.length !== snapshot.length || previousColumns.some((column, index) => column.key !== snapshot[index].key));
+				extended.updateColumnSchema(effective.columns, orderChanged, storageKey);
+			} else grid.columns = effective.columns;
 			captured.columns = snapshot;
+		}
+		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
+			touched.add("declarativeColumns");
+			extended.inferColumns = !declarative;
 		}
 		previous.declarativeColumns = declarative;
 		captured.declarativeColumns = declarative;

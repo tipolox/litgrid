@@ -13,7 +13,7 @@ namespace Tipolox.LitGrid.Blazor.Tests;
 
 public record ColumnSpec(string Id, Expression<Func<Employee, object?>>? Field = null,
     string? Key = null, string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null,
-    bool? Sortable = null, bool? Filterable = null);
+    bool? Sortable = null, bool? Filterable = null, string? Align = null, GridValueFormat? Format = null);
 
 // Exercise the public Renderer lifecycle; no private render-tree inspection or fake
 // calls to child lifecycle methods. The Razor fixture also compiles generic cascading.
@@ -91,6 +91,66 @@ internal sealed class RecordingLogger : ILogger<DataGrid<Employee>>
 
 public class DeclarativeComponentTests
 {
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task FormattingSnapshotsFollowNestedEditsAndRetryAfterBrowserRejection(bool declarative)
+    {
+        var logger = new RecordingLogger();
+        var (renderer, interop, root) = Setup(logger: logger);
+        await using (renderer)
+        {
+            var options = new System.Text.Json.Nodes.JsonObject { ["style"] = "percent", ["maximumFractionDigits"] = 1 };
+            var format = new GridValueFormat { Kind = "number", Locale = "en-GB", Options = options };
+            var specs = new[] { new ColumnSpec("id", e => e.Id, Align: "right", Format: format) };
+            var columns = new[] { new GridColumn { Key = "id", Align = "right", Format = format } };
+            async Task Render()
+            {
+                await renderer.Render(root, ("Declarative", declarative), ("Specs", specs),
+                    ("Programmatic", declarative ? Array.Empty<GridColumn>() : columns));
+                await renderer.Drain();
+            }
+            await Render();
+            var first = interop.Syncs.Last().GetProperty("columns")[0];
+            Assert.Equal("right", first.GetProperty("align").GetString());
+            Assert.Equal("percent", first.GetProperty("format").GetProperty("options").GetProperty("style").GetString());
+            var count = interop.Syncs.Length;
+            await Render();
+            Assert.Equal(count, interop.Syncs.Length);
+            options["maximumFractionDigits"] = 2;
+            await Render();
+            Assert.Equal(2, interop.Syncs.Last().GetProperty("columns")[0].GetProperty("format").GetProperty("options").GetProperty("maximumFractionDigits").GetDouble());
+            // Native browser validation fails before adopting a schema; lifecycle retains
+            // its last successful transfer and retries when corrected, in both sources.
+            interop.Failures["updateInputs"] = new JSException("GridColumnPresentationError: Column id: invalid locale");
+            format.Locale = "invalid_locale";
+            await Render();
+            Assert.NotEmpty(logger.Errors);
+            Assert.All(logger.Errors, error => Assert.Contains("invalid locale", error.Message));
+            Assert.Empty(renderer.Errors);
+            interop.Failures.Remove("updateInputs");
+            format.Locale = "de-DE";
+            await Render();
+            Assert.Equal("de-DE", interop.Syncs.Last().GetProperty("columns")[0].GetProperty("format").GetProperty("locale").GetString());
+            Assert.Empty(renderer.Errors);
+            foreach (var invalid in new[] { "option", "type", "align", "locale" })
+            {
+                var before = interop.Syncs.Length;
+                if (invalid == "option") options["roundingMode"] = "ceil";
+                if (invalid == "type") options["maximumFractionDigits"] = "two";
+                if (invalid == "locale") format.Locale = "";
+                if (invalid == "align") { specs[0] = specs[0] with { Align = "justify" }; columns[0].Align = "justify"; }
+                await Render();
+                Assert.Equal(before, interop.Syncs.Length);
+                Assert.Empty(renderer.Errors); // No fatal render/circuit exception.
+                options.Remove("roundingMode"); options["maximumFractionDigits"] = 2;
+                format.Locale = "de-DE"; specs[0] = specs[0] with { Align = "right" }; columns[0].Align = "right";
+                await Render();
+                Assert.Empty(renderer.Errors);
+            }
+        }
+    }
+
     [Fact]
     public async Task ColumnControlChangesReachInteropWithoutLosingNullableDefaults()
     {

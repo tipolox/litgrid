@@ -29,6 +29,13 @@ else
         <button id="add" @onclick="Add">Add department</button>
         <button id="empty" @onclick="Empty">Empty schema</button>
         <button id="programmatic" @onclick="Programmatic">Programmatic</button>
+        <button id="formatting" @onclick="Formatting">Formatted declarations</button>
+        <button id="formatting-programmatic" @onclick="FormattingProgrammatic">Formatted programmatic</button>
+        <button id="formatting-invalid" @onclick="FormattingInvalid">Invalid format</button>
+        <button id="formatting-invalid-align" @onclick="FormattingInvalidAlign">Invalid alignment</button>
+        <button id="formatting-invalid-option" @onclick="FormattingInvalidOption">Invalid option</button>
+        <button id="formatting-invalid-type" @onclick="FormattingInvalidType">Invalid option type</button>
+        <button id="formatting-locale" @onclick="FormattingLocale">Change locale</button>
         <button id="infer" @onclick="Infer">Legacy inference</button>
         <button id="filter" @onclick="Filter">Filter department</button>
         <button id="clear-filter" @onclick="ClearFilter">Clear filter</button>
@@ -50,7 +57,7 @@ else
                     @foreach (var spec in specs)
                     {
                         <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
-                                       Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" />
+                                       Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" Align="@spec.Align" Format="@spec.Format" />
                     }
                 </DataGrid>
             }
@@ -75,7 +82,8 @@ else
         [JsonExtensionData] public Dictionary<string, object?> Extra { get; set; } = [];
     }
     private record Spec(string Id, Expression<Func<Employee, object?>>? Field = null, string? Key = null,
-        string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null);
+        string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null,
+        string? Align = null, GridValueFormat? Format = null);
     private DataGrid<Employee>? grid;
     private readonly GridConfig config = new() { Selection = new() { Mode = SelectionMode.MultiCell } };
     private List<Employee> rows = [];
@@ -138,6 +146,31 @@ else
     private void Add() { if (specs.All(s => s.Id != "department")) specs.Add(BasicSpecs()[2]); revision++; }
     private void Empty() { specs.Clear(); revision++; }
     private void Programmatic() { Basic(); declarative = false; programmatic = [new() { Key = "id", Header = "ID" }, new() { Key = "name", Header = "Employee" }]; }
+    private GridValueFormat money = new();
+    private void Formatting()
+    {
+        Basic(); storageKey = null;
+        money = new() { Kind = "number", Locale = "en-GB", Options = new System.Text.Json.Nodes.JsonObject { ["style"] = "currency", ["currency"] = "GBP" } };
+        rows.ForEach(row => row.Joined = DateTime.SpecifyKind(row.Joined, DateTimeKind.Utc));
+        specs = [new("salary", e => e.Salary, Title: "Amount", Width: 220, Align: "right", Format: money),
+            new("joined", e => e.Joined, Title: "Joined (Singapore)", Width: 260, Format: new() { Kind = "dateTime", Locale = "en-GB", Options = new System.Text.Json.Nodes.JsonObject { ["timeZone"] = "Asia/Singapore", ["dateStyle"] = "medium", ["timeStyle"] = "short" } })];
+    }
+    private void FormattingProgrammatic()
+    {
+        Formatting(); declarative = false;
+        programmatic = specs.Select(spec => new GridColumn { Key = spec.Id, Header = spec.Title, Width = spec.Width, Align = spec.Align, Format = spec.Format }).ToArray();
+    }
+    private void FormattingInvalid() { money.Locale = "invalid_locale"; revision++; }
+    private void FormattingInvalidAlign() { specs = specs.Select(spec => spec.Id == "salary" ? spec with { Align = "justify" } : spec).ToList(); foreach (var column in programmatic) if (column.Key == "salary") column.Align = "justify"; revision++; }
+    private void FormattingInvalidOption() { money.Options!["roundingMode"] = "ceil"; revision++; }
+    private void FormattingInvalidType() { money.Options!["maximumFractionDigits"] = "two"; revision++; }
+    private void FormattingLocale()
+    {
+        money.Locale = "de-DE"; money.Options!["currency"] = "EUR"; money.Options.Remove("roundingMode"); money.Options.Remove("maximumFractionDigits");
+        specs = specs.Select(spec => spec.Id == "salary" ? spec with { Align = "right" } : spec).ToList();
+        foreach (var column in programmatic) if (column.Key == "salary") column.Align = "right";
+        revision++;
+    }
     private void Infer() { Basic(); declarative = false; programmatic = []; }
     private async Task Filter() { if (grid != null) await grid.SetFilterAsync(new() { ColumnKey = "department", Operator = FilterOperator.Equals, Value = "Computing" }); }
     private async Task ClearFilter() { if (grid != null) await grid.ClearFilterAsync(); }

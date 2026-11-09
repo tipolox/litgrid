@@ -1,0 +1,259 @@
+{
+  "base": null,
+  "browser": "156.0.8078.4",
+  "node": "v22.14.0",
+  "results": {
+    "behavior": {
+      "compiledTemplate": true,
+      "dynamicColumns": true,
+      "userState": true,
+      "navigation": true,
+      "refresh": true,
+      "persistenceRemount": true,
+      "externalQuery": true
+    },
+    "workloads": [
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 3,
+        "mode": "array",
+        "mountMs": 9.899999998509884,
+        "updatesMs": {
+          "median": 1.3999999985098839,
+          "p95": 3
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 3,
+        "mode": "omitted",
+        "mountMs": 8.5,
+        "updatesMs": {
+          "median": 1.5,
+          "p95": 2.7999999970197678
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 3,
+        "mode": "declarative",
+        "mountMs": 6.600000001490116,
+        "updatesMs": {
+          "median": 1.3999999985098839,
+          "p95": 2
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 120,
+        "mode": "array",
+        "mountMs": 18.899999998509884,
+        "updatesMs": {
+          "median": 5.799999997019768,
+          "p95": 8.200000002980232
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 120,
+        "mode": "declarative",
+        "mountMs": 19.19999999552965,
+        "updatesMs": {
+          "median": 5.699999995529652,
+          "p95": 12.100000001490116
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 3,
+        "mode": "array",
+        "mountMs": 18.69999999552965,
+        "updatesMs": {
+          "median": 1.5,
+          "p95": 4
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 3,
+        "mode": "omitted",
+        "mountMs": 8.399999998509884,
+        "updatesMs": {
+          "median": 1.5,
+          "p95": 1.8999999985098839
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 3,
+        "mode": "declarative",
+        "mountMs": 10.100000001490116,
+        "updatesMs": {
+          "median": 1.2999999970197678,
+          "p95": 2
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 120,
+        "mode": "array",
+        "mountMs": 15.899999998509884,
+        "updatesMs": {
+          "median": 5.899999998509884,
+          "p95": 11.200000002980232
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 120,
+        "mode": "declarative",
+        "mountMs": 16.200000002980232,
+        "updatesMs": {
+          "median": 5.5,
+          "p95": 10.200000002980232
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      }
+    ]
+  },
+  "errors": []
+}

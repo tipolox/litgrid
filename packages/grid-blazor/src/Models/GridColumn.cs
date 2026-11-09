@@ -4,6 +4,14 @@ namespace Tipolox.LitGrid.Blazor;
 
 public class GridColumn
 {
+    [JsonPropertyName("align")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Align { get; set; }
+
+    [JsonPropertyName("format")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public GridValueFormat? Format { get; set; }
+
     [JsonPropertyName("key")]
     public string Key { get; set; } = string.Empty;
 

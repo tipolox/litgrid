@@ -1,0 +1,79 @@
+{
+  "browser": "156.0.8078.4",
+  "node": "v22.14.0",
+  "results": [
+    {
+      "framework": "react",
+      "mode": "local",
+      "status": "PASS",
+      "mount": 1
+    },
+    {
+      "framework": "react",
+      "mode": "local",
+      "status": "PASS",
+      "mount": 2
+    },
+    {
+      "framework": "react",
+      "mode": "external",
+      "status": "PASS",
+      "mount": 1
+    },
+    {
+      "framework": "react",
+      "mode": "external",
+      "status": "PASS",
+      "mount": 2
+    },
+    {
+      "framework": "vue",
+      "mode": "local",
+      "status": "PASS",
+      "mount": 1
+    },
+    {
+      "framework": "vue",
+      "mode": "local",
+      "status": "PASS",
+      "mount": 2
+    },
+    {
+      "framework": "vue",
+      "mode": "external",
+      "status": "PASS",
+      "mount": 1
+    },
+    {
+      "framework": "vue",
+      "mode": "external",
+      "status": "PASS",
+      "mount": 2
+    },
+    {
+      "framework": "angular",
+      "mode": "local",
+      "status": "PASS",
+      "mount": 1
+    },
+    {
+      "framework": "angular",
+      "mode": "local",
+      "status": "PASS",
+      "mount": 2
+    },
+    {
+      "framework": "angular",
+      "mode": "external",
+      "status": "PASS",
+      "mount": 1
+    },
+    {
+      "framework": "angular",
+      "mode": "external",
+      "status": "PASS",
+      "mount": 2
+    }
+  ],
+  "errors": []
+}

@@ -7,6 +7,8 @@ export const LitGridColumn = defineComponent({
   props: {
     field: String,
     column: Object as PropType<GridColumn>,
+    align: String as PropType<GridColumn['align']>,
+    format: Object as PropType<GridColumn['format']>,
     header: String,
     width: [Number, String],
     hidden: { type: Boolean, default: undefined },

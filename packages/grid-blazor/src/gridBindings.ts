@@ -44,8 +44,14 @@ function supportsDeclarations(grid: DataGridElement): grid is DeclarativeGrid {
   return typeof grid.inferColumns === 'boolean' && typeof grid.updateColumnSchema === 'function'
 }
 
+function snapshotColumn(column: GridColumn): GridColumn {
+  return column.format === undefined ? { ...column } : {
+    ...column, format: { ...column.format, ...(column.format.options === undefined ? {} : { options: { ...column.format.options } }) } as GridColumn['format']
+  }
+}
+
 function captureValue(key: string, value: unknown): unknown {
-  if (key === 'columns') return (value as GridColumn[]).map(column => ({ ...column }))
+  if (key === 'columns') return (value as GridColumn[]).map(snapshotColumn)
   if (key !== 'config' || !value) return value
   const config = value as GridConfig
   return {
@@ -74,10 +80,6 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
     const extended = supportsDeclarations(grid) ? grid : undefined
     if (declarative && !extended) throw new Error('LitGrid declarative columns require inferColumns and updateColumnSchema support.')
 
-    if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has('declarativeColumns'))) {
-      touched.add('declarativeColumns')
-      extended.inferColumns = !declarative
-    }
 
     const keyInput = 'columnStateStorageKey' in effective ? effective.columnStateStorageKey : previous.columnStateStorageKey
     const storageKey = typeof keyInput === 'string' && keyInput.trim() ? keyInput : null
@@ -89,15 +91,27 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
         touched.add('columnStateStorageKey')
         const applyOrder = effective.columnOrderChanged === true || state.uncertain.has('columnOrderChanged')
         if (applyOrder) touched.add('columnOrderChanged')
-        const snapshot = columns.map(column => ({ ...column }))
+        const snapshot = columns.map(snapshotColumn)
         extended.updateColumnSchema(columns, applyOrder, storageKey)
         captured.columns = snapshot
       }
     } else if (effective.columns !== undefined) {
       touched.add('columns')
-      const snapshot = effective.columns.map(column => ({ ...column }))
-      grid.columns = effective.columns
+      const snapshot = effective.columns.map(snapshotColumn)
+      const previousColumns = captured.columns as GridColumn[] | undefined
+      if (extended && (snapshot.some(column => column.align !== undefined || column.format !== undefined) ||
+          previousColumns?.some(column => column.align !== undefined || column.format !== undefined))) {
+        // Opted-in metadata edits retain keyed user state. Keep the historical
+        // replacement setter for the entirely unconfigured programmatic path.
+        const orderChanged = !!previousColumns && (previousColumns.length !== snapshot.length ||
+          previousColumns.some((column, index) => column.key !== snapshot[index].key))
+        extended.updateColumnSchema(effective.columns, orderChanged, storageKey)
+      } else grid.columns = effective.columns
       captured.columns = snapshot
+    }
+    if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has('declarativeColumns'))) {
+      touched.add('declarativeColumns')
+      extended.inferColumns = !declarative
     }
     previous.declarativeColumns = declarative
     captured.declarativeColumns = declarative
