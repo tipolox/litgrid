@@ -20,7 +20,7 @@ were not incorporated. See [the architecture decision and consumer examples](vue
 | `packages/grid-vue/src/DataGrid.ts` | Optional slot snapshots, post-render synchronization, inference ownership, order-change detection, lifecycle-safe error recovery. Distinguish omitted columns from explicit arrays. |
 | `packages/grid-vue/src/gridBindings.ts` | Optional internal `applyColumnOrder` argument, default false; normalize omitted columns to one empty schema without copying props. Existing snapshot/field comparisons unchanged. |
 | `packages/grid-vue/src/index.ts` | Export the marker and props type. Existing exports unchanged. |
-| `packages/grid-vue/src/declarativeColumns.test.ts` | Eleven cases covering parsing, dynamics, precedence, user state, setter suppression, error recovery and slot removal. |
+| `packages/grid-vue/src/declarativeColumns.test.ts` | Twelve cases covering parsing, dynamics, precedence, ignored-slot setter suppression, user state, error recovery and slot removal. |
 | `tests/contracts/vue-columns.typecheck.ts`, `tests/contracts/vue-columns/Consumer.vue`, `tsconfig.vue-columns.json` | Positive/negative public TypeScript contracts and strict Vue SFC/template consumer compilation against fresh package declarations. |
 | `tests/contracts/vue-columns.browser.ts`, `scripts/check-vue-columns.mjs` | Compiled-template lifecycle, persistence/remount, external query and large-workload checks; optional repeated comparison with an exact base. |
 | `.github/workflows/verify.yml`, `package.json`, `pnpm-lock.yaml` | Add strict Vue template and Chromium gates; pin development-only `vue-tsc` to 3.3.14. |
@@ -42,8 +42,8 @@ version and timings are recorded below. CI retains Node 22.22.3 and .NET 8.
 | `pnpm.cmd install --frozen-lockfile` | PASS for the base; adding the exact-pinned Vue checker updates the lockfile intentionally. CI verifies the final lockfile. |
 | `pnpm.cmd typecheck:all` | PASS: 123 authored files, both strict projects. |
 | `node scripts/typecheck-contracts.mjs` | PASS. |
-| `pnpm.cmd test --maxWorkers=2 --pool=threads` | PASS: 426 tests / 53 files. |
-| `pnpm.cmd test --maxWorkers=2 --pool=threads packages/grid-vue/src/declarativeColumns.test.ts` | PASS: all 11 cases after final fragment normalization and cell-slot diagnostics. |
+| `pnpm.cmd test --maxWorkers=2 --pool=threads` | PASS: 426 tests / 53 files before the final ignored-slot refinement; exact final-head full-suite CI is linked in the PR. |
+| `pnpm.cmd test --maxWorkers=2 --pool=threads packages/grid-vue/src` | PASS: final Vue regressions, 23 tests / 5 files, including all 12 declarative-column cases. |
 | `pnpm.cmd run build` | PASS: all workspace packages and playground. |
 | `pnpm.cmd --filter @tipolox/litgrid-vue build` | PASS: final Vue declarations and JavaScript refreshed after lifecycle/parser fixes. |
 | `pnpm.cmd --filter @tipolox/litgrid-vue exec tsc -p tsconfig.json` | PASS: refresh final lifecycle and default-path refinements without repeating Windows directory deletion. |
@@ -51,7 +51,7 @@ version and timings are recorded below. CI retains Node 22.22.3 and .NET 8.
 | `pnpm.cmd exec vue-tsc -p tsconfig.vue-columns.json --noEmit --pretty false` | PASS: actual strict SFC template consumer. |
 | `pnpm.cmd --filter @tipolox/litgrid-angular exec ngc -p ../../tsconfig.typed-columns-angular.json` | PASS: existing strict Angular consumer. |
 | `node scripts/check-adapter-events.mjs` | PASS: all 12 real React, Vue and Angular lifecycle cases. |
-| `node scripts/check-vue-columns.mjs --compare-base=603437fcb13e931db576656f0f832a88d180acaa --output=.private/vue-columns-browser-isolated.json` | PASS: compiled template, dynamic keys/order/conditions, selection/navigation, B1 refresh, resize/visibility, persisted remount, detached-listener cleanup and external-query revision/selection preservation. |
+| `node scripts/check-vue-columns.mjs --compare-base=603437fcb13e931db576656f0f832a88d180acaa --output=.private/vue-columns-browser-isolated-final.json` | PASS: compiled template, dynamic keys/order/conditions, selection/navigation, B1 refresh, resize/visibility, persisted remount, detached-listener cleanup and external-query revision/selection preservation. |
 | `dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release` | PASS: 129 tests, zero failed/skipped. |
 | `dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release` | PASS: zero warnings/errors. |
 
@@ -89,32 +89,34 @@ baseline → candidate. These are the final isolated fifteen-round results.
 
 | Rows / columns / legacy source | Mount median | Update median | Update p95 |
 | --- | --- | --- | --- |
-| 5k / 3 / array | 6.7 → 6.7 | 1.1 → 1.1 | 2.3 → 2.2 |
-| 5k / inferred / omitted | 6.0 → 7.3 | 1.2 → 1.1 | 2.5 → 2.3 |
-| 5k / 120 / array | 19.0 → 18.1 | 5.5 → 5.6 | 8.8 → 8.6 |
-| 30k / 3 / array | 7.3 → 6.9 | 1.3 → 1.3 | 2.7 → 2.4 |
-| 30k / inferred / omitted | 6.7 → 7.5 | 1.2 → 1.2 | 2.5 → 2.5 |
-| 30k / 120 / array | 19.9 → 17.8 | 5.5 → 5.3 | 9.0 → 9.2 |
+| 5k / 3 / array | 6.8 → 8.1 | 1.1 → 1.2 | 2.7 → 2.8 |
+| 5k / inferred / omitted | 7.7 → 7.6 | 1.2 → 1.1 | 2.6 → 2.5 |
+| 5k / 120 / array | 18.2 → 20.8 | 5.3 → 5.5 | 8.3 → 8.8 |
+| 30k / 3 / array | 7.5 → 7.3 | 1.1 → 1.1 | 2.7 → 2.6 |
+| 30k / inferred / omitted | 7.0 → 6.6 | 1.2 → 1.2 | 2.5 → 3.1 |
+| 30k / 120 / array | 18.9 → 18.8 | 5.6 → 5.5 | 9.7 → 9.8 |
 
 | Rows / declarative columns | Mount median | Update median | Update p95 |
 | --- | --- | --- | --- |
-| 5k / 3 | 6.3 | 1.1 | 2.2 |
-| 5k / 120 | 19.3 | 5.8 | 8.7 |
-| 30k / 3 | 6.8 | 1.1 | 2.3 |
-| 30k / 120 | 21.4 | 5.6 | 8.8 |
+| 5k / 3 | 8.3 | 1.1 | 2.6 |
+| 5k / 120 | 19.6 | 6.0 | 10.7 |
+| 30k / 3 | 7.4 | 1.2 | 2.6 |
+| 30k / 120 | 20.4 | 5.9 | 9.9 |
 
-No material default-path regression was observed in this smoke comparison:
-identical setter counts, array update medians within −0.2 to +0.1 ms, and
-omitted-column update medians unchanged or slightly lower. Omitted-column mount
-medians increased by 0.8–1.3 ms; do not interpret this as proof of zero overhead.
-Earlier short runs under competing validation load had substantially noisier
-mount results, motivating the final isolated repetition.
+No material default-path update regression was observed in this smoke comparison:
+identical setter counts, array update medians within −0.1 to +0.2 ms, and
+omitted-column update medians unchanged or slightly lower. Final 5k array mount
+medians increased by 1.3/2.6 ms; 30k array mounts were slightly lower, as were
+omitted-column mounts. Earlier isolated fifteen-round measurements had flat or
+lower array mounts and omitted-column increases of 0.8–1.3 ms. These varying
+mount results do not establish a consistent regression or prove zero overhead;
+independent production qualification remains a review limitation.
 
 Timings are local smoke evidence with scheduler/GC noise, not a universal latency
 guarantee or a production/memory qualification. Setter parity, unchanged core
 code, fixed-size adapter work and repeated browser measurements are the
 regression evidence. The opt-in 120-column declarative path adds metadata VNode
-work, with final update medians 0.2–0.3 ms above equivalent candidate arrays.
+work, with final update medians 0.4–0.5 ms above equivalent candidate arrays.
 
 ## Remaining review decisions
 

@@ -109,6 +109,30 @@ describe('Vue declarative columns', () => {
     expect(grid.inferColumns).toBe(true)
   })
 
+  it('keeps the array path unchanged when only an ignored slot is replaced', async () => {
+    const version = shallowRef(0)
+    const api = shallowRef<DataGridInstance | null>(null)
+    const data = [{ id: 1 }]
+    const columns = [{ key: 'id' }]
+    const slot = vi.fn(() => [column('unused')])
+    const host = document.createElement('div'); document.body.append(host)
+    const app = createApp({ render: () => {
+      // Force a parent update that supplies a fresh unused slot function.
+      void version.value
+      return h(DataGrid, { ref: api, data, columns }, { default: () => slot() })
+    } })
+    app.mount(host)
+    cleanup.push(() => { app.unmount(); host.remove() })
+    await nextTick()
+    const grid = api.value!.gridElement!
+    const assignData = vi.spyOn(grid, 'data', 'set')
+    const schema = vi.spyOn(grid, 'updateColumnSchema')
+    version.value++; await nextTick()
+    expect(slot).not.toHaveBeenCalled()
+    expect(assignData).not.toHaveBeenCalled()
+    expect(schema).not.toHaveBeenCalled()
+  })
+
   it('uses an explicit empty slot and restores inference when switching to an empty array', async () => {
     const { api, grid, props } = await mount(() => [])
     expect(api.getColumnOrder()).toEqual([])

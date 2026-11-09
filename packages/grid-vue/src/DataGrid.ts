@@ -183,11 +183,11 @@ export const DataGrid = defineComponent({
       () => props.quickSearchDebounceMs, () => props.columnStateStorageKey
     ], () => {
       // Slot dependencies are read during render; synchronize their final snapshot after render.
-      if (!slots.default && !ownsInference && !pendingSlotSync) syncInputs()
+      if ((props.columns !== undefined || !slots.default) && !ownsInference && !pendingSlotSync) syncInputs()
     })
 
     onUpdated(() => {
-      if (slots.default || ownsInference || pendingSlotSync) syncInputs()
+      if ((props.columns === undefined && slots.default) || ownsInference || pendingSlotSync) syncInputs()
     })
 
     const handleColumnStateChange = (event: Event) => {
@@ -283,7 +283,7 @@ export const DataGrid = defineComponent({
 
     return () => {
       // Keep a failed initial slot attempt pending if its slot is later removed.
-      if (slots.default) pendingSlotSync = true
+      if (props.columns === undefined && slots.default) pendingSlotSync = true
       declarationError = undefined
       try {
         declarations = props.columns === undefined && slots.default
