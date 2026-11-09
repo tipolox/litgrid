@@ -44,6 +44,8 @@ jobs:
       - run: pnpm run build
       - name: Typecheck published declarations and framework integrations
         run: pnpm exec tsc -p tsconfig.published-contracts.json --pretty false
+      - name: Typecheck typed columns in a strict Angular consumer template
+        run: pnpm --filter @tipolox/litgrid-angular exec ngc -p ../../tsconfig.typed-columns-angular.json
       - name: Install Chromium for adapter lifecycle checks
         run: pnpm exec playwright install --with-deps chromium
       - name: Check real framework event lifecycles against built packages

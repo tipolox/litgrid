@@ -134,6 +134,7 @@ This guide covers the first working grid. Continue with the dedicated
 [Vue Guide](docs/vue-guide.md), [Vue Examples](docs/vue-examples.md),
 [Blazor Guide](docs/blazor-guide.md), [Blazor Examples](docs/blazor-examples.md),
 [Web Component Guide](docs/vanilla-js-guide.md),
+[Type-safe Column Definitions](docs/typed-columns.md),
 [Web Component Examples](docs/web-component-examples.md), the copyable
 [Examples guide](docs/examples.md), the [Performance Benchmarks guide](docs/performance-benchmarks.md),
 or the complete [API Reference](docs/api-reference.md).
