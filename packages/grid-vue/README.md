@@ -45,3 +45,9 @@ const columns: GridColumn[] = [
 - [API reference](https://github.com/tipolox/litgrid/blob/main/docs/api-reference.md)
 
 Licensed under the [MIT License](https://github.com/tipolox/litgrid/blob/main/LICENSE).
+
+## Declarative columns
+
+Optional direct `<LitGridColumn field="name" header="Name" :width="220" />`
+children can define a DataGrid schema. Existing `:columns` arrays take precedence.
+See [the syntax, ordering, state and lifecycle contract](../../docs/vue-declarative-columns.md).

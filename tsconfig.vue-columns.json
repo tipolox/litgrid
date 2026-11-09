@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.published-contracts.json",
+  "include": ["tests/contracts/vue-columns/**/*.vue"],
+  "vueCompilerOptions": { "strictTemplates": true }
+}

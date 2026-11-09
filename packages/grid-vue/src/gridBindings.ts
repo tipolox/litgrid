@@ -4,7 +4,7 @@ import type { DataGridElement, GridColumn, GridConfig, GridExternalState, GridTh
 export type VueGridInputs = {
   externalState?: GridExternalState
   data: unknown[]
-  columns: GridColumn[]
+  columns?: GridColumn[]
   config: GridConfig
   theme: GridTheme
   ariaLabel: string
@@ -30,6 +30,7 @@ type Snapshot = {
 }
 
 const synchronized = new WeakMap<DataGridElement, Snapshot>()
+const EMPTY_COLUMNS: GridColumn[] = []
 const columnFields = ['key', 'header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render'] as const
 
 // Fixed-size supported values, normalized exactly like the core. No row scan
@@ -63,8 +64,9 @@ function sameColumns(previous: GridColumn[], next: GridColumn[]) {
 }
 
 /** Guard structural/presentation setters while preserving local mutation synchronization. */
-export function syncGridInputs(grid: DataGridElement, inputs: VueGridInputs): void {
+export function syncGridInputs(grid: DataGridElement, inputs: VueGridInputs, applyColumnOrder = false): void {
   const previous = synchronized.get(grid)
+  const columns = inputs.columns ?? EMPTY_COLUMNS
   const config = inputs.config
   const external = config.queryMode === 'external'
   const configValues = configurationValues(config)
@@ -72,12 +74,12 @@ export function syncGridInputs(grid: DataGridElement, inputs: VueGridInputs): vo
   const resetValues = [external, config.selection?.mode ?? 'none', config.selection?.rowKey, config.selection?.scopeKey]
   const storageKey = typeof inputs.columnStateStorageKey === 'string' && inputs.columnStateStorageKey.trim()
     ? inputs.columnStateStorageKey : null
-  const columnsChanged = !previous || !sameColumns(previous.columns, inputs.columns)
+  const columnsChanged = !previous || !sameColumns(previous.columns, columns)
   if (columnsChanged || previous.storageKey !== storageKey) {
-    if (grid.updateColumnSchema) grid.updateColumnSchema(inputs.columns, false, storageKey)
+    if (grid.updateColumnSchema) grid.updateColumnSchema(columns, applyColumnOrder, storageKey)
     else {
       // Retain support for older structural DataGridElement implementations.
-      grid.columns = inputs.columns
+      grid.columns = columns
       grid.columnStateStorageKey = storageKey
     }
   }
@@ -106,7 +108,7 @@ export function syncGridInputs(grid: DataGridElement, inputs: VueGridInputs): vo
   }
   // Commit only after successful setters so a failed update can be retried.
   synchronized.set(grid, {
-    values, configValues, resetValues, columns: columnsChanged ? inputs.columns.map(column => ({ ...column })) : previous.columns,
+    values, configValues, resetValues, columns: columnsChanged ? columns.map(column => ({ ...column })) : previous.columns,
     storageKey, externalState: inputs.externalState
   })
 }

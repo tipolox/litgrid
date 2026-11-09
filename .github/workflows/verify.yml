@@ -46,9 +46,13 @@ jobs:
         run: pnpm exec tsc -p tsconfig.published-contracts.json --pretty false
       - name: Typecheck typed columns in a strict Angular consumer template
         run: pnpm --filter @tipolox/litgrid-angular exec ngc -p ../../tsconfig.typed-columns-angular.json
+      - name: Typecheck declarative columns in a strict Vue consumer template
+        run: pnpm exec vue-tsc -p tsconfig.vue-columns.json --noEmit --pretty false
       - name: Install Chromium for adapter lifecycle checks
         run: pnpm exec playwright install --with-deps chromium
       - name: Check real framework event lifecycles against built packages
         run: node scripts/check-adapter-events.mjs
+      - name: Check Vue declarative columns and workloads in Chromium
+        run: node scripts/check-vue-columns.mjs
       - run: dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release
       - run: dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release

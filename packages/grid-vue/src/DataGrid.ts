@@ -4,6 +4,7 @@ import {
   h,
   onBeforeUnmount,
   onMounted,
+  onUpdated,
   ref,
   watch,
   type PropType
@@ -32,6 +33,7 @@ import type {
   SelectionIntent
 } from '@tipolox/litgrid-web'
 import { syncGridInputs } from './gridBindings.js'
+import { readDeclarativeColumns } from './declarativeColumns.js'
 
 export type DataGridProps = {
   externalState?: GridExternalState
@@ -113,7 +115,7 @@ export const DataGrid = defineComponent({
   props: {
     externalState: { type: Object as PropType<GridExternalState>, default: undefined },
     data: { type: Array as PropType<unknown[]>, required: true },
-    columns: { type: Array as PropType<GridColumn[]>, default: () => [] },
+    columns: { type: Array as PropType<GridColumn[]>, default: undefined },
     config: { type: Object as PropType<GridConfig>, default: () => ({}) },
     theme: { type: String as PropType<GridTheme>, default: 'light' },
     ariaLabel: { type: String, default: 'Data grid' },
@@ -135,8 +137,13 @@ export const DataGrid = defineComponent({
     'column-reorder': (_detail: ColumnReorderDetail) => true,
     'column-visibility-change': (_detail: ColumnVisibilityChangeDetail) => true
   },
-  setup(props, { emit, expose }) {
+  setup(props, { emit, expose, slots }) {
     const gridRef = ref<DataGridElement | null>(null)
+    let declarations: GridColumn[] | undefined
+    let declarationError: unknown
+    let pendingSlotSync = false
+    let previousDeclarationKeys: string[] | undefined
+    let ownsInference = false
 
     const requireGridElement = (): DataGridElement => {
       if (!gridRef.value) throw new Error(GRID_UNAVAILABLE_MESSAGE)
@@ -146,8 +153,24 @@ export const DataGrid = defineComponent({
     const syncInputs = () => {
       const grid = gridRef.value
       if (!grid) return
+      if (declarationError) throw declarationError
 
-      syncGridInputs(grid, props)
+      if (declarations) {
+        if (!grid.updateColumnSchema || !('inferColumns' in grid)) {
+          throw new Error('Declarative columns require the LitGrid public column schema and inference APIs.')
+        }
+        const keys = declarations.map(column => column.key)
+        const applyOrder = previousDeclarationKeys !== undefined &&
+          (keys.length !== previousDeclarationKeys.length || keys.some((key, index) => key !== previousDeclarationKeys![index]))
+        if (!ownsInference) { grid.inferColumns = false; ownsInference = true }
+        syncGridInputs(grid, { ...props, columns: declarations }, applyOrder)
+        previousDeclarationKeys = keys
+      } else {
+        if (ownsInference) { grid.inferColumns = true; ownsInference = false }
+        syncGridInputs(grid, props)
+        previousDeclarationKeys = undefined
+      }
+      pendingSlotSync = false
     }
 
     // One job per Vue update, even when several props change together.
@@ -158,7 +181,14 @@ export const DataGrid = defineComponent({
       () => props.height, () => props.rowHeight, () => props.overscan, () => props.columnOverscan,
       () => props.bestFitSampleSize, () => props.quickSearchDebounceThreshold,
       () => props.quickSearchDebounceMs, () => props.columnStateStorageKey
-    ], syncInputs)
+    ], () => {
+      // Slot dependencies are read during render; synchronize their final snapshot after render.
+      if ((props.columns !== undefined || !slots.default) && !ownsInference && !pendingSlotSync) syncInputs()
+    })
+
+    onUpdated(() => {
+      if ((props.columns === undefined && slots.default) || ownsInference || pendingSlotSync) syncInputs()
+    })
 
     const handleColumnStateChange = (event: Event) => {
       emit('column-state-change', (event as CustomEvent<ColumnStateChangeDetail>).detail)
@@ -251,6 +281,19 @@ export const DataGrid = defineComponent({
       isCellSelected: (rowIndex: number, columnKey: string) => requireGridElement().isCellSelected(rowIndex, columnKey)
     } satisfies DataGridInstance)
 
-    return () => h('yc-grid', { ref: gridRef })
+    return () => {
+      // Keep a failed initial slot attempt pending if its slot is later removed.
+      if (props.columns === undefined && slots.default) pendingSlotSync = true
+      declarationError = undefined
+      try {
+        declarations = props.columns === undefined && slots.default
+          ? readDeclarativeColumns(slots.default()) : undefined
+      } catch (error) {
+        // Report through the synchronization hook. A render exception would
+        // replace yc-grid with a comment and discard its state/listeners.
+        declarationError = error
+      }
+      return h('yc-grid', { ref: gridRef })
+    }
   }
 })
