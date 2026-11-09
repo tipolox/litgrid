@@ -218,3 +218,9 @@ Core owns client-side data transforms and selection, and the Web Component owns
 interaction and rendering. See the [Vue Examples](vue-examples.md), [Web
 Component Guide](vanilla-js-guide.md), and [API Reference](api-reference.md)
 for focused usage patterns and the complete shared API.
+
+## Optional declarative columns
+
+Use direct `LitGridColumn` children as an alternative to `:columns`.
+See [Vue declarative columns](vue-declarative-columns.md) for examples, source
+precedence, empty schemas, dynamic lists and preservation of user state.
