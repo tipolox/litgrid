@@ -1,6 +1,6 @@
 # #34 implementation and qualification
 
-**Latest performance investigation:** [controlled reproduction, date startup and trace report](column-formatting-performance.md). Runtime remains at `9fdf58e8d00962ee585dd70e1b9fc786823cbdb3`; the follow-up retains a **NO-GO for merge/performance acceptance**. The original evidence and thresholds below remain intact.
+**Latest investigation:** [final targeted ablations, formatter ownership correction and release proposal](column-formatting-final-investigation.md), retaining **NO-GO for combined merge/performance acceptance**. The [prior controlled reproduction](column-formatting-performance.md) measured runtime `9fdf58e8d00962ee585dd70e1b9fc786823cbdb3`. The original evidence and thresholds below remain intact.
 
 **GO for independent architecture review; NO-GO for merge/performance acceptance pending explicit disposition of the remaining threshold flags below.** Correctness and structural qualification pass; this is not a claim of zero default-path regression.
 

@@ -1,0 +1,58 @@
+{
+  "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+  "runtime": "working-tree-detached-display",
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "experiment": "B",
+  "rounds": 0,
+  "runs": 1,
+  "ownershipOnly": false,
+  "productionQualification": true,
+  "comparisons": [
+    {
+      "name": "AA",
+      "left": "current",
+      "right": "current-AA"
+    },
+    {
+      "name": "current-vs-shared",
+      "left": "current",
+      "right": "shared-date"
+    },
+    {
+      "name": "baseline-vs-shared",
+      "left": "baseline",
+      "right": "shared-date"
+    },
+    {
+      "name": "baseline-vs-current",
+      "left": "baseline",
+      "right": "current"
+    }
+  ],
+  "node": "v22.14.0",
+  "os": "10.0.26200",
+  "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+  "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+  "sources": {
+    "scripts/final-formatting-experiments.mjs": "2b2d49475fdbd91083041488e253a653c8e628f55852ae6cd5e957ef47dd2627",
+    "scripts/final-formatting-variants.mjs": "f95e7a17aa3f922e1501e878b0da5c703e042ea94a3cf4694c3b02bbf61709a8",
+    "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+  },
+  "variants": {
+    "current": {
+      "port": 5260,
+      "patches": [],
+      "bundles": {
+        "index-CLrhDQ5l.js": "66547b98375ab036053a643a7693a083c252a485d82645950b99679645355d69"
+      }
+    },
+    "current-AA": {
+      "port": 5261,
+      "patches": [],
+      "bundles": {
+        "index-CLrhDQ5l.js": "66547b98375ab036053a643a7693a083c252a485d82645950b99679645355d69"
+      }
+    }
+  },
+  "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms). Ownership/production isolation has zero timing rounds."
+}

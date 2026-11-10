@@ -1805,6 +1805,12 @@ function sameFormat(left, right) {
 	if (!left || !right) return left === right;
 	return left.kind === right.kind && left.locale === right.locale && Object.keys(left.options ?? {}).length === Object.keys(right.options ?? {}).length && Object.entries(left.options ?? {}).every(([key, value]) => Object.is(value, Reflect.get(right.options ?? {}, key)));
 }
+function detachedDisplay(format, formatter) {
+	return format.kind === "number" ? (value) => typeof value === "number" && Number.isFinite(value) ? formatter.format(value) : "" : (value) => {
+		const instant = dateValue(value);
+		return instant === void 0 ? "" : formatter.format(instant);
+	};
+}
 /** All work is staged; failures leave the caller's active schema/cache untouched. */
 function prepareColumns(columns, previous) {
 	const formats = /* @__PURE__ */ new Map();
@@ -1821,11 +1827,7 @@ function prepareColumns(columns, previous) {
 					if (old && sameFormat(old.descriptor, snapshot.format)) formats.set(column.key, old);
 					else {
 						const format = snapshot.format;
-						const formatter = format.kind === "number" ? new Intl.NumberFormat(format.locale, format.options) : new Intl.DateTimeFormat(format.locale, format.options);
-						const display = format.kind === "number" ? (value) => typeof value === "number" && Number.isFinite(value) ? formatter.format(value) : "" : (value) => {
-							const instant = dateValue(value);
-							return instant === void 0 ? "" : formatter.format(instant);
-						};
+						const display = detachedDisplay(format, format.kind === "number" ? new Intl.NumberFormat(format.locale, format.options) : new Intl.DateTimeFormat(format.locale, format.options));
 						formats.set(column.key, {
 							descriptor: format,
 							display

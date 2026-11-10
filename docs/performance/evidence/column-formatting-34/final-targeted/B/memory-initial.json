@@ -1,0 +1,44 @@
+{
+  "browser": "156.0.8078.4",
+  "method": "64 unique date descriptors with stable number columns, separate event-loop turns and two explicit CDP full collections per phase; WeakRefs retain no strong instance references. This is a renderer GC ownership check, not total native memory/leak certification.",
+  "results": [
+    {
+      "variant": "current",
+      "active": {
+        "constructed": 64,
+        "alive": 64,
+        "active": 3
+      },
+      "numbersOnly": {
+        "constructed": 64,
+        "alive": 1,
+        "active": 1
+      },
+      "detached": {
+        "constructed": 64,
+        "alive": 0,
+        "active": 0
+      },
+      "pass": false
+    },
+    {
+      "variant": "shared-date",
+      "active": {
+        "constructed": 64,
+        "alive": 64,
+        "active": 3
+      },
+      "numbersOnly": {
+        "constructed": 64,
+        "alive": 1,
+        "active": 1
+      },
+      "detached": {
+        "constructed": 64,
+        "alive": 0,
+        "active": 0
+      },
+      "pass": false
+    }
+  ]
+}

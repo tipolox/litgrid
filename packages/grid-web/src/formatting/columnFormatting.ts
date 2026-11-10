@@ -54,6 +54,17 @@ function sameFormat(left: GridValueFormat | undefined, right: GridValueFormat | 
 
 export type CompiledColumnFormat = { descriptor: GridValueFormat; display: (value: unknown) => string }
 
+// Keep returned display closures outside schema adoption's lexical scope. A
+// closure created in its map callback can retain previous schema/cache maps.
+function detachedDisplay(format: GridValueFormat, formatter: Intl.NumberFormat | Intl.DateTimeFormat) {
+  return format.kind === 'number'
+    ? (value: unknown) => typeof value === 'number' && Number.isFinite(value) ? (formatter as Intl.NumberFormat).format(value) : ''
+    : (value: unknown) => {
+      const instant = dateValue(value)
+      return instant === undefined ? '' : (formatter as Intl.DateTimeFormat).format(instant)
+    }
+}
+
 /** All work is staged; failures leave the caller's active schema/cache untouched. */
 export function prepareColumns(columns: GridColumn[], previous: ReadonlyMap<string, CompiledColumnFormat>) {
   const formats = new Map<string, CompiledColumnFormat>()
@@ -74,12 +85,7 @@ export function prepareColumns(columns: GridColumn[], previous: ReadonlyMap<stri
           const formatter = format.kind === 'number'
             ? new Intl.NumberFormat(format.locale, format.options)
             : new Intl.DateTimeFormat(format.locale, format.options)
-          const display = format.kind === 'number'
-            ? (value: unknown) => typeof value === 'number' && Number.isFinite(value) ? (formatter as Intl.NumberFormat).format(value) : ''
-            : (value: unknown) => {
-              const instant = dateValue(value)
-              return instant === undefined ? '' : (formatter as Intl.DateTimeFormat).format(instant)
-            }
+          const display = detachedDisplay(format, formatter)
           formats.set(column.key, { descriptor: format, display })
         }
       }

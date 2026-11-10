@@ -1,5 +1,7 @@
 # #34 performance gate follow-up
 
+**Historical report at `3c1e651054cc3da2ce88451c7cc5c402c7fc4138`.** The [final targeted investigation](column-formatting-final-investigation.md) adds isolated ablations, a formatter ownership correction and the preferred alignment-only release proposal. The measurements and source statements below describe the original pinned runtime.
+
 **Recommendation: NO-GO for merge/performance acceptance; keep #68 and #67 draft.** Environmental variance is demonstrated, but the remaining Vue signal and wide intervals do not establish equivalence at the unchanged provisional threshold. No runtime optimization was made. This report is a completed investigation of the available host, not a claim that every original flag was harmless.
 
 ## Exact versions and retained history

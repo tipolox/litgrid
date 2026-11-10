@@ -1,0 +1,103 @@
+{
+  "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+  "runtime": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "experiment": "B",
+  "rounds": 0,
+  "runs": 1,
+  "ownershipOnly": true,
+  "comparisons": [
+    {
+      "name": "AA",
+      "left": "current",
+      "right": "current-AA"
+    },
+    {
+      "name": "current-vs-shared",
+      "left": "current",
+      "right": "shared-date"
+    },
+    {
+      "name": "baseline-vs-shared",
+      "left": "baseline",
+      "right": "shared-date"
+    },
+    {
+      "name": "baseline-vs-current",
+      "left": "baseline",
+      "right": "current"
+    }
+  ],
+  "node": "v22.14.0",
+  "os": "10.0.26200",
+  "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+  "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+  "sources": {
+    "scripts/final-formatting-experiments.mjs": "34c1ae64b3df544cfdaaee7cd286487e9fa352aa406cca81d1f15f4030fa64da",
+    "scripts/final-formatting-variants.mjs": "f95e7a17aa3f922e1501e878b0da5c703e042ea94a3cf4694c3b02bbf61709a8",
+    "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+  },
+  "variants": {
+    "current": {
+      "port": 5260,
+      "patches": [],
+      "bundles": {
+        "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+      }
+    },
+    "current-AA": {
+      "port": 5261,
+      "patches": [],
+      "bundles": {
+        "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+      }
+    },
+    "shared-date": {
+      "port": 5262,
+      "patches": [
+        {
+          "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+          "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+          "after": "1489e50ca273d1f7fb719c2995992449180d74b33e68b1831d8fc76eef409b7f"
+        }
+      ],
+      "bundles": {
+        "index-QWL_R6P4.js": "5da3d73eac01d3955f01d40406208dbeb41c47a7d30ecdac51e8a03d07dd2414"
+      }
+    },
+    "baseline": {
+      "port": 5263,
+      "patches": [],
+      "bundles": {
+        "index-BUruLY_0.js": "2434d045b6a0dc335c46e3a097028c724d9876fb3a2afd8be78cb49718ba55ad"
+      }
+    },
+    "detached-display": {
+      "port": 5264,
+      "patches": [
+        {
+          "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+          "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+          "after": "434229b91c67f66d43cf82fe8e23397c178fde1295adf1967346573b790fd865"
+        }
+      ],
+      "bundles": {
+        "index-CLrhDQ5l.js": "66547b98375ab036053a643a7693a083c252a485d82645950b99679645355d69"
+      }
+    },
+    "shared-date-detached": {
+      "port": 5265,
+      "patches": [
+        {
+          "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+          "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+          "after": "1cd49711312590f2118d32c81b96b6b9998492e81aee0ea3f897aaac6ef619b7"
+        }
+      ],
+      "bundles": {
+        "index-DQxm3j1X.js": "8ec9b169a3e5afb25572ff829cc553c411efb4793aefad6631a1689add286864"
+      }
+    }
+  },
+  "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms). Ownership isolation has zero timing rounds."
+}
