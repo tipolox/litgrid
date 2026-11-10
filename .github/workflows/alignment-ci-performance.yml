@@ -1,4 +1,5 @@
 name: Alignment CI performance feasibility (non-release)
+# Setup correction: explicitly enable Chromium automation for executable verification.
 on:
   workflow_dispatch:
   # Until reviewed onto the default branch, an intentional push of this exact

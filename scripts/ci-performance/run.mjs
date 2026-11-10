@@ -35,7 +35,7 @@ const server=createServer((request,response)=>{
  }catch{response.writeHead(404);response.end()}
 })
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const port=server.address().port
-const browser=await chromium.launch({headless:true,channel:'chromium',args:['--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows']})
+const browser=await chromium.launch({headless:true,channel:'chromium',args:['--enable-automation','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows']})
 report.environment.browser=browser.version()
 const browserSession=await browser.newBrowserCDPSession()
 report.environment.browserCommandLine=(await browserSession.send('Browser.getBrowserCommandLine')).arguments
