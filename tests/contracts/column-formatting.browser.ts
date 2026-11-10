@@ -14,12 +14,15 @@ declare const FORMATTING_CANDIDATE: boolean
 type Mode = 'web' | 'react' | 'vue' | 'angular' | 'declarative' | 'inferred'
 type Counters = { schema:number; data:number; config:number; inference:number; numberConstruct:number; dateConstruct:number; format:number }
 const counts: Counters = {schema:0,data:0,config:0,inference:0,numberConstruct:0,dateConstruct:0,format:0}
+let constructorTiming: { ms:number } | undefined
 const reset = () => { for (const key of Object.keys(counts) as (keyof Counters)[]) counts[key]=0 }
 for (const kind of ['NumberFormat','DateTimeFormat'] as const) {
   const Native=Intl[kind]
   const Counting=function (...args:unknown[]) {
     counts[kind==='NumberFormat'?'numberConstruct':'dateConstruct']++
+    const start=constructorTiming?performance.now():0
     const instance=Reflect.construct(Native,args) as Intl.NumberFormat | Intl.DateTimeFormat
+    if(constructorTiming)constructorTiming.ms+=performance.now()-start
     const format=instance.format.bind(instance) as (value:number)=>string
     Object.defineProperty(instance,'format',{value:(value:number)=>{counts.format++;return format(value)}})
     return instance
@@ -195,17 +198,23 @@ async function workload(spec:Workload){
       ...(render?{render:(value:unknown)=>render.format(typeof value==='string'?Date.parse(value):value as number)}:{})}
   })
   const inputData=spec.mode==='inferred'?data.map(({id,value,date})=>({id,value,date})):data
+  performance.mark('litgrid:mount:start')
   const start=performance.now();const item=await mount(spec.mode,{data:inputData,columns,height:360});const mountMs=performance.now()-start
+  performance.mark('litgrid:mount:end');performance.measure('litgrid:mount','litgrid:mount:start','litgrid:mount:end')
   const {grid}=item
   const mountCounts={...counts};reset()
+  performance.mark('litgrid:update:start')
   const updates=[]
   for(let i=0;i<12;i++){const t=performance.now();await item.update({height:360+i%2});await grid.updateComplete;if(i>=2)updates.push(performance.now()-t)}
+  performance.mark('litgrid:update:end');performance.measure('litgrid:update','litgrid:update:start','litgrid:update:end')
   const updateCounts={...counts};reset()
   const viewport=grid.shadowRoot!.querySelector<HTMLElement>('.viewport')!
+  performance.mark('litgrid:scroll:start')
   const scroll=[]
   for(const [top,left] of [[600,0],[1600,0],[2600,0],[2600,400],[2600,900],[0,0]]){
     const t=performance.now();viewport.scrollTop=top;viewport.scrollLeft=left;viewport.dispatchEvent(new Event('scroll'));await frame();await grid.updateComplete;scroll.push(performance.now()-t)
   }
+  performance.mark('litgrid:scroll:end');performance.measure('litgrid:scroll','litgrid:scroll:start','litgrid:scroll:end')
   const scrollCounts={...counts}
   const dom={rows:grid.shadowRoot!.querySelectorAll('.row').length,cells:grid.shadowRoot!.querySelectorAll('.row .cell').length}
   check(dom.rows<100&&dom.cells<2000,'bounded two-axis DOM')
@@ -234,10 +243,56 @@ async function workload(spec:Workload){
 }
 
 async function qualification(){return{geometry:await geometry(),recovery:await recovery()}}
+
+// Fair application startup: baseline hoisted constructors are INSIDE total.
+// Fixture allocation is outside both totals; no module/download or browser startup.
+async function dateStartup(spec:{columns:number;input:'epoch'|'iso'}){
+  const data=Array.from({length:30000},(_,id)=>({id,value:spec.input==='epoch'?1794269700000:'2026-11-10T00:15:00.1234567Z'}))
+  const descriptor={kind:'dateTime',locale:'en-GB',options:{timeZone:'Asia/Singapore',dateStyle:'medium',timeStyle:'short'}} as const
+  reset()
+  constructorTiming={ms:0}
+  const totalStart=performance.now()
+  const columns:GridColumn[]=Array.from({length:spec.columns},(_,index)=>{
+    const common={key:'c'+index,width:100,accessor:(row:unknown)=>(row as typeof data[number]).value}
+    if(FORMATTING_CANDIDATE)return{...common,format:descriptor}
+    const formatter=new Intl.DateTimeFormat(descriptor.locale,descriptor.options)
+    return{...common,render:(value:unknown)=>formatter.format(typeof value==='string'?Date.parse(value):value as number)}
+  })
+  const descriptorMs=performance.now()-totalStart
+  const grid=new WebGrid();grid.style.width='900px';grid.config={}
+  const adoptionStart=performance.now();grid.columns=columns;const adoptionMs=performance.now()-adoptionStart
+  const adoptedCounts={...counts}
+  const nativeConstructorMs=constructorTiming.ms;constructorTiming=undefined
+  const renderStart=performance.now();grid.data=data;grid.viewportHeight=360;document.body.append(grid);await grid.updateComplete
+  const renderMs=performance.now()-renderStart,renderReadyMs=performance.now()-totalStart
+  await frame();await frame()
+  const firstUsableMs=performance.now()-totalStart
+  const viewport=grid.shadowRoot!.querySelector<HTMLElement>('.viewport')!
+  check(viewport.clientHeight>0&&grid.shadowRoot!.querySelector('.row .cell')!.textContent!.trim().length>0,'usable formatted grid')
+  const mountCounts={...counts};reset()
+  const updates=[]
+  for(let i=0;i<12;i++){const t=performance.now();grid.viewportHeight=360+i%2;await grid.updateComplete;if(i>=2)updates.push(performance.now()-t)}
+  const updateCounts={...counts};reset()
+  const scroll=[]
+  for(const [top,left] of [[600,0],[1600,0],[2600,0],[2600,400],[2600,900],[0,0]]){
+    const t=performance.now();viewport.scrollTop=top;viewport.scrollLeft=left;viewport.dispatchEvent(new Event('scroll'));await frame();await grid.updateComplete;scroll.push(performance.now()-t)
+  }
+  const scrollCounts={...counts},dom={rows:grid.shadowRoot!.querySelectorAll('.row').length,cells:grid.shadowRoot!.querySelectorAll('.row .cell').length}
+  reset();const reuseStart=performance.now();grid.updateColumnSchema(columns.map(column=>({...column})));const reuseMs=performance.now()-reuseStart,reuseCounts={...counts};await grid.updateComplete
+  grid.remove()
+  // Isolated native construction probe follows application sample, never warms it.
+  const ctorStart=performance.now()
+  const Native=Object.getPrototypeOf(Intl.DateTimeFormat) as typeof Intl.DateTimeFormat
+  const keep=Array.from({length:spec.columns},()=>new Native(descriptor.locale,descriptor.options))
+  const constructorMs=performance.now()-ctorStart
+  check(keep.length===spec.columns,'constructor probe retained')
+  return{spec,descriptorMs,adoptionMs,nativeConstructorMs,renderMs,renderReadyMs,firstUsableMs,constructorMs,adoptedCounts,mountCounts,updates,updateCounts,scroll,scrollCounts,dom,reuseMs,reuseCounts}
+}
 declare global {
   interface Window {
     runFormattingQualification:typeof qualification
     runFormattingWorkload:typeof workload
+    runDateStartup:typeof dateStartup
   }
 }
-Object.assign(window,{runFormattingQualification:qualification,runFormattingWorkload:workload})
+Object.assign(window,{runFormattingQualification:qualification,runFormattingWorkload:workload,runDateStartup:dateStartup})

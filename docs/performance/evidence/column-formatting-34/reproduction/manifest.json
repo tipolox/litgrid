@@ -1,0 +1,614 @@
+{
+  "sourceHashLineEndings": "Source-file entries outside this evidence folder normalize CRLF to LF; archive and JSON artifact hashes use exact bytes.",
+  "runtimeCandidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "files": {
+    "chromium/provenance.json": {
+      "bytes": 1062,
+      "sha256": "ad6fb18ce3b7f25676f896f2bc288d35ca13584195a5ac6ccd55b18bffc615e6"
+    },
+    "chromium/run-1.raw.json.gz": {
+      "bytes": 25963,
+      "sha256": "0a50194a5090aa737785112b37de10d7be8cf62c4bd0f6846c56ea1a42cd777c"
+    },
+    "chromium/run-2.raw.json.gz": {
+      "bytes": 25757,
+      "sha256": "de5bfb4759fd9971bfcc40d47e69acec6eb1ba161696360b10ceefe6977e0eee"
+    },
+    "chromium/run-3.raw.json.gz": {
+      "bytes": 25948,
+      "sha256": "9b37a0f6b46803b46c1ed6b8908f9a2912bcdea20c4ec5acd06a3273772c030e"
+    },
+    "chromium/summary.json": {
+      "bytes": 2435819,
+      "sha256": "ffd2f31847e6ecda5506c755168eabc8ef7d29463a6cc12e4633a4510f0038cc"
+    },
+    "chromium/console.log.gz": {
+      "bytes": 673,
+      "sha256": "42c05a5ea3e981e51964301eefaeac48e1df540f7f291d69cd5b6b1223ea03d2"
+    },
+    "aa/provenance.json": {
+      "bytes": 1078,
+      "sha256": "d79c4288bbbba83381fedb5455bdc26bf48674fd14b7bbecb1bc2a15a16de945"
+    },
+    "aa/run-1.raw.json.gz": {
+      "bytes": 25055,
+      "sha256": "a14b2624b01d7bef28128069fcc19cb062f0909b47ba26c06c05f3b64bf4de17"
+    },
+    "aa/summary.json": {
+      "bytes": 894388,
+      "sha256": "5014547bd0b4378663c89d9514d2924a006614a37e10e431eb0918abc56287e1"
+    },
+    "aa/console.log.gz": {
+      "bytes": 633,
+      "sha256": "ac3e32d0606c2292b702f32a81bed7feb17f442678c46bb7cbd04b98ed0f6706"
+    },
+    "firefox-retry/provenance.json": {
+      "bytes": 1078,
+      "sha256": "a24459a51cb96fe06466d0756153177f80bcea5d4b920c91c9c3002718d64a4d"
+    },
+    "firefox-retry/run-1.raw.json.gz": {
+      "bytes": 14337,
+      "sha256": "165bb9fd252ca8cad4e059ba72ca0c8cad78e85f0cf3a31d6513e05a5bfea0e9"
+    },
+    "firefox-retry/summary.json": {
+      "bytes": 777158,
+      "sha256": "8fae71ad3313bac7edde0f16d1adc7154b33f129b211646349d58b8ceeff2274"
+    },
+    "firefox-retry/console.log.gz": {
+      "bytes": 627,
+      "sha256": "ef82b251a4dca856c129ad1c95a026b51f8e3f0976157c9ccc65d67fa3592614"
+    },
+    "date-warm/provenance.json": {
+      "bytes": 1076,
+      "sha256": "1b88568af89975e9a5ef39531add749ff462574c9cc679749ebe4a06fb7551b3"
+    },
+    "date-warm/run-1.raw.json.gz": {
+      "bytes": 17505,
+      "sha256": "329abd95a65b4d70078d267d73e5f1b62a8a27c9fbc69a9112f65af90f597c00"
+    },
+    "date-warm/summary.json": {
+      "bytes": 1814015,
+      "sha256": "2e54e2fe76725cc8e1e78b8ebc0edfcc9448905745118b77d7cb79f168f0de33"
+    },
+    "date-warm/console.log.gz": {
+      "bytes": 626,
+      "sha256": "56a12c2e8d8155aa5a7010875e95338223d89346792505d5e670aa5c1e2f65fd"
+    },
+    "date-cold/provenance.json": {
+      "bytes": 1075,
+      "sha256": "083da59ac58f1aecabab9a437d2acefba26f7526b138a1358734c339723cf3da"
+    },
+    "date-cold/run-1.raw.json.gz": {
+      "bytes": 18427,
+      "sha256": "0e47fe185718a5e9f53733faeb6d873b4c155e6b53483f8538bc657eab07a06e"
+    },
+    "date-cold/summary.json": {
+      "bytes": 1833321,
+      "sha256": "ba235d97dbb13be95ddedddcae6dc1b199e23b732e285e9542f1ff7cab1f5443"
+    },
+    "date-cold/console.log.gz": {
+      "bytes": 623,
+      "sha256": "c461e1c39a8dd6be346e858c52b92bebd1c00d62f7f063f019e3eeef3425b5a1"
+    },
+    "traces/provenance.json": {
+      "bytes": 1077,
+      "sha256": "3fca26bb3675e7d269fa31eaf69dad5bc134bdb6425edca12498a3c7daf501f0"
+    },
+    "traces/run-1.raw.json.gz": {
+      "bytes": 927,
+      "sha256": "1dc848e663aaf12a488b02820dc3ba0c82a9d52aaa751a2bd5140ec6f4869e2f"
+    },
+    "traces/trace-1-inferred-30000-3-0-baseline.json.gz": {
+      "bytes": 32204,
+      "sha256": "9c70f4dd09dc33dcffff30641c7927bf6ebeb39a4fd5ebc665a7ca42947cb5db"
+    },
+    "traces/trace-1-inferred-30000-3-0-candidate.json.gz": {
+      "bytes": 32562,
+      "sha256": "b75af0ab076a1c6859eff56c2dc38777ecef93c65379bf32836329368ca4a53e"
+    },
+    "traces/trace-1-inferred-30000-3-1-baseline.json.gz": {
+      "bytes": 33430,
+      "sha256": "9b4fcc85684a403ab0d50c7845a95c44cc1c4aefff703f0c7efc0d33a6d00118"
+    },
+    "traces/trace-1-inferred-30000-3-1-candidate.json.gz": {
+      "bytes": 28258,
+      "sha256": "2e43e64328a366b08a19a067abf7db547f5380f95048f1371c630fac633b69c3"
+    },
+    "traces/trace-1-inferred-30000-3-2-baseline.json.gz": {
+      "bytes": 32966,
+      "sha256": "fceef7c9ca507fb9f03d917c962cd77273ca8d3687a6adcac74090bd31a9b970"
+    },
+    "traces/trace-1-inferred-30000-3-2-candidate.json.gz": {
+      "bytes": 33928,
+      "sha256": "a2fc3b1b532d483f2572b7d4acbf4741e1707656a5b3a241931302cca1ece940"
+    },
+    "traces/trace-1-inferred-30000-3-3-baseline.json.gz": {
+      "bytes": 33138,
+      "sha256": "3db13e049c48b808c80677732e019af71253f0b310858a155ae3b30e11a114d4"
+    },
+    "traces/trace-1-inferred-30000-3-3-candidate.json.gz": {
+      "bytes": 35188,
+      "sha256": "bb9b680b5c351bb257cab7fb5a08fd7846108b79401980066b73f8bbbd630c0b"
+    },
+    "traces/trace-1-inferred-30000-3-4-baseline.json.gz": {
+      "bytes": 33243,
+      "sha256": "eb9840a9d13bf3fbd90acae39809d77e4afb20452a5485f6376ddbd50592baf6"
+    },
+    "traces/trace-1-inferred-30000-3-4-candidate.json.gz": {
+      "bytes": 33403,
+      "sha256": "8a8ceb5c66b275346a4c548f4384159864529fc02e17a95a7f09acce29b80bbf"
+    },
+    "traces/trace-1-react-30000-120-0-baseline.json.gz": {
+      "bytes": 38604,
+      "sha256": "212e6c8a9ecdcec33d72c0a8a089795414156c40e2990a61caaa9f32b1ec1514"
+    },
+    "traces/trace-1-react-30000-120-0-candidate.json.gz": {
+      "bytes": 42023,
+      "sha256": "dfd0aae616000e9bd8ba8096d5bda4131a49ecf963819ed41c55380de4757d29"
+    },
+    "traces/trace-1-react-30000-120-1-baseline.json.gz": {
+      "bytes": 40443,
+      "sha256": "d3c8d790950b4d5e00e20ecfd6a7c12e4d3cea24e4bc7bde8d0ac615038402f4"
+    },
+    "traces/trace-1-react-30000-120-1-candidate.json.gz": {
+      "bytes": 36755,
+      "sha256": "1bcb8e0b2ceadcf09f8639c60fafde11474f7549c268d325c1a672946bcc31ed"
+    },
+    "traces/trace-1-react-30000-120-2-baseline.json.gz": {
+      "bytes": 40187,
+      "sha256": "facfeb2c3677adaa9b822e21abe08c3086c160ba17233b9dfb5f1d3cda374af5"
+    },
+    "traces/trace-1-react-30000-120-2-candidate.json.gz": {
+      "bytes": 38049,
+      "sha256": "6130089303b6ad0d0b662f05c0a3a64d6d761b0b82328f48410c35f815bc6289"
+    },
+    "traces/trace-1-react-30000-120-3-baseline.json.gz": {
+      "bytes": 38441,
+      "sha256": "1f9ae517f7d3a7314b9e5debc134c38cc629593b5e28c8820f2a3e534fdf8a04"
+    },
+    "traces/trace-1-react-30000-120-3-candidate.json.gz": {
+      "bytes": 37570,
+      "sha256": "a9012242b43d0b659bccbae38d5ae04bb881dbda047e5e2322b6d2ada94b2790"
+    },
+    "traces/trace-1-react-30000-120-4-baseline.json.gz": {
+      "bytes": 36255,
+      "sha256": "11ce11262fa81bbede6ad42a111ae88ede2eebed9bc9b7d7dbacdfa8433dd945"
+    },
+    "traces/trace-1-react-30000-120-4-candidate.json.gz": {
+      "bytes": 39485,
+      "sha256": "faa71e684f5ad2e19f676f94f863c206ae6c74b76445b26bf5776374c173933a"
+    },
+    "traces/trace-1-react-5000-120-0-baseline.json.gz": {
+      "bytes": 38365,
+      "sha256": "282c93bfb3f31e94e021b78b54b08ff551491ac61d1efb201b97100aebfa2871"
+    },
+    "traces/trace-1-react-5000-120-0-candidate.json.gz": {
+      "bytes": 41151,
+      "sha256": "4114a4aaab6968bb83ae7c2856f6939ad80aa38c3920019d27a5090bf5a52176"
+    },
+    "traces/trace-1-react-5000-120-1-baseline.json.gz": {
+      "bytes": 38004,
+      "sha256": "207c5b4ec45d3ce331bf9a64919d39ef6ee555fcfa494eff176911b61eb5f657"
+    },
+    "traces/trace-1-react-5000-120-1-candidate.json.gz": {
+      "bytes": 39534,
+      "sha256": "77e913cce67a104a4ddbaeceafaaa70ecc4f17be26399819739d711e526831d2"
+    },
+    "traces/trace-1-react-5000-120-2-baseline.json.gz": {
+      "bytes": 38763,
+      "sha256": "b2416b19e000d1ee7d124aa57cc8f08f6c5238044bcd1c616d1a0e5f4a18c9ba"
+    },
+    "traces/trace-1-react-5000-120-2-candidate.json.gz": {
+      "bytes": 38602,
+      "sha256": "1200a3014dea7407bd34de399aeb565f955adc545b34f19a0cf16afed0bfd94e"
+    },
+    "traces/trace-1-react-5000-120-3-baseline.json.gz": {
+      "bytes": 39063,
+      "sha256": "40e1e7cc86ac7802dd14e8746ad88a632244ff0d4b2646a14fc5659fc5b6aac4"
+    },
+    "traces/trace-1-react-5000-120-3-candidate.json.gz": {
+      "bytes": 39023,
+      "sha256": "ae7648a219128eaf6bf75a0b18dc90f26c4a01256c7c09149c949a413beeac04"
+    },
+    "traces/trace-1-react-5000-120-4-baseline.json.gz": {
+      "bytes": 38369,
+      "sha256": "ecb94d76479fb5937f610e5f18e45951b782023241389665f7b622c04e7bcbdf"
+    },
+    "traces/trace-1-react-5000-120-4-candidate.json.gz": {
+      "bytes": 37870,
+      "sha256": "e3e8329bb97ebeeaba5b7066d143703dd1d5cb99d46b1a54e0aa0bed45104dee"
+    },
+    "traces/trace-1-vue-30000-120-0-baseline.json.gz": {
+      "bytes": 37099,
+      "sha256": "f2534871c36bb36d1cf748d50ef47b9e115452b896a4f430ebd92e0606bc0763"
+    },
+    "traces/trace-1-vue-30000-120-0-candidate.json.gz": {
+      "bytes": 34915,
+      "sha256": "79aaf043f64c1e635d66524c5b6768834932bbf6a3ec56a40d0abb56abd2ca86"
+    },
+    "traces/trace-1-vue-30000-120-1-baseline.json.gz": {
+      "bytes": 35799,
+      "sha256": "500ec54c17ac8569a51de46e23c3ceae6d1ebc9a8a3421f72f5f9db5923765c4"
+    },
+    "traces/trace-1-vue-30000-120-1-candidate.json.gz": {
+      "bytes": 40713,
+      "sha256": "21e08a2495e72197ddb816980195394dbcfe6ec5feb77d37e5af84873dd53b8c"
+    },
+    "traces/trace-1-vue-30000-120-2-baseline.json.gz": {
+      "bytes": 36599,
+      "sha256": "1cb745012c63fe426f9fe5bad04ef11bbbd270df699586b4cc154563a91ebe65"
+    },
+    "traces/trace-1-vue-30000-120-2-candidate.json.gz": {
+      "bytes": 40613,
+      "sha256": "d0e1bcd2b32290850cdc39282d4cc31987b2377dee61d6bdd8282399eff607b4"
+    },
+    "traces/trace-1-vue-30000-120-3-baseline.json.gz": {
+      "bytes": 36040,
+      "sha256": "963d0dd6ffa796d0bd051d2bdf4298aa5ff168274e94ff9e11c076a02728b3f3"
+    },
+    "traces/trace-1-vue-30000-120-3-candidate.json.gz": {
+      "bytes": 36497,
+      "sha256": "069acbb29ce70a169915f3bf145befadf888ab0bdc61c323575554b997aa9b8d"
+    },
+    "traces/trace-1-vue-30000-120-4-baseline.json.gz": {
+      "bytes": 36558,
+      "sha256": "b48faabceb3b3d992cbae878a5f8f23f2320ef9a4a96fc91774e5925b121d1aa"
+    },
+    "traces/trace-1-vue-30000-120-4-candidate.json.gz": {
+      "bytes": 34938,
+      "sha256": "22f9e191c7cc1a1f0bc8e78a0858f0fde08681de8e7dc341b40cb21a555dfa5a"
+    },
+    "traces/trace-1-vue-30000-3-0-baseline.json.gz": {
+      "bytes": 24729,
+      "sha256": "459ca91a56307810bb3bbee9e52820dad7dee6f23cc1f50ccd528edee2ee3e9c"
+    },
+    "traces/trace-1-vue-30000-3-0-candidate.json.gz": {
+      "bytes": 24690,
+      "sha256": "76e60b21c74e0c23bca2eba0aba370843a102bb96a47e6a88a2f74a79b1a0e66"
+    },
+    "traces/trace-1-vue-30000-3-1-baseline.json.gz": {
+      "bytes": 25672,
+      "sha256": "257dd5e624de9cad1280a485577908ed8f2d9c88ee63030043d5e6c46ea065ae"
+    },
+    "traces/trace-1-vue-30000-3-1-candidate.json.gz": {
+      "bytes": 25237,
+      "sha256": "2e1dd3a16e33939f9208f740a06c245257220c7009256cbd3c7f4418dd726100"
+    },
+    "traces/trace-1-vue-30000-3-2-baseline.json.gz": {
+      "bytes": 25767,
+      "sha256": "b9b1dea1a93e7ce4167dd73fbf6dec94aa275b173fdacf5c3b490e2ec152e814"
+    },
+    "traces/trace-1-vue-30000-3-2-candidate.json.gz": {
+      "bytes": 24155,
+      "sha256": "47a66cb5ccc3d11e6297c19909c189952a9acc0a07b29ed5408ee66ceb8e9654"
+    },
+    "traces/trace-1-vue-30000-3-3-baseline.json.gz": {
+      "bytes": 23385,
+      "sha256": "639b32f96f0f6fd4d7a9b8ba31c1770dab39b582d5aeef8a662e6c2ff8b990c7"
+    },
+    "traces/trace-1-vue-30000-3-3-candidate.json.gz": {
+      "bytes": 25045,
+      "sha256": "afce8b1c979e35d4a66ffc875664cf2f37926d05131abce84055a9f296ffd5a4"
+    },
+    "traces/trace-1-vue-30000-3-4-baseline.json.gz": {
+      "bytes": 25148,
+      "sha256": "c0efafc78d3c91cb26ead27c2e0b350aed531e9e7403c950209ccf3b5987da6d"
+    },
+    "traces/trace-1-vue-30000-3-4-candidate.json.gz": {
+      "bytes": 25424,
+      "sha256": "104c3c0cfbc38189576f3f3eae372116176230c190d4588a7a5ad99fe70c829a"
+    },
+    "traces/trace-1-web-30000-120-0-baseline.json.gz": {
+      "bytes": 37387,
+      "sha256": "e037c018aeac711de1006e00a2ed3c1a7b626fa6fa84000989598c8abdf4cc64"
+    },
+    "traces/trace-1-web-30000-120-0-candidate.json.gz": {
+      "bytes": 38238,
+      "sha256": "e52a8d5c2741c0d0cdec657b388b39f3b6e453967003e3c3cca618a19fb88036"
+    },
+    "traces/trace-1-web-30000-120-1-baseline.json.gz": {
+      "bytes": 37386,
+      "sha256": "3f022bd49f068315ba61e637c41d99bc969b59bddf6d13dceb9b75b6ada8587b"
+    },
+    "traces/trace-1-web-30000-120-1-candidate.json.gz": {
+      "bytes": 37940,
+      "sha256": "541b18b3e942b3e1ca510c4eb8940eba11c54f6d59a6ec957a88461f80f750ca"
+    },
+    "traces/trace-1-web-30000-120-2-baseline.json.gz": {
+      "bytes": 35578,
+      "sha256": "c97fdd09144fc88ac9bf83c2f6f209aaea3237492bc26e9ac82b4a83d847fbdc"
+    },
+    "traces/trace-1-web-30000-120-2-candidate.json.gz": {
+      "bytes": 35272,
+      "sha256": "8472574a28550ec4619969c9dc5c302f8aca046329545001ff98c6742ced0c0a"
+    },
+    "traces/trace-1-web-30000-120-3-baseline.json.gz": {
+      "bytes": 34878,
+      "sha256": "91c5494483ef625a72e87e4ede41afa51b8d02b16fa789f6891cdb9c6c53327b"
+    },
+    "traces/trace-1-web-30000-120-3-candidate.json.gz": {
+      "bytes": 38794,
+      "sha256": "eaa458f951419fd6741421fcda3b2b00689579e1f39837ab9fe9028e96956aa3"
+    },
+    "traces/trace-1-web-30000-120-4-baseline.json.gz": {
+      "bytes": 34896,
+      "sha256": "bec44a5dad8c9a136b772689f15f5aafaf64fd684381aa9c08f54172e2d8ea0b"
+    },
+    "traces/trace-1-web-30000-120-4-candidate.json.gz": {
+      "bytes": 35376,
+      "sha256": "b52ca104a4df1e8d2dea297e1271b7832f30549ce1c4dafd248e56e27bef0f21"
+    },
+    "traces/trace-1-web-5000-120-0-baseline.json.gz": {
+      "bytes": 35576,
+      "sha256": "1ad35a5a8ac00772ef11b0bc2965b425adb27b7a1aab10b8f3b8157b16962945"
+    },
+    "traces/trace-1-web-5000-120-0-candidate.json.gz": {
+      "bytes": 36208,
+      "sha256": "59963bc73f86ca86f646bbbd4ce6ba22792b6164bb465c32b543404d9000d3e3"
+    },
+    "traces/trace-1-web-5000-120-1-baseline.json.gz": {
+      "bytes": 35504,
+      "sha256": "ac024f9a106560e837901967210250d126e5044d8638ad62482bc866b8ecbc68"
+    },
+    "traces/trace-1-web-5000-120-1-candidate.json.gz": {
+      "bytes": 38643,
+      "sha256": "92e7e20675bff642c8edf5de57c852579d6d854425f5316b0956f6f47e475d97"
+    },
+    "traces/trace-1-web-5000-120-2-baseline.json.gz": {
+      "bytes": 37949,
+      "sha256": "81f363f90491d4459fb682dd0b2a207ceaf4500d8f675105aabbb38d9e0bb7eb"
+    },
+    "traces/trace-1-web-5000-120-2-candidate.json.gz": {
+      "bytes": 36735,
+      "sha256": "bd2030eb7ad6ceec03d3c9c98e8ab04235eab4ab9cec0b752d628e77ba4d2c8d"
+    },
+    "traces/trace-1-web-5000-120-3-baseline.json.gz": {
+      "bytes": 37413,
+      "sha256": "0dec0c18502c7acd14c34854c9ef2751789ac72b54a131a53328835f13caf38b"
+    },
+    "traces/trace-1-web-5000-120-3-candidate.json.gz": {
+      "bytes": 36034,
+      "sha256": "b4603dec8888b708493639d34f3cb5ef09e14f79707db624f858f220fe594c8d"
+    },
+    "traces/trace-1-web-5000-120-4-baseline.json.gz": {
+      "bytes": 39128,
+      "sha256": "1b88bdfc1e6db33a7b76f6d6e2c98b3aa9b743c9825fde5cac382dab4addb34e"
+    },
+    "traces/trace-1-web-5000-120-4-candidate.json.gz": {
+      "bytes": 36287,
+      "sha256": "a71ca7b9453b52de1d0bbf47e001674655f682b707584c836e62f4c248108844"
+    },
+    "traces/trace-summary.json": {
+      "bytes": 887284,
+      "sha256": "10f6357bf133810103705ad239ce368fadf8ce8548f5802436fce2126a411f53"
+    },
+    "traces/console.log.gz": {
+      "bytes": 545,
+      "sha256": "80399a1c24b75de23de6cc05a1917251a8fe49409b945bd6160422d870e3dce0"
+    },
+    "historical-audit.json": {
+      "bytes": 7015,
+      "sha256": "320022e6057236da7d323d42027b15af3e54bd531ccd1a38d3d34e0033a9c19f"
+    },
+    "chromium-harness-v1.ts.gz": {
+      "bytes": 6045,
+      "sha256": "e12dee68bb614ab3075cb28dc6822f50f3639d320392a193ab58299c8d93de9a"
+    },
+    "chromium-runner-v1.mjs.gz": {
+      "bytes": 3047,
+      "sha256": "830730a8d22053d8ed7afe7d81f02d3f2165a8b305867af5f4e312704dfbae6f"
+    },
+    "firefox-failed/provenance.json": {
+      "bytes": 1078,
+      "sha256": "a24459a51cb96fe06466d0756153177f80bcea5d4b920c91c9c3002718d64a4d"
+    },
+    "firefox-failed/run-1.raw.json.gz": {
+      "bytes": 670,
+      "sha256": "1e0a239feedc1e769b8d078e447bf600455bf21b8aeddd3c4be6267cb957ee45"
+    },
+    "firefox-failed/console.log.gz": {
+      "bytes": 758,
+      "sha256": "5934189d545df0b68e9714747a2381b7762e985c855e4c7de76459ec0b937ad1"
+    },
+    "../../../../../scripts/reproduce-column-formatting.mjs": {
+      "sha256": "c1b161673b040f3f501e91527b18e08b9e8ac5e16140da8ad2d7532c79d7cec2"
+    },
+    "../../../../../scripts/analyze-formatting-reproduction.mjs": {
+      "sha256": "2cfab34b4f245b9743049834e319669841d82dc39230d411dc91d99d8bed5a28"
+    },
+    "../../../../../scripts/analyze-formatting-traces.mjs": {
+      "sha256": "8e01172ebc8c35ddde4a6e2e6c13aafda3061b1a0afc8ae4260c20f268db438c"
+    },
+    "../../../../../scripts/audit-formatting-evidence.mjs": {
+      "sha256": "581886b3c394a73b5a03ca2f3007521b801c46ce05a82cd6317ed2c6f6136cf0"
+    },
+    "../../../../../scripts/verify-formatting-reproduction.mjs": {
+      "sha256": "ebd1f76830cc30a58355e8b2ba673ecd314ac0931d85103676af9a3f4ef16434"
+    },
+    "../../../../../tests/contracts/column-formatting.browser.ts": {
+      "sha256": "bdb5f39cf6e2166a1bb19ee0771af4693e7d1b55a67bff92df4264b728661d0d"
+    }
+  },
+  "studies": {
+    "chromium": {
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "runtimeUnmodified": true,
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalCPUs": 8,
+      "totalMemory": 32147910656,
+      "rounds": 30,
+      "runs": 3,
+      "engine": "chromium",
+      "kind": "default",
+      "aa": false,
+      "trace": false,
+      "productionBundles": {
+        "baseline": {
+          "column-formatting.browser-D7smQTpx.js": "4cd945aa944cee09f5f5e507972ebe62cd5399912facf973303cb0107b4fea51"
+        },
+        "candidate": {
+          "column-formatting.browser-DcZzEgR6.js": "f5ef088e6b606762ab56d0fce0dfa99db95209bee13b76a0db4f5b527d09a2d5"
+        }
+      },
+      "harness": {
+        "scripts/reproduce-column-formatting.mjs": "54524865fc465324b3dc13320fb6a13edb3d9e7048727f44c6b7efaab6f0dfb9",
+        "tests/contracts/column-formatting.browser.ts": "f64ba7ed871a14e2592dba3c137d93b84b915c43919759099613bbceb3daed6e",
+        "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+      }
+    },
+    "aa": {
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "runtimeUnmodified": true,
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalCPUs": 8,
+      "totalMemory": 32147910656,
+      "rounds": 30,
+      "runs": 1,
+      "engine": "chromium",
+      "kind": "default",
+      "aa": true,
+      "trace": false,
+      "cold": false,
+      "productionBundles": {
+        "baseline": {
+          "column-formatting.browser-DkOr7e10.js": "8a54139e622e2bf3e6ddd2685e7b9332408367a255b6702eabfc51a86264e3ea"
+        },
+        "candidate": {
+          "column-formatting.browser-DkOr7e10.js": "8a54139e622e2bf3e6ddd2685e7b9332408367a255b6702eabfc51a86264e3ea"
+        }
+      },
+      "harness": {
+        "scripts/reproduce-column-formatting.mjs": "c1b161673b040f3f501e91527b18e08b9e8ac5e16140da8ad2d7532c79d7cec2",
+        "tests/contracts/column-formatting.browser.ts": "bdb5f39cf6e2166a1bb19ee0771af4693e7d1b55a67bff92df4264b728661d0d",
+        "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+      }
+    },
+    "firefox-retry": {
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "runtimeUnmodified": true,
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalCPUs": 8,
+      "totalMemory": 32147910656,
+      "rounds": 30,
+      "runs": 1,
+      "engine": "firefox",
+      "kind": "default",
+      "aa": false,
+      "trace": false,
+      "cold": false,
+      "productionBundles": {
+        "baseline": {
+          "column-formatting.browser-DkOr7e10.js": "8a54139e622e2bf3e6ddd2685e7b9332408367a255b6702eabfc51a86264e3ea"
+        },
+        "candidate": {
+          "column-formatting.browser-CNOkbuji.js": "716d1fb44e72f4e2b7f635d8e18fe3adcc74bc18590082b42fe36f227381943d"
+        }
+      },
+      "harness": {
+        "scripts/reproduce-column-formatting.mjs": "c1b161673b040f3f501e91527b18e08b9e8ac5e16140da8ad2d7532c79d7cec2",
+        "tests/contracts/column-formatting.browser.ts": "bdb5f39cf6e2166a1bb19ee0771af4693e7d1b55a67bff92df4264b728661d0d",
+        "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+      }
+    },
+    "date-warm": {
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "runtimeUnmodified": true,
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalCPUs": 8,
+      "totalMemory": 32147910656,
+      "rounds": 30,
+      "runs": 1,
+      "engine": "chromium",
+      "kind": "date",
+      "aa": false,
+      "trace": false,
+      "cold": false,
+      "productionBundles": {
+        "baseline": {
+          "column-formatting.browser-DkOr7e10.js": "8a54139e622e2bf3e6ddd2685e7b9332408367a255b6702eabfc51a86264e3ea"
+        },
+        "candidate": {
+          "column-formatting.browser-CNOkbuji.js": "716d1fb44e72f4e2b7f635d8e18fe3adcc74bc18590082b42fe36f227381943d"
+        }
+      },
+      "harness": {
+        "scripts/reproduce-column-formatting.mjs": "c1b161673b040f3f501e91527b18e08b9e8ac5e16140da8ad2d7532c79d7cec2",
+        "tests/contracts/column-formatting.browser.ts": "bdb5f39cf6e2166a1bb19ee0771af4693e7d1b55a67bff92df4264b728661d0d",
+        "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+      }
+    },
+    "date-cold": {
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "runtimeUnmodified": true,
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalCPUs": 8,
+      "totalMemory": 32147910656,
+      "rounds": 30,
+      "runs": 1,
+      "engine": "chromium",
+      "kind": "date",
+      "aa": false,
+      "trace": false,
+      "cold": true,
+      "productionBundles": {
+        "baseline": {
+          "column-formatting.browser-DkOr7e10.js": "8a54139e622e2bf3e6ddd2685e7b9332408367a255b6702eabfc51a86264e3ea"
+        },
+        "candidate": {
+          "column-formatting.browser-CNOkbuji.js": "716d1fb44e72f4e2b7f635d8e18fe3adcc74bc18590082b42fe36f227381943d"
+        }
+      },
+      "harness": {
+        "scripts/reproduce-column-formatting.mjs": "c1b161673b040f3f501e91527b18e08b9e8ac5e16140da8ad2d7532c79d7cec2",
+        "tests/contracts/column-formatting.browser.ts": "bdb5f39cf6e2166a1bb19ee0771af4693e7d1b55a67bff92df4264b728661d0d",
+        "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+      }
+    },
+    "traces": {
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "runtimeUnmodified": true,
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "logicalCPUs": 8,
+      "totalMemory": 32147910656,
+      "rounds": 0,
+      "runs": 1,
+      "engine": "chromium",
+      "kind": "default",
+      "aa": false,
+      "trace": true,
+      "cold": false,
+      "productionBundles": {
+        "baseline": {
+          "column-formatting.browser-DkOr7e10.js": "8a54139e622e2bf3e6ddd2685e7b9332408367a255b6702eabfc51a86264e3ea"
+        },
+        "candidate": {
+          "column-formatting.browser-CNOkbuji.js": "716d1fb44e72f4e2b7f635d8e18fe3adcc74bc18590082b42fe36f227381943d"
+        }
+      },
+      "harness": {
+        "scripts/reproduce-column-formatting.mjs": "c1b161673b040f3f501e91527b18e08b9e8ac5e16140da8ad2d7532c79d7cec2",
+        "tests/contracts/column-formatting.browser.ts": "bdb5f39cf6e2166a1bb19ee0771af4693e7d1b55a67bff92df4264b728661d0d",
+        "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+      }
+    }
+  }
+}
