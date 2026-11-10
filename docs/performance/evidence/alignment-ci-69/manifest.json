@@ -1,0 +1,56 @@
+{
+  "runId": 42813023705,
+  "harness": "1a7b70e169e9872647758beb075a56a85fae0f7c",
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "candidate": "180ac15b933361b405efe39b09d4284eace0c423",
+  "performance": "PERF NOT QUALIFIED",
+  "environmentSuitable": false,
+  "artifacts": [
+    {
+      "id": 13763781424,
+      "name": "ci-perf-production-builds",
+      "digest": "sha256:d42e2877e32ce5bf35306ff6485c3e8486d1ba4788cffb1d528688ca708f85a2",
+      "size": 968072
+    },
+    {
+      "id": 13763408424,
+      "name": "ci-perf-pilot-assessment",
+      "digest": "sha256:23192a7ce5238a477e9c6df60ab8d94590adf3e88f51d1d659ad10efb56425e3",
+      "size": 97232
+    },
+    {
+      "id": 13763283550,
+      "name": "ci-perf-pilot-3",
+      "digest": "sha256:d51bbb8ef7e262ea5f5d9be6387009e91806a58a17fd11cb009d12610e855fa7",
+      "size": 379235
+    },
+    {
+      "id": 13763261902,
+      "name": "ci-perf-pilot-1",
+      "digest": "sha256:7d22242743bef4d44e85b1c975d8962122dfd5439438b31d6e573b24757a1cec",
+      "size": 375163
+    },
+    {
+      "id": 13763202760,
+      "name": "ci-perf-pilot-2",
+      "digest": "sha256:3c5d5135e07f35b469b556077c97c78268cd5363b1b09da7721d14982f49170c",
+      "size": 376346
+    }
+  ],
+  "files": {
+    "assessment.json": "36045670882f47fc0006978d7192ae7301ace4892b1768d50f682ebd93162fd9",
+    "assessment.log": "fcb790c61a8c7224370fa234e123d245f5b10b25092623252aa477d0e0b41cf8",
+    "assessment.md": "fb1b17e3472eec368abd12a1ddacf19dbe64f063fefa705bc765be941586b999",
+    "build.log": "afda590c1d12c363507e1c30906f8739d42e74a19c51b68a4f8b7803a871d642",
+    "ci-artifacts.json": "6ac9c63ec2eabeccb5cdf063479359312eb4d938f881101ddbdfd7c2578e465e",
+    "ci-perf-pilot-1.zip": "7d22242743bef4d44e85b1c975d8962122dfd5439438b31d6e573b24757a1cec",
+    "ci-perf-pilot-2.zip": "3c5d5135e07f35b469b556077c97c78268cd5363b1b09da7721d14982f49170c",
+    "ci-perf-pilot-3.zip": "d51bbb8ef7e262ea5f5d9be6387009e91806a58a17fd11cb009d12610e855fa7",
+    "ci-perf-pilot-assessment.zip": "23192a7ce5238a477e9c6df60ab8d94590adf3e88f51d1d659ad10efb56425e3",
+    "ci-perf-production-builds.zip": "d42e2877e32ce5bf35306ff6485c3e8486d1ba4788cffb1d528688ca708f85a2",
+    "pilot-1.log": "e081618cc705dc53c86ba02f25ea26fd056326c2d9206015ed96f70519ec62a7",
+    "pilot-2.log": "ec20265212220203adbffcfc030115db5972bada71c6c30ff7388235de7f7a43",
+    "pilot-3.log": "572f445473c096b0d2327c6295fbaf7fea7b325f26d98f4b9851ffb0c71fe4bc",
+    "setup-failure.log": "a410703ba67e4efaba8f876f80780a974dba5f5a3805dcd019043d860a95643b"
+  }
+}

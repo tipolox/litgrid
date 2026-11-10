@@ -1,0 +1,555 @@
+{
+  "runId": 42813023705,
+  "harness": "1a7b70e169e9872647758beb075a56a85fae0f7c",
+  "artifacts": [
+    {
+      "id": 13763781424,
+      "name": "ci-perf-production-builds",
+      "size_in_bytes": 968072,
+      "url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763781424",
+      "archive_download_url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763781424/zip",
+      "expired": false,
+      "created_at": "2026-11-10T12:08:00Z",
+      "expires_at": "2026-12-10T12:07:59Z",
+      "updated_at": "2026-11-10T12:08:00Z",
+      "digest": "sha256:d42e2877e32ce5bf35306ff6485c3e8486d1ba4788cffb1d528688ca708f85a2",
+      "workflow_run": {
+        "id": 42813023705,
+        "repository_id": 1303375272,
+        "head_repository_id": 1303375272,
+        "head_branch": "codex/34a-ci-perf-feasibility",
+        "head_sha": "1a7b70e169e9872647758beb075a56a85fae0f7c"
+      }
+    },
+    {
+      "id": 13763408424,
+      "name": "ci-perf-pilot-assessment",
+      "size_in_bytes": 97232,
+      "url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763408424",
+      "archive_download_url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763408424/zip",
+      "expired": false,
+      "created_at": "2026-11-10T12:18:57Z",
+      "expires_at": "2026-12-10T12:18:57Z",
+      "updated_at": "2026-11-10T12:18:57Z",
+      "digest": "sha256:23192a7ce5238a477e9c6df60ab8d94590adf3e88f51d1d659ad10efb56425e3",
+      "workflow_run": {
+        "id": 42813023705,
+        "repository_id": 1303375272,
+        "head_repository_id": 1303375272,
+        "head_branch": "codex/34a-ci-perf-feasibility",
+        "head_sha": "1a7b70e169e9872647758beb075a56a85fae0f7c"
+      }
+    },
+    {
+      "id": 13763283550,
+      "name": "ci-perf-pilot-3",
+      "size_in_bytes": 379235,
+      "url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763283550",
+      "archive_download_url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763283550/zip",
+      "expired": false,
+      "created_at": "2026-11-10T12:18:26Z",
+      "expires_at": "2026-12-10T12:18:24Z",
+      "updated_at": "2026-11-10T12:18:26Z",
+      "digest": "sha256:d51bbb8ef7e262ea5f5d9be6387009e91806a58a17fd11cb009d12610e855fa7",
+      "workflow_run": {
+        "id": 42813023705,
+        "repository_id": 1303375272,
+        "head_repository_id": 1303375272,
+        "head_branch": "codex/34a-ci-perf-feasibility",
+        "head_sha": "1a7b70e169e9872647758beb075a56a85fae0f7c"
+      }
+    },
+    {
+      "id": 13763261902,
+      "name": "ci-perf-pilot-1",
+      "size_in_bytes": 375163,
+      "url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763261902",
+      "archive_download_url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763261902/zip",
+      "expired": false,
+      "created_at": "2026-11-10T12:09:31Z",
+      "expires_at": "2026-12-10T12:09:30Z",
+      "updated_at": "2026-11-10T12:09:31Z",
+      "digest": "sha256:7d22242743bef4d44e85b1c975d8962122dfd5439438b31d6e573b24757a1cec",
+      "workflow_run": {
+        "id": 42813023705,
+        "repository_id": 1303375272,
+        "head_repository_id": 1303375272,
+        "head_branch": "codex/34a-ci-perf-feasibility",
+        "head_sha": "1a7b70e169e9872647758beb075a56a85fae0f7c"
+      }
+    },
+    {
+      "id": 13763202760,
+      "name": "ci-perf-pilot-2",
+      "size_in_bytes": 376346,
+      "url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763202760",
+      "archive_download_url": "https://api.github.com/repos/tipolox/litgrid/actions/artifacts/13763202760/zip",
+      "expired": false,
+      "created_at": "2026-11-10T12:14:25Z",
+      "expires_at": "2026-12-10T12:14:23Z",
+      "updated_at": "2026-11-10T12:14:25Z",
+      "digest": "sha256:3c5d5135e07f35b469b556077c97c78268cd5363b1b09da7721d14982f49170c",
+      "workflow_run": {
+        "id": 42813023705,
+        "repository_id": 1303375272,
+        "head_repository_id": 1303375272,
+        "head_branch": "codex/34a-ci-perf-feasibility",
+        "head_sha": "1a7b70e169e9872647758beb075a56a85fae0f7c"
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": 129818970005,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run npm install --global pnpm@${PNPM_VERSION}",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile && pnpm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile && pnpm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run node scripts/ci-performance/build.mjs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        }
+      ]
+    },
+    {
+      "id": 129819420415,
+      "name": "pilot (3)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run npm install --global pnpm@${PNPM_VERSION}",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run pnpm exec playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Settle after installation without other build or test processes",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run node scripts/ci-performance/run.mjs pilot",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    },
+    {
+      "id": 129819420511,
+      "name": "pilot (2)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run npm install --global pnpm@${PNPM_VERSION}",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run pnpm exec playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Settle after installation without other build or test processes",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run node scripts/ci-performance/run.mjs pilot",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    },
+    {
+      "id": 129819420599,
+      "name": "pilot (1)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run npm install --global pnpm@${PNPM_VERSION}",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run pnpm exec playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Settle after installation without other build or test processes",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run node scripts/ci-performance/run.mjs pilot",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    },
+    {
+      "id": 129824445084,
+      "name": "assess-pilot",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run node scripts/ci-performance/analyze.mjs collected assessment",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        }
+      ]
+    },
+    {
+      "id": 129824693024,
+      "name": "assess-full",
+      "status": "completed",
+      "conclusion": "skipped",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": null
+    },
+    {
+      "id": 129824693543,
+      "name": "full",
+      "status": "completed",
+      "conclusion": "skipped",
+      "run_id": 42813023705,
+      "logs_url": null,
+      "steps": null
+    }
+  ]
+}
