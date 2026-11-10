@@ -1,0 +1,124 @@
+name: Alignment CI performance feasibility (non-release)
+on:
+  workflow_dispatch:
+  # Until reviewed onto the default branch, an intentional push of this exact
+  # workflow on the isolated investigation branch is the manual launch mechanism.
+  push:
+    branches: [codex/34a-ci-perf-feasibility]
+    paths: [.github/workflows/alignment-ci-performance.yml]
+permissions:
+  contents: read
+concurrency:
+  group: alignment-ci-performance-feasibility
+  cancel-in-progress: false
+env:
+  NODE_VERSION: 22.22.3
+  PNPM_VERSION: 10.33.0
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8
+          path: sources/baseline
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 180ac15b933361b405efe39b09d4284eace0c423
+          path: sources/candidate
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '${{ env.NODE_VERSION }}'}
+      - run: npm install --global pnpm@${PNPM_VERSION}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile && pnpm run build
+        working-directory: sources/baseline
+      - run: pnpm install --frozen-lockfile && pnpm run build
+        working-directory: sources/candidate
+      - run: node scripts/ci-performance/build.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with: {name: ci-perf-production-builds, path: ci-perf-build, retention-days: 30}
+  pilot:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: {replicate: [1, 2, 3]}
+    env: {REPLICATE: '${{ matrix.replicate }}'}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '${{ env.NODE_VERSION }}'}
+      - run: npm install --global pnpm@${PNPM_VERSION}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with: {name: ci-perf-production-builds, path: ci-perf-build}
+      - name: Settle after installation without other build or test processes
+        run: sleep 30
+      - run: node scripts/ci-performance/run.mjs pilot
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with: {name: 'ci-perf-pilot-${{ matrix.replicate }}', path: results, retention-days: 30}
+  assess-pilot:
+    needs: pilot
+    runs-on: ubuntu-24.04
+    outputs: {suitable: '${{ steps.assess.outputs.suitable }}'}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '${{ env.NODE_VERSION }}'}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with: {pattern: ci-perf-pilot-*, path: collected}
+      - id: assess
+        run: node scripts/ci-performance/analyze.mjs collected assessment
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with: {name: ci-perf-pilot-assessment, path: assessment, retention-days: 30}
+  full:
+    needs: assess-pilot
+    if: needs.assess-pilot.outputs.suitable == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: {replicate: [1, 2, 3]}
+    env: {REPLICATE: '${{ matrix.replicate }}'}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '${{ env.NODE_VERSION }}'}
+      - run: npm install --global pnpm@${PNPM_VERSION}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with: {name: ci-perf-production-builds, path: ci-perf-build}
+      - run: sleep 30
+      - run: node scripts/ci-performance/run.mjs full
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with: {name: 'ci-perf-full-${{ matrix.replicate }}', path: results, retention-days: 30}
+  assess-full:
+    needs: full
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '${{ env.NODE_VERSION }}'}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with: {pattern: ci-perf-full-*, path: collected}
+      - run: node scripts/ci-performance/analyze.mjs collected assessment
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with: {name: ci-perf-full-assessment, path: assessment, retention-days: 30}
