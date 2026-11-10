@@ -1,0 +1,2193 @@
+{
+  "qualification": {
+    "geometry": [
+      {
+        "dir": "ltr",
+        "align": "left",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "ltr",
+        "align": "right",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "ltr",
+        "align": "center",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "ltr",
+        "align": "start",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "ltr",
+        "align": "end",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "rtl",
+        "align": "left",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "rtl",
+        "align": "right",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "rtl",
+        "align": "center",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "rtl",
+        "align": "start",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      },
+      {
+        "dir": "rtl",
+        "align": "end",
+        "body": true,
+        "header": true,
+        "custom": true,
+        "actions": true,
+        "keyboard": true,
+        "resize": true
+      }
+    ],
+    "recovery": {
+      "wrappers": [
+        {
+          "mode": "web",
+          "rejected": true,
+          "recovered": true
+        },
+        {
+          "mode": "react",
+          "rejected": true,
+          "recovered": true
+        },
+        {
+          "mode": "vue",
+          "rejected": true,
+          "recovered": true
+        },
+        {
+          "mode": "angular",
+          "rejected": true,
+          "recovered": true
+        },
+        {
+          "mode": "declarative",
+          "rejected": true,
+          "recovered": true
+        }
+      ],
+      "compiledVue": true,
+      "blazorJSON": true
+    }
+  },
+  "performance": "PERF NOT QUALIFIED",
+  "timingRounds": 0,
+  "node": "v22.14.0",
+  "baseline": "../alignment-only-34a-baseline",
+  "workloads": [
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "web",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "react",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "vue",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "angular",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "declarative",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "inferred",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "inferred",
+        "rows": 5000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "web",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "react",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "vue",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "angular",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "declarative",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 5000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "web",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "react",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "vue",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "angular",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "declarative",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "inferred",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "inferred",
+        "rows": 30000,
+        "columns": 3,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 57,
+        "nodes": 142
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "web",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "web",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 0,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 0,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "react",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "react",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "vue",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "vue",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "angular",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "angular",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 2,
+        "data": 2,
+        "config": 1,
+        "inference": 0
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 3,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "baseline",
+      "spec": {
+        "mode": "declarative",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": false
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    },
+    {
+      "variant": "candidate",
+      "spec": {
+        "mode": "declarative",
+        "rows": 30000,
+        "columns": 120,
+        "aligned": true
+      },
+      "mountCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 1,
+        "inference": 1
+      },
+      "updateCounts": {
+        "schema": 0,
+        "data": 4,
+        "config": 0,
+        "inference": 0
+      },
+      "metadataCounts": {
+        "schema": 1,
+        "data": 1,
+        "config": 0,
+        "inference": 0
+      },
+      "maxDom": {
+        "rows": 19,
+        "cells": 247,
+        "nodes": 382
+      }
+    }
+  ],
+  "errors": [],
+  "browser": "156.0.8078.4"
+}

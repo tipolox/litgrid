@@ -11,7 +11,7 @@ interface Person { id: number; name: string }
 export class TypedColumnsConsumer {
   people: Person[] = [{ id: 1, name: 'Ada' }]
   columns = [
-    { key: 'name', render: (_value, row) => row.name.toUpperCase() },
+    { key: 'name', align: 'end', render: (_value, row) => row.name.toUpperCase() },
     { key: 'label', accessor: row => `${row.id}: ${row.name}` },
   ] satisfies GridColumn<Person>[]
 }

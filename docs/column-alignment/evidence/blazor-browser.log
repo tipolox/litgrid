@@ -1,0 +1,110 @@
+PASS real Blazor JS interop serialization, scalar display and null handling (59 ms)
+PASS numeric, string, date sorting and Blazor filtering (836 ms)
+PASS pointer resizing and reordering, visibility and parent rerenders (1075 ms)
+PASS explicit defaults and Order precedence, add/remove and empty schemas (429 ms)
+PASS programmatic compatibility, legacy inference and same-reference row mutations (450 ms)
+PASS persistence across actual disposal and remount (169 ms)
+PASS atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence (782 ms)
+PASS keyboard navigation survives parameter and schema updates (185 ms)
+Large fixture ready in 6378 ms
+30,000-row parent rerender milliseconds: [5060,5258,5145]
+Large-grid keyboard focus recovery: 20 cycles, 60 expected-cell checks
+PASS 30,000 rows, vertical virtualization and frequent parent rerenders (25473 ms)
+PASS 120 columns, horizontal virtualization and schema-free scrolling/rerenders (4962 ms)
+PASS rapid scenario changes and mobile page overflow (944 ms)
+PASS navigation during a delayed real module import and subsequent remount (4843 ms)
+PASS no unexpected browser console errors (0 ms)
+{
+  "results": [
+    {
+      "name": "real Blazor JS interop serialization, scalar display and null handling",
+      "milliseconds": 59,
+      "passed": true
+    },
+    {
+      "name": "numeric, string, date sorting and Blazor filtering",
+      "milliseconds": 836,
+      "passed": true
+    },
+    {
+      "name": "pointer resizing and reordering, visibility and parent rerenders",
+      "milliseconds": 1075,
+      "passed": true
+    },
+    {
+      "name": "explicit defaults and Order precedence, add/remove and empty schemas",
+      "milliseconds": 429,
+      "passed": true
+    },
+    {
+      "name": "programmatic compatibility, legacy inference and same-reference row mutations",
+      "milliseconds": 450,
+      "passed": true
+    },
+    {
+      "name": "persistence across actual disposal and remount",
+      "milliseconds": 169,
+      "passed": true
+    },
+    {
+      "name": "atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence",
+      "milliseconds": 782,
+      "passed": true
+    },
+    {
+      "name": "keyboard navigation survives parameter and schema updates",
+      "milliseconds": 185,
+      "passed": true
+    },
+    {
+      "name": "30,000 rows, vertical virtualization and frequent parent rerenders",
+      "milliseconds": 25473,
+      "passed": true
+    },
+    {
+      "name": "120 columns, horizontal virtualization and schema-free scrolling/rerenders",
+      "milliseconds": 4962,
+      "passed": true
+    },
+    {
+      "name": "rapid scenario changes and mobile page overflow",
+      "milliseconds": 944,
+      "passed": true
+    },
+    {
+      "name": "navigation during a delayed real module import and subsequent remount",
+      "milliseconds": 4843,
+      "passed": true
+    },
+    {
+      "name": "no unexpected browser console errors",
+      "milliseconds": 0,
+      "passed": true
+    }
+  ],
+  "errors": []
+}
+{
+  "browser": "156.0.8078.4",
+  "results": [
+    {
+      "source": "alignment",
+      "realDotNetJSON": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "removed": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "alignment-programmatic",
+      "realDotNetJSON": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "removed": true,
+      "userState": true,
+      "focus": true
+    }
+  ],
+  "expectedValidationDiagnostics": 3
+}

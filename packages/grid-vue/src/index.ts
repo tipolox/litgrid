@@ -10,6 +10,7 @@ export type {
   ColumnVisibilityChangeDetail,
   DataGridElement,
   GridColumn,
+  GridColumnAlign,
   GridColumnState,
   GridConfig,
   GridFilter,

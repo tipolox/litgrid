@@ -1,0 +1,13 @@
+
+> tipoloX@1.2.3 test D:\Work\litgrid-p0\.worktrees\alignment-only-34a
+> vitest run "--maxWorkers=2" "--pool=forks" "--testTimeout=15000"
+
+
+ RUN  v4.1.10 D:/Work/litgrid-p0/.worktrees/alignment-only-34a
+
+
+ Test Files  54 passed (54)
+      Tests  449 passed (449)
+   Start at  18:36:38
+   Duration  184.94s (transform 4.39s, setup 0ms, import 28.54s, tests 35.70s, environment 265.54s)
+

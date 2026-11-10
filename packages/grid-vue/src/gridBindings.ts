@@ -31,7 +31,7 @@ type Snapshot = {
 
 const synchronized = new WeakMap<DataGridElement, Snapshot>()
 const EMPTY_COLUMNS: GridColumn[] = []
-const columnFields = ['key', 'header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render'] as const
+const columnFields = ['key', 'header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render', 'align'] as const
 
 // Fixed-size supported values, normalized exactly like the core. No row scan
 // or JSON encoding: numeric scope values retain Object.is distinctions.
@@ -60,7 +60,10 @@ function sameValues(previous: unknown[], next: unknown[]) {
 
 function sameColumns(previous: GridColumn[], next: GridColumn[]) {
   return previous.length === next.length && previous.every((column, index) =>
-    columnFields.every(key => Object.is(column[key], next[index][key])))
+    (!('align' in next[index]) || (() => {
+      const descriptor = Object.getOwnPropertyDescriptor(next[index], 'align')
+      return !!descriptor && 'value' in descriptor
+    })()) && columnFields.every(key => Object.is(column[key], next[index][key])))
 }
 
 /** Guard structural/presentation setters while preserving local mutation synchronization. */

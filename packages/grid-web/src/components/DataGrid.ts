@@ -22,6 +22,7 @@ import {
   mapDisplayScrollOffset
 } from '@tipolox/litgrid-renderer'
 import type { GridColumn, GridTheme, GridRefreshOptions, GridRefreshRange } from '../types.js'
+import { prepareAlignedColumns } from '../alignment/columnAlignment.js'
 import { darkThemeStyles } from '../theme/darkTheme.js'
 import { lightThemeStyles } from '../theme/lightTheme.js'
 import { MIN_COLUMN_WIDTH, MIN_ROW_HEIGHT } from '../sizing/constants.js'
@@ -123,6 +124,8 @@ export class DataGrid extends LitElement {
   private scrollbarWidth = 0
   private columnDefs: GridColumn[] = []
   private sourceColumnDefs: GridColumn[] = []
+  private columnAlignments = new Map<string, string>()
+  private hasColumnAlignment = false
   private _inferColumns = true
   private columnWidths = new Map<string, number>()
     private hiddenColumnKeys = new Set<string>()
@@ -653,7 +656,15 @@ export class DataGrid extends LitElement {
       border-right: 1px solid var(--litgrid-color-cell-border);
     }
 
-        .cell-selected {
+    .cell-align-left { justify-content: left; text-align: left; }
+    .cell-align-right { justify-content: right; text-align: right; }
+    .cell-align-center { justify-content: center; text-align: center; }
+    .cell-align-start { justify-content: start; text-align: start; }
+    .cell-align-end { justify-content: end; text-align: end; }
+    .header-cell[class*="cell-align-"] .header-label { flex: 1; }
+    .header-cell[class*="cell-align-"] .header-actions { flex-shrink: 0; }
+
+    .cell-selected {
       background: var(--litgrid-color-accent-selected);
       outline: 2px solid var(--litgrid-color-accent);
       outline-offset: -2px;
@@ -2177,6 +2188,10 @@ export class DataGrid extends LitElement {
 
   private getHeaderCellClass(column: GridColumn) {
     const classes = ['header-cell']
+    if (this.hasColumnAlignment) {
+      const alignment = this.columnAlignments.get(column.key)
+      if (alignment) classes.push(alignment)
+    }
     const state = this.columnReorderState
     if (!state || !state.hasMoved) return classes.join(' ')
 
@@ -2327,6 +2342,10 @@ export class DataGrid extends LitElement {
 
     private getCellClass(rowIndex: number, columnKey: string) {
     const classes = ['cell']
+    if (this.hasColumnAlignment) {
+      const alignment = this.columnAlignments.get(columnKey)
+      if (alignment) classes.push(alignment)
+    }
 
     if (this.isCellSelectionMode()) {
       classes.push('cell-selectable')
@@ -2975,7 +2994,8 @@ export class DataGrid extends LitElement {
 
   /** Reconcile an explicit schema, optionally switching its persistence namespace atomically. */
   updateColumnSchema(value: GridColumn[], applyOrder = false, storageKey = this._columnStateStorageKey) {
-    const columns = value.map(column => ({ ...column }))
+    const prepared = value.some(column => 'align' in column) ? prepareAlignedColumns(value) : undefined
+    const columns = prepared?.columns ?? value.map(column => ({ ...column }))
     const nextByKey = new Map(columns.map(column => [column.key, column]))
     if (nextByKey.size !== columns.length) throw new Error('Duplicate column schema keys.')
     const previousSchema = this.sourceColumnDefs.length ? this.sourceColumnDefs : this.getResolvedColumns()
@@ -2987,6 +3007,8 @@ export class DataGrid extends LitElement {
     const nextStorageKey = typeof storageKey === 'string' && storageKey.trim() ? storageKey : null
     const storageChanged = nextStorageKey !== this._columnStateStorageKey
 
+    this.columnAlignments = prepared?.alignments ?? (this.columnAlignments.size ? new Map<string, string>() : this.columnAlignments)
+    this.hasColumnAlignment = this.columnAlignments.size > 0
     this.finishColumnResize(false)
     this.finishColumnReorder(false)
     if (storageChanged) {
@@ -3034,9 +3056,13 @@ export class DataGrid extends LitElement {
     this.requestUpdate()
   }
 
-        set columns(value: GridColumn[]) {
+  set columns(value: GridColumn[]) {
+    const input = Array.isArray(value) ? value : []
+    const prepared = input.some(column => 'align' in column) ? prepareAlignedColumns(input) : undefined
     const activeCell = this.activeCell
-        this.sourceColumnDefs = Array.isArray(value) ? [...value] : []
+    this.columnAlignments = prepared?.alignments ?? (this.columnAlignments.size ? new Map<string, string>() : this.columnAlignments)
+    this.hasColumnAlignment = this.columnAlignments.size > 0
+    this.sourceColumnDefs = prepared?.columns ?? [...input]
     this.columnDefs = [...this.sourceColumnDefs]
     this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key))
 

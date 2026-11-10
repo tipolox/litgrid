@@ -29,6 +29,11 @@ else
         <button id="add" @onclick="Add">Add department</button>
         <button id="empty" @onclick="Empty">Empty schema</button>
         <button id="programmatic" @onclick="Programmatic">Programmatic</button>
+        <button id="alignment" @onclick="Alignment">Aligned declarations</button>
+        <button id="alignment-programmatic" @onclick="AlignmentProgrammatic">Aligned programmatic</button>
+        <button id="alignment-invalid" @onclick="AlignmentInvalid">Invalid alignment</button>
+        <button id="alignment-center" @onclick="AlignmentCenter">Center alignment</button>
+        <button id="alignment-none" @onclick="() => SetAlignment(null)">Default alignment</button>
         <button id="infer" @onclick="Infer">Legacy inference</button>
         <button id="filter" @onclick="Filter">Filter department</button>
         <button id="clear-filter" @onclick="ClearFilter">Clear filter</button>
@@ -50,7 +55,7 @@ else
                     @foreach (var spec in specs)
                     {
                         <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
-                                       Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" />
+                                       Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" Align="@spec.Align" />
                     }
                 </DataGrid>
             }
@@ -75,7 +80,7 @@ else
         [JsonExtensionData] public Dictionary<string, object?> Extra { get; set; } = [];
     }
     private record Spec(string Id, Expression<Func<Employee, object?>>? Field = null, string? Key = null,
-        string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null);
+        string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null, string? Align = null);
     private DataGrid<Employee>? grid;
     private readonly GridConfig config = new() { Selection = new() { Mode = SelectionMode.MultiCell } };
     private List<Employee> rows = [];
@@ -138,6 +143,25 @@ else
     private void Add() { if (specs.All(s => s.Id != "department")) specs.Add(BasicSpecs()[2]); revision++; }
     private void Empty() { specs.Clear(); revision++; }
     private void Programmatic() { Basic(); declarative = false; programmatic = [new() { Key = "id", Header = "ID" }, new() { Key = "name", Header = "Employee" }]; }
+    private void Alignment()
+    {
+        Basic(); storageKey = null;
+        specs = [new("salary", e => e.Salary, Title: "Amount", Width: 220, Align: "right"),
+            new("name", e => e.Name, Title: "Name", Width: 260)];
+    }
+    private void AlignmentProgrammatic()
+    {
+        Alignment(); declarative = false;
+        programmatic = specs.Select(spec => new GridColumn { Key = spec.Id, Header = spec.Title, Width = spec.Width, Align = spec.Align }).ToArray();
+    }
+    private void AlignmentInvalid() => SetAlignment("justify");
+    private void AlignmentCenter() => SetAlignment("center");
+    private void SetAlignment(string? align)
+    {
+        specs = specs.Select(spec => spec.Id == "salary" ? spec with { Align = align } : spec).ToList();
+        foreach (var column in programmatic) if (column.Key == "salary") column.Align = align;
+        revision++;
+    }
     private void Infer() { Basic(); declarative = false; programmatic = []; }
     private async Task Filter() { if (grid != null) await grid.SetFilterAsync(new() { ColumnKey = "department", Operator = FilterOperator.Equals, Value = "Computing" }); }
     private async Task ClearFilter() { if (grid != null) await grid.ClearFilterAsync(); }

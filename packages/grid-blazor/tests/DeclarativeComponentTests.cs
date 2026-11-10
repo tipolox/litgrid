@@ -13,7 +13,7 @@ namespace Tipolox.LitGrid.Blazor.Tests;
 
 public record ColumnSpec(string Id, Expression<Func<Employee, object?>>? Field = null,
     string? Key = null, string? Title = null, object? Width = null, bool? Hidden = null, int? Order = null,
-    bool? Sortable = null, bool? Filterable = null);
+    bool? Sortable = null, bool? Filterable = null, string? Align = null);
 
 // Exercise the public Renderer lifecycle; no private render-tree inspection or fake
 // calls to child lifecycle methods. The Razor fixture also compiles generic cascading.
@@ -91,6 +91,46 @@ internal sealed class RecordingLogger : ILogger<DataGrid<Employee>>
 
 public class DeclarativeComponentTests
 {
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task AlignmentEditsRejectAtomicallyAndRetryAfterLocalOrBrowserFailure(bool declarative)
+    {
+        var logger = new RecordingLogger();
+        var (renderer, interop, root) = Setup(logger: logger);
+        await using (renderer)
+        {
+            var specs = new[] { new ColumnSpec("id", e => e.Id, Align: "right") };
+            var columns = new[] { new GridColumn { Key = "id", Align = "right" } };
+            async Task Render()
+            {
+                await renderer.Render(root, ("Declarative", declarative), ("Specs", specs),
+                    ("Programmatic", declarative ? Array.Empty<GridColumn>() : columns));
+                await renderer.Drain();
+            }
+            void Align(string? value) { specs[0] = specs[0] with { Align = value }; columns[0].Align = value; }
+            await Render();
+            Assert.Equal("right", interop.Syncs.Last().GetProperty("columns")[0].GetProperty("align").GetString());
+            var count = interop.Syncs.Length;
+            await Render();
+            Assert.Equal(count, interop.Syncs.Length);
+            Align("justify"); await Render();
+            Assert.Equal(count, interop.Syncs.Length);
+            Assert.NotEmpty(logger.Errors);
+            Assert.Empty(renderer.Errors);
+            Align("center"); await Render();
+            Assert.Equal("center", interop.Syncs.Last().GetProperty("columns")[0].GetProperty("align").GetString());
+            interop.Failures["updateInputs"] = new JSException("GridColumnAlignmentError: Column id: invalid alignment");
+            Align("left"); await Render();
+            Assert.Empty(renderer.Errors);
+            interop.Failures.Remove("updateInputs");
+            Align("end"); await Render();
+            Assert.Equal("end", interop.Syncs.Last().GetProperty("columns")[0].GetProperty("align").GetString());
+            Align(null); await Render();
+            Assert.False(interop.Syncs.Last().GetProperty("columns")[0].TryGetProperty("align", out _));
+        }
+    }
+
     [Fact]
     public async Task ColumnControlChangesReachInteropWithoutLosingNullableDefaults()
     {

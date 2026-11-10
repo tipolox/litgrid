@@ -1714,6 +1714,40 @@ function calculateDisplayLayout({ totalSize, displaySize, virtualOffsetTop, visi
 	};
 }
 //#endregion
+//#region ../grid-web/dist/alignment/columnAlignment.js
+/** Stage validation and detached metadata before the active schema is changed. */
+function prepareAlignedColumns(columns) {
+	const alignments = /* @__PURE__ */ new Map();
+	const keys = /* @__PURE__ */ new Set();
+	return {
+		columns: columns.map((column) => {
+			try {
+				if (keys.has(column.key)) throw new TypeError("Duplicate column schema key.");
+				keys.add(column.key);
+				if ("align" in column) {
+					const descriptor = Object.getOwnPropertyDescriptor(column, "align");
+					if (!descriptor || !("value" in descriptor)) throw new TypeError("Alignment must be an own data property.");
+					if (descriptor.value !== void 0 && ![
+						"start",
+						"center",
+						"end",
+						"left",
+						"right"
+					].includes(descriptor.value)) throw new TypeError("Invalid alignment.");
+				}
+				const snapshot = { ...column };
+				if (snapshot.align) alignments.set(snapshot.key, "cell-align-" + snapshot.align);
+				return snapshot;
+			} catch (error) {
+				const failure = /* @__PURE__ */ new TypeError(`Column ${JSON.stringify(column.key)}: ${error instanceof Error ? error.message : String(error)}`);
+				failure.name = "GridColumnAlignmentError";
+				throw failure;
+			}
+		}),
+		alignments
+	};
+}
+//#endregion
 //#region ../grid-web/dist/theme/darkTheme.js
 /**
 * Dark semantic color tokens for the Community Edition grid.
@@ -2011,6 +2045,8 @@ var DataGrid = class DataGrid extends i$3 {
 		this.scrollbarWidth = 0;
 		this.columnDefs = [];
 		this.sourceColumnDefs = [];
+		this.columnAlignments = /* @__PURE__ */ new Map();
+		this.hasColumnAlignment = false;
 		this._inferColumns = true;
 		this.columnWidths = /* @__PURE__ */ new Map();
 		this.hiddenColumnKeys = /* @__PURE__ */ new Set();
@@ -2617,7 +2653,15 @@ var DataGrid = class DataGrid extends i$3 {
       border-right: 1px solid var(--litgrid-color-cell-border);
     }
 
-        .cell-selected {
+    .cell-align-left { justify-content: left; text-align: left; }
+    .cell-align-right { justify-content: right; text-align: right; }
+    .cell-align-center { justify-content: center; text-align: center; }
+    .cell-align-start { justify-content: start; text-align: start; }
+    .cell-align-end { justify-content: end; text-align: end; }
+    .header-cell[class*="cell-align-"] .header-label { flex: 1; }
+    .header-cell[class*="cell-align-"] .header-actions { flex-shrink: 0; }
+
+    .cell-selected {
       background: var(--litgrid-color-accent-selected);
       outline: 2px solid var(--litgrid-color-accent);
       outline-offset: -2px;
@@ -3744,6 +3788,10 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	getHeaderCellClass(column) {
 		const classes = ["header-cell"];
+		if (this.hasColumnAlignment) {
+			const alignment = this.columnAlignments.get(column.key);
+			if (alignment) classes.push(alignment);
+		}
 		const state = this.columnReorderState;
 		if (!state || !state.hasMoved) return classes.join(" ");
 		if (state.columnKey === column.key) classes.push("header-cell-reordering");
@@ -3811,6 +3859,10 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	getCellClass(rowIndex, columnKey) {
 		const classes = ["cell"];
+		if (this.hasColumnAlignment) {
+			const alignment = this.columnAlignments.get(columnKey);
+			if (alignment) classes.push(alignment);
+		}
 		if (this.isCellSelectionMode()) classes.push("cell-selectable");
 		if (this.engine.isCellSelected(rowIndex, columnKey)) classes.push("cell-selected");
 		if (this.activeCell?.rowIndex === rowIndex && this.getVisibleColumns()[this.activeCell.columnIndex]?.key === columnKey) classes.push("cell-active");
@@ -4289,7 +4341,8 @@ var DataGrid = class DataGrid extends i$3 {
 	}
 	/** Reconcile an explicit schema, optionally switching its persistence namespace atomically. */
 	updateColumnSchema(value, applyOrder = false, storageKey = this._columnStateStorageKey) {
-		const columns = value.map((column) => ({ ...column }));
+		const prepared = value.some((column) => "align" in column) ? prepareAlignedColumns(value) : void 0;
+		const columns = prepared?.columns ?? value.map((column) => ({ ...column }));
 		const nextByKey = new Map(columns.map((column) => [column.key, column]));
 		if (nextByKey.size !== columns.length) throw new Error("Duplicate column schema keys.");
 		const previousSchema = this.sourceColumnDefs.length ? this.sourceColumnDefs : this.getResolvedColumns();
@@ -4298,6 +4351,8 @@ var DataGrid = class DataGrid extends i$3 {
 		const activeColumnKey = activeCell ? this.getVisibleColumns()[activeCell.columnIndex]?.key : void 0;
 		const nextStorageKey = typeof storageKey === "string" && storageKey.trim() ? storageKey : null;
 		const storageChanged = nextStorageKey !== this._columnStateStorageKey;
+		this.columnAlignments = prepared?.alignments ?? (this.columnAlignments.size ? /* @__PURE__ */ new Map() : this.columnAlignments);
+		this.hasColumnAlignment = this.columnAlignments.size > 0;
 		this.finishColumnResize(false);
 		this.finishColumnReorder(false);
 		if (storageChanged) {
@@ -4333,8 +4388,12 @@ var DataGrid = class DataGrid extends i$3 {
 		this.requestUpdate();
 	}
 	set columns(value) {
+		const input = Array.isArray(value) ? value : [];
+		const prepared = input.some((column) => "align" in column) ? prepareAlignedColumns(input) : void 0;
 		const activeCell = this.activeCell;
-		this.sourceColumnDefs = Array.isArray(value) ? [...value] : [];
+		this.columnAlignments = prepared?.alignments ?? (this.columnAlignments.size ? /* @__PURE__ */ new Map() : this.columnAlignments);
+		this.hasColumnAlignment = this.columnAlignments.size > 0;
+		this.sourceColumnDefs = prepared?.columns ?? [...input];
 		this.columnDefs = [...this.sourceColumnDefs];
 		this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key));
 		this.clearBestFitWidths();
@@ -4795,10 +4854,6 @@ function syncGridInputs(grid, inputs) {
 		const declarative = effective.declarativeColumns ?? previous.declarativeColumns === true;
 		const extended = supportsDeclarations(grid) ? grid : void 0;
 		if (declarative && !extended) throw new Error("LitGrid declarative columns require inferColumns and updateColumnSchema support.");
-		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
-			touched.add("declarativeColumns");
-			extended.inferColumns = !declarative;
-		}
 		const keyInput = "columnStateStorageKey" in effective ? effective.columnStateStorageKey : previous.columnStateStorageKey;
 		const storageKey = typeof keyInput === "string" && keyInput.trim() ? keyInput : null;
 		if (declarative && extended) {
@@ -4815,8 +4870,16 @@ function syncGridInputs(grid, inputs) {
 		} else if (effective.columns !== void 0) {
 			touched.add("columns");
 			const snapshot = effective.columns.map((column) => ({ ...column }));
-			grid.columns = effective.columns;
+			const previousColumns = captured.columns;
+			if (extended && (snapshot.some((column) => column.align !== void 0) || previousColumns?.some((column) => column.align !== void 0))) {
+				const orderChanged = !!previousColumns && (previousColumns.length !== snapshot.length || previousColumns.some((column, index) => column.key !== snapshot[index].key));
+				extended.updateColumnSchema(effective.columns, orderChanged, storageKey);
+			} else grid.columns = effective.columns;
 			captured.columns = snapshot;
+		}
+		if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has("declarativeColumns"))) {
+			touched.add("declarativeColumns");
+			extended.inferColumns = !declarative;
 		}
 		previous.declarativeColumns = declarative;
 		captured.declarativeColumns = declarative;

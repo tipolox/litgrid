@@ -2,7 +2,7 @@ import { Comment, Fragment, Text, isVNode, type VNodeChild } from 'vue'
 import type { GridColumn } from '@tipolox/litgrid-web'
 import { LitGridColumn } from './LitGridColumn.js'
 
-const metadata = ['header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render'] as const
+const metadata = ['header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render', 'align'] as const
 
 /** Read only public VNode structure. Never execute component render/setup functions. */
 export function readDeclarativeColumns(nodes: VNodeChild[]): GridColumn[] {
