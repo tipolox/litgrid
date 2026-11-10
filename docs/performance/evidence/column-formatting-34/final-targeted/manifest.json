@@ -1,0 +1,593 @@
+{
+  "reviewHead": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+  "measuredRuntime": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "sourceHashLineEndings": "Root source entries normalize CRLF to LF; evidence artifacts and archived snapshots use exact bytes.",
+  "studies": {
+    "A": {
+      "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+      "runtime": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "experiment": "A",
+      "rounds": 30,
+      "runs": 3,
+      "comparisons": [
+        {
+          "name": "AA",
+          "left": "current",
+          "right": "current-AA"
+        },
+        {
+          "name": "vue-metadata",
+          "left": "current",
+          "right": "no-vue-metadata"
+        },
+        {
+          "name": "web-guards",
+          "left": "current",
+          "right": "no-web-guards"
+        },
+        {
+          "name": "alignment-css",
+          "left": "current",
+          "right": "no-alignment-css"
+        }
+      ],
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+      "sources": {
+        "scripts/final-formatting-experiments.mjs": "e44f6838fb2959fd5233a98c99aaa0d874326b805f84b80d100d8c2192149418",
+        "scripts/final-formatting-variants.mjs": "b362a2cbf2d7298f557b527f8bfd9dd8826df5f1e5c83a7db716861c0f8fa97c",
+        "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+      },
+      "variants": {
+        "current": {
+          "port": 5260,
+          "patches": [],
+          "bundles": {
+            "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+          }
+        },
+        "current-AA": {
+          "port": 5261,
+          "patches": [],
+          "bundles": {
+            "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+          }
+        },
+        "no-vue-metadata": {
+          "port": 5262,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-vue/dist/gridBindings.js",
+              "before": "f951672bacfe5feecbb75d21ca5839897c07cf636d49c611af9166ba9e86f302",
+              "after": "495eb44aecc103e0a6c1b9cfcb3bc798bf4a390ff19eef28cb9ba9aed0ad4bc0"
+            }
+          ],
+          "bundles": {
+            "index-Cva63n45.js": "04c142d5576ac9481662ce9e0874d42143db88a7ed32d7ccf8a4cf354c04be07"
+          }
+        },
+        "no-web-guards": {
+          "port": 5263,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/components/DataGrid.js",
+              "before": "7107460c65f5a3fcbc90df94716244cb3a676d4eeb5277996f3b1efbf95ecc04",
+              "after": "bc94abb6b6d60f5cea2795f851d1abf13f09a543f785eaae2a1ca81bf226674d"
+            }
+          ],
+          "bundles": {
+            "index-BFecEUc3.js": "ccba84cc83b191106ffb9d2b01098a5e834a6a029f1a6529ccd0aebe9f001c6a"
+          }
+        },
+        "no-alignment-css": {
+          "port": 5264,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/components/DataGrid.js",
+              "before": "7107460c65f5a3fcbc90df94716244cb3a676d4eeb5277996f3b1efbf95ecc04",
+              "after": "cf40ca098a691630717511a5b86e4d1b7c7c7f0781e3e320edb21e461fbc0b4c"
+            }
+          ],
+          "bundles": {
+            "index-B9GnFXuc.js": "c82f812bcacad4c672163d4803e05d70dc64ce1ee1e5e91bb3b1ca96c3f68bee"
+          }
+        }
+      },
+      "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms)."
+    },
+    "B": {
+      "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+      "runtime": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "experiment": "B",
+      "rounds": 30,
+      "runs": 2,
+      "comparisons": [
+        {
+          "name": "AA",
+          "left": "current",
+          "right": "current-AA"
+        },
+        {
+          "name": "current-vs-shared",
+          "left": "current",
+          "right": "shared-date"
+        },
+        {
+          "name": "baseline-vs-shared",
+          "left": "baseline",
+          "right": "shared-date"
+        },
+        {
+          "name": "baseline-vs-current",
+          "left": "baseline",
+          "right": "current"
+        }
+      ],
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+      "sources": {
+        "scripts/final-formatting-experiments.mjs": "e44f6838fb2959fd5233a98c99aaa0d874326b805f84b80d100d8c2192149418",
+        "scripts/final-formatting-variants.mjs": "b362a2cbf2d7298f557b527f8bfd9dd8826df5f1e5c83a7db716861c0f8fa97c",
+        "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+      },
+      "variants": {
+        "current": {
+          "port": 5260,
+          "patches": [],
+          "bundles": {
+            "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+          }
+        },
+        "current-AA": {
+          "port": 5261,
+          "patches": [],
+          "bundles": {
+            "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+          }
+        },
+        "shared-date": {
+          "port": 5262,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+              "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+              "after": "1489e50ca273d1f7fb719c2995992449180d74b33e68b1831d8fc76eef409b7f"
+            }
+          ],
+          "bundles": {
+            "index-QWL_R6P4.js": "5da3d73eac01d3955f01d40406208dbeb41c47a7d30ecdac51e8a03d07dd2414"
+          }
+        },
+        "baseline": {
+          "port": 5263,
+          "patches": [],
+          "bundles": {
+            "index-BUruLY_0.js": "2434d045b6a0dc335c46e3a097028c724d9876fb3a2afd8be78cb49718ba55ad"
+          }
+        }
+      },
+      "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms)."
+    },
+    "C-ownership": {
+      "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+      "runtime": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "experiment": "B",
+      "rounds": 0,
+      "runs": 1,
+      "ownershipOnly": true,
+      "comparisons": [
+        {
+          "name": "AA",
+          "left": "current",
+          "right": "current-AA"
+        },
+        {
+          "name": "current-vs-shared",
+          "left": "current",
+          "right": "shared-date"
+        },
+        {
+          "name": "baseline-vs-shared",
+          "left": "baseline",
+          "right": "shared-date"
+        },
+        {
+          "name": "baseline-vs-current",
+          "left": "baseline",
+          "right": "current"
+        }
+      ],
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+      "sources": {
+        "scripts/final-formatting-experiments.mjs": "34c1ae64b3df544cfdaaee7cd286487e9fa352aa406cca81d1f15f4030fa64da",
+        "scripts/final-formatting-variants.mjs": "f95e7a17aa3f922e1501e878b0da5c703e042ea94a3cf4694c3b02bbf61709a8",
+        "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+      },
+      "variants": {
+        "current": {
+          "port": 5260,
+          "patches": [],
+          "bundles": {
+            "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+          }
+        },
+        "current-AA": {
+          "port": 5261,
+          "patches": [],
+          "bundles": {
+            "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+          }
+        },
+        "shared-date": {
+          "port": 5262,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+              "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+              "after": "1489e50ca273d1f7fb719c2995992449180d74b33e68b1831d8fc76eef409b7f"
+            }
+          ],
+          "bundles": {
+            "index-QWL_R6P4.js": "5da3d73eac01d3955f01d40406208dbeb41c47a7d30ecdac51e8a03d07dd2414"
+          }
+        },
+        "baseline": {
+          "port": 5263,
+          "patches": [],
+          "bundles": {
+            "index-BUruLY_0.js": "2434d045b6a0dc335c46e3a097028c724d9876fb3a2afd8be78cb49718ba55ad"
+          }
+        },
+        "detached-display": {
+          "port": 5264,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+              "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+              "after": "434229b91c67f66d43cf82fe8e23397c178fde1295adf1967346573b790fd865"
+            }
+          ],
+          "bundles": {
+            "index-CLrhDQ5l.js": "66547b98375ab036053a643a7693a083c252a485d82645950b99679645355d69"
+          }
+        },
+        "shared-date-detached": {
+          "port": 5265,
+          "patches": [
+            {
+              "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/formatting/columnFormatting.js",
+              "before": "00e79e2a1214441b2417bfab050964e2682555d0f168743239a4501488b8dabb",
+              "after": "1cd49711312590f2118d32c81b96b6b9998492e81aee0ea3f897aaac6ef619b7"
+            }
+          ],
+          "bundles": {
+            "index-DQxm3j1X.js": "8ec9b169a3e5afb25572ff829cc553c411efb4793aefad6631a1689add286864"
+          }
+        }
+      },
+      "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms). Ownership isolation has zero timing rounds."
+    },
+    "D-production": {
+      "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+      "runtime": "working-tree-detached-display",
+      "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+      "experiment": "B",
+      "rounds": 0,
+      "runs": 1,
+      "ownershipOnly": false,
+      "productionQualification": true,
+      "comparisons": [
+        {
+          "name": "AA",
+          "left": "current",
+          "right": "current-AA"
+        },
+        {
+          "name": "current-vs-shared",
+          "left": "current",
+          "right": "shared-date"
+        },
+        {
+          "name": "baseline-vs-shared",
+          "left": "baseline",
+          "right": "shared-date"
+        },
+        {
+          "name": "baseline-vs-current",
+          "left": "baseline",
+          "right": "current"
+        }
+      ],
+      "node": "v22.14.0",
+      "os": "10.0.26200",
+      "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+      "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+      "sources": {
+        "scripts/final-formatting-experiments.mjs": "2b2d49475fdbd91083041488e253a653c8e628f55852ae6cd5e957ef47dd2627",
+        "scripts/final-formatting-variants.mjs": "f95e7a17aa3f922e1501e878b0da5c703e042ea94a3cf4694c3b02bbf61709a8",
+        "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+      },
+      "variants": {
+        "current": {
+          "port": 5260,
+          "patches": [],
+          "bundles": {
+            "index-CLrhDQ5l.js": "66547b98375ab036053a643a7693a083c252a485d82645950b99679645355d69"
+          }
+        },
+        "current-AA": {
+          "port": 5261,
+          "patches": [],
+          "bundles": {
+            "index-CLrhDQ5l.js": "66547b98375ab036053a643a7693a083c252a485d82645950b99679645355d69"
+          }
+        }
+      },
+      "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms). Ownership/production isolation has zero timing rounds."
+    }
+  },
+  "files": {
+    "A/entry.ts.gz": {
+      "bytes": 6242,
+      "sha256": "cc06428596c690b6574237d178b47c32a9201093fc4b6330204014abbee6b592"
+    },
+    "A/no-alignment-css-1.after.js.gz": {
+      "bytes": 26717,
+      "sha256": "3c535fa3c2982fb52c1c43ad8a350bccf993e36f919257daa5a9b579162b52c9"
+    },
+    "A/no-alignment-css-1.before.js.gz": {
+      "bytes": 26821,
+      "sha256": "3fe6e6d48f3803ff8924bd9f14594563025b4f29cb1e1dba97ab186aa8808dd3"
+    },
+    "A/no-vue-metadata-1.after.js.gz": {
+      "bytes": 1557,
+      "sha256": "f725eed4b925544f39290145e255350c84d13da843d47e7953cd5670ea835ad1"
+    },
+    "A/no-vue-metadata-1.before.js.gz": {
+      "bytes": 2134,
+      "sha256": "5ea6d3fc2396f1f9ac1652d8787472379858a6a07e59735a029ebad7e96c01cb"
+    },
+    "A/no-web-guards-1.after.js.gz": {
+      "bytes": 26719,
+      "sha256": "2cbd488a4604090390a85fa037b9343fb713b33c72697d8a671d23d2d2df8e01"
+    },
+    "A/no-web-guards-1.before.js.gz": {
+      "bytes": 26821,
+      "sha256": "3fe6e6d48f3803ff8924bd9f14594563025b4f29cb1e1dba97ab186aa8808dd3"
+    },
+    "A/provenance.json": {
+      "bytes": 3332,
+      "sha256": "a2ff50e4a579ec24354db0af6642516d5e0c3df3da7e90958fa57d152b2baef0"
+    },
+    "A/run-1.raw.json.gz": {
+      "bytes": 14487,
+      "sha256": "c5f672789698cd4bb76090a199a8b8dc89a9556b1b3d01fb4bd26e78d7afbb6d"
+    },
+    "A/run-2.raw.json.gz": {
+      "bytes": 13995,
+      "sha256": "f0763622a41f268e437c14b6756e6e9ae517b2e679ed7ab5ab5dc6aad228bc81"
+    },
+    "A/run-3.raw.json.gz": {
+      "bytes": 14052,
+      "sha256": "501015cb3f326a4c0be69755ba937e7f1df4e1833178137a8b47ab156f155e0a"
+    },
+    "A/summary.json": {
+      "bytes": 1390529,
+      "sha256": "4336bd7640dcf1f54a75f4c8d317d30d39fa4ba362221257393e7a89527d4878"
+    },
+    "A/console.log.gz": {
+      "bytes": 203,
+      "sha256": "2f4941232bcb6370a73c79b0e72af9d6c24f64cf235c3427d7cfe5ef5c477194"
+    },
+    "B/entry.ts.gz": {
+      "bytes": 6242,
+      "sha256": "cc06428596c690b6574237d178b47c32a9201093fc4b6330204014abbee6b592"
+    },
+    "B/memory-initial.json": {
+      "bytes": 1032,
+      "sha256": "ded19a7cb12f2f3dfc7aae6f5b8650e2957abcef9c92c9762df8c61834bdbece"
+    },
+    "B/memory.json": {
+      "bytes": 1032,
+      "sha256": "ded19a7cb12f2f3dfc7aae6f5b8650e2957abcef9c92c9762df8c61834bdbece"
+    },
+    "B/provenance.json": {
+      "bytes": 2499,
+      "sha256": "266dd2d678f174f365f58a4a646d6e3aa6c1a3b3d32374abd827fafac106fe1d"
+    },
+    "B/run-1.raw.json.gz": {
+      "bytes": 22681,
+      "sha256": "ab835421e399baf69af52505c77d9b0e5fa276813ebd0b8546fdda5a43e1cd34"
+    },
+    "B/run-2.raw.json.gz": {
+      "bytes": 22717,
+      "sha256": "f95de60035f499216c9e71862636133ad5652958e30ce8b2ca85d62984a93263"
+    },
+    "B/shared-date-1.after.js.gz": {
+      "bytes": 2606,
+      "sha256": "347823d53916d664a68eccea1d5e91bdf5009a21c74906e1a03166dceac03baa"
+    },
+    "B/shared-date-1.before.js.gz": {
+      "bytes": 2393,
+      "sha256": "2079501995fa86a3cedbbfb308f1012392c3918dd7ff1fb5a1528900a8e90fba"
+    },
+    "B/summary.json": {
+      "bytes": 4035268,
+      "sha256": "7e4303b621269aea36188786a6c11ed49e60c87ec4bb47a7c8945cd5131dfe80"
+    },
+    "B/console.log.gz": {
+      "bytes": 217,
+      "sha256": "8bcab8e12e3cf9794f2d5c48c11479e367cd7a84ed38252000380f24a89dbc3b"
+    },
+    "C-ownership/current.active.heap.json.gz": {
+      "bytes": 3654381,
+      "sha256": "2e47954d5a531c23a3f9c26281ffcad7fa86f09e135e90292bd1e3c547aade9e"
+    },
+    "C-ownership/detached-display-1.after.js.gz": {
+      "bytes": 2415,
+      "sha256": "64ee9328630f5fea56a5f91732480613aa3aabb17b515afd05ab311e4d5ba34f"
+    },
+    "C-ownership/detached-display-1.before.js.gz": {
+      "bytes": 2393,
+      "sha256": "2079501995fa86a3cedbbfb308f1012392c3918dd7ff1fb5a1528900a8e90fba"
+    },
+    "C-ownership/entry.ts.gz": {
+      "bytes": 6242,
+      "sha256": "cc06428596c690b6574237d178b47c32a9201093fc4b6330204014abbee6b592"
+    },
+    "C-ownership/memory.json": {
+      "bytes": 1752,
+      "sha256": "a02fbcb27163a195cd461f1caef8ee6ca945c47fa98b6a0e48dfe236052acce0"
+    },
+    "C-ownership/provenance.json": {
+      "bytes": 3629,
+      "sha256": "c36d5416d468dcf8cb62f06e4981de71b5e1875d1c518a9ee45e5d659e774a6a"
+    },
+    "C-ownership/retainers.json": {
+      "bytes": 322264,
+      "sha256": "4e58b2ee6c952cd81f925ba8b713b2d44119577f05ce5382fffb77a705776fdb"
+    },
+    "C-ownership/run-1.raw.json.gz": {
+      "bytes": 1851,
+      "sha256": "4139e885426d7bf2e84fe26b9b4274e0f99b161a03fdea412f569364e8054e61"
+    },
+    "C-ownership/shared-date-1.after.js.gz": {
+      "bytes": 2606,
+      "sha256": "347823d53916d664a68eccea1d5e91bdf5009a21c74906e1a03166dceac03baa"
+    },
+    "C-ownership/shared-date-1.before.js.gz": {
+      "bytes": 2393,
+      "sha256": "2079501995fa86a3cedbbfb308f1012392c3918dd7ff1fb5a1528900a8e90fba"
+    },
+    "C-ownership/shared-date-detached-1.after.js.gz": {
+      "bytes": 2617,
+      "sha256": "945ac0f4ea95413d348e0be500d8589355e40b240a1f0aa5a973b5bd97e0f81e"
+    },
+    "C-ownership/shared-date-detached-1.before.js.gz": {
+      "bytes": 2393,
+      "sha256": "2079501995fa86a3cedbbfb308f1012392c3918dd7ff1fb5a1528900a8e90fba"
+    },
+    "C-ownership/shared-date.active.heap.json.gz": {
+      "bytes": 3630492,
+      "sha256": "3bdfc447fb909a201145cac14f55f5b3c921f8d2cf299eb882cc4ec2408a46fd"
+    },
+    "C-ownership/console.log.gz": {
+      "bytes": 114,
+      "sha256": "a080b788dd6d7dce91d65fffff2faea807bcfe6354c308076de9bc28b0e250ea"
+    },
+    "D-production/entry.ts.gz": {
+      "bytes": 6242,
+      "sha256": "cc06428596c690b6574237d178b47c32a9201093fc4b6330204014abbee6b592"
+    },
+    "D-production/provenance.json": {
+      "bytes": 1890,
+      "sha256": "553f3699c1b178461f70bc79adf1d04572758f65709765f7447d3975d223a068"
+    },
+    "D-production/run-1.raw.json.gz": {
+      "bytes": 1266,
+      "sha256": "1152601de206eae50ae43de4f34d48eceef704940b91e57d50e4454ee0befb81"
+    },
+    "D-production/console.log.gz": {
+      "bytes": 114,
+      "sha256": "a080b788dd6d7dce91d65fffff2faea807bcfe6354c308076de9bc28b0e250ea"
+    },
+    "sources/runner-v1.mjs.gz": {
+      "bytes": 3809,
+      "sha256": "79434c4288ef565ac6185c39190e115ac74eb8dab033597ccf72e86391e2e663"
+    },
+    "sources/runner-v2-ownership.mjs.gz": {
+      "bytes": 3947,
+      "sha256": "e818db6083c33c58ec3a02d6b2ae1e2aeca82a101822b823be69cb144744198b"
+    },
+    "sources/runner-v3-production.mjs.gz": {
+      "bytes": 3994,
+      "sha256": "7c5db1aeecab7de7e3157867bde4fbb533c054ede986eec295fbbaf2a085c61d"
+    },
+    "sources/variants-v1.mjs.gz": {
+      "bytes": 1263,
+      "sha256": "9df3f39bd582339f5095da3beae2f74dcb1702feb968d784064600664a96467a"
+    },
+    "sources/variants-v2.mjs.gz": {
+      "bytes": 1487,
+      "sha256": "ef759169ce03c97512a859a7566abf7fdf7867ef3a680abea6b4e40985327f6e"
+    },
+    "production-retention.json": {
+      "bytes": 962,
+      "sha256": "40226ffe3cf40cb7a03faeb10c62a917ba36ed61ff764d5686d8924aa2f7d823"
+    },
+    "pre-fix-retention.json": {
+      "bytes": 966,
+      "sha256": "a936dc0b773ecd9324f81bb49c1dde60be52ac2d04d4b325fa51ffb2b23787ec"
+    },
+    "validation/final-formatting-build.log.gz": {
+      "bytes": 1844,
+      "sha256": "b6b222e6bfa71d2f7cfc8608c4eea8517afb960a148587ce3d46c13ecad3c58a"
+    },
+    "validation/final-formatting-tests.log.gz": {
+      "bytes": 362,
+      "sha256": "fe46418f44f7a9c63afa303dd6f9149a6c15a9360a5b9a71f478bd43181b9bbe"
+    },
+    "validation/final-formatting-blazor-tests.log.gz": {
+      "bytes": 893,
+      "sha256": "5d0363583f307b2aa1eecaf14e2bc83423f606cd2c460acef2db564ec6a5060b"
+    },
+    "validation/final-formatting-blazor-tests-retry.log.gz": {
+      "bytes": 448,
+      "sha256": "43bced842df404f426cdbdfbd3ce7e5cf1d2e12915408ea557cb1954a5d4a5d8"
+    },
+    "validation/final-formatting-retention-before.log.gz": {
+      "bytes": 604,
+      "sha256": "8b2afda681b8522fd2bf8b7cf5b5f16748953f15a9849940329bf685ffbff008"
+    },
+    "../../../../../scripts/final-formatting-experiments.mjs": {
+      "sha256": "bf0eb564bcc7c3c1073a72be6249550814bb23c4be58e8e512efa378277bb435"
+    },
+    "../../../../../scripts/final-formatting-variants.mjs": {
+      "sha256": "f95e7a17aa3f922e1501e878b0da5c703e042ea94a3cf4694c3b02bbf61709a8"
+    },
+    "../../../../../scripts/analyze-final-formatting-experiments.mjs": {
+      "sha256": "5633ce593178832dd6d974a372295eef4726409d6ce8f05ce3a90065dd4c02a6"
+    },
+    "../../../../../scripts/check-final-formatting-memory.mjs": {
+      "sha256": "a822053d38ca2433a90b8f70bb0c461b506aac5ec3d1d38bc74a28c559df79ca"
+    },
+    "../../../../../scripts/analyze-final-formatting-retainers.mjs": {
+      "sha256": "d861bf601fbfbb667febac4ccb9af34af7637ef1437faffd6a34c407ac6ee50e"
+    },
+    "../../../../../scripts/check-column-formatting-retention.mjs": {
+      "sha256": "f2cbb3aff34e27bd6db2bcf98677ec9e08bfc59ac89cbaf9d3e37567ffa777d5"
+    },
+    "../../../../../scripts/verify-final-formatting-experiments.mjs": {
+      "sha256": "69f5eb2e4f1d996fbfea8e8a1425565f6011bda438a81c43364edc309af3f254"
+    },
+    "../../../../../tests/contracts/final-formatting-qualification.browser.ts": {
+      "sha256": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+    },
+    "../../../../../packages/grid-web/src/formatting/columnFormatting.ts": {
+      "sha256": "5c698758707c703cd85417b449167842ddc4a1848ffadddd7cfb4759896fd034"
+    },
+    "../../../../../packages/grid-blazor/src/wwwroot/litgrid-blazor.js": {
+      "sha256": "68fa10766a7bce6b2a18a34ad769ddd5ab4cf3dc9ee543417a5963e7d4c62ab1"
+    },
+    "../../../../../packages/grid-blazor/src/wwwroot/litgrid-blazor.js.map": {
+      "sha256": "85b02ebe923550f9a7c23d7aa4fb93e42a19dad33e984d16cf141059926cc7a2"
+    }
+  },
+  "runnerSnapshots": {
+    "A": "sources/runner-v1.mjs.gz",
+    "B": "sources/runner-v1.mjs.gz",
+    "C-ownership": "sources/runner-v2-ownership.mjs.gz",
+    "D-production": "sources/runner-v3-production.mjs.gz"
+  }
+}

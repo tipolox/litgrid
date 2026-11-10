@@ -1,0 +1,44 @@
+{
+  "browser": "156.0.8078.4",
+  "method": "64 descriptor changes, stable sibling column, two explicit full collections after separate JS turns; only weak instance references retained by probe.",
+  "results": [
+    {
+      "kind": "DateTimeFormat",
+      "active": {
+        "constructed": 64,
+        "alive": 64,
+        "activeFormats": 2
+      },
+      "removed": {
+        "constructed": 64,
+        "alive": 1,
+        "activeFormats": 1
+      },
+      "disconnected": {
+        "constructed": 64,
+        "alive": 0,
+        "activeFormats": 0
+      },
+      "pass": false
+    },
+    {
+      "kind": "NumberFormat",
+      "active": {
+        "constructed": 64,
+        "alive": 64,
+        "activeFormats": 2
+      },
+      "removed": {
+        "constructed": 64,
+        "alive": 1,
+        "activeFormats": 1
+      },
+      "disconnected": {
+        "constructed": 64,
+        "alive": 0,
+        "activeFormats": 0
+      },
+      "pass": false
+    }
+  ]
+}

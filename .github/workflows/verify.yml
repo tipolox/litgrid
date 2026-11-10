@@ -54,5 +54,14 @@ jobs:
         run: node scripts/check-adapter-events.mjs
       - name: Check Vue declarative columns and workloads in Chromium
         run: node scripts/check-vue-columns.mjs
+      - name: Check production column formatting and LTR/RTL alignment in Chromium
+        run: node scripts/check-column-formatting.mjs
+
+      - name: Check retired column formatter ownership in Chromium
+        run: node scripts/check-column-formatting-retention.mjs
       - run: dotnet test packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj -c Release
       - run: dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release
+      - name: Build real Blazor browser formatting consumer
+        run: dotnet build packages/grid-blazor/tests/browser/BrowserHost.csproj -c Release
+      - name: Check real Blazor formatting serialization and recovery
+        run: node scripts/check-blazor-formatting.mjs

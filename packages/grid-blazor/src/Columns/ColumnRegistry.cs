@@ -1,8 +1,8 @@
 namespace Tipolox.LitGrid.Blazor;
 
-internal sealed record DeclaredColumn(string Key, string? Title, object? Width, bool? Hidden, int? Order, bool? Sortable = null, bool? Filterable = null)
+internal sealed record DeclaredColumn(string Key, string? Title, object? Width, bool? Hidden, int? Order, bool? Sortable = null, bool? Filterable = null, string? Align = null, GridFormatSnapshot? Format = null)
 {
-    internal GridColumn ToGridColumn() => new() { Key = Key, Header = Title, Width = Width, Hidden = Hidden, Sortable = Sortable, Filterable = Filterable };
+    internal GridColumn ToGridColumn() => new() { Key = Key, Header = Title, Width = Width, Hidden = Hidden, Sortable = Sortable, Filterable = Filterable, Align = Align, Format = Format?.ToFormat() };
 }
 
 // A nongeneric cascading boundary prevents a mismatched column inside a nested
@@ -11,12 +11,14 @@ internal interface IColumnRegistry
 {
     Type ItemType { get; }
     void Update(object identity, DeclaredColumn column);
+    void ReportPresentationError(object identity, ColumnPresentationException error);
     void Remove(object identity);
 }
 
 internal sealed class ColumnRegistry<TItem>(Action changed) : IColumnRegistry
 {
     private readonly Dictionary<object, (long Sequence, DeclaredColumn Column)> entries = new();
+    private readonly Dictionary<object, ColumnPresentationException> presentationErrors = new();
     private long nextSequence;
     private bool disposed;
     private DeclaredColumn[]? snapshot;
@@ -25,9 +27,10 @@ internal sealed class ColumnRegistry<TItem>(Action changed) : IColumnRegistry
     public void Update(object identity, DeclaredColumn column)
     {
         if (disposed) return;
+        var recovered = presentationErrors.Remove(identity);
         if (entries.TryGetValue(identity, out var previous))
         {
-            if (previous.Column == column) return;
+            if (previous.Column == column) { if (recovered) changed(); return; }
             entries[identity] = (previous.Sequence, column);
         }
         else entries.Add(identity, (nextSequence++, column));
@@ -37,7 +40,8 @@ internal sealed class ColumnRegistry<TItem>(Action changed) : IColumnRegistry
 
     public void Remove(object identity)
     {
-        if (!disposed && entries.Remove(identity))
+        var recovered = presentationErrors.Remove(identity);
+        if (!disposed && (entries.Remove(identity) || recovered))
         {
             snapshot = null;
             changed();
@@ -46,6 +50,7 @@ internal sealed class ColumnRegistry<TItem>(Action changed) : IColumnRegistry
 
     internal DeclaredColumn[] Snapshot()
     {
+        if (presentationErrors.Count > 0) throw presentationErrors.Values.First();
         if (snapshot != null) return snapshot;
         // Unspecified Order follows explicit orders; ties keep first registration order.
         var columns = entries.Values.OrderBy(entry => entry.Column.Order.HasValue ? 0 : 1)
@@ -62,6 +67,16 @@ internal sealed class ColumnRegistry<TItem>(Action changed) : IColumnRegistry
     {
         disposed = true;
         entries.Clear();
+        presentationErrors.Clear();
         snapshot = [];
+    }
+
+    public void ReportPresentationError(object identity, ColumnPresentationException error)
+    {
+        if (disposed || presentationErrors.TryGetValue(identity, out var previous) && previous.Message == error.Message) return;
+        presentationErrors[identity] = error;
+        // Keep the last valid entries, block synchronization, and coalesce repeated
+        // identical invalid renders rather than scheduling an error render loop.
+        changed();
     }
 }

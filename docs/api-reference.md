@@ -37,12 +37,21 @@ type GridColumn = {
   hidden?: boolean
   sortable?: boolean
   filterable?: boolean
+  align?: 'start' | 'center' | 'end' | 'left' | 'right'
+  format?: GridValueFormat
   accessor?: (row: unknown, rowIndex: number) => unknown
   render?: (value: unknown, row: unknown, rowIndex: number) => unknown
 }
 ```
 
-`key` identifies a column for state, filtering, selection, and ordering. `accessor` derives the underlying value; without one, object-row values are read using `key`. `render` controls visual output but does not change filtering or clipboard values. It may return a string, number, or Lit `TemplateResult`. React JSX is not a supported renderer result because rendering occurs in the Web Component.
+`key` identifies a column for state, filtering, selection, and ordering. `accessor` derives the cell value; without one, object-row values are read using `key`. Core sort/filter/search retain their source-field behavior and do not use the accessor. `render` controls visual output but does not change filtering or clipboard values. It may return a string, number, or Lit `TemplateResult`. React JSX is not a supported renderer result because rendering occurs in the Web Component.
+
+`align` positions body content and the header label using physical or logical
+alignment. `format` supports the bounded, serializable native Intl number/date
+descriptor with explicit locale and date timezone. `render` wins; copy keeps
+unformatted accessor/property values. Invalid descriptors reject schema adoption
+without replacing the last valid grid. See [column formatting](column-formatting.md)
+for the exact option allowlist, date grammar, recovery and framework examples.
 
 `width` accepts a number of pixels or a CSS width string. Explicit numeric widths set through the sizing API are normalized to at least `64px`.
 

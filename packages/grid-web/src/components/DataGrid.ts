@@ -22,6 +22,7 @@ import {
   mapDisplayScrollOffset
 } from '@tipolox/litgrid-renderer'
 import type { GridColumn, GridTheme, GridRefreshOptions, GridRefreshRange } from '../types.js'
+import { prepareColumns, type CompiledColumnFormat } from '../formatting/columnFormatting.js'
 import { darkThemeStyles } from '../theme/darkTheme.js'
 import { lightThemeStyles } from '../theme/lightTheme.js'
 import { MIN_COLUMN_WIDTH, MIN_ROW_HEIGHT } from '../sizing/constants.js'
@@ -123,6 +124,10 @@ export class DataGrid extends LitElement {
   private scrollbarWidth = 0
   private columnDefs: GridColumn[] = []
   private sourceColumnDefs: GridColumn[] = []
+  private columnFormats = new Map<string, CompiledColumnFormat>()
+  private columnAlignments = new Map<string, string>()
+  private hasColumnAlignment = false
+  private needsPresentationReconnect = false
   private _inferColumns = true
   private columnWidths = new Map<string, number>()
     private hiddenColumnKeys = new Set<string>()
@@ -653,7 +658,15 @@ export class DataGrid extends LitElement {
       border-right: 1px solid var(--litgrid-color-cell-border);
     }
 
-        .cell-selected {
+        .cell-align-left { justify-content: left; text-align: left; }
+    .cell-align-right { justify-content: right; text-align: right; }
+    .cell-align-center { justify-content: center; text-align: center; }
+    .cell-align-start { justify-content: start; text-align: start; }
+    .cell-align-end { justify-content: end; text-align: end; }
+    .header-cell[class*="cell-align-"] .header-label { flex: 1; }
+    .header-cell[class*="cell-align-"] .header-actions { flex-shrink: 0; }
+
+    .cell-selected {
       background: var(--litgrid-color-accent-selected);
       outline: 2px solid var(--litgrid-color-accent);
       outline-offset: -2px;
@@ -843,6 +856,21 @@ export class DataGrid extends LitElement {
     }
   }
 
+  connectedCallback() {
+    if (this.needsPresentationReconnect) {
+      const prepared = prepareColumns(this.sourceColumnDefs, this.columnFormats)
+      const byKey = new Map(prepared.columns.map(column => [column.key, column]))
+      this.sourceColumnDefs = prepared.columns
+      this.columnDefs = this.columnDefs.map(column => byKey.get(column.key) ?? column)
+      this.columnFormats = prepared.formats
+      this.columnAlignments = prepared.alignments
+      this.hasColumnAlignment = prepared.alignments.size > 0
+      this.needsPresentationReconnect = false
+      this.requestUpdate()
+    }
+    super.connectedCallback()
+  }
+
     disconnectedCallback() {
     this.stopColumnResize()
     this.stopRowResize()
@@ -862,6 +890,19 @@ export class DataGrid extends LitElement {
       this.measureContainer.parentNode.removeChild(this.measureContainer)
     }
     this.measureContainer = null
+    if (this.columnFormats.size || this.columnAlignments.size) {
+      this.needsPresentationReconnect = true
+      // Release generated render closures as well as map entries. Public input
+      // objects are never mutated: formatted columns were detached at adoption.
+      const strip = (column: GridColumn) => {
+        if (column.render === this.columnFormats.get(column.key)?.display) delete column.render
+      }
+      this.sourceColumnDefs.forEach(strip)
+      this.columnDefs.forEach(strip)
+      this.columnFormats.clear()
+      this.columnAlignments.clear()
+      this.hasColumnAlignment = false
+    }
     // call LitElement lifecycle
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -1463,7 +1504,10 @@ export class DataGrid extends LitElement {
     const row = this.engine.getVisibleRows(rowIndex, rowIndex + 1)[0]
     if (!column || row === undefined) return ''
 
-    const value = this.formatCellValue(this.getCellValue(column, row, rowIndex)) || 'blank'
+    const cellValue = this.getCellValue(column, row, rowIndex)
+    const compiled = this.columnFormats.get(column.key)
+    const value = (compiled && column.render === compiled.display
+      ? compiled.display(cellValue) : this.formatCellValue(cellValue)) || 'blank'
     const selected = this.isCellSelectionMode()
       ? this.engine.isCellSelected(rowIndex, column.key)
       : this.isRowSelectionMode() && this.engine.isRowSelected(rowIndex)
@@ -2177,6 +2221,10 @@ export class DataGrid extends LitElement {
 
   private getHeaderCellClass(column: GridColumn) {
     const classes = ['header-cell']
+    if (this.hasColumnAlignment) {
+      const alignment = this.columnAlignments.get(column.key)
+      if (alignment) classes.push(alignment)
+    }
     const state = this.columnReorderState
     if (!state || !state.hasMoved) return classes.join(' ')
 
@@ -2327,6 +2375,10 @@ export class DataGrid extends LitElement {
 
     private getCellClass(rowIndex: number, columnKey: string) {
     const classes = ['cell']
+    if (this.hasColumnAlignment) {
+      const alignment = this.columnAlignments.get(columnKey)
+      if (alignment) classes.push(alignment)
+    }
 
     if (this.isCellSelectionMode()) {
       classes.push('cell-selectable')
@@ -2975,7 +3027,10 @@ export class DataGrid extends LitElement {
 
   /** Reconcile an explicit schema, optionally switching its persistence namespace atomically. */
   updateColumnSchema(value: GridColumn[], applyOrder = false, storageKey = this._columnStateStorageKey) {
-    const columns = value.map(column => ({ ...column }))
+    const prepared = value.some(column => 'align' in column || 'format' in column)
+      ? prepareColumns(value, this.columnFormats)
+      : { columns: value.map(column => ({ ...column })), formats: this.columnFormats.size ? new Map<string, CompiledColumnFormat>() : this.columnFormats, alignments: this.columnAlignments.size ? new Map<string, string>() : this.columnAlignments }
+    const columns = prepared.columns
     const nextByKey = new Map(columns.map(column => [column.key, column]))
     if (nextByKey.size !== columns.length) throw new Error('Duplicate column schema keys.')
     const previousSchema = this.sourceColumnDefs.length ? this.sourceColumnDefs : this.getResolvedColumns()
@@ -2987,6 +3042,10 @@ export class DataGrid extends LitElement {
     const nextStorageKey = typeof storageKey === 'string' && storageKey.trim() ? storageKey : null
     const storageChanged = nextStorageKey !== this._columnStateStorageKey
 
+    this.columnFormats = prepared.formats
+    this.columnAlignments = prepared.alignments
+    this.hasColumnAlignment = prepared.alignments.size > 0
+    this.needsPresentationReconnect = false
     this.finishColumnResize(false)
     this.finishColumnReorder(false)
     if (storageChanged) {
@@ -3034,9 +3093,19 @@ export class DataGrid extends LitElement {
     this.requestUpdate()
   }
 
-        set columns(value: GridColumn[]) {
+  set columns(value: GridColumn[]) {
+    const input = Array.isArray(value) ? value : []
+    // Preserve the existing unconfigured representation and allocation path.
+    // Presentation metadata is validated/detached only when it is supplied.
+    const prepared = input.some(column => 'align' in column || 'format' in column)
+      ? prepareColumns(input, this.columnFormats)
+      : { columns: [...input], formats: this.columnFormats.size ? new Map<string, CompiledColumnFormat>() : this.columnFormats, alignments: this.columnAlignments.size ? new Map<string, string>() : this.columnAlignments }
     const activeCell = this.activeCell
-        this.sourceColumnDefs = Array.isArray(value) ? [...value] : []
+    this.columnFormats = prepared.formats
+    this.columnAlignments = prepared.alignments
+    this.hasColumnAlignment = prepared.alignments.size > 0
+    this.needsPresentationReconnect = false
+    this.sourceColumnDefs = prepared.columns
     this.columnDefs = [...this.sourceColumnDefs]
     this.hiddenColumnKeys = new Set(this.sourceColumnDefs.filter((column) => column.hidden).map((column) => column.key))
 

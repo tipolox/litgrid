@@ -1,0 +1,86 @@
+{
+  "browser": "156.0.8078.4",
+  "results": [
+    {
+      "source": "formatting",
+      "invalidAction": "formatting-invalid",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting",
+      "invalidAction": "formatting-invalid-align",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting",
+      "invalidAction": "formatting-invalid-option",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting",
+      "invalidAction": "formatting-invalid-type",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting-programmatic",
+      "invalidAction": "formatting-invalid",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting-programmatic",
+      "invalidAction": "formatting-invalid-align",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting-programmatic",
+      "invalidAction": "formatting-invalid-option",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "formatting-programmatic",
+      "invalidAction": "formatting-invalid-type",
+      "realDotNetJSON": true,
+      "dateOffset": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "userState": true,
+      "focus": true
+    }
+  ],
+  "expectedValidationDiagnostics": 12
+}

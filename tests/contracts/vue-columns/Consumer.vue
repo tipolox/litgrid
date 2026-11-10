@@ -11,11 +11,12 @@ const computed = {
   render: (_value, row) => row.name
 } satisfies GridColumn<Person>
 const columns = [{ key: 'name' }] satisfies GridColumn<Person>[]
+const numberFormat = {kind:'number',locale:'en-GB',options:{maximumFractionDigits:1}} as const
 </script>
 
 <template>
   <DataGrid ref="grid" :data="users" :height="400">
-    <LitGridColumn field="id" header="ID" :width="80" />
+    <LitGridColumn field="id" header="ID" :width="80" align="right" :format="numberFormat" />
     <LitGridColumn v-if="show" field="name" header="Name" :width="220" :sortable="false" hidden />
     <LitGridColumn :column="computed" />
   </DataGrid>

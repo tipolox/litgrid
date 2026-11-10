@@ -1,0 +1,304 @@
+{
+  "runs": [
+    {
+      "name": "pilot",
+      "samples": 92,
+      "gzipMatch": true,
+      "rawMatch": true
+    },
+    {
+      "name": "initial",
+      "samples": 1380,
+      "gzipMatch": true,
+      "rawMatch": true
+    },
+    {
+      "name": "snapshot-tuned",
+      "samples": 1380,
+      "gzipMatch": true,
+      "rawMatch": true
+    },
+    {
+      "name": "default-only",
+      "samples": 660,
+      "gzipMatch": true,
+      "rawMatch": true
+    },
+    {
+      "name": "compiled",
+      "samples": 1380,
+      "gzipMatch": true,
+      "rawMatch": true
+    }
+  ],
+  "sources": [
+    {
+      "file": "packages/grid-angular/src/gridBindings.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-angular/src/index.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/Columns/ColumnRegistry.cs",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/Components/DataGrid.razor.cs",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/Components/LitGridColumn.cs",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/Models/GridColumn.cs",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/Models/GridValueFormat.cs",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/gridBindings.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/wwwroot/litgrid-blazor.js",
+      "match": true
+    },
+    {
+      "file": "packages/grid-blazor/src/wwwroot/litgrid-blazor.js.map",
+      "match": true
+    },
+    {
+      "file": "packages/grid-react/src/DataGrid.tsx",
+      "match": true
+    },
+    {
+      "file": "packages/grid-react/src/gridBindings.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-react/src/index.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-vue/src/DataGrid.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-vue/src/LitGridColumn.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-vue/src/declarativeColumns.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-vue/src/gridBindings.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-vue/src/index.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-web/src/components/DataGrid.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-web/src/formatting/columnFormatting.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-web/src/index.ts",
+      "match": true
+    },
+    {
+      "file": "packages/grid-web/src/types.ts",
+      "match": true
+    }
+  ],
+  "bundles": [
+    {
+      "variant": "candidate",
+      "file": "column-formatting.browser-Dj8JIFUH.js",
+      "match": true
+    },
+    {
+      "variant": "baseline",
+      "file": "column-formatting.browser-ckas0aQZ.js",
+      "match": true
+    }
+  ],
+  "prioritized": [
+    {
+      "mode": "react",
+      "rows": 5000,
+      "columns": 120,
+      "phase": "scroll",
+      "quantile": "p95",
+      "runs": [
+        {
+          "name": "initial",
+          "baseline": 35.80000000447035,
+          "candidate": 39.20000000298023,
+          "flag": true
+        },
+        {
+          "name": "snapshot-tuned",
+          "baseline": 36.899999998509884,
+          "candidate": 34.099999994039536,
+          "flag": false
+        },
+        {
+          "name": "default-only",
+          "baseline": 32.19999999552965,
+          "candidate": 38.600000001490116,
+          "flag": true
+        },
+        {
+          "name": "compiled",
+          "baseline": 26.799999997019768,
+          "candidate": 28.30000000447035,
+          "flag": true
+        }
+      ]
+    },
+    {
+      "mode": "vue",
+      "rows": 30000,
+      "columns": 3,
+      "phase": "mount",
+      "quantile": "p50",
+      "runs": [
+        {
+          "name": "initial",
+          "baseline": 14.699999995529652,
+          "candidate": 15.5,
+          "flag": true
+        },
+        {
+          "name": "snapshot-tuned",
+          "baseline": 12.799999997019768,
+          "candidate": 14.099999994039536,
+          "flag": true
+        },
+        {
+          "name": "default-only",
+          "baseline": 11.399999998509884,
+          "candidate": 12.299999997019768,
+          "flag": true
+        },
+        {
+          "name": "compiled",
+          "baseline": 7.700000002980232,
+          "candidate": 7.200000002980232,
+          "flag": false
+        }
+      ]
+    },
+    {
+      "mode": "inferred",
+      "rows": 30000,
+      "columns": 3,
+      "phase": "mount",
+      "quantile": "p50",
+      "runs": [
+        {
+          "name": "initial",
+          "baseline": 15.299999997019768,
+          "candidate": 16.600000001490116,
+          "flag": true
+        },
+        {
+          "name": "snapshot-tuned",
+          "baseline": 13.399999998509884,
+          "candidate": 12.5,
+          "flag": false
+        },
+        {
+          "name": "default-only",
+          "baseline": 9.399999998509884,
+          "candidate": 11.800000004470348,
+          "flag": true
+        },
+        {
+          "name": "compiled",
+          "baseline": 7.4000000059604645,
+          "candidate": 9,
+          "flag": true
+        }
+      ]
+    },
+    {
+      "mode": "vue",
+      "rows": 30000,
+      "columns": 120,
+      "phase": "mount",
+      "quantile": "p95",
+      "runs": [
+        {
+          "name": "initial",
+          "baseline": 41.19999999552965,
+          "candidate": 53.600000001490116,
+          "flag": true
+        },
+        {
+          "name": "snapshot-tuned",
+          "baseline": 37.20000000298023,
+          "candidate": 42.19999999552965,
+          "flag": true
+        },
+        {
+          "name": "default-only",
+          "baseline": 46.900000005960464,
+          "candidate": 41.30000000447035,
+          "flag": false
+        },
+        {
+          "name": "compiled",
+          "baseline": 34.69999999552965,
+          "candidate": 37.5,
+          "flag": true
+        }
+      ]
+    },
+    {
+      "mode": "web",
+      "rows": 5000,
+      "columns": 120,
+      "phase": "mount",
+      "quantile": "p95",
+      "runs": [
+        {
+          "name": "initial",
+          "baseline": 46,
+          "candidate": 44.69999999552965,
+          "flag": false
+        },
+        {
+          "name": "snapshot-tuned",
+          "baseline": 44.100000001490116,
+          "candidate": 62.600000001490116,
+          "flag": true
+        },
+        {
+          "name": "default-only",
+          "baseline": 53.20000000298023,
+          "candidate": 56.79999999701977,
+          "flag": true
+        },
+        {
+          "name": "compiled",
+          "baseline": 30.80000000447035,
+          "candidate": 41.80000000447035,
+          "flag": true
+        }
+      ]
+    }
+  ],
+  "limitation": "Intermediate initial/snapshot-tuned/default-only sources were not committed separately. Their distributions are retained, but they are prioritization signals, not controlled repetitions of the final runtime."
+}

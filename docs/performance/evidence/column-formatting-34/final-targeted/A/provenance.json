@@ -1,0 +1,95 @@
+{
+  "head": "3c1e651054cc3da2ce88451c7cc5c402c7fc4138",
+  "runtime": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "experiment": "A",
+  "rounds": 30,
+  "runs": 3,
+  "comparisons": [
+    {
+      "name": "AA",
+      "left": "current",
+      "right": "current-AA"
+    },
+    {
+      "name": "vue-metadata",
+      "left": "current",
+      "right": "no-vue-metadata"
+    },
+    {
+      "name": "web-guards",
+      "left": "current",
+      "right": "no-web-guards"
+    },
+    {
+      "name": "alignment-css",
+      "left": "current",
+      "right": "no-alignment-css"
+    }
+  ],
+  "node": "v22.14.0",
+  "os": "10.0.26200",
+  "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+  "entrySHA256": "9e193bacb8da16bc38087246299450e77ea20371b9ff0d64fcb778a4a66877de",
+  "sources": {
+    "scripts/final-formatting-experiments.mjs": "e44f6838fb2959fd5233a98c99aaa0d874326b805f84b80d100d8c2192149418",
+    "scripts/final-formatting-variants.mjs": "b362a2cbf2d7298f557b527f8bfd9dd8826df5f1e5c83a7db716861c0f8fa97c",
+    "tests/contracts/final-formatting-qualification.browser.ts": "13e58d919d5b25fa91f4bf83fc376b85b87699fe28594bdc97b2560202018317"
+  },
+  "variants": {
+    "current": {
+      "port": 5260,
+      "patches": [],
+      "bundles": {
+        "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+      }
+    },
+    "current-AA": {
+      "port": 5261,
+      "patches": [],
+      "bundles": {
+        "index-Su4BR_hN.js": "78ad55b4f892f1715179ec6d01b578088e1ea13dcc7d4790f1eab6e6abb79557"
+      }
+    },
+    "no-vue-metadata": {
+      "port": 5262,
+      "patches": [
+        {
+          "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-vue/dist/gridBindings.js",
+          "before": "f951672bacfe5feecbb75d21ca5839897c07cf636d49c611af9166ba9e86f302",
+          "after": "495eb44aecc103e0a6c1b9cfcb3bc798bf4a390ff19eef28cb9ba9aed0ad4bc0"
+        }
+      ],
+      "bundles": {
+        "index-Cva63n45.js": "04c142d5576ac9481662ce9e0874d42143db88a7ed32d7ccf8a4cf354c04be07"
+      }
+    },
+    "no-web-guards": {
+      "port": 5263,
+      "patches": [
+        {
+          "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/components/DataGrid.js",
+          "before": "7107460c65f5a3fcbc90df94716244cb3a676d4eeb5277996f3b1efbf95ecc04",
+          "after": "bc94abb6b6d60f5cea2795f851d1abf13f09a543f785eaae2a1ca81bf226674d"
+        }
+      ],
+      "bundles": {
+        "index-BFecEUc3.js": "ccba84cc83b191106ffb9d2b01098a5e834a6a029f1a6529ccd0aebe9f001c6a"
+      }
+    },
+    "no-alignment-css": {
+      "port": 5264,
+      "patches": [
+        {
+          "file": "D:/Work/litgrid-p0/.worktrees/column-formatting-34-impl/packages/grid-web/dist/components/DataGrid.js",
+          "before": "7107460c65f5a3fcbc90df94716244cb3a676d4eeb5277996f3b1efbf95ecc04",
+          "after": "cf40ca098a691630717511a5b86e4d1b7c7c7f0781e3e320edb21e461fbc0b4c"
+        }
+      ],
+      "bundles": {
+        "index-B9GnFXuc.js": "c82f812bcacad4c672163d4803e05d70dc64ce1ee1e5e91bb3b1ca96c3f68bee"
+      }
+    }
+  },
+  "policy": "Predeclared A=3 runs, B=2 runs, 30 pairs/comparison/run; stop host benchmarking after these focused experiments if inconclusive. Threshold unchanged max(5%,0.5ms)."
+}

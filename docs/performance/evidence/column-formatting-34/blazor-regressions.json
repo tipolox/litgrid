@@ -1,0 +1,70 @@
+{
+  "results": [
+    {
+      "name": "real Blazor JS interop serialization, scalar display and null handling",
+      "milliseconds": 47,
+      "passed": true
+    },
+    {
+      "name": "numeric, string, date sorting and Blazor filtering",
+      "milliseconds": 735,
+      "passed": true
+    },
+    {
+      "name": "pointer resizing and reordering, visibility and parent rerenders",
+      "milliseconds": 1056,
+      "passed": true
+    },
+    {
+      "name": "explicit defaults and Order precedence, add/remove and empty schemas",
+      "milliseconds": 375,
+      "passed": true
+    },
+    {
+      "name": "programmatic compatibility, legacy inference and same-reference row mutations",
+      "milliseconds": 403,
+      "passed": true
+    },
+    {
+      "name": "persistence across actual disposal and remount",
+      "milliseconds": 147,
+      "passed": true
+    },
+    {
+      "name": "atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence",
+      "milliseconds": 851,
+      "passed": true
+    },
+    {
+      "name": "keyboard navigation survives parameter and schema updates",
+      "milliseconds": 145,
+      "passed": true
+    },
+    {
+      "name": "30,000 rows, vertical virtualization and frequent parent rerenders",
+      "milliseconds": 23156,
+      "passed": true
+    },
+    {
+      "name": "120 columns, horizontal virtualization and schema-free scrolling/rerenders",
+      "milliseconds": 4135,
+      "passed": true
+    },
+    {
+      "name": "rapid scenario changes and mobile page overflow",
+      "milliseconds": 852,
+      "passed": true
+    },
+    {
+      "name": "navigation during a delayed real module import and subsequent remount",
+      "milliseconds": 4004,
+      "passed": true
+    },
+    {
+      "name": "no unexpected browser console errors",
+      "milliseconds": 0,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

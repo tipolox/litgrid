@@ -1,0 +1,29 @@
+{
+  "baseline": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "candidate": "9fdf58e8d00962ee585dd70e1b9fc786823cbdb3",
+  "runtimeUnmodified": true,
+  "node": "v22.14.0",
+  "os": "10.0.26200",
+  "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  ",
+  "logicalCPUs": 8,
+  "totalMemory": 32147910656,
+  "rounds": 30,
+  "runs": 3,
+  "engine": "chromium",
+  "kind": "default",
+  "aa": false,
+  "trace": false,
+  "productionBundles": {
+    "baseline": {
+      "column-formatting.browser-D7smQTpx.js": "4cd945aa944cee09f5f5e507972ebe62cd5399912facf973303cb0107b4fea51"
+    },
+    "candidate": {
+      "column-formatting.browser-DcZzEgR6.js": "f5ef088e6b606762ab56d0fce0dfa99db95209bee13b76a0db4f5b527d09a2d5"
+    }
+  },
+  "harness": {
+    "scripts/reproduce-column-formatting.mjs": "54524865fc465324b3dc13320fb6a13edb3d9e7048727f44c6b7efaab6f0dfb9",
+    "tests/contracts/column-formatting.browser.ts": "f64ba7ed871a14e2592dba3c137d93b84b915c43919759099613bbceb3daed6e",
+    "pnpm-lock.yaml": "78d5a294c6621bd24ae5017f10c02af5c5469ebda034740c48cc61f938154837"
+  }
+}

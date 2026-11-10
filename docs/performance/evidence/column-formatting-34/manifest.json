@@ -1,0 +1,85 @@
+{
+  "base": "0b1a3135c91c86fb6fd87bc4504fe1a90ad0c4b8",
+  "design": "4a8591bfe98fa285ad9f64f32345aa82af239959",
+  "sourceLineEndings": "LF; normalize CRLF before verifying text source hashes",
+  "runs": [
+    {
+      "name": "pilot",
+      "samples": 92,
+      "qualifying": false,
+      "rawBytes": 204144,
+      "rawSHA256": "60084c849a11c7b58b65bac5a28e9d2400e126fe8318a8e754c6a9b40b44445a",
+      "gzipBytes": 9568,
+      "gzipSHA256": "0fabfdb82cbabccefdbdabc68367a356efc9e2c97d07f21ef56d205f5df8c5e0"
+    },
+    {
+      "name": "initial",
+      "samples": 1380,
+      "qualifying": true,
+      "rawBytes": 3107318,
+      "rawSHA256": "c4a7ac08e0177d4ddf2578cce7c573d73e1dd602239bf932fe3a1d951f8db16e",
+      "gzipBytes": 135235,
+      "gzipSHA256": "4d22d9daf92d6d7092b1e5d490b4a44b24e3a657827f85dc2813f43f5f1adf14"
+    },
+    {
+      "name": "snapshot-tuned",
+      "samples": 1380,
+      "qualifying": true,
+      "rawBytes": 3224152,
+      "rawSHA256": "18c167e40cf383d9cfa9c8dc6b88d2a73c90b94362c759bf1a7d9a6dc05afb11",
+      "gzipBytes": 139402,
+      "gzipSHA256": "261182c2abd665f80203959ea3ae22341fe5a75d00cbab31011905b7db36e7ee"
+    },
+    {
+      "name": "default-only",
+      "samples": 660,
+      "qualifying": true,
+      "rawBytes": 1598463,
+      "rawSHA256": "848cbc7465d24fe7d8ef574885c1c185dee602e1aac545852e8374b65df53b74",
+      "gzipBytes": 67243,
+      "gzipSHA256": "046f0bae22b5c4db7132ef03b0c96594b817b42b0ef22982037ce022422763e5"
+    },
+    {
+      "name": "compiled",
+      "samples": 1380,
+      "qualifying": true,
+      "rawBytes": 3198621,
+      "rawSHA256": "40dddc8d4964e9d756d3e15bdf692f1d77942bd8323591447644e4df8a1b04c7",
+      "gzipBytes": 135371,
+      "gzipSHA256": "78590c3ae344e72fb7b07aa6a1ce8b4016e5b4eaa6ad234fc5a1cfbae4580acc"
+    }
+  ],
+  "sources": {
+    "packages/grid-angular/src/gridBindings.ts": "9552211c98a242517c2366930bc7a31005318b8b4dbeef21cc5ef08f6b699cd7",
+    "packages/grid-angular/src/index.ts": "61b476164bfb4759e402defb70b73e09f26490521b347fd2668d683b7bcadb6f",
+    "packages/grid-blazor/src/Columns/ColumnRegistry.cs": "18d0ab2235a843fbcd52b6499ce9a1675b5f81760dacd945e640d41b5f0781ea",
+    "packages/grid-blazor/src/Components/DataGrid.razor.cs": "bb367d2d488af3d7a3a3e5497a51e1ccadef0c685cf3c4df945fb6bf168edafe",
+    "packages/grid-blazor/src/Components/LitGridColumn.cs": "bbaf76b1fdae83663220449a6c51712044b5ffd6199d98ed818550515b9ab058",
+    "packages/grid-blazor/src/Models/GridColumn.cs": "13c05a4f1f5039d75195fa69437cb87ad0eeaddff255949beba4e9cfe769185d",
+    "packages/grid-blazor/src/Models/GridValueFormat.cs": "e778800192c7bea86842c33a0b32af135cd2c39e6c8c44170e3dd322591c6314",
+    "packages/grid-blazor/src/gridBindings.ts": "c6da9153b409d71702858fdba3a4e57f03b004cc0d51b7f87fe15ad08a5936cd",
+    "packages/grid-blazor/src/wwwroot/litgrid-blazor.js": "36e772d7c5c28d7cdbfc99392d623d61d673a4266a980aa395a06c35d80b11e7",
+    "packages/grid-blazor/src/wwwroot/litgrid-blazor.js.map": "1c5fa6c8b7a872d4f0e070b1eb2d5dd4ab1c34ada4ece97c271646400a8e978f",
+    "packages/grid-react/src/DataGrid.tsx": "afb32494102d31fa4a51fa39ecbc565a1fad0824f3cca2c141104673451f18f8",
+    "packages/grid-react/src/gridBindings.ts": "8d19f0148a2c2f1c4dde51c3109ddad9c84ac2ffdc77268382ca3f8c806e96ad",
+    "packages/grid-react/src/index.ts": "50ab2bff29eef5dceacd4c3a29ca451407250bca3288af8813c84254960c0bd5",
+    "packages/grid-vue/src/DataGrid.ts": "2e3ad7e8d9bec7b5ea4512c566a97a011f3998d27a5ee007cadf61f876473a50",
+    "packages/grid-vue/src/LitGridColumn.ts": "31fe457aab3a1ad6215c0ff7a84ae1521c1d3bf5ca49763a4b69897f2c969ace",
+    "packages/grid-vue/src/declarativeColumns.ts": "e746acad88e8312f19526b8908c8f8ce1c0f58bc67b9019deb48a8902b1b6865",
+    "packages/grid-vue/src/gridBindings.ts": "351caf0bac414709831ac11c4b9372f2152787abe02c08f459076887a5f63527",
+    "packages/grid-vue/src/index.ts": "dd307ef8218e877e440c1f963a0bd2a62c446647faaf232aa9ed9620c13941ab",
+    "packages/grid-web/src/components/DataGrid.ts": "a9c7f440bcd8bc2eac6cbfc4907e1f33efcff6cd821dc096ffe4b7ec5b0b9a2e",
+    "packages/grid-web/src/formatting/columnFormatting.ts": "4757744e81f6b8c6f070879901d18692083ad644ca4dd62b9285c03b7ce90d57",
+    "packages/grid-web/src/index.ts": "7cffff74a1db262abd32c17542c1c6ae76e8c87fb23c6efafe5241f2c59b7785",
+    "packages/grid-web/src/types.ts": "8c6040b7b336d951c76d1f102b258251efd119e3835d1cfd6b2d0dea543c44f9"
+  },
+  "productionBundles": {
+    "candidate": {
+      "column-formatting.browser-Dj8JIFUH.js": "959e2c835957cadecc350369fadb1d4f9cc5b97c9f3d031dc34c15017ac38a23"
+    },
+    "baseline": {
+      "column-formatting.browser-ckas0aQZ.js": "6abbd83f849adec44137bf4a7a6ad06d6732408368d8afb435b432ef210ee2cb"
+    }
+  },
+  "renderCellMatchesMain": true
+}

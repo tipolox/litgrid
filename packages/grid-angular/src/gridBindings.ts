@@ -30,7 +30,7 @@ type Snapshot = {
 }
 
 const synchronized = new WeakMap<DataGridElement, Snapshot>()
-const columnFields = ['key', 'header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render'] as const
+const columnFields = ['key', 'header', 'width', 'hidden', 'sortable', 'filterable', 'accessor', 'render', 'align'] as const
 
 // Fixed-size supported values, normalized exactly like the core. No row scan
 // or JSON encoding: numeric scope values retain Object.is distinctions.
@@ -57,9 +57,42 @@ function sameValues(previous: unknown[], next: unknown[]) {
   return previous.length === next.length && previous.every((value, index) => Object.is(value, next[index]))
 }
 
+
+// Detached primitive snapshots detect nested option edits at existing sync points.
+// No Intl construction, row scan, JSON serialization or deep watcher here.
+function snapshotColumn(column: GridColumn): GridColumn {
+  return column.format === undefined ? { ...column } : {
+    ...column, format: { ...column.format, ...(column.format.options === undefined ? {} : { options: { ...column.format.options } }) } as GridColumn['format']
+  }
+}
+function sameObject(left: object | undefined, right: object | undefined): boolean {
+  if (!left || !right) return left === right
+  if (Object.getPrototypeOf(right) !== Object.prototype && Object.getPrototypeOf(right) !== null) return false
+  const keys = Reflect.ownKeys(left)
+  return keys.length === Reflect.ownKeys(right).length && keys.every(key => {
+    const descriptor = Object.getOwnPropertyDescriptor(right, key)
+    return descriptor && descriptor.enumerable && 'value' in descriptor && Object.is(Reflect.get(left, key), descriptor.value)
+  })
+}
+function sameFormat(left: GridColumn['format'], right: GridColumn['format']): boolean {
+  if (!left || !right) return left === right
+  if (Object.getPrototypeOf(right) !== Object.prototype && Object.getPrototypeOf(right) !== null) return false
+  const options = Object.getOwnPropertyDescriptor(right, 'options')
+  if (options && !('value' in options)) return false
+  const { options: _, ...previous } = left
+  // Inspect data descriptors so invalid getters are rejected by schema adoption.
+  const fields = Object.getOwnPropertyDescriptors(right)
+  delete fields.options
+  if (Reflect.ownKeys(fields).length !== Reflect.ownKeys(previous).length || Object.getOwnPropertySymbols(right).length) return false
+  return Object.keys(previous).every(key => fields[key] && fields[key].enumerable && 'value' in fields[key] && Object.is(Reflect.get(previous, key), fields[key].value)) && sameObject(left.options, options?.value)
+}
+
 function sameColumns(previous: GridColumn[], next: GridColumn[]) {
   return previous.length === next.length && previous.every((column, index) =>
-    columnFields.every(key => Object.is(column[key], next[index][key])))
+    (!('align' in next[index] || 'format' in next[index]) || ['align', 'format'].every(key => {
+      const descriptor = Object.getOwnPropertyDescriptor(next[index], key)
+      return !descriptor || 'value' in descriptor
+    })) && columnFields.every(key => Object.is(column[key], next[index][key])) && sameFormat(column.format, next[index].format))
 }
 
 /** Guard structural/presentation setters while preserving local mutation synchronization. */
@@ -106,7 +139,7 @@ export function syncGridInputs(grid: DataGridElement, inputs: AngularGridInputs)
   }
   // Commit only after successful setters so a failed update can be retried.
   synchronized.set(grid, {
-    values, configValues, resetValues, columns: columnsChanged ? inputs.columns.map(column => ({ ...column })) : previous.columns,
+    values, configValues, resetValues, columns: columnsChanged ? inputs.columns.map(snapshotColumn) : previous.columns,
     storageKey, externalState: inputs.externalState
   })
 }

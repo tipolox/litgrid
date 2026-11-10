@@ -41,7 +41,20 @@ export type GridRefreshRange = { start: number; endExclusive: number }
  * The non-generic callback boundary is bivariant so typed columns fit existing
  * props; callers are responsible for supplying data matching TRow.
  */
+export type GridColumnAlign = 'start' | 'center' | 'end' | 'left' | 'right'
+/** Serializable display-only formatting. Queries and clipboard retain original values. */
+export type GridValueFormat =
+  | { kind: 'number'; locale: string; options?: Pick<Intl.NumberFormatOptions,
+      'currency' | 'currencyDisplay' | 'currencySign' | 'useGrouping' | 'minimumFractionDigits' | 'maximumFractionDigits'
+    > & { style?: 'decimal' | 'currency' | 'percent' } }
+  | { kind: 'dateTime'; locale: string;
+      options: Pick<Intl.DateTimeFormatOptions, 'dateStyle' | 'timeStyle'> & { timeZone: string } }
+
 export type GridColumn<TRow = unknown> = {
+  /** Physical or logical text alignment, including the header label. */
+  align?: GridColumnAlign
+  /** Display-only; render wins and receives the unformatted accessor/property value. */
+  format?: GridValueFormat
   header?: string
   width?: number | string
   hidden?: boolean

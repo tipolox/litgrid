@@ -29,6 +29,24 @@ async function mount(content: () => VNode[], initial: Record<string, unknown> = 
 }
 
 describe('Vue declarative columns', () => {
+  it('propagates inline presentation metadata and recovers from an invalid format without changing user state', async () => {
+    const format = shallowRef<GridColumn['format']>({kind:'number',locale:'en-GB',options:{maximumFractionDigits:1}})
+    const {api,grid,errors} = await mount(() => [column('id',{align:'right',format:format.value})])
+    const web = grid as import('../../grid-web/src/components/DataGrid.js').DataGrid
+    await web.updateComplete
+    api.setColumnWidth('id',280)
+    const state=api.getColumnState()
+    format.value={kind:'dateTime',locale:'en-GB',options:{timeZone:'Mars/Olympus'}}
+    await nextTick();await web.updateComplete
+    expect(errors).toHaveLength(1)
+    expect(api.getColumnState()).toEqual(state)
+    expect(grid.inferColumns).toBe(false)
+    format.value={kind:'number',locale:'de-DE',options:{minimumFractionDigits:2}}
+    await nextTick();await web.updateComplete
+    expect(web.renderRoot.querySelector('.row .cell')?.textContent?.trim()).toBe('1,00')
+    expect(web.renderRoot.querySelector('.row .cell')?.classList.contains('cell-align-right')).toBe(true)
+    expect(api.getColumnState()).toEqual(state)
+  })
   it('reads deterministic fragments, comments, Boolean attributes, callbacks and typed columns', () => {
     interface Person { name: string }
     const typed = { key: 'label', accessor: (row: Person) => row.name } satisfies GridColumn<Person>
