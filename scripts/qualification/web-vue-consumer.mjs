@@ -36,7 +36,7 @@ createApp({
   }
 }).mount('#vue')
 ;(window as any).packedSmoke = {
-  refresh: () => { rows[0].name = 'Web updated'; return grid.refreshRow(1) },
+  refresh: () => { rows[0].name = 'Web updated'; if (!grid.refreshRow) throw new Error('refreshRow missing'); return grid.refreshRow(1) },
   addColumn: async () => { showExtra.value = true; await nextTick() }
 }
 `)
