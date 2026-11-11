@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const lock = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
-const names = ['core', 'renderer', 'web', 'react', 'vue', 'angular']
+const names = process.argv.length > 3 ? process.argv.slice(3) : ['core', 'renderer', 'web', 'react', 'vue', 'angular']
 for (const name of names) {
   const suffix = '@tipolox/litgrid-' + name
   const entries = Object.entries(lock.packages).filter(([key]) => key === 'node_modules/' + suffix || key.endsWith('/node_modules/' + suffix))
