@@ -1,0 +1,1 @@
+{"extends":"./tsconfig.contracts.json","include":["packages/grid-react/src/jsx-elements.d.ts","tests/contracts/legacy-compatibility.tsx"]}

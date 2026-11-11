@@ -1,5 +1,5 @@
 import { compile, createApp, h, nextTick, reactive, shallowRef, type Component } from 'vue'
-import { DataGrid, LitGridColumn, type DataGridInstance, type GridColumn } from '@tipolox/litgrid-vue'
+import { DataGrid, LitGridColumn, type DataGridInstance, type DataGridRuntimeInstance, type GridColumn } from '@tipolox/litgrid-vue'
 import { DataGrid as WebGrid } from '@tipolox/litgrid-web'
 
 function check(value: unknown, message: string): asserts value {
@@ -28,7 +28,7 @@ async function lifecycle() {
     </DataGrid>`)
   })
   const vm = app.mount(host)
-  const api = vm.$refs.grid as DataGridInstance
+  const api = vm.$refs.grid as DataGridRuntimeInstance
   try {
     await tick(api)
     const grid = api.gridElement as WebGrid

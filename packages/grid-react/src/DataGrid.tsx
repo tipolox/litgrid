@@ -59,10 +59,6 @@ export type DataGridRef = {
   setExternalState(state: GridExternalState): boolean
   getQuery(): GridQuerySnapshot
   refreshQuery(): void
-  refreshData(): boolean
-  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean
-  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number
-  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number
   sortBy(columnKey: string, direction: SortDirection): void
   clearSort(): void
   readonly gridElement: DataGridElement | null
@@ -109,6 +105,14 @@ export type DataGridRef = {
   isCellSelected(rowIndex: number, columnKey: string): boolean
 }
 
+/** Capabilities guaranteed by a mounted LitGrid instance. */
+export type DataGridRuntimeRef = DataGridRef & {
+  refreshData(): boolean
+  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean
+  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number
+  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number
+}
+
 export type DataGridInstance = DataGridRef
 
 const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the React component is mounted.'
@@ -148,7 +152,7 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     return gridRef.current
   }
 
-  useImperativeHandle(
+  useImperativeHandle<DataGridRef, DataGridRuntimeRef>(
     forwardedRef,
     () => ({
       setExternalState: (state: GridExternalState) => requireGridElement().setExternalState!(state),

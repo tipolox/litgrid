@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   chromium-targeted:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -26,7 +26,10 @@ jobs:
           node-version: '22.22.3'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright install chromium
+      - name: Verify Chromium launches with runner dependencies
+        run: >-
+          node -e "const { chromium } = require('playwright'); (async () => { const browser = await chromium.launch(); await browser.close(); })().catch(error => { console.error(error); process.exit(1); })"
       - name: Assert only edited rows execute accessors/renderers in actual browser
         run: node scripts/performance/b1-targeted-browser.mjs .private/b1/targeted-browser.json
       - uses: actions/upload-artifact@v4
