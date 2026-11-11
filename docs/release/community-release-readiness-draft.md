@@ -21,7 +21,7 @@ Upgrade the six coordinated npm packages and the Blazor NuGet package together w
 - Main was identical to the stated base and PR #70 head was `072b5612f7ee8c89e827249ab73b17217b73d32e` when reconciled. Recheck the eventual release commit and CI.
 - [Main Verify 42963970704](https://github.com/tipolox/litgrid/actions/runs/42963970704) and [PR #70 Verify 42966301383](https://github.com/tipolox/litgrid/actions/runs/42966301383) succeeded. Each reported 449 JavaScript tests in 54 files and 137 Blazor tests, plus builds; full authored TypeScript and ownership, public API and adapter fixtures, built declarations and framework integration checks; strict Angular typed-column and Vue declarative-column templates; Chromium framework event lifecycles, Vue columns, alignment geometry and recovery; and a real Blazor browser alignment consumer and Chromium lifecycle check. These results supersede the earlier statement that all JS, Blazor and browser gates were unexecuted. They do not establish packed-artifact consumer qualification.
 - PR #69 head `180ac15b933361b405efe39b09d4284eace0c423` also passed [Verify](https://github.com/tipolox/litgrid/actions/runs/42802268363), [B1 browser qualification](https://github.com/tipolox/litgrid/actions/runs/42802268466), and [external-query visual regression](https://github.com/tipolox/litgrid/actions/runs/42802268270).
-- Still open: run clean Web, React, Angular, Vue and component-level Blazor consumers against the exact artifacts. Complete the public API and documentation audit, including compatibility and migration review. Record the exact artifacts, logs and release-candidate CI before changing the recommendation.
+- Still open: complete the public API and documentation audit, assess framework versions outside the bounded consumer matrix, and qualify the final versioned release artifacts and commit before changing the release recommendation.
 
 ## Completed technical rehearsal
 
@@ -39,6 +39,18 @@ d18be38798df39ca22760ece69611afcdbcf1f209f6ada09cb491fbcc2f1c4e9  nuget/Tipolox.
 
 These 1.2.3-labeled artifacts contain newer source. They are technical test artifacts, not valid published 1.2.3 packages or qualified 1.3.0 candidates. The final versioned release artifacts require separate qualification.
 
-## Outstanding consumer work
+## Packed consumer execution
 
-Test clean Web Components, React, Vue and Angular applications using the exact packed artifacts and resolve every transitive LitGrid dependency locally. Check installation, exports, declarations, builds, browser behavior, relevant new APIs and supported framework versions. The successful Blazor template build establishes installation and build only; a consumer using actual LitGrid components and newer APIs remains open. The PR remains NO-GO while these checks and the complete compatibility/documentation audit are unfinished.
+[Qualification run 43017915381](https://github.com/tipolox/litgrid/actions/runs/43017915381) passed all jobs. The runner checked out PR test merge `08ed5aba09f1c7184ca6a9dee1ae1b534623216e` (head `05521e4903ee353e237726137d7f23eca7b9a6d3` into main `bfa3ee8dcab77c25e536cea9be4ea3774c23b132`). Packages came from rehearsal run 43004797435, not this test merge; all seven hashes above were verified before use.
+
+- **Web Components:** isolated Vite 8.0.8 build and Chromium rendering, typed `GridColumn<Row>`, alignment class and B1 `refreshRow` after an in-place edit passed.
+- **Vue 3.5.32:** isolated Vite build and Chromium declarative-column rendering, alignment class and dynamic column lifecycle passed.
+- **React 19.2.5 / Next.js 16.4.2:** strict public declaration checks, production build and Chromium integration, external query and lifecycle checks passed.
+- **Angular 17 and 22:** clean CLI consumers passed AOT production builds and Chromium lifecycle smoke checks, on Node 20.19.0 and 22.22.3 respectively. These are boundary versions, not proof for every supported version or every new API.
+- **Blazor .NET 8:** a clean local-NuGet consumer built and ran actual components in Chromium; query callback, alignment and `RefreshRowAsync` passed.
+
+The npm lockfile check rejected workspace links, registry resolutions, duplicate nested LitGrid copies and unexpected LitGrid packages. Job logs record each direct `file:` archive resolution. Blazor used an isolated NuGet cache and package-source mapping for the local candidate. Node 22.22.3 was used for Web, Vue, React and Blazor. The test covers selected integrations and Chromium, not all framework versions, browsers or performance equivalence.
+
+The first React/Blazor run exposed an obsolete external-search menu expectation; the fixture was corrected. The first Web/Vue runs exposed an optional structural API type and an incorrect Vite preview directory; the harness was corrected. No production behavior was changed.
+
+**Packed-consumer result: PASS for these bounded configurations; release NO-GO** pending the wider compatibility/documentation audit, architect review, and qualification of final versioned 1.3.0 artifacts. The rehearsal packages are not publication candidates. PR #69's accepted performance uncertainty remains unchanged.
