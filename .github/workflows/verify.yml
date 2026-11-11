@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -42,6 +42,8 @@ jobs:
         run: node scripts/typecheck-contracts.mjs
       - run: pnpm test --maxWorkers=2
       - run: pnpm run build
+      - name: Typecheck compatibility against packed declarations
+        run: node scripts/check-packed-compatibility.mjs
       - name: Typecheck published declarations and framework integrations
         run: pnpm exec tsc -p tsconfig.published-contracts.json --pretty false
       - name: Typecheck typed columns in a strict Angular consumer template
@@ -49,7 +51,10 @@ jobs:
       - name: Typecheck declarative columns in a strict Vue consumer template
         run: pnpm exec vue-tsc -p tsconfig.vue-columns.json --noEmit --pretty false
       - name: Install Chromium for adapter lifecycle checks
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
+      - name: Verify Chromium launches with runner dependencies
+        run: >-
+          node -e "const { chromium } = require('playwright'); (async () => { const browser = await chromium.launch(); await browser.close(); })().catch(error => { console.error(error); process.exit(1); })"
       - name: Check real framework event lifecycles against built packages
         run: node scripts/check-adapter-events.mjs
       - name: Check Vue declarative columns and workloads in Chromium

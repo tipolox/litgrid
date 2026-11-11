@@ -2,7 +2,7 @@
 
 **Recommendation: NO-GO for release pending qualification and architect review.** This is a draft, not a release authorization.
 
-Base under review: `bfa3ee8dcab77c25e536cea9be4ea3774c23b132` (main); last published tag: `v1.2.3` at `6a0df7b01fd3de0b7e7f5dc386de469f3531d210`. The comparison contains nine commits. **1.3.0 is blocked** by source compatibility breaks in exported structural types. Resolve the breaks and rerun compatibility checks before recommending a minor version; if retained as public breaking changes, strict SemVer points to 2.0.0. No version has been changed.
+Base under review: `a2de901dac64d5f603bf63df5807f7e2ff9af659` (main, including merged PR #71); last published tag: `v1.2.3` at `6a0df7b01fd3de0b7e7f5dc386de469f3531d210`. The reported structural TypeScript compatibility blocker is **resolved** by #71. **1.3.0 is the proposed minor version**, subject to final candidate qualification and independent architectural review. No version has been changed.
 
 ## Draft changelog and release notes
 
@@ -18,12 +18,12 @@ Upgrade the six coordinated npm packages and the Blazor NuGet package together w
 
 ## Evidence and outstanding gates
 
-- Main was identical to the stated base and PR #70 head was `072b5612f7ee8c89e827249ab73b17217b73d32e` when reconciled. Recheck the eventual release commit and CI.
+- The earlier PR #70 evidence below was captured against head `072b5612f7ee8c89e827249ab73b17217b73d32e` and pre-#71 main `bfa3ee8dcab77c25e536cea9be4ea3774c23b132`; it is historical. Current main is `a2de901dac64d5f603bf63df5807f7e2ff9af659`. Recheck the eventual release commit and CI.
 - [Main Verify 42963970704](https://github.com/tipolox/litgrid/actions/runs/42963970704) and [PR #70 Verify 42966301383](https://github.com/tipolox/litgrid/actions/runs/42966301383) succeeded. Each reported 449 JavaScript tests in 54 files and 137 Blazor tests, plus builds; full authored TypeScript and ownership, public API and adapter fixtures, built declarations and framework integration checks; strict Angular typed-column and Vue declarative-column templates; Chromium framework event lifecycles, Vue columns, alignment geometry and recovery; and a real Blazor browser alignment consumer and Chromium lifecycle check. These results supersede the earlier statement that all JS, Blazor and browser gates were unexecuted. They do not establish packed-artifact consumer qualification.
 - PR #69 head `180ac15b933361b405efe39b09d4284eace0c423` also passed [Verify](https://github.com/tipolox/litgrid/actions/runs/42802268363), [B1 browser qualification](https://github.com/tipolox/litgrid/actions/runs/42802268466), and [external-query visual regression](https://github.com/tipolox/litgrid/actions/runs/42802268270).
-- Still open: complete the public API and documentation audit, assess framework versions outside the bounded consumer matrix, and qualify the final versioned release artifacts and commit before changing the release recommendation.
+- Still open: independent review of the reconciled API/migration documentation, assess framework versions outside the bounded consumer matrix, synchronize the candidate version and qualify its exact versioned artifacts and commit.
 
-## Completed technical rehearsal
+## Completed technical rehearsal (historical pre-#71 source)
 
 [Manual release rehearsal 43004797435](https://github.com/tipolox/litgrid/actions/runs/43004797435) succeeded on main commit `bfa3ee8dcab77c25e536cea9be4ea3774c23b132`, with input version 1.2.3. The validation job packed core, renderer, web, React, Vue and Angular npm tarballs and `Tipolox.LitGrid.Blazor` NuGet; artifact validation passed, a clean Blazor template installed the local NuGet package and built, and a SHA-256 manifest was generated and uploaded. Registry preflight, publishing and GitHub release jobs were skipped. The uploaded archive digest reported by GitHub is `sha256:2d6a345446a9d406842860f14a1ad99ae310626e0a6f8d21ef9cea9ef46fbbc0`; this is the archive digest, not the individual package checksums. [Integrity run 43006882787](https://github.com/tipolox/litgrid/actions/runs/43006882787) downloaded that exact archive, checked the counts and independently verified every file against its manifest. SHA-256 values:
 
@@ -53,16 +53,18 @@ The npm lockfile check rejected workspace links, registry resolutions, duplicate
 
 The first React/Blazor run exposed an obsolete external-search menu expectation; the fixture was corrected. The first Web/Vue runs exposed an optional structural API type and an incorrect Vite preview directory; the harness was corrected. No production behavior was changed.
 
-**Packed-consumer result: PASS for these bounded configurations; release NO-GO** pending resolution of the structural type compatibility break, architect review, and qualification of the final versioned artifacts. The rehearsal packages are not publication candidates. PR #69's accepted performance uncertainty remains unchanged.
+**Packed-consumer result: PASS for these bounded configurations; release NO-GO** pending architect review and qualification of the final versioned artifacts. The rehearsal packages are not publication candidates. PR #69's accepted performance uncertainty remains unchanged.
 
 
-## API and compatibility audit (v1.2.3 → pinned main)
+## API and compatibility audit (v1.2.3 → current main)
 
-**NO-GO for preparing 1.3.0 as a compatible minor release until the structural-type breaks are resolved.** The factory-created grid and component refs gain useful methods, but TypeScript consumers may implement exported structural types in adapters, test doubles or mocks:
+**Resolved:** [PR #71](https://github.com/tipolox/litgrid/pull/71) was squash-merged as `a2de901dac64d5f603bf63df5807f7e2ff9af659`. The previously reported required-member break for independent v1.2.3-shaped structural mocks and refs is corrected:
 
-- `@tipolox/litgrid-core` exports `GridEngine`. Main adds required `refreshData` and `getDisplayedRowIndexForKey`; an otherwise valid v1.2.3 implementation of `GridEngine` no longer satisfies that type.
-- React exports `DataGridRef` and its `DataGridInstance` alias; Vue exports `DataGridInstance`. All gain four required refresh methods. Existing structural implementations of these public types likewise fail to compile. The Web `DataGridElement` makes the corresponding methods optional, but that does not remedy the other types.
-- Resolve by designing and verifying a backward-compatible public type surface without degrading the new concrete API, or treat the changes as breaking and select a major release. Do not assume consumer smoke tests prove compatibility for independently implemented interfaces. Architect review must choose the disposition; no implementation change is proposed here.
+- Core `GridEngine` remains the compatibility contract; `GridEngineRuntime` is the concrete capability contract returned by `createGridEngine()`.
+- React `DataGridRef` and its `DataGridInstance` alias retain the legacy contract and ref compatibility; `DataGridRuntimeRef` provides guaranteed refresh methods for current runtime instances.
+- Vue `DataGridInstance` retains the legacy contract; `DataGridRuntimeInstance` describes the current exposed instance with required refresh methods.
+
+These types preserve structural source compatibility while allowing direct, strongly typed runtime capability calls; they do not provide missing methods on arbitrary legacy mocks. [Exact PR #71 head Verify 43059374381](https://github.com/tipolox/litgrid/actions/runs/43059374381) passed frozen install, public and packed-declaration compatibility, TypeScript, JS/build, framework and Chromium checks, and Blazor tests/build/browser checks. [B1 Chromium 43059374397](https://github.com/tipolox/litgrid/actions/runs/43059374397) passed targeted rendering. These tested PR head `ed46c688a8b0a32ebf76aeeb6ebdfc0be59f4f56`, before squash merge; they are not final-version candidate artifact evidence.
 
 Other audit findings and migration boundaries:
 
@@ -75,12 +77,12 @@ Other audit findings and migration boundaries:
 
 ## Version-change and final candidate checklist
 
-Only after the compatibility disposition and separate authorization for candidate preparation:
+The compatibility blocker is resolved. The following work still requires separate founder authorization before version edits or a manual workflow dispatch:
 
 1. In an isolated candidate, synchronize `package.json`; `packages/grid-core/package.json`, `grid-renderer/package.json`, `grid-web/package.json`, `grid-react/package.json`, `grid-vue/package.json`, `grid-angular/package.json`, `grid-blazor/package.json`; and `packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj`. `scripts/set-version.mjs` lists and updates these version fields; review its complete diff.
 2. Check the six published tarballs' internal dependency ranges resolve to the chosen coordinated version. Source `workspace:^` dependencies are transformed at packing; do not manually assume packed values. Regenerate/check the pnpm lockfile if needed, and confirm no unrelated dependency churn.
 3. Move the approved Unreleased notes to an exact version heading in `CHANGELOG.md`; reconcile installation, framework guides, upgrade warnings, API references and release notes with the final disposition. Do not label unreleased features as published.
-4. Build and qualify the exact final candidate commit, all six npm tarballs and NuGet, hashes and clean consumers. A release-workflow manual dispatch needs separate founder authorization and fresh verification of its event/ref and no-publish conditions. Do not tag, publish or deploy as part of validation.
-5. Record CI and artifact hashes, outstanding compatibility limits, and the PR #69 performance exception for independent architectural review.
+4. Pin and record the exact candidate source SHA; run frozen install, TypeScript/packed declaration compatibility, JS, Blazor and browser gates. Build all six npm tarballs and NuGet at the chosen version. Verify the seven artifact SHA-256 hashes, package metadata and internal dependency ranges, then install those exact artifacts in clean Web, React, Vue, Angular and Blazor consumers; reject workspace/registry fallback for LitGrid. Record framework versions, limitations and CI URLs.
+5. Before a manual release-workflow dispatch, obtain separate founder authorization and reverify its ref, source SHA and event conditions. The inspected workflow dispatch runs validation and packing; tag-push triggers publishing and release creation. Do not create a tag, publish or deploy for qualification. Record checksums, CI, remaining limitations and the PR #69 exception for independent review.
 
 The PR-only hard-coded rehearsal workflow is removed from the eventual tree: its run links and hashes above preserve historical evidence. The reusable qualification scripts remain, but no old artifact or checksum is a future release gate. Any replacement must accept and verify the exact final candidate's artifact identity and source SHA rather than silently reusing the 1.2.3 rehearsal.

@@ -58,10 +58,6 @@ export type DataGridInstance = {
   setExternalState(state: GridExternalState): boolean
   getQuery(): GridQuerySnapshot
   refreshQuery(): void
-  refreshData(): boolean
-  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean
-  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number
-  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number
   sortBy(key: string, direction: SortDirection): void
   clearSort(): void
   readonly gridElement: DataGridElement | null
@@ -106,6 +102,14 @@ export type DataGridInstance = {
   selectRowByKey(key: GridRowKey, intent?: SelectionIntent): boolean
   isRowSelected(rowIndex: number): boolean
   isCellSelected(rowIndex: number, columnKey: string): boolean
+}
+
+/** Capabilities guaranteed by a mounted LitGrid instance. */
+export type DataGridRuntimeInstance = DataGridInstance & {
+  refreshData(): boolean
+  refreshRow(key: GridRowKey, options?: GridRefreshOptions): boolean
+  refreshRows(keys: readonly GridRowKey[], options?: GridRefreshOptions): number
+  refreshRange(range: GridRefreshRange, options?: GridRefreshOptions): number
 }
 
 const GRID_UNAVAILABLE_MESSAGE = 'LitGrid is not available before the Vue component is mounted.'
@@ -279,7 +283,7 @@ export const DataGrid = defineComponent({
       selectRowByKey: (key: GridRowKey, intent?: SelectionIntent) => requireGridElement().selectRowByKey(key, intent),
       isRowSelected: (rowIndex: number) => requireGridElement().isRowSelected(rowIndex),
       isCellSelected: (rowIndex: number, columnKey: string) => requireGridElement().isCellSelected(rowIndex, columnKey)
-    } satisfies DataGridInstance)
+    } satisfies DataGridRuntimeInstance)
 
     return () => {
       // Keep a failed initial slot attempt pending if its slot is later removed.

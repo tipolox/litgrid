@@ -8,7 +8,7 @@ These changes are merged on main and are **not in published v1.2.3**. The releas
 
 - Improved React, Vue and Angular synchronization and state preservation; qualified Angular peer compatibility in tested configurations.
 - Added B1 targeted refresh, opt-in typed columns, Vue declarative columns and column alignment across frameworks.
-- **Compatibility review open:** exported `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` gained required members. Existing structural implementations or mocks may fail TypeScript compilation. Resolve compatibility or select an appropriate major version before release.
+- **TypeScript compatibility:** [PR #71](https://github.com/tipolox/litgrid/pull/71) preserves the v1.2.3-shaped `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` compatibility contracts. New `GridEngineRuntime`, `DataGridRuntimeRef`, and `DataGridRuntimeInstance` types expose guaranteed current runtime methods.
 - PR #69 merged under a founder-directed exception accepting alignment performance uncertainty. Performance equivalence and independent-host certification are not claimed.
 - Intl value formatting and draft PRs #67 and #68 are not part of these changes.
 

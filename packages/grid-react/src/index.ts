@@ -1,6 +1,6 @@
 export { DataGrid } from './DataGrid.js'
 export type { GridQuery, GridQueryFilter, GridQueryReason, GridQueryChangeDetail, GridQuerySnapshot, GridExternalTotal, GridExternalState, SortDirection } from '@tipolox/litgrid-web'
-export type { DataGridInstance, DataGridProps, DataGridRef } from './DataGrid.js'
+export type { DataGridInstance, DataGridProps, DataGridRef, DataGridRuntimeRef } from './DataGrid.js'
 export type {
   BestFitColumnWidth,
   ColumnReorderDetail,

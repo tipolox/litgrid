@@ -1,5 +1,7 @@
 # API Reference
 
+> **Unreleased type contracts:** Core `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` preserve v1.2.3-shaped structural compatibility. For guaranteed methods on current LitGrid instances use `GridEngineRuntime`, `DataGridRuntimeRef`, or `DataGridRuntimeInstance`, respectively. These runtime types are merged but not in published v1.2.3.
+
 > **Version note:** This guide includes changes merged after published v1.2.3. Targeted refresh, typed columns, Vue declarative columns and alignment are not available in v1.2.3. See the [unreleased changelog](../CHANGELOG.md#unreleased) for status.
 
 This reference describes LitGrid's current public packages and APIs. For installation and task-oriented setup, see the [Installation guide](installation.md), [Web Component guide](vanilla-js-guide.md), [React guide](react-guide.md), [Angular guide](angular-guide.md), and [Vue guide](vue-guide.md).
