@@ -9,12 +9,12 @@ import {
 } from '../features/selection/selection.js'
 import { applyDataTransforms } from '../features/transforms/applyDataTransforms.js'
 import { clampPageIndex, createPaginationState, paginateData } from '../features/pagination/pagination.js'
-import type { GridEngine } from './GridEngine.js'
+import type { GridEngineRuntime } from './GridEngine.js'
 import { createSelectionCoordination } from '../features/selection/selectionCoordination.js'
 import { createExternalQuery } from '../features/query/externalQuery.js'
 import type { GridQuery } from '../model/GridQuery.js'
 
-export function createGridEngine(config: GridConfig = {}): GridEngine {
+export function createGridEngine(config: GridConfig = {}): GridEngineRuntime {
   const initialConfig = normalizeConfig(config)
   const state: GridState = {
     config: initialConfig,
@@ -65,7 +65,7 @@ export function createGridEngine(config: GridConfig = {}): GridEngine {
     state.pagination = { ...state.pagination, pageIndex: 0 }
   }
 
-  const engine: GridEngine = {
+  const engine: GridEngineRuntime = {
     setExternalState: external.commit,
     getExternalState: external.getState,
     getQuery: external.getQuery,
