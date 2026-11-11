@@ -43,7 +43,7 @@ createApp({
 writeFileSync(path.join(dir, 'tsconfig.packed.json'), JSON.stringify({compilerOptions:{strict:true,noEmit:true,target:'ES2022',module:'ESNext',moduleResolution:'Bundler',skipLibCheck:true,lib:['ES2022','DOM']},include:['packed-web-vue.ts']}))
 run('npx', ['tsc', '-p', 'tsconfig.packed.json'])
 run('npx', ['vite', 'build', '--outDir', 'packed-dist'])
-const server = spawn('npx', ['vite', 'preview', '--host', '127.0.0.1', '--port', '5210'], {cwd:dir, stdio:'inherit'})
+const server = spawn(process.execPath, [path.join(dir, 'node_modules/vite/bin/vite.js'), 'preview', '--outDir', 'packed-dist', '--host', '127.0.0.1', '--port', '5210'], {cwd:dir, stdio:'inherit'})
 try {
   let ready = false
   for (let i=0; i<60; i++) {
