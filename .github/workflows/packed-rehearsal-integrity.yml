@@ -1,0 +1,32 @@
+name: Packed rehearsal artifact integrity
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/packed-rehearsal-integrity.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Download exact rehearsal artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: litgrid-1.2.3-release-candidate
+          run-id: 43004797435
+          github-token: ${{ github.token }}
+          path: rehearsal
+      - name: Verify package checksums
+        working-directory: rehearsal
+        run: |
+          set -euo pipefail
+          test "$(find npm -maxdepth 1 -name '*.tgz' | wc -l)" -eq 6
+          test "$(find nuget -maxdepth 1 -name '*.nupkg' | wc -l)" -eq 1
+          cat SHA256SUMS.txt
+          sha256sum --check SHA256SUMS.txt
