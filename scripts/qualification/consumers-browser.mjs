@@ -82,7 +82,7 @@ try {
  await page.getByText('Fictional page 2',{exact:true}).waitFor()
  assert.equal(await page.locator('#requests').textContent(),'1')
  await page.locator('#refresh').click()
- await page.locator('#refresh-result').getByText('True', {exact:true}).waitFor()
+ await page.waitForFunction(() => document.querySelector('#refresh-result')?.textContent === 'True')
  await page.locator('yc-grid .cell-align-end').first().waitFor()
  await page.locator('yc-grid [data-column-key="amount"] .header-action-button').click()
  assert.equal(await page.getByRole('button',{name:'Sort Asc',exact:true}).count(),0)
