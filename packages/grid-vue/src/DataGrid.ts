@@ -162,12 +162,12 @@ export const DataGrid = defineComponent({
         const keys = declarations.map(column => column.key)
         const applyOrder = previousDeclarationKeys !== undefined &&
           (keys.length !== previousDeclarationKeys.length || keys.some((key, index) => key !== previousDeclarationKeys![index]))
-        if (!ownsInference) { grid.inferColumns = false; ownsInference = true }
         syncGridInputs(grid, { ...props, columns: declarations }, applyOrder)
+        if (!ownsInference) { grid.inferColumns = false; ownsInference = true }
         previousDeclarationKeys = keys
       } else {
-        if (ownsInference) { grid.inferColumns = true; ownsInference = false }
         syncGridInputs(grid, props)
+        if (ownsInference) { grid.inferColumns = true; ownsInference = false }
         previousDeclarationKeys = undefined
       }
       pendingSlotSync = false

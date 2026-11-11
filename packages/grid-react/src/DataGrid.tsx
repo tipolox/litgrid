@@ -242,25 +242,33 @@ export const DataGrid = forwardRef<DataGridRef, DataGridProps>(function DataGrid
     // StrictMode replays this effect with the same closure and DOM element.
     if (synchronizedRender.current === renderToken) return
 
-    syncGridInputs(grid, {
-      externalState,
-      data,
-      columns,
-      config,
-      theme,
-      ariaLabel,
-      ariaDescription,
-      screenReaderAnnouncements,
-      height,
-      rowHeight,
-      overscan,
-      columnOverscan,
-      bestFitSampleSize,
-      quickSearchDebounceThreshold,
-      quickSearchDebounceMs,
-      columnStateStorageKey
-    })
-    synchronizedRender.current = renderToken
+    try {
+      syncGridInputs(grid, {
+        externalState,
+        data,
+        columns,
+        config,
+        theme,
+        ariaLabel,
+        ariaDescription,
+        screenReaderAnnouncements,
+        height,
+        rowHeight,
+        overscan,
+        columnOverscan,
+        bestFitSampleSize,
+        quickSearchDebounceThreshold,
+        quickSearchDebounceMs,
+        columnStateStorageKey
+      })
+      synchronizedRender.current = renderToken
+    } catch (error) {
+      // Throwing from an effect unmounts React's last valid grid. Alignment
+      // validation failures leave it mounted and retry at the next input update.
+      // Preserve existing behavior for unrelated errors and imperative APIs.
+      if (!(error instanceof TypeError) || error.name !== 'GridColumnAlignmentError') throw error
+      console.error(error)
+    }
   }, [
     externalState,
     data,

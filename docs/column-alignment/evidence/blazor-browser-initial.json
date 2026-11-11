@@ -1,0 +1,10 @@
+{
+  "name": "blazor-browser",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "scripts/check-blazor-alignment.mjs",
+    "--regressions"
+  ],
+  "exitCode": 1,
+  "elapsedSeconds": 82.318
+}

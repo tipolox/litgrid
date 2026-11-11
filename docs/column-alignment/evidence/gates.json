@@ -1,0 +1,184 @@
+[
+  {
+    "name": "adapters",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/check-adapter-events.mjs"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 18.161
+  },
+  {
+    "name": "alignment",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/check-column-alignment.mjs",
+      "--baseline=../alignment-only-34a-baseline"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 20.058
+  },
+  {
+    "name": "angular",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:/Users/ympau/AppData/Local/node/corepack/v1/pnpm/10.33.0/dist/pnpm.cjs",
+      "--filter",
+      "@tipolox/litgrid-angular",
+      "exec",
+      "ngc",
+      "-p",
+      "../../tsconfig.typed-columns-angular.json"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 15.291
+  },
+  {
+    "name": "b1",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/performance/b1-targeted-browser.mjs",
+      ".private/b1/targeted-browser.json"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 14.057
+  },
+  {
+    "name": "blazor-browser",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/check-blazor-alignment.mjs",
+      "--regressions"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 52.987
+  },
+  {
+    "name": "blazor-build",
+    "command": [
+      "dotnet",
+      "build",
+      "packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj",
+      "-c",
+      "Release",
+      "--no-restore"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 2.535
+  },
+  {
+    "name": "blazor-host",
+    "command": [
+      "dotnet",
+      "build",
+      "packages/grid-blazor/tests/browser/BrowserHost.csproj",
+      "-c",
+      "Release",
+      "--no-restore"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 4.591
+  },
+  {
+    "name": "blazor",
+    "command": [
+      "dotnet",
+      "test",
+      "packages/grid-blazor/tests/Tipolox.LitGrid.Blazor.Tests.csproj",
+      "-c",
+      "Release",
+      "--no-restore"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 6.84
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:/Users/ympau/AppData/Local/node/corepack/v1/pnpm/10.33.0/dist/pnpm.cjs",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 53.301
+  },
+  {
+    "name": "contracts",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/typecheck-contracts.mjs"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 40.728
+  },
+  {
+    "name": "external",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/external-query-browser-check.mjs"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 12.463
+  },
+  {
+    "name": "published",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "tsconfig.published-contracts.json",
+      "--pretty",
+      "false"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 30.694
+  },
+  {
+    "name": "tests",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:/Users/ympau/AppData/Local/node/corepack/v1/pnpm/10.33.0/dist/pnpm.cjs",
+      "test",
+      "--maxWorkers=2",
+      "--pool=forks",
+      "--testTimeout=15000"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 187.197
+  },
+  {
+    "name": "types",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/typecheck-all.mjs"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 50.235
+  },
+  {
+    "name": "vue-browser",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "scripts/check-vue-columns.mjs"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 12.501
+  },
+  {
+    "name": "vue",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:/Users/ympau/AppData/Local/node/corepack/v1/pnpm/10.33.0/dist/pnpm.cjs",
+      "exec",
+      "vue-tsc",
+      "-p",
+      "tsconfig.vue-columns.json",
+      "--noEmit",
+      "--pretty",
+      "false"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 23.956
+  }
+]

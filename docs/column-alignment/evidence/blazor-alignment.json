@@ -1,0 +1,24 @@
+{
+  "browser": "156.0.8078.4",
+  "results": [
+    {
+      "source": "alignment",
+      "realDotNetJSON": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "removed": true,
+      "userState": true,
+      "focus": true
+    },
+    {
+      "source": "alignment-programmatic",
+      "realDotNetJSON": true,
+      "invalidRejected": true,
+      "recovered": true,
+      "removed": true,
+      "userState": true,
+      "focus": true
+    }
+  ],
+  "expectedValidationDiagnostics": 3
+}

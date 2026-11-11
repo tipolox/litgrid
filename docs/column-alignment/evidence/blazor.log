@@ -1,0 +1,6 @@
+  Tipolox.LitGrid.Blazor -> D:\Work\litgrid-p0\.worktrees\alignment-only-34a\packages\grid-blazor\src\bin\Release\net8.0\Tipolox.LitGrid.Blazor.dll
+  Tipolox.LitGrid.Blazor.Tests -> D:\Work\litgrid-p0\.worktrees\alignment-only-34a\packages\grid-blazor\tests\bin\Release\net8.0\Tipolox.LitGrid.Blazor.Tests.dll
+Test run for D:\Work\litgrid-p0\.worktrees\alignment-only-34a\packages\grid-blazor\tests\bin\Release\net8.0\Tipolox.LitGrid.Blazor.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   137, Skipped:     0, Total:   137, Duration: 2 s - Tipolox.LitGrid.Blazor.Tests.dll (net8.0)

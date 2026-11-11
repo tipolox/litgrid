@@ -1,0 +1,107 @@
+PASS real Blazor JS interop serialization, scalar display and null handling (61 ms)
+PASS numeric, string, date sorting and Blazor filtering (692 ms)
+PASS pointer resizing and reordering, visibility and parent rerenders (1062 ms)
+PASS explicit defaults and Order precedence, add/remove and empty schemas (282 ms)
+PASS programmatic compatibility, legacy inference and same-reference row mutations (437 ms)
+PASS persistence across actual disposal and remount (133 ms)
+PASS atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence (683 ms)
+PASS keyboard navigation survives parameter and schema updates (150 ms)
+Large fixture ready in 6104 ms
+30,000-row parent rerender milliseconds: [5209,4935,5103]
+Large-grid keyboard focus recovery: 20 cycles, 60 expected-cell checks
+PASS 30,000 rows, vertical virtualization and frequent parent rerenders (23462 ms)
+PASS 120 columns, horizontal virtualization and schema-free scrolling/rerenders (3983 ms)
+PASS rapid scenario changes and mobile page overflow (853 ms)
+PASS navigation during a delayed real module import and subsequent remount (4227 ms)
+PASS no unexpected browser console errors (0 ms)
+{
+  "results": [
+    {
+      "name": "real Blazor JS interop serialization, scalar display and null handling",
+      "milliseconds": 61,
+      "passed": true
+    },
+    {
+      "name": "numeric, string, date sorting and Blazor filtering",
+      "milliseconds": 692,
+      "passed": true
+    },
+    {
+      "name": "pointer resizing and reordering, visibility and parent rerenders",
+      "milliseconds": 1062,
+      "passed": true
+    },
+    {
+      "name": "explicit defaults and Order precedence, add/remove and empty schemas",
+      "milliseconds": 282,
+      "passed": true
+    },
+    {
+      "name": "programmatic compatibility, legacy inference and same-reference row mutations",
+      "milliseconds": 437,
+      "passed": true
+    },
+    {
+      "name": "persistence across actual disposal and remount",
+      "milliseconds": 133,
+      "passed": true
+    },
+    {
+      "name": "atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence",
+      "milliseconds": 683,
+      "passed": true
+    },
+    {
+      "name": "keyboard navigation survives parameter and schema updates",
+      "milliseconds": 150,
+      "passed": true
+    },
+    {
+      "name": "30,000 rows, vertical virtualization and frequent parent rerenders",
+      "milliseconds": 23462,
+      "passed": true
+    },
+    {
+      "name": "120 columns, horizontal virtualization and schema-free scrolling/rerenders",
+      "milliseconds": 3983,
+      "passed": true
+    },
+    {
+      "name": "rapid scenario changes and mobile page overflow",
+      "milliseconds": 853,
+      "passed": true
+    },
+    {
+      "name": "navigation during a delayed real module import and subsequent remount",
+      "milliseconds": 4227,
+      "passed": true
+    },
+    {
+      "name": "no unexpected browser console errors",
+      "milliseconds": 0,
+      "passed": true
+    }
+  ],
+  "errors": []
+}
+node:internal/modules/run_main:122
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 30000ms exceeded.
+    at D:\Work\litgrid-p0\.worktrees\alignment-only-34a\packages\grid-blazor\tests\browser\run-alignment.mjs:14:16 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v22.14.0
+file:///D:/Work/litgrid-p0/.worktrees/alignment-only-34a/scripts/check-blazor-alignment.mjs:4
+  child.on('error',reject);child.on('exit',code=>code===0?resolve():reject(Error('Browser test exited '+code)))
+                                                                           ^
+
+Error: Browser test exited 1
+    at ChildProcess.<anonymous> (file:///D:/Work/litgrid-p0/.worktrees/alignment-only-34a/scripts/check-blazor-alignment.mjs:4:76)
+    at ChildProcess.emit (node:events:518:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+
+Node.js v22.14.0

@@ -15,7 +15,7 @@ const columns = [{ key: 'name' }] satisfies GridColumn<Person>[]
 
 <template>
   <DataGrid ref="grid" :data="users" :height="400">
-    <LitGridColumn field="id" header="ID" :width="80" />
+    <LitGridColumn field="id" align="right" header="ID" :width="80" />
     <LitGridColumn v-if="show" field="name" header="Name" :width="220" :sortable="false" hidden />
     <LitGridColumn :column="computed" />
   </DataGrid>

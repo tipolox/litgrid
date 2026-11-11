@@ -1,0 +1,266 @@
+6:37:26 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+6:37:27 PM [vite] (client) [optimizer] bundling dependencies...
+6:37:33 PM [vite] (client) [console.warn] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+6:37:34 PM [vite] (client) [console.warn] Feature flags __VUE_OPTIONS_API__, __VUE_PROD_DEVTOOLS__, __VUE_PROD_HYDRATION_MISMATCH_DETAILS__ are not explicitly defined. You are running the esm-bundler build of Vue, which expects these compile-time feature flags to be globally injected via the bundler config in order to get better tree-shaking in the production bundle.
+
+For more details, see https://link.vuejs.org/feature-flags.
+6:37:34 PM [vite] (client) [console.warn] Element yc-grid scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+{
+  "base": null,
+  "browser": "156.0.8078.4",
+  "node": "v22.14.0",
+  "results": {
+    "behavior": {
+      "compiledTemplate": true,
+      "dynamicColumns": true,
+      "userState": true,
+      "navigation": true,
+      "refresh": true,
+      "persistenceRemount": true,
+      "externalQuery": true
+    },
+    "workloads": [
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 3,
+        "mode": "array",
+        "mountMs": 21.799999997019768,
+        "updatesMs": {
+          "median": 2.7999999970197678,
+          "p95": 4.5999999940395355
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 3,
+        "mode": "omitted",
+        "mountMs": 15.5,
+        "updatesMs": {
+          "median": 2.8999999910593033,
+          "p95": 6.799999997019768
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 3,
+        "mode": "declarative",
+        "mountMs": 13.400000005960464,
+        "updatesMs": {
+          "median": 2.5999999940395355,
+          "p95": 5
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 120,
+        "mode": "array",
+        "mountMs": 46,
+        "updatesMs": {
+          "median": 9.299999997019768,
+          "p95": 10.100000008940697
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 5000,
+        "width": 120,
+        "mode": "declarative",
+        "mountMs": 33.6000000089407,
+        "updatesMs": {
+          "median": 8.800000011920929,
+          "p95": 10.5
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 3,
+        "mode": "array",
+        "mountMs": 11.099999994039536,
+        "updatesMs": {
+          "median": 2.5,
+          "p95": 5
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 3,
+        "mode": "omitted",
+        "mountMs": 22.399999991059303,
+        "updatesMs": {
+          "median": 2.300000011920929,
+          "p95": 2.9000000059604645
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 3,
+        "mode": "declarative",
+        "mountMs": 15.799999997019768,
+        "updatesMs": {
+          "median": 2.5,
+          "p95": 3.2999999970197678
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 120,
+        "mode": "array",
+        "mountMs": 33.79999999701977,
+        "updatesMs": {
+          "median": 9.700000002980232,
+          "p95": 11.900000005960464
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 0
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 23,
+          "config": 0,
+          "inference": 0
+        }
+      },
+      {
+        "round": 0,
+        "variant": "candidate",
+        "count": 30000,
+        "width": 120,
+        "mode": "declarative",
+        "mountMs": 34.5,
+        "updatesMs": {
+          "median": 9.700000002980232,
+          "p95": 10.900000005960464
+        },
+        "mountCounts": {
+          "schema": 1,
+          "data": 1,
+          "config": 1,
+          "inference": 1
+        },
+        "updateCounts": {
+          "schema": 0,
+          "data": 24,
+          "config": 0,
+          "inference": 0
+        }
+      }
+    ]
+  },
+  "errors": []
+}

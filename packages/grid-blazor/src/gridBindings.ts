@@ -74,10 +74,6 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
     const extended = supportsDeclarations(grid) ? grid : undefined
     if (declarative && !extended) throw new Error('LitGrid declarative columns require inferColumns and updateColumnSchema support.')
 
-    if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has('declarativeColumns'))) {
-      touched.add('declarativeColumns')
-      extended.inferColumns = !declarative
-    }
 
     const keyInput = 'columnStateStorageKey' in effective ? effective.columnStateStorageKey : previous.columnStateStorageKey
     const storageKey = typeof keyInput === 'string' && keyInput.trim() ? keyInput : null
@@ -96,8 +92,20 @@ export function syncGridInputs(grid: DataGridElement, inputs: BlazorGridInputPat
     } else if (effective.columns !== undefined) {
       touched.add('columns')
       const snapshot = effective.columns.map(column => ({ ...column }))
-      grid.columns = effective.columns
+      const previousColumns = captured.columns as GridColumn[] | undefined
+      if (extended && (snapshot.some(column => column.align !== undefined) ||
+          previousColumns?.some(column => column.align !== undefined))) {
+        // Opted-in metadata edits retain keyed user state. Keep the historical
+        // replacement setter for the entirely unconfigured programmatic path.
+        const orderChanged = !!previousColumns && (previousColumns.length !== snapshot.length ||
+          previousColumns.some((column, index) => column.key !== snapshot[index].key))
+        extended.updateColumnSchema(effective.columns, orderChanged, storageKey)
+      } else grid.columns = effective.columns
       captured.columns = snapshot
+    }
+    if (extended && (previous.declarativeColumns !== declarative || state.uncertain.has('declarativeColumns'))) {
+      touched.add('declarativeColumns')
+      extended.inferColumns = !declarative
     }
     previous.declarativeColumns = declarative
     captured.declarativeColumns = declarative

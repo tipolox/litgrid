@@ -37,12 +37,20 @@ type GridColumn = {
   hidden?: boolean
   sortable?: boolean
   filterable?: boolean
+  align?: 'start' | 'center' | 'end' | 'left' | 'right'
   accessor?: (row: unknown, rowIndex: number) => unknown
   render?: (value: unknown, row: unknown, rowIndex: number) => unknown
 }
 ```
 
 `key` identifies a column for state, filtering, selection, and ordering. `accessor` derives the underlying value; without one, object-row values are read using `key`. `render` controls visual output but does not change filtering or clipboard values. It may return a string, number, or Lit `TemplateResult`. React JSX is not a supported renderer result because rendering occurs in the Web Component.
+
+`align` positions body content and the header label, including custom renderer
+output. `start`/`end` follow text direction; `left`/`right` are physical. The
+`GridColumnAlign` type is exported by Web, React, Vue and Angular. Omitting
+alignment preserves historical positioning. Invalid alignment rejects schema
+adoption atomically; correct it and synchronize again. See
+[column alignment](column-alignment.md) for framework examples and recovery.
 
 `width` accepts a number of pixels or a CSS width string. Explicit numeric widths set through the sizing API are normalized to at least `64px`.
 

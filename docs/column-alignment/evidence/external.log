@@ -1,0 +1,63 @@
+6:38:12 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+6:38:13 PM [vite] (client) [optimizer] scanning dependencies...
+(!) Failed to run dependency scan. Skipping dependency pre-bundling. Error: The following dependencies are imported but could not be resolved:
+
+  @tipolox/litgrid-angular (imported by D:/Work/litgrid-p0/.worktrees/alignment-only-34a/tests/contracts/column-alignment.browser.ts)
+
+Are they installed?
+    at file:///D:/Work/litgrid-p0/.worktrees/alignment-only-34a/node_modules/.pnpm/vite@8.0.8_@types+node@22.2_8689e6d6c7d6d56ec6e25fdaa3f6587c/node_modules/vite/dist/node/chunks/node.js:31354:33
+    at async file:///D:/Work/litgrid-p0/.worktrees/alignment-only-34a/node_modules/.pnpm/vite@8.0.8_@types+node@22.2_8689e6d6c7d6d56ec6e25fdaa3f6587c/node_modules/vite/dist/node/chunks/node.js:23178:15
+6:38:18 PM [vite] (client) [optimizer] bundling dependencies...
+6:38:18 PM [vite] (client) [console.warn] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+6:38:18 PM [vite] (client) ✨ new dependencies optimized: lit, lit/directives/cache.js, lit/directives/guard.js
+6:38:18 PM [vite] (client) [console.warn] Element yc-grid scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+{
+  "browser": "156.0.8078.4",
+  "correctness": "PASS",
+  "debounce": {
+    "rapidTyping": "PASS",
+    "finalIntentOnly": "PASS",
+    "zeroDelay": "PASS",
+    "clearCancellation": "PASS",
+    "disconnectCleanup": "PASS",
+    "focus": "PASS",
+    "requestIds": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "localThreshold": "PASS"
+  },
+  "measurements": [],
+  "external": [
+    {
+      "totalRows": 352,
+      "loadedRows": 20,
+      "medianMs": 0.800000011920929,
+      "p95Ms": 4.0999999940395355,
+      "mountedRows": 13
+    },
+    {
+      "totalRows": 30000,
+      "loadedRows": 20,
+      "medianMs": 0.6000000089406967,
+      "p95Ms": 1.0999999940395355,
+      "mountedRows": 13
+    },
+    {
+      "totalRows": 100000,
+      "loadedRows": 20,
+      "medianMs": 0.5999999940395355,
+      "p95Ms": 1,
+      "mountedRows": 13
+    },
+    {
+      "totalRows": 1000000000,
+      "loadedRows": 20,
+      "medianMs": 0.5999999940395355,
+      "p95Ms": 1.0999999940395355,
+      "mountedRows": 13
+    }
+  ]
+}

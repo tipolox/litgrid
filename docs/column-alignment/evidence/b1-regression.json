@@ -1,0 +1,166 @@
+{
+  "purpose": "B1 source browser targeted callback and DOM identity safety benchmark (no compositor paint)",
+  "revision": null,
+  "environment": {
+    "node": "v22.14.0",
+    "chromium": "156.0.8078.4",
+    "platform": "win32",
+    "cpu": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx  "
+  },
+  "cases": [
+    {
+      "rows": 30000,
+      "columns": 120,
+      "mounted": 16,
+      "unchangedRowDOM": true,
+      "refreshRow": {
+        "n": 18,
+        "min": 1.199999988079071,
+        "p50": 1.5,
+        "p95": 1.800000011920929,
+        "max": 1.800000011920929
+      },
+      "refreshRows": {
+        "n": 12,
+        "min": 2.0999999940395355,
+        "p50": 2.4000000059604645,
+        "p95": 7.4000000059604645,
+        "max": 7.4000000059604645
+      },
+      "fullRefresh": {
+        "n": 6,
+        "min": 6.100000008940697,
+        "p50": 7.9000000059604645,
+        "p95": 14.399999991059303,
+        "max": 14.399999991059303
+      },
+      "replacementRefresh": {
+        "n": 6,
+        "min": 6.5,
+        "p50": 6.700000002980232,
+        "p95": 9.599999994039536,
+        "max": 9.599999994039536
+      }
+    },
+    {
+      "rows": 30000,
+      "columns": 200,
+      "mounted": 16,
+      "unchangedRowDOM": true,
+      "refreshRow": {
+        "n": 18,
+        "min": 1.2999999970197678,
+        "p50": 1.5,
+        "p95": 1.9000000059604645,
+        "max": 1.9000000059604645
+      },
+      "refreshRows": {
+        "n": 12,
+        "min": 1.9000000059604645,
+        "p50": 2.199999988079071,
+        "p95": 3.7000000029802322,
+        "max": 3.7000000029802322
+      },
+      "fullRefresh": {
+        "n": 6,
+        "min": 5.799999997019768,
+        "p50": 7.0999999940395355,
+        "p95": 8,
+        "max": 8
+      },
+      "replacementRefresh": {
+        "n": 6,
+        "min": 6.200000002980232,
+        "p50": 6.799999997019768,
+        "p95": 7.600000008940697,
+        "max": 7.600000008940697
+      }
+    },
+    {
+      "rows": 100000,
+      "columns": 120,
+      "mounted": 16,
+      "unchangedRowDOM": true,
+      "refreshRow": {
+        "n": 18,
+        "min": 0.9000000059604645,
+        "p50": 1.2000000029802322,
+        "p95": 1.5,
+        "max": 1.5
+      },
+      "refreshRows": {
+        "n": 12,
+        "min": 1.7000000029802322,
+        "p50": 2.0999999940395355,
+        "p95": 2.8999999910593033,
+        "max": 2.8999999910593033
+      },
+      "fullRefresh": {
+        "n": 6,
+        "min": 5.4000000059604645,
+        "p50": 6.299999997019768,
+        "p95": 9.399999991059303,
+        "max": 9.399999991059303
+      },
+      "replacementRefresh": {
+        "n": 6,
+        "min": 7.299999997019768,
+        "p50": 7.700000002980232,
+        "p95": 8.799999997019768,
+        "max": 8.799999997019768
+      }
+    },
+    {
+      "rows": 100000,
+      "columns": 200,
+      "mounted": 16,
+      "unchangedRowDOM": true,
+      "refreshRow": {
+        "n": 18,
+        "min": 0.7000000029802322,
+        "p50": 1.1000000089406967,
+        "p95": 1.7000000029802322,
+        "max": 1.7000000029802322
+      },
+      "refreshRows": {
+        "n": 12,
+        "min": 1,
+        "p50": 1.7999999970197678,
+        "p95": 2.2000000029802322,
+        "max": 2.2000000029802322
+      },
+      "fullRefresh": {
+        "n": 6,
+        "min": 5.4000000059604645,
+        "p50": 6,
+        "p95": 6.5,
+        "max": 6.5
+      },
+      "replacementRefresh": {
+        "n": 6,
+        "min": 6.600000008940697,
+        "p50": 7.5,
+        "p95": 9,
+        "max": 9
+      }
+    }
+  ],
+  "external": {
+    "total": 1000000000,
+    "loaded": 2,
+    "mounted": 2,
+    "queryIntents": 0,
+    "scopeIsolation": true
+  },
+  "regressions": [
+    "row replacement/reorder/selection/identities/render-only",
+    "batch replacement/reorder/selection/identities/render-only",
+    "range replacement/reorder/selection/identities/render-only",
+    "sort replacement/page/membership",
+    "filter replacement/page/membership",
+    "search replacement/page/membership",
+    "index-only paginated range and render-only boundary",
+    "focus/keyboard/ARIA/layout/virtualization"
+  ],
+  "errors": []
+}

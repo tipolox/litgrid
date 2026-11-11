@@ -34,6 +34,9 @@ export type GridRefreshOptions = { mode?: 'auto' | 'render-only' }
 /** Current displayed indices, start inclusive and end exclusive (not source positions). */
 export type GridRefreshRange = { start: number; endExclusive: number }
 
+/** Logical or physical column content and header label alignment. */
+export type GridColumnAlign = 'start' | 'center' | 'end' | 'left' | 'right'
+
 /**
  * Opt in to checked model keys and typed callback rows with `GridColumn<Person>`.
  * Custom keys require an accessor; renderer values remain unknown because an
@@ -42,6 +45,8 @@ export type GridRefreshRange = { start: number; endExclusive: number }
  * props; callers are responsible for supplying data matching TRow.
  */
 export type GridColumn<TRow = unknown> = {
+  /** Position body content and the header label using logical or physical alignment. */
+  align?: GridColumnAlign
   header?: string
   width?: number | string
   hidden?: boolean
