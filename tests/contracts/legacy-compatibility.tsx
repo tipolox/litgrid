@@ -2,7 +2,7 @@ import type { LegacyGridEngine, LegacyDataGridRef, LegacyVueInstance } from './v
 import type { GridEngine } from '@tipolox/litgrid-core'
 import { DataGrid, type DataGridRef, type DataGridInstance as ReactInstance } from '@tipolox/litgrid-react'
 import type { DataGridInstance as VueInstance } from '@tipolox/litgrid-vue'
-import { createRef } from 'react'
+import { createRef, useRef } from 'react'
 import { shallowRef } from 'vue'
 
 // Complete independent v1.2.3 structural implementations. Throwing bodies make
@@ -42,7 +42,11 @@ const vue: VueInstance = legacy
 const reactRef = createRef<DataGridRef>()
 const callback = (value: DataGridRef | null) => { void value }
 const vueRef = shallowRef<VueInstance | null>(null)
-const views = [<DataGrid data={[]} ref={reactRef} />, <DataGrid data={[]} ref={callback} />]
+function LegacyRefConsumer() {
+  const ref = useRef<DataGridRef>(null)
+  return <DataGrid data={[]} ref={ref} />
+}
+const views = [<DataGrid data={[]} ref={reactRef} />, <DataGrid data={[]} ref={callback} />, <LegacyRefConsumer />]
 void [engine, baselineEngine, baselineReact, baselineVue, react, alias, vue, vueRef, views]
 import { createGridEngine, type GridEngineRuntime } from '@tipolox/litgrid-core'
 import type { DataGridRuntimeRef } from '@tipolox/litgrid-react'
@@ -52,6 +56,8 @@ runtimeEngine.refreshData()
 runtimeEngine.getDisplayedRowIndexForKey('key')
 const runtimeRef = createRef<DataGridRuntimeRef>()
 const runtimeView = <DataGrid data={[]} ref={runtimeRef} />
+const vueRuntimeRef = shallowRef<DataGridRuntimeInstance | null>(null)
+vueRuntimeRef.value?.refreshRow('key')
 function runtimeCalls(reactGrid: DataGridRuntimeRef, vueGrid: DataGridRuntimeInstance) {
   reactGrid.refreshData(); reactGrid.refreshRow('key'); reactGrid.refreshRows(['key']); reactGrid.refreshRange({ start: 0, endExclusive: 1 })
   vueGrid.refreshData(); vueGrid.refreshRow('key'); vueGrid.refreshRows(['key']); vueGrid.refreshRange({ start: 0, endExclusive: 1 })
