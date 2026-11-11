@@ -62,6 +62,8 @@ try {
     const vue = page.locator('#vue yc-grid')
     await web.getByText('Web Ada', {exact:true}).waitFor()
     await vue.getByText('Vue Grace', {exact:true}).waitFor()
+    await web.locator('.cell-align-end').first().waitFor()
+    await vue.locator('.cell-align-center').first().waitFor()
     if (!await page.evaluate(() => globalThis.packedSmoke.refresh())) throw new Error('refreshRow returned false')
     await web.getByText('Web updated', {exact:true}).waitFor()
     await page.evaluate(() => globalThis.packedSmoke.addColumn())
