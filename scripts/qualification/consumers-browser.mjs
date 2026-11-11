@@ -29,8 +29,7 @@ try {
  assert.equal(await page.evaluate(()=>window.qualification.state.query.filters[0].value),'9007199254740993.00')
  await page.evaluate(()=>window.qualification.ref.current.sortBy('name','asc'))
  await page.waitForFunction(()=>!window.qualification.state.loading && window.qualification.state.query.sort.direction==='asc')
- await grid.locator('[data-column-key="name"] .header-action-button').click()
- await grid.getByRole('button',{name:'Show Quick Search',exact:true}).click()
+ // External query mode exposes quick search directly; it has no visibility menu action.
  const search=grid.getByRole('textbox',{name:'Quick search'})
  await search.fill('slow');await page.waitForFunction(()=>window.qualification.calls.at(-1)?.search==='slow')
  await page.waitForFunction(()=>document.querySelector('yc-grid').shadowRoot.querySelector('.shell')?.getAttribute('aria-busy')==='true')
