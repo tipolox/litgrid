@@ -66,7 +66,7 @@ jobs:
           cd "$RUNNER_TEMP/litgrid-consumer"
           npm run start > "$RUNNER_TEMP/next.log" 2>&1 &
           NEXT_PID=$!
-          dotnet "$RUNNER_TEMP/litgrid-blazor/publish/litgrid-blazor.dll" --urls http://127.0.0.1:5207 > "$RUNNER_TEMP/blazor.log" 2>&1 &
+          (cd "$RUNNER_TEMP/litgrid-blazor/publish" && exec dotnet litgrid-blazor.dll --urls http://127.0.0.1:5207) > "$RUNNER_TEMP/blazor.log" 2>&1 &
           BLAZOR_PID=$!
           trap 'kill "$NEXT_PID" "$BLAZOR_PID" 2>/dev/null || true; cat "$RUNNER_TEMP/next.log" "$RUNNER_TEMP/blazor.log"' EXIT
           for i in $(seq 1 90); do
