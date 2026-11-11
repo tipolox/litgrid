@@ -400,7 +400,7 @@ Calls before initial render throw an `InvalidOperationException`. See [Blazor Gu
 
 ## Local data and targeted row refresh (B1 — source API, not yet published)
 
-The following APIs are introduced by draft B1 implementation PR #64 and are **not available in the published v1.2.3 packages**.
+The following APIs were merged in B1 implementation PR #64 and are **not available in the published v1.2.3 packages**. They will be available only after a subsequent release containing that merge is published.
 
 ```ts
 // Web Component, from the exact matching B1 build:
