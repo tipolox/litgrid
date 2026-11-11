@@ -2,7 +2,7 @@
 
 **Recommendation: NO-GO for release pending qualification and architect review.** This is a draft, not a release authorization.
 
-Base under review: `bfa3ee8dcab77c25e536cea9be4ea3774c23b132` (main); last published tag: `v1.2.3` at `6a0df7b01fd3de0b7e7f5dc386de469f3531d210`. The comparison contains nine commits. Recommend evaluating **1.3.0** for additive public APIs, subject to a complete compatibility audit; no version has been changed.
+Base under review: `bfa3ee8dcab77c25e536cea9be4ea3774c23b132` (main); last published tag: `v1.2.3` at `6a0df7b01fd3de0b7e7f5dc386de469f3531d210`. The comparison contains nine commits. **1.3.0 is blocked** by source compatibility breaks in exported structural types. Resolve the breaks and rerun compatibility checks before recommending a minor version; if retained as public breaking changes, strict SemVer points to 2.0.0. No version has been changed.
 
 ## Draft changelog and release notes
 
@@ -53,4 +53,34 @@ The npm lockfile check rejected workspace links, registry resolutions, duplicate
 
 The first React/Blazor run exposed an obsolete external-search menu expectation; the fixture was corrected. The first Web/Vue runs exposed an optional structural API type and an incorrect Vite preview directory; the harness was corrected. No production behavior was changed.
 
-**Packed-consumer result: PASS for these bounded configurations; release NO-GO** pending the wider compatibility/documentation audit, architect review, and qualification of final versioned 1.3.0 artifacts. The rehearsal packages are not publication candidates. PR #69's accepted performance uncertainty remains unchanged.
+**Packed-consumer result: PASS for these bounded configurations; release NO-GO** pending resolution of the structural type compatibility break, architect review, and qualification of the final versioned artifacts. The rehearsal packages are not publication candidates. PR #69's accepted performance uncertainty remains unchanged.
+
+
+## API and compatibility audit (v1.2.3 → pinned main)
+
+**NO-GO for preparing 1.3.0 as a compatible minor release until the structural-type breaks are resolved.** The factory-created grid and component refs gain useful methods, but TypeScript consumers may implement exported structural types in adapters, test doubles or mocks:
+
+- `@tipolox/litgrid-core` exports `GridEngine`. Main adds required `refreshData` and `getDisplayedRowIndexForKey`; an otherwise valid v1.2.3 implementation of `GridEngine` no longer satisfies that type.
+- React exports `DataGridRef` and its `DataGridInstance` alias; Vue exports `DataGridInstance`. All gain four required refresh methods. Existing structural implementations of these public types likewise fail to compile. The Web `DataGridElement` makes the corresponding methods optional, but that does not remedy the other types.
+- Resolve by designing and verifying a backward-compatible public type surface without degrading the new concrete API, or treat the changes as breaking and select a major release. Do not assume consumer smoke tests prove compatibility for independently implemented interfaces. Architect review must choose the disposition; no implementation change is proposed here.
+
+Other audit findings and migration boundaries:
+
+- `GridColumn<TRow = unknown>` is opt-in, preserves the untyped default, and checks typed model keys; custom keys need accessors. Typed callbacks require the supplied data to match the row type. No removed root exports were found in the compared Web, React, Angular or Vue index files.
+- Targeted refresh uses displayed keyed rows or displayed ranges, not source indices. Callers must notify all edits or use full refresh for structural changes; `render-only` relies on caller guarantees. External mode does not fetch data. Existing Blazor `RefreshDataAsync` remains distinct from the new targeted methods.
+- Vue declarative columns are opt-in; use either declarations or the existing columns array under the documented precedence rules. They require a matching current Web Component schema/inference API. The previous Vue default prop value changed internally, so verify applications relying on introspection of component defaults.
+- Alignment accepts only the documented values and validates own data properties; existing applications using an unrelated `align` field on column objects may now encounter validation. Invalid Blazor alignment retains the last valid grid and is logged. Coordinate wrapper and Web/bundled assets: the first `yc-grid` registration wins, and mixed old/new bundles can lack refresh/schema methods.
+- Angular peer declarations remain `>=17`. Published 1.2.3 has reported Angular 17–22 matrix evidence; the current-source packed smoke covers 17 and 22 boundaries, not every patch, browser, SSR case or intermediate major on this artifact. React and Vue peer requirements were not narrowed. Blazor's new alignment and targeted-refresh members are additive at the inspected C# surface.
+- A1 adapter synchronization changes and A3 verified-index behavior should be treated as behavioral fixes/optimizations, not a universal performance guarantee. PR #69's founder-directed performance uncertainty is still accepted and undisputed performance equivalence is not claimed.
+
+## Version-change and final candidate checklist
+
+Only after the compatibility disposition and separate authorization for candidate preparation:
+
+1. In an isolated candidate, synchronize `package.json`; `packages/grid-core/package.json`, `grid-renderer/package.json`, `grid-web/package.json`, `grid-react/package.json`, `grid-vue/package.json`, `grid-angular/package.json`, `grid-blazor/package.json`; and `packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj`. `scripts/set-version.mjs` lists and updates these version fields; review its complete diff.
+2. Check the six published tarballs' internal dependency ranges resolve to the chosen coordinated version. Source `workspace:^` dependencies are transformed at packing; do not manually assume packed values. Regenerate/check the pnpm lockfile if needed, and confirm no unrelated dependency churn.
+3. Move the approved Unreleased notes to an exact version heading in `CHANGELOG.md`; reconcile installation, framework guides, upgrade warnings, API references and release notes with the final disposition. Do not label unreleased features as published.
+4. Build and qualify the exact final candidate commit, all six npm tarballs and NuGet, hashes and clean consumers. A release-workflow manual dispatch needs separate founder authorization and fresh verification of its event/ref and no-publish conditions. Do not tag, publish or deploy as part of validation.
+5. Record CI and artifact hashes, outstanding compatibility limits, and the PR #69 performance exception for independent architectural review.
+
+The PR-only hard-coded rehearsal workflow is removed from the eventual tree: its run links and hashes above preserve historical evidence. The reusable qualification scripts remain, but no old artifact or checksum is a future release gate. Any replacement must accept and verify the exact final candidate's artifact identity and source SHA rather than silently reusing the 1.2.3 rehearsal.
