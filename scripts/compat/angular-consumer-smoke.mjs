@@ -3,11 +3,16 @@ import { mkdtempSync, writeFileSync, readFileSync, copyFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
+import { packedVersion } from '../qualification/packed-artifacts.mjs'
 
 const major = Number(process.argv[2])
 if (![17, 18, 19, 20, 21, 22].includes(major)) throw new Error('Expected Angular major 17–22')
-const version = '1.2.3'
-const packedDirectory = process.env.LITGRID_PACKED_DIR
+const packedDirectory = process.env.LITGRID_PACKED_DIR ? resolve(process.env.LITGRID_PACKED_DIR) : undefined
+// Registry matrix is the explicitly published historical baseline; packed mode is candidate-specific.
+const version = packedDirectory
+  ? packedVersion(packedDirectory, ['core', 'renderer', 'web', 'angular'], process.env.LITGRID_PACKED_VERSION)
+  : '1.2.3'
+if (packedDirectory && major === 21) throw new Error('Packed Angular 21 pnpm resolution is not qualified; use npm-backed packed matrix endpoints 17 or 22')
 const packedPackages = ['core', 'renderer', 'web', 'angular'].map(name =>
   'file:' + join(packedDirectory || '', 'tipolox-litgrid-' + name + '-' + version + '.tgz'))
 const litgridInstallArgs = packedDirectory ? packedPackages : ['@tipolox/litgrid-angular@' + version]
@@ -41,7 +46,7 @@ if (major === 21) {
   run('npm', ['ls', '@angular/core', '@angular/compiler-cli', '@angular/cli',
     '@tipolox/litgrid-angular', 'typescript', '--depth=0'], dir)
 }
-if (packedDirectory && major !== 21) run(process.execPath, [join(root, 'scripts/qualification/check-packed-resolution.mjs'), join(dir, 'package-lock.json'), 'core', 'renderer', 'web', 'angular'], dir)
+if (packedDirectory) run(process.execPath, [join(root, 'scripts/qualification/check-packed-resolution.mjs'), join(dir, 'package-lock.json'), packedDirectory, version, 'core', 'renderer', 'web', 'angular'], dir)
 writeFileSync(join(dir, 'src', 'main.ts'), "import { bootstrapApplication } from '@angular/platform-browser'\nimport { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core'\nimport { DataGridComponent } from '@tipolox/litgrid-angular'\nimport type { GridColumn, GridConfig } from '@tipolox/litgrid-angular'\ndeclare global {\n  interface Window {\n    litgridSmoke?: { count(): number; update(): void; select(): void; columnOrder(): string[] }\n    litgridEvents?: number\n  }\n}\n@Component({\n  selector: 'app-root',\n  standalone: true,\n  imports: [DataGridComponent],\n  template: `<litgrid-data-grid #grid [data]=\"rows\" [columns]=\"columns\" [config]=\"config\" [height]=\"320\" (selectionChange)=\"onSelectionChange()\"></litgrid-data-grid>`\n})\nclass SmokeApplication implements AfterViewInit {\n  @ViewChild('grid') grid?: DataGridComponent\n  rows = [{ id: 1, name: 'Ada' }, { id: 2, name: 'Grace' }]\n  columns: GridColumn[] = [{ key: 'id' }, { key: 'name' }]\n  config: GridConfig = { selection: { mode: 'row' }, pagination: { enabled: true, pageSize: 2 } }\n  constructor(private readonly changes: ChangeDetectorRef) {}\n  onSelectionChange(): void { window.litgridEvents = (window.litgridEvents ?? 0) + 1 }\n  ngAfterViewInit(): void {\n    window.litgridEvents = 0\n    window.litgridSmoke = {\n      count: () => this.grid?.getTotalRowCount() ?? -1,\n      columnOrder: () => this.grid?.getColumnOrder() ?? [],\n      select: () => this.grid?.selectRow(0),\n      update: () => {\n        this.rows = [...this.rows, { id: 3, name: 'Katherine' }]\n        this.columns = [...this.columns, { key: 'status' }]\n        this.changes.detectChanges()\n      }\n    }\n  }\n}\nbootstrapApplication(SmokeApplication).catch(error => console.error(error))\n")
 copyFileSync(new URL('./angular-browser.cjs', import.meta.url), join(dir, 'browser-smoke.cjs'))
 run(process.execPath, [cli, 'build', '--configuration', 'production'], dir)
