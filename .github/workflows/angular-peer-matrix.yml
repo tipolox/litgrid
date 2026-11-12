@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/compat/**'
+      - 'scripts/qualification/**'
       - '.github/workflows/angular-peer-matrix.yml'
   workflow_dispatch:
 
@@ -12,6 +13,16 @@ permissions:
   contents: read
 
 jobs:
+  packed-resolution-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+      - run: node --test scripts/qualification/packed-artifacts.node-check.mjs
+
   published-consumer:
     name: Angular ${{ matrix.angular }} published v1.2.3 consumer
     runs-on: ubuntu-latest

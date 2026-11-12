@@ -1,5 +1,7 @@
 # Web Component Guide
 
+> **Version note:** This guide includes changes merged after published v1.2.3. Targeted refresh, typed columns, Vue declarative columns and alignment are not available in v1.2.3. See the [unreleased changelog](../CHANGELOG.md#unreleased) for status.
+
 For typed event payloads and listener cleanup, see [Framework event contracts](event-contracts.md).
 
 LitGrid can be used directly as the `yc-grid` custom element in any

@@ -1,5 +1,9 @@
 # LitGrid
 
+**Unreleased type contracts:** Core `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` preserve v1.2.3-shaped structural compatibility. For guaranteed methods on current LitGrid instances use `GridEngineRuntime`, `DataGridRuntimeRef`, or `DataGridRuntimeInstance`, respectively. These runtime types are merged but not in published v1.2.3.
+
+**Version note:** This repository documents unreleased changes on `main`. The latest published packages are v1.2.3; targeted refresh, typed columns, Vue declarative columns and column alignment are not in that release. See the [unreleased changelog](CHANGELOG.md#unreleased) before using those APIs.
+
 **Open-source virtualized DataGrid built on Web Components, with integrations for React, Angular, Vue, and Blazor.**
 
 LitGrid is designed for data-heavy web applications that need row and column virtualization, sorting, filtering, pagination, selection, keyboard navigation, configurable columns, and state persistence.

@@ -1,5 +1,7 @@
 # Blazor Guide
 
+> **Version note:** This guide includes changes merged after published v1.2.3. Targeted refresh, typed columns, Vue declarative columns and alignment are not available in v1.2.3. See the [unreleased changelog](../CHANGELOG.md#unreleased) for status.
+
 For event names and their shared Web Component payloads, see [Framework event contracts](event-contracts.md).
 
 LitGrid's Blazor integration provides a strongly-typed, high-performance Razor component (`DataGrid<TItem>`) wrapping the LitGrid engine and Web Component. It delivers virtualization, sorting, filtering, selection, keyboard navigation, column sizing, ordering, and state persistence for .NET 8+ Blazor WebAssembly and Blazor Server applications.
