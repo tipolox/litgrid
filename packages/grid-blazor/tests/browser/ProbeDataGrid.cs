@@ -14,8 +14,16 @@ public class ProbeDataGrid<TItem> : DataGrid<TItem>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            await GetColumnStateAsync();
-            await JS.InvokeVoidAsync("recordGridInitialized");
+            try
+            {
+                await GetColumnStateAsync();
+                await JS.InvokeVoidAsync("recordGridInitialized");
+            }
+            catch (InvalidOperationException error) when (error.Message == "LitGrid is not available before the Blazor component is mounted.")
+            {
+                // The navigation regression deliberately disposes during a delayed import.
+                // Never signal readiness for that abandoned component.
+            }
         }
     }
 }

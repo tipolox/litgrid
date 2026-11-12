@@ -1,0 +1,136 @@
+name: Candidate artifact qualification
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  pack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.3
+          cache: pnpm
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build and pack the candidate source
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          node scripts/validate-release-version.mjs 1.3.0
+          pnpm install --frozen-lockfile
+          pnpm build
+          dotnet build packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release
+          mkdir -p candidate/npm candidate/nuget
+          for package in core renderer web react vue; do
+            pnpm --dir "packages/grid-$package" pack --pack-destination ../../candidate/npm
+          done
+          pnpm --dir dist/grid-angular pack --pack-destination ../../candidate/npm
+          dotnet pack packages/grid-blazor/src/Tipolox.LitGrid.Blazor.csproj -c Release --no-build --output candidate/nuget
+          node scripts/validate-release-artifacts.mjs 1.3.0 candidate
+          git rev-parse HEAD > candidate/SOURCE_SHA.txt
+          (cd candidate && sha256sum npm/*.tgz nuget/*.nupkg > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          cat candidate/SOURCE_SHA.txt candidate/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: litgrid-v1.3.0-candidate-${{ github.event.pull_request.head.sha }}
+          path: candidate/
+          if-no-files-found: error
+          retention-days: 14
+  consumers:
+    needs: pack
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.3
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: litgrid-v1.3.0-candidate-${{ github.event.pull_request.head.sha }}
+          path: candidate
+      - name: Verify exact candidate archives
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          test "$(cat candidate/SOURCE_SHA.txt)" = "$EXPECTED_SHA"
+          (cd candidate && sha256sum -c SHA256SUMS.txt)
+          node scripts/validate-release-artifacts.mjs 1.3.0 candidate
+      - name: Prepare clean npm and Blazor consumers
+        run: |
+          node scripts/qualification/prepare-consumer.mjs "$RUNNER_TEMP/litgrid-consumer" "$GITHUB_WORKSPACE/candidate/npm"
+          node scripts/qualification/prepare-blazor-consumer.mjs "$RUNNER_TEMP/litgrid-blazor" "$GITHUB_WORKSPACE/candidate/nuget"
+      - name: Install exact local npm packages and typecheck
+        working-directory: ${{ runner.temp }}/litgrid-consumer
+        run: |
+          set -euo pipefail
+          npm install --engine-strict --legacy-peer-deps --no-audit --no-fund
+          npm install --engine-strict --legacy-peer-deps --no-audit --no-fund --no-save vite@8.0.8 playwright@1.64.1
+          node "$GITHUB_WORKSPACE/scripts/qualification/check-packed-resolution.mjs" package-lock.json "$GITHUB_WORKSPACE/candidate/npm" 1.3.0 core renderer web react vue angular
+          npx tsc -p tsconfig.api.json
+          npx next build
+          npx playwright install --with-deps chromium
+      - name: Test Web and Vue in Chromium
+        run: node scripts/qualification/web-vue-consumer.mjs "$RUNNER_TEMP/litgrid-consumer"
+      - name: Test React and Blazor in Chromium
+        run: |
+          set -euo pipefail
+          (cd "$RUNNER_TEMP/litgrid-consumer" && node node_modules/next/dist/bin/next start -p 5201) > "$RUNNER_TEMP/next.log" 2>&1 & NEXT_PID=$!
+          (cd "$RUNNER_TEMP/litgrid-blazor/publish" && dotnet litgrid-blazor.dll --urls http://127.0.0.1:5207) > "$RUNNER_TEMP/blazor.log" 2>&1 & BLAZOR_PID=$!
+          trap 'kill "$NEXT_PID" "$BLAZOR_PID" 2>/dev/null || true; cat "$RUNNER_TEMP/next.log" "$RUNNER_TEMP/blazor.log"' EXIT
+          for i in $(seq 1 90); do
+            if curl -fsS http://127.0.0.1:5201/ >/dev/null && curl -fsS http://127.0.0.1:5207/ >/dev/null; then break; fi
+            sleep 2
+          done
+          node scripts/qualification/consumers-browser.mjs "$RUNNER_TEMP/litgrid-consumer/node_modules/playwright" "$RUNNER_TEMP/results.json"
+  angular:
+    needs: pack
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - angular: 17
+            node: 20.19.0
+          - angular: 22
+            node: 22.22.3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: litgrid-v1.3.0-candidate-${{ github.event.pull_request.head.sha }}
+          path: candidate
+      - name: Verify and exercise the same archives
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+          LITGRID_PACKED_DIR: ${{ github.workspace }}/candidate/npm
+          LITGRID_PACKED_VERSION: 1.3.0
+        run: |
+          set -euo pipefail
+          test "$(cat candidate/SOURCE_SHA.txt)" = "$EXPECTED_SHA"
+          (cd candidate && sha256sum -c SHA256SUMS.txt)
+          node scripts/compat/angular-consumer-smoke.mjs ${{ matrix.angular }}
