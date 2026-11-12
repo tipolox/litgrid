@@ -207,7 +207,7 @@ The earlier major-release recommendation remains in the historical investigation
 report; the [final product-owner decision and review corrections](blazor-b11-review-corrections.md)
 record the approved policy separately.
 
-## Targeted row and displayed-range refresh (B1 source update; not yet published)
+## Targeted row and displayed-range refresh (v1.3.0 candidate)
 
 `DataGrid<TItem>` now also proposes/implements the following imperative calls in the B1 draft source branch (not v1.2.3 NuGet):
 

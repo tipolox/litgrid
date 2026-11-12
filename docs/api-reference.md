@@ -1,8 +1,8 @@
 # API Reference
 
-> **Unreleased type contracts:** Core `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` preserve v1.2.3-shaped structural compatibility. For guaranteed methods on current LitGrid instances use `GridEngineRuntime`, `DataGridRuntimeRef`, or `DataGridRuntimeInstance`, respectively. These runtime types are merged but not in published v1.2.3.
+> **v1.3.0 type contracts:** Core `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` preserve v1.2.3-shaped structural compatibility. For guaranteed methods on current LitGrid instances use `GridEngineRuntime`, `DataGridRuntimeRef`, or `DataGridRuntimeInstance`, respectively. These runtime types are available in the v1.3.0 candidate, not published v1.2.3.
 
-> **Version note:** This guide includes changes merged after published v1.2.3. Targeted refresh, typed columns, Vue declarative columns and alignment are not available in v1.2.3. See the [unreleased changelog](../CHANGELOG.md#unreleased) for status.
+> **Version note:** This guide describes the v1.3.0 release candidate. Published v1.2.3 does not include targeted refresh, typed columns, Vue declarative columns or alignment. See the [v1.3.0 notes](../CHANGELOG.md#130).
 
 This reference describes LitGrid's current public packages and APIs. For installation and task-oriented setup, see the [Installation guide](installation.md), [Web Component guide](vanilla-js-guide.md), [React guide](react-guide.md), [Angular guide](angular-guide.md), and [Vue guide](vue-guide.md).
 
@@ -404,7 +404,7 @@ Calls before initial render throw an `InvalidOperationException`. See [Blazor Gu
 
 ## Local data and targeted row refresh (B1 — source API, not yet published)
 
-The following APIs were merged in B1 implementation PR #64 and are **not available in the published v1.2.3 packages**. They will be available only after a subsequent release containing that merge is published.
+The following APIs were merged in B1 implementation PR #64 and are **not available in the published v1.2.3 packages**. They are included in the v1.3.0 release candidate.
 
 ```ts
 // Web Component, from the exact matching B1 build:

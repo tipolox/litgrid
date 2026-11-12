@@ -1,6 +1,6 @@
 # Install LitGrid
 
-> **Version note:** This guide includes changes merged after published v1.2.3. Targeted refresh, typed columns, Vue declarative columns and alignment are not available in v1.2.3. See the [unreleased changelog](../CHANGELOG.md#unreleased) for status.
+> **Version note:** This guide describes the v1.3.0 release candidate. Published v1.2.3 does not include targeted refresh, typed columns, Vue declarative columns or alignment. See the [v1.3.0 notes](../CHANGELOG.md#130).
 
 LitGrid provides separate packages for Web Component, React, Angular, and Vue applications.
 Choose the package that matches your application.

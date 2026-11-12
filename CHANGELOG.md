@@ -2,15 +2,20 @@
 
 Notable changes to LitGrid are recorded here.
 
-## Unreleased
+## 1.3.0
 
-These changes are merged on main and are **not in published v1.2.3**. The release version is not yet approved.
+### Data refresh and columns
 
-- Improved React, Vue and Angular synchronization and state preservation; qualified Angular peer compatibility in tested configurations.
-- Added B1 targeted refresh, opt-in typed columns, Vue declarative columns and column alignment across frameworks.
-- **TypeScript compatibility:** [PR #71](https://github.com/tipolox/litgrid/pull/71) preserves the v1.2.3-shaped `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` compatibility contracts. New `GridEngineRuntime`, `DataGridRuntimeRef`, and `DataGridRuntimeInstance` types expose guaranteed current runtime methods.
+- Added `refreshData`, `refreshRow`, `refreshRows`, and `refreshRange` for local adoption or targeted repaint of loaded, displayed rows. Ranges use displayed indexes, with an exclusive end. `render-only` requires unchanged identity, ordering, view membership, schema and geometry; use full refresh for structural changes. External refresh does not fetch: use `refreshQuery` for a server request. See the [API reference](docs/api-reference.md#local-data-and-targeted-row-refresh-b1) and [Blazor synchronization guide](docs/blazor-data-synchronization.md).
+- Added opt-in [typed columns](docs/typed-columns.md), [Vue declarative columns](docs/vue-declarative-columns.md), and column alignment across frameworks. Alignment values are validated; applications with an unrelated `align` property should review their column definitions.
+- Improved React, Vue and Angular synchronization and state preservation. Angular peer compatibility is qualified only in tested configurations.
+
+### Compatibility and upgrade
+
+- `GridEngine`, React `DataGridRef` / `DataGridInstance`, and Vue `DataGridInstance` retain v1.2.3-shaped structural contracts. Use `GridEngineRuntime`, `DataGridRuntimeRef`, and `DataGridRuntimeInstance` for guaranteed current runtime methods. See the [API reference](docs/api-reference.md).
+- Upgrade all six npm packages and the Blazor NuGet package together. Rebuild and clear stale assets as needed. The first `yc-grid` custom-element registration wins; mixing old bundles and new wrappers may omit current methods. Regenerate lockfiles from published registry integrity metadata after publication.
 - PR #69 merged under a founder-directed exception accepting alignment performance uncertainty. Performance equivalence and independent-host certification are not claimed.
-- Intl value formatting and draft PRs #67 and #68 are not part of these changes.
+- Intl value formatting and draft PRs #67 and #68 are excluded.
 
 ## 1.2.3
 
