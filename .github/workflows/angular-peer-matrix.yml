@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.22.3'
-      - run: node --test scripts/qualification/packed-artifacts.test.mjs
+      - run: node --test scripts/qualification/packed-artifacts.node-check.mjs
 
   published-consumer:
     name: Angular ${{ matrix.angular }} published v1.2.3 consumer
