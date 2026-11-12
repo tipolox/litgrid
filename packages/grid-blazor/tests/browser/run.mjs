@@ -21,6 +21,10 @@ const ready = () => page.waitForFunction(() => {
   const grid = document.querySelector('yc-grid')
   return grid?.shadowRoot?.querySelector('.viewport') && typeof grid.getColumnOrder === 'function'
 })
+const initialized = () => page.waitForFunction(() => {
+  const grid = document.querySelector('yc-grid')
+  return grid && window.initializedGrid === grid
+})
 const settle = () => page.evaluate(async () => { await document.querySelector('yc-grid')?.updateComplete })
 const waitActiveCell = async (row, column) => {
   // Virtualization can schedule a later RAF after the current Lit updateComplete.
@@ -50,6 +54,28 @@ const run = async (name, test) => {
   console.log(`PASS ${name} (${results.at(-1).milliseconds} ms)`)
 }
 try {
+  await page.addInitScript(() => {
+    const set = Storage.prototype.setItem
+    window.__storageWrites = []
+    Storage.prototype.setItem = function (key, value) {
+      if (key.startsWith('browser-')) window.__storageWrites.push({ key, value, time: performance.now() })
+      return set.call(this, key, value)
+    }
+  })
+  // Hold the actual initGrid call at remount, not an arbitrary timeout. This
+  // makes the uninitialized custom-element state observable deterministically.
+  await page.route('**/_content/Tipolox.LitGrid.Blazor/litgrid-blazor.js', async route => {
+    const response = await route.fetch()
+    const body = await response.text()
+    const signature = 'function initGrid(element, dotNetHelper, inputs) {'
+    if (!body.includes(signature)) throw new Error('Expected Blazor initGrid export not found')
+    const gated = body.replace(signature, `async function initGrid(element, dotNetHelper, inputs) {
+      if (window.__pauseGridInit) {
+        window.__initPaused = true
+        await new Promise(resolve => { window.__resumeGridInit = resolve })
+      }`)
+    await route.fulfill({ response, body: gated })
+  })
   await page.goto(baseUrl)
   await ready()
   await run('real Blazor JS interop serialization, scalar display and null handling', async () => {
@@ -139,6 +165,7 @@ try {
     await click('infer')
     assert.ok((await state()).columns.some(column => column.key === 'employee_name'))
     await click('basic')
+    await initialized()
   })
   await run('persistence across actual disposal and remount', async () => {
     await page.evaluate(() => {
@@ -148,11 +175,29 @@ try {
       grid.setColumnVisible('department', false)
     })
     const before = await state()
+    assert.equal(before.columns[0].key, 'name')
+    assert.equal(before.columns[0].width, 345)
+    assert.equal(before.columns.find(column => column.key === 'department').visible, false)
+    const storageBefore = await page.evaluate(() => localStorage.getItem('browser-columns'))
+    assert.deepEqual(JSON.parse(storageBefore), before)
+    const writeCount = await page.evaluate(() => window.__storageWrites.length)
+    await page.evaluate(() => { window.__pauseGridInit = true; window.__initPaused = false })
     await click('unmount')
     assert.equal(await host.count(), 0)
     await click('mount')
     await ready()
+    await page.waitForFunction(() => window.__initPaused === true)
+    // The old readiness predicate can accept a default, pre-Blazor grid.
+    assert.notEqual(await page.evaluate(() => window.initializedGrid === document.querySelector('yc-grid')), true)
+    assert.deepEqual((await state()).columns.map(column => column.key), ['value'])
+    assert.equal(await page.evaluate(() => localStorage.getItem('browser-columns')), storageBefore)
+    await page.evaluate(() => { window.__pauseGridInit = false; window.__resumeGridInit() })
+    await initialized()
+    await settle()
     assert.deepEqual(await state(), before)
+    assert.equal(await page.evaluate(() => localStorage.getItem('browser-columns')), storageBefore)
+    const remountWrites = await page.evaluate(count => window.__storageWrites.slice(count).filter(write => write.key === 'browser-columns'), writeCount)
+    assert.deepEqual(remountWrites, [])
   })
   await run('atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence', async () => {
     const saved = await page.evaluate(() => {
