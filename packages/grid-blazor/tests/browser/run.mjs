@@ -50,6 +50,14 @@ const run = async (name, test) => {
   console.log(`PASS ${name} (${results.at(-1).milliseconds} ms)`)
 }
 try {
+  await page.addInitScript(() => {
+    const set = Storage.prototype.setItem
+    window.__storageWrites = []
+    Storage.prototype.setItem = function (key, value) {
+      if (key.startsWith('browser-')) window.__storageWrites.push({ key, value, time: performance.now() })
+      return set.call(this, key, value)
+    }
+  })
   await page.goto(baseUrl)
   await ready()
   await run('real Blazor JS interop serialization, scalar display and null handling', async () => {
@@ -148,11 +156,14 @@ try {
       grid.setColumnVisible('department', false)
     })
     const before = await state()
+    const storageBefore = await page.evaluate(() => localStorage.getItem('browser-columns'))
     await click('unmount')
     assert.equal(await host.count(), 0)
     await click('mount')
     await ready()
-    assert.deepEqual(await state(), before)
+    const immediate = await state()
+    console.log('REMOUNT_DIAGNOSTIC', JSON.stringify({before, storageBefore, immediate, storageAfter: await page.evaluate(() => localStorage.getItem('browser-columns')), writes: await page.evaluate(() => window.__storageWrites)}))
+    assert.deepEqual(immediate, before)
   })
   await run('atomic schema/storage A -> B -> A, unsaved/null views and subsequent user persistence', async () => {
     const saved = await page.evaluate(() => {

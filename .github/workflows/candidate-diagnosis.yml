@@ -1,0 +1,42 @@
+name: Candidate Blazor A-B diagnosis
+on:
+  pull_request:
+    paths: [".github/workflows/candidate-diagnosis.yml", "packages/grid-blazor/tests/browser/run.mjs"]
+permissions:
+  contents: read
+jobs:
+  comparison:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        source: [baseline, candidate]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: candidate
+      - uses: actions/checkout@v4
+        with:
+          ref: 1a4204cf0d52196055f1841dce9dea1e0f7f5626
+          path: baseline
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.3
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Install and build source
+        working-directory: ${{ matrix.source }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+          pnpm exec playwright install chromium
+          dotnet build packages/grid-blazor/tests/browser/BrowserHost.csproj -c Release
+      - name: Run identical diagnostic test
+        run: |
+          if [ "${{ matrix.source }}" = baseline ]; then cp candidate/packages/grid-blazor/tests/browser/run.mjs baseline/packages/grid-blazor/tests/browser/run.mjs; fi
+          cd ${{ matrix.source }}
+          node scripts/check-blazor-alignment.mjs --regressions
