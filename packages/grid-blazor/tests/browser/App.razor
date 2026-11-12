@@ -51,17 +51,17 @@ else
         {
             @if (declarative)
             {
-                <DataGrid TItem="Employee" @ref="grid" Data="@rows" DataSyncMode="DataSyncMode.Legacy" Config="@config" Height="400" ColumnStateStorageKey="@storageKey">
+                <ProbeDataGrid TItem="Employee" @ref="grid" Data="@rows" DataSyncMode="DataSyncMode.Legacy" Config="@config" Height="400" ColumnStateStorageKey="@storageKey">
                     @foreach (var spec in specs)
                     {
                         <LitGridColumn @key="spec.Id" Field="@spec.Field" Key="@spec.Key" Title="@spec.Title"
                                        Width="@spec.Width" Hidden="@spec.Hidden" Order="@spec.Order" Align="@spec.Align" />
                     }
-                </DataGrid>
+                </ProbeDataGrid>
             }
             else
             {
-                <DataGrid TItem="Employee" @ref="grid" Data="@rows" DataSyncMode="DataSyncMode.Legacy" Columns="@programmatic" Config="@config" Height="400" />
+                <ProbeDataGrid TItem="Employee" @ref="grid" Data="@rows" DataSyncMode="DataSyncMode.Legacy" Columns="@programmatic" Config="@config" Height="400" />
             }
         }
     </div>

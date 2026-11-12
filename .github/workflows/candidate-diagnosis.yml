@@ -37,6 +37,10 @@ jobs:
           dotnet build packages/grid-blazor/tests/browser/BrowserHost.csproj -c Release
       - name: Run identical diagnostic test
         run: |
-          if [ "${{ matrix.source }}" = baseline ]; then cp candidate/packages/grid-blazor/tests/browser/run.mjs baseline/packages/grid-blazor/tests/browser/run.mjs; fi
+          if [ "${{ matrix.source }}" = baseline ]; then
+            cp candidate/packages/grid-blazor/tests/browser/{run.mjs,App.razor,ProbeDataGrid.cs} baseline/packages/grid-blazor/tests/browser/
+            cp candidate/packages/grid-blazor/tests/browser/wwwroot/index.html baseline/packages/grid-blazor/tests/browser/wwwroot/index.html
+            dotnet build baseline/packages/grid-blazor/tests/browser/BrowserHost.csproj -c Release
+          fi
           cd ${{ matrix.source }}
           node scripts/check-blazor-alignment.mjs --regressions

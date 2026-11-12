@@ -209,7 +209,7 @@ record the approved policy separately.
 
 ## Targeted row and displayed-range refresh (v1.3.0 candidate)
 
-`DataGrid<TItem>` now also proposes/implements the following imperative calls in the B1 draft source branch (not v1.2.3 NuGet):
+`DataGrid<TItem>` includes the following imperative calls in the v1.3.0 candidate (not v1.2.3 NuGet):
 
 ```csharp
 // After the component is initialized, with a configured stable selection.rowKey:

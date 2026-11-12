@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app">Loading Blazor…</div>
-    <script>window.recordInteropRows = rows => { window.interopRows = rows; };</script>
+    <script>window.recordInteropRows = rows => { window.interopRows = rows; }; window.recordGridInitialized = () => { window.initializedGrid = document.querySelector("yc-grid"); };</script>
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 </html>

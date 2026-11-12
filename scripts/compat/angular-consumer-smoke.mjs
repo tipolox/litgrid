@@ -2,6 +2,7 @@ import { spawn, spawnSync } from 'node:child_process'
 import { mkdtempSync, writeFileSync, readFileSync, copyFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { setTimeout as delay } from 'node:timers/promises'
 import { packedVersion } from '../qualification/packed-artifacts.mjs'
 
@@ -18,7 +19,7 @@ const packedPackages = ['core', 'renderer', 'web', 'angular'].map(name =>
 const litgridInstallArgs = packedDirectory ? packedPackages : ['@tipolox/litgrid-angular@' + version]
 const dir = mkdtempSync(join(process.env.RUNNER_TEMP || tmpdir(), 'litgrid-angular-' + major + '-'))
 const cli = join(dir, 'node_modules', '@angular', 'cli', 'bin', 'ng.js')
-const root = resolve(new URL('../../', import.meta.url).pathname)
+const root = fileURLToPath(new URL('../../', import.meta.url))
 function run(command, args, cwd = root) {
   console.log('\n> ' + command + ' ' + args.join(' ') + ' (cwd: ' + cwd + ')')
   const result = spawnSync(command, args, { cwd, stdio: 'inherit', env: { ...process.env, CI: 'true' }, shell: process.platform === 'win32' })

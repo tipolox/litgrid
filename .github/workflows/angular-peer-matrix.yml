@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'package.json'
+      - 'packages/grid-*/package.json'
       - 'scripts/compat/**'
       - 'scripts/qualification/**'
       - '.github/workflows/angular-peer-matrix.yml'
